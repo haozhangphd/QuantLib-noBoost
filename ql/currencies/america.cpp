@@ -165,7 +165,7 @@ namespace QuantLib {
     USDCurrency::USDCurrency() {
         static std::shared_ptr<Data> usdData(
                                        new Data("U.S. dollar", "USD", 840,
-                                                "$", "\xA2", 100,
+                                                "$", "¢", 100,
                                                 Rounding(),
                                                 "%3% %1$.2f"));
         data_ = usdData;

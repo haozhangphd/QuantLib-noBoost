@@ -29,11 +29,6 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
-#if !defined(x64) && !defined(QL_PATCH_SOLARIS)
-
-#include <boost/lexical_cast.hpp>
-
-#endif
 #ifndef QL_PATCH_SOLARIS
 #endif
 #if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
@@ -49,11 +44,7 @@ namespace QuantLib {
     namespace io {
 
         Integer to_integer(const std::string &str) {
-#if !defined(x64) && !defined(QL_PATCH_SOLARIS)
-            return boost::lexical_cast<Integer>(str.c_str());
-#else
             return std::atoi(str.c_str());
-#endif
         }
 
     }
@@ -113,7 +104,7 @@ namespace QuantLib {
     Date DateParser::parseFormatted(const std::string &str,
                                     const std::string &fmt) {
         std::istringstream is(str);
-        is.imbue(std::locale(std::locale()));
+        is.imbue(std::locale());
         std::tm t = {};
         is >> std::get_time(&t, fmt.c_str());
         return Date(std::chrono::time_point_cast<std::chrono::microseconds>(
@@ -123,7 +114,7 @@ namespace QuantLib {
     Date DateParser::parseFormatted(const std::string &str,
                                     const std::string &fmt) {
         std::istringstream is(str);
-        is.imbue(std::locale(std::locale()));
+        is.imbue(std::locale());
         std::tm t = {};
         is >> std::get_time(&t, fmt.c_str());
         return Date(t.tm_mday, static_cast<Month>(t.tm_mon+1), t.tm_year+1900);

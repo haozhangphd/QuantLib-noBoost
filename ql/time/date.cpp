@@ -55,6 +55,7 @@ using std::chrono::time_point_cast;
 
 
 namespace QuantLib {
+	// Year 1900 IS NOT a leap year
     bool Date::isLeap(Year y) {
         return (!(y % 4)) && ((y % 100) || (!(y % 400)));
     }
@@ -777,7 +778,7 @@ namespace QuantLib {
                 out << "null date";
             } else {
                 FormatResetter resetter(out);
-                out.imbue(std::locale(std::locale()));
+                out.imbue(std::locale());
                 std::time_t t{system_clock::to_time_t(d.dateTime())};
                 std::tm *tm = std::gmtime(&t);
                 out << std::put_time(tm, holder.f.c_str());
@@ -794,7 +795,7 @@ namespace QuantLib {
                 out << "null date";
             } else {
                 FormatResetter resetter(out);
-                out.imbue(std::locale(std::locale()));
+                out.imbue(std::locale());
                 std::tm tm = {};
                 tm.tm_year = d.year() - 1900;
                 tm.tm_mon = static_cast<Integer>(d.month()) - 1;

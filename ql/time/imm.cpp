@@ -27,12 +27,11 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
-#include <boost/algorithm/string/case_conv.hpp>
+#include <ql/utilities/stringutils.hpp>
 #if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
 #pragma GCC diagnostic pop
 #endif
 
-using boost::algorithm::to_upper_copy;
 using std::string;
 
 namespace QuantLib {
@@ -156,8 +155,6 @@ namespace QuantLib {
         else if (ms=="X") m = November;
         else if (ms=="Z") m = December;
         else QL_FAIL("invalid IMM month letter");
-
-//        Year y = boost::lexical_cast<Year>(); // lexical_cast causes compilation errors with x64
 
         Year y= io::to_integer(code.substr(1,1));
         /* year<1900 are not valid QuantLib years: to avoid a run-time

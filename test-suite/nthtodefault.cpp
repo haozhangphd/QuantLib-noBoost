@@ -31,7 +31,6 @@
 #include <ql/time/daycounters/actual360.hpp>
 #include <ql/quotes/simplequote.hpp>
 #include <ql/currencies/europe.hpp>
-#include <boost/lexical_cast.hpp>
 #include <iostream>
 
 using namespace QuantLib;
@@ -185,7 +184,7 @@ TEST_CASE( "NthToDefault_Gauss", "[NthToDefault]" ) {
     std::vector<std::string> namesIds;
     for(Size i=0; i<names; i++)
         namesIds.emplace_back(std::string("Name") + 
-            boost::lexical_cast<std::string>(i));
+            std::to_string(i));
 
     std::vector<Issuer> issuers;
     for(Size i=0; i<names; i++) {
@@ -316,7 +315,7 @@ TEST_CASE( "NthToDefault_GaussStudent", "[.]" ) {
     std::vector<std::string> namesIds;
     for(Size i=0; i<names; i++)
         namesIds.emplace_back(std::string("Name") + 
-            boost::lexical_cast<std::string>(i));
+            std::to_string(i));
 
     std::vector<Issuer> issuers;
     for(Size i=0; i<names; i++) {

@@ -72,7 +72,7 @@ namespace QuantLib {
     CYPCurrency::CYPCurrency() {
         static std::shared_ptr<Data> cypData(
                                       new Data("Cyprus pound", "CYP", 196,
-                                               "\xA3" "C", "", 100,
+                                               "£" "C", "", 100,
                                                Rounding(),
                                                "%3% %1$.2f"));
         data_ = cypData;
@@ -124,7 +124,7 @@ namespace QuantLib {
     EURCurrency::EURCurrency() {
         static std::shared_ptr<Data> eurData(
                                      new Data("European Euro", "EUR", 978,
-                                              "", "", 100,
+                                              "€", "", 100,
                                               ClosestRounding(2),
                                               "%2% %1$.2f"));
         data_ = eurData;
@@ -137,7 +137,7 @@ namespace QuantLib {
     GBPCurrency::GBPCurrency() {
         static std::shared_ptr<Data> gbpData(
                             new Data("British pound sterling", "GBP", 826,
-                                     "\xA3", "p", 100,
+                                     "£", "p", 100,
                                      Rounding(),
                                      "%3% %1$.2f"));
         data_ = gbpData;

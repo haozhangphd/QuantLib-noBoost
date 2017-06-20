@@ -46,7 +46,7 @@ namespace QuantLib {
     CNYCurrency::CNYCurrency() {
         static std::shared_ptr<Data> cnyData(
                                       new Data("Chinese yuan", "CNY", 156,
-                                               "Y", "", 100,
+                                               "¥", "", 100,
                                                Rounding(),
                                                "%3% %1$.2f"));
         data_ = cnyData;
@@ -137,7 +137,7 @@ namespace QuantLib {
     JPYCurrency::JPYCurrency() {
         static std::shared_ptr<Data> jpyData(
                                       new Data("Japanese yen", "JPY", 392,
-                                               "\xA5", "", 100,
+                                               "¥", "", 100,
                                                Rounding(),
                                                "%3% %1$.0f"));
         data_ = jpyData;
@@ -150,7 +150,7 @@ namespace QuantLib {
     KRWCurrency::KRWCurrency() {
         static std::shared_ptr<Data> krwData(
                                   new Data("South-Korean won", "KRW", 410,
-                                           "W", "", 100,
+                                           "₩", "", 100,
                                            Rounding(),
                                            "%3% %1$.0f"));
         data_ = krwData;
@@ -268,7 +268,7 @@ namespace QuantLib {
     VNDCurrency::VNDCurrency() {
         static std::shared_ptr<Data> twdData(
                                      new Data("Vietnamese Dong", "VND", 704,
-                                              "", "", 100,
+                                              "₫", "", 100,
                                               Rounding(),
                                               "%1$.0f %3%"));
         data_ = twdData;

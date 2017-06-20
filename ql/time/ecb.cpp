@@ -25,13 +25,12 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
-#include <boost/algorithm/string/case_conv.hpp>
+#include <ql/utilities/stringutils.hpp>
 #if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
 #pragma GCC diagnostic pop
 #endif
 #include <algorithm>
 
-using boost::algorithm::to_upper_copy;
 using std::string;
 
 namespace QuantLib {
@@ -102,9 +101,6 @@ namespace QuantLib {
         else if (monthString=="NOV") m = November;
         else if (monthString=="DEC") m = December;
         else QL_FAIL("not an ECB month (and it should have been)");
-
-        // lexical_cast causes compilation errors with x64
-        //Year y = boost::lexical_cast<Year>(code.substr(3, 2));
 
         Year y = io::to_integer(code.substr(3, 2));
         Date referenceDate = (refDate != Date() ?
@@ -257,8 +253,6 @@ namespace QuantLib {
         else if (monthString=="OCT") result << "NOV" << code.substr(3, 2);
         else if (monthString=="NOV") result << "DEC" << code.substr(3, 2);
         else if (monthString=="DEC") {
-            // lexical_cast causes compilation errors with x64
-            //Year y = boost::lexical_cast<Year>(code.substr(3, 2));
             unsigned int y = (io::to_integer(code.substr(3, 2)) + 1) % 100;
             string padding;
             if (y < 10)

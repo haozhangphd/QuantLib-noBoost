@@ -33,7 +33,7 @@ namespace QuantLib {
 
     //! %Currency specification
     class Currency {
-      public:
+    public:
         //! default constructor
         /*! Instances built via this constructor have undefined
             behavior. Such instances can only act as placeholders
@@ -41,36 +41,45 @@ namespace QuantLib {
             used.
         */
         Currency();
+
         //! \name Inspectors
         //@{
         //! currency name, e.g, "U.S. Dollar"
-        const std::string& name() const;
+        const std::string &name() const;
+
         //! ISO 4217 three-letter code, e.g, "USD"
-        const std::string& code() const;
+        const std::string &code() const;
+
         //! ISO 4217 numeric code, e.g, "840"
         Integer numericCode() const;
+
         //! symbol, e.g, "$"
-        const std::string& symbol() const;
+        const std::string &symbol() const;
+
         //! fraction symbol, e.g, "¢"
-        const std::string& fractionSymbol() const;
+        const std::string &fractionSymbol() const;
+
         //! number of fractionary parts in a unit, e.g, 100
         Integer fractionsPerUnit() const;
+
         //! rounding convention
-        const Rounding& rounding() const;
+        const Rounding &rounding() const;
         //! output format
         /*! The format will be fed three positional parameters,
             namely, value, code, and symbol, in this order.
         */
         std::string format() const;
+
         //@}
         //! \name Other information
         //@{
         //! is this a usable instance?
         bool empty() const;
+
         //! currency used for triangulated exchange when required
-        const Currency& triangulationCurrency() const;
+        const Currency &triangulationCurrency() const;
         //@}
-      protected:
+    protected:
         struct Data;
         std::shared_ptr<Data> data_;
     };
@@ -84,39 +93,41 @@ namespace QuantLib {
         Currency triangulated;
         std::string formatString;
 
-        Data(const std::string& name,
-             const std::string& code,
+        Data(const std::string &name,
+             const std::string &code,
              Integer numericCode,
-             const std::string& symbol,
-             const std::string& fractionSymbol,
+             const std::string &symbol,
+             const std::string &fractionSymbol,
              Integer fractionsPerUnit,
-             const Rounding& rounding,
-             const std::string& formatString,
-             const Currency& triangulationCurrency = Currency());
+             const Rounding &rounding,
+             const std::string &formatString,
+             const Currency &triangulationCurrency = Currency());
     };
 
     /*! \relates Currency */
-    bool operator==(const Currency&,
-                    const Currency&);
+    bool operator==(const Currency &,
+                    const Currency &);
 
     /*! \relates Currency */
-    bool operator!=(const Currency&,
-                    const Currency&);
+    bool operator!=(const Currency &,
+                    const Currency &);
+
+    std::string currency_format(const Currency & c, Decimal value);
 
     /*! \relates Currency */
-    std::ostream& operator<<(std::ostream&,
-                             const Currency&);
+    std::ostream &operator<<(std::ostream &,
+                             const Currency &);
 
 
     // inline definitions
 
     inline Currency::Currency() {}
 
-    inline const std::string& Currency::name() const {
+    inline const std::string &Currency::name() const {
         return data_->name;
     }
 
-    inline const std::string& Currency::code() const {
+    inline const std::string &Currency::code() const {
         return data_->code;
     }
 
@@ -124,11 +135,11 @@ namespace QuantLib {
         return data_->numeric;
     }
 
-    inline const std::string& Currency::symbol() const {
+    inline const std::string &Currency::symbol() const {
         return data_->symbol;
     }
 
-    inline const std::string& Currency::fractionSymbol() const {
+    inline const std::string &Currency::fractionSymbol() const {
         return data_->fractionSymbol;
     }
 
@@ -136,7 +147,7 @@ namespace QuantLib {
         return data_->fractionsPerUnit;
     }
 
-    inline const Rounding& Currency::rounding() const {
+    inline const Rounding &Currency::rounding() const {
         return data_->rounding;
     }
 
@@ -148,15 +159,15 @@ namespace QuantLib {
         return !data_;
     }
 
-    inline const Currency& Currency::triangulationCurrency() const {
+    inline const Currency &Currency::triangulationCurrency() const {
         return data_->triangulated;
     }
 
-    inline bool operator==(const Currency& c1, const Currency& c2) {
+    inline bool operator==(const Currency &c1, const Currency &c2) {
         return c1.name() == c2.name();
     }
 
-    inline bool operator!=(const Currency& c1, const Currency& c2) {
+    inline bool operator!=(const Currency &c1, const Currency &c2) {
         return !(c1 == c2);
     }
 

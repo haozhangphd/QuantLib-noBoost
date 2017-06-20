@@ -1,6 +1,5 @@
-
-#ifndef quantlib_temp_iterator_hpp
-#define quantlib_temp_iterator_hpp
+#ifndef quantlib_stepping_iterator_hpp
+#define quantlib_stepping_iterator_hpp
 
 #include <ql/types.hpp>
 
