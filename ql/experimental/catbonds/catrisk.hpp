@@ -33,7 +33,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
-#include <boost/random.hpp>
+#include <ql/math/distributions/variategenerator.hpp>
 #if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
 #pragma GCC diagnostic pop
 #endif
@@ -109,9 +109,9 @@ namespace QuantLib {
         Real yearFraction_;
     
         std::mt19937 rng_;
-        boost::variate_generator<std::mt19937&, std::exponential_distribution<> > exponential_;
-        boost::variate_generator<std::mt19937&, std::gamma_distribution<> > gammaAlpha_;
-        boost::variate_generator<std::mt19937&, std::gamma_distribution<> > gammaBeta_;
+        variate_generator<std::mt19937&, std::exponential_distribution<> > exponential_;
+        variate_generator<std::mt19937&, std::gamma_distribution<> > gammaAlpha_;
+        variate_generator<std::mt19937&, std::gamma_distribution<> > gammaBeta_;
     };
 
     class BetaRisk : public CatRisk {

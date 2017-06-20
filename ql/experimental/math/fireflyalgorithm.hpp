@@ -42,8 +42,8 @@ typedef std::mt19937 base_generator_type;
 
 typedef std::normal_distribution<QuantLib::Real> BoostNormalDistribution;
 typedef std::uniform_int_distribution<QuantLib::Size> uniform_integer;
-#include <boost/random/variate_generator.hpp>
-typedef boost::variate_generator<base_generator_type, uniform_integer> variate_integer;
+#include <ql/math/distributions/variategenerator.hpp>
+typedef variate_generator<base_generator_type, uniform_integer> variate_integer;
 
 #include <cmath>
 
@@ -201,8 +201,7 @@ namespace QuantLib {
 
     //! Distribution Walk
     /*  Random walk given by distribution template parameter. The
-        distribution must be compatible with boost's Random 
-        variate_generator
+        distribution must be compatible with variate_generator
     */
     template <class Distribution>
     class DistributionRandomWalk : public FireflyAlgorithm::RandomWalk {

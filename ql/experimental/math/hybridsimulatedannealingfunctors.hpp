@@ -36,11 +36,11 @@ typedef std::normal_distribution<> normal_random;
 typedef std::lognormal_distribution<> lognormal_random;
 typedef std::cauchy_distribution<> cauchy_random;
 
-#include <boost/random/variate_generator.hpp>
-typedef boost::variate_generator<base_generator_type&, uniform > uniform_variate;
-typedef boost::variate_generator<base_generator_type&, normal_random > normal_variate;
-typedef boost::variate_generator<base_generator_type&, lognormal_random > lognormal_variate;
-typedef boost::variate_generator<base_generator_type&, cauchy_random > cauchy_variate;
+#include <ql/math/distributions/variategenerator.hpp>
+typedef variate_generator<base_generator_type&, uniform > uniform_variate;
+typedef variate_generator<base_generator_type&, normal_random > normal_variate;
+typedef variate_generator<base_generator_type&, lognormal_random > lognormal_variate;
+typedef variate_generator<base_generator_type&, cauchy_random > cauchy_variate;
 
 #include <cmath> //for log
 #include <algorithm> //for std::max

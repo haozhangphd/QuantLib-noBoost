@@ -27,7 +27,7 @@
 #include <ql/mathconstants.hpp>
 #include <ql/math/randomnumbers/mt19937uniformrng.hpp>
 #include <ql/math/array.hpp>
-#include <boost/random/variate_generator.hpp>
+#include <ql/math/distributions/variategenerator.hpp>
 
 namespace QuantLib {
 
@@ -43,7 +43,7 @@ namespace QuantLib {
     template <class Distribution, class Engine>
     class IsotropicRandomWalk {
       public:
-        typedef boost::variate_generator<Engine, Distribution> VariateGenerator;
+        typedef variate_generator<Engine, Distribution> VariateGenerator;
         IsotropicRandomWalk(Engine eng, Distribution dist, Size dim, 
                             const Array& weights = Array(), 
                             unsigned long seed = 0) :
