@@ -4,3 +4,6 @@ cmake-build-release
 
 # CLion
 .idea
+
+# Vim
+.*.swp
