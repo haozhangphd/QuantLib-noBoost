@@ -30,7 +30,7 @@
 #include <ql/math/sampledcurve.hpp>
 #include <ql/math/solver1d.hpp>
 #include <ql/math/transformedgrid.hpp>
-
+#include <ql/math/threedimensionalarray.hpp>
 #include <ql/math/copulas/all.hpp>
 #include <ql/math/distributions/all.hpp>
 #include <ql/math/integrals/all.hpp>

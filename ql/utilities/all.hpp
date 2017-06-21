@@ -4,11 +4,11 @@
 #include <ql/utilities/clone.hpp>
 #include <ql/utilities/dataformatters.hpp>
 #include <ql/utilities/dataparsers.hpp>
-
 #include <ql/utilities/null.hpp>
 #include <ql/utilities/null_deleter.hpp>
 #include <ql/utilities/observablevalue.hpp>
 #include <ql/utilities/steppingiterator.hpp>
+#include <ql/utilities/stringutils.hpp>
 #include <ql/utilities/tracing.hpp>
+#include <ql/utilities/transformiterator.hpp>
 #include <ql/utilities/vectors.hpp>
-

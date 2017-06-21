@@ -18,7 +18,7 @@
 */
 
 #include <ql/models/marketmodels/browniangenerators/sobolbrowniangenerator.hpp>
-#include <boost/iterator/permutation_iterator.hpp>
+#include <ql/utilities/transformiterator.hpp>
 
 namespace QuantLib {
 
@@ -144,10 +144,10 @@ namespace QuantLib {
         const sample_type& sample = generator_.nextSequence();
         // Brownian-bridge the variates according to the ordered indices
         for (Size i=0; i<factors_; ++i) {
-            bridge_.transform(boost::make_permutation_iterator(
+            bridge_.transform(permutationIterator(
                                                   sample.value.begin(),
                                                   orderedIndices_[i].begin()),
-                              boost::make_permutation_iterator(
+                              permutationIterator(
                                                   sample.value.begin(),
                                                   orderedIndices_[i].end()),
                               bridgedVariates_[i].begin());
@@ -180,10 +180,10 @@ namespace QuantLib {
                 sample[k] = variates[k][j];
             }
             for (Size i=0; i<factors_; ++i) {
-                bridge_.transform(boost::make_permutation_iterator(
+                bridge_.transform(permutationIterator(
                                                   sample.begin(),
                                                   orderedIndices_[i].begin()),
-                          boost::make_permutation_iterator(
+                          permutationIterator(
                                                   sample.begin(),
                                                   orderedIndices_[i].end()),
                           retVal[i].begin()+j*steps_);

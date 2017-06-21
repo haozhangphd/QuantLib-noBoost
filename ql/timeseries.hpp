@@ -29,7 +29,7 @@
 #include <ql/time/date.hpp>
 #include <ql/utilities/null.hpp>
 #include <ql/errors.hpp>
-#include <boost/iterator/transform_iterator.hpp>
+#include <ql/utilities/transformiterator.hpp>
 #include <functional>
 #include <boost/utility.hpp>
 #include <map>
@@ -177,11 +177,11 @@ namespace QuantLib {
         //! \name Projection iterators
         //@{
 
-        using const_time_iterator = boost::transform_iterator<projection_time, const_iterator>;
-        using const_value_iterator = boost::transform_iterator<projection_value, const_iterator>;
-        using const_reverse_time_iterator = boost::transform_iterator<projection_time,
+        using const_time_iterator = transformIterator<projection_time, const_iterator>;
+        using const_value_iterator = transformIterator<projection_value, const_iterator>;
+        using const_reverse_time_iterator = transformIterator<projection_time,
                                           const_reverse_iterator>;
-        using const_reverse_value_iterator = boost::transform_iterator<projection_value,
+        using const_reverse_value_iterator = transformIterator<projection_value,
                                           const_reverse_iterator>;
 
         const_value_iterator cbegin_values() const {

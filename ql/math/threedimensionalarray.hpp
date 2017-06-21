@@ -8,29 +8,9 @@
 #define quantlib_threedimensionalarray_hpp
 
 #include <ql/utilities/steppingiterator.hpp>
+#include <ql/utilities/transformiterator.hpp>
 
 namespace QuantLib {
-
-    // An iterator for 2d matrix, requires 2 indices, It[i] gives a *pointer* to the first element of ith column
-
-    template<typename Iter>
-    class table_iterator_adaptor {
-    public:
-        using difference_type = typename Iter::difference_type;
-        using value_type = typename Iter::value_type;
-        using reference = typename Iter::reference;
-        using pointer = typename Iter::pointer;
-        using iterator_category = std::random_access_iterator_tag;
-
-        explicit table_iterator_adaptor(const Iter &other, BigInteger step) : it_(other, step) {}
-
-        typename step_iterator<Iter>::pointer
-        operator[](typename step_iterator<Iter>::difference_type i) { return &it_[i]; }
-
-    private:
-        step_iterator <Iter> it_;
-
-    };
 
     class threeDimensionalArray {
 
@@ -69,8 +49,9 @@ namespace QuantLib {
         using reverse_iterator = std::vector<Real>::reverse_iterator;
         using const_reverse_iterator = std::vector<Real>::const_reverse_iterator;
 
-        using table_iterator = table_iterator_adaptor<vecit>;
-        using const_table_iterator = table_iterator_adaptor<convecit>;
+        // An iterator for 2d matrix, requires 2 indices, It[i] gives a *pointer* to the first element of ith column
+        using table_iterator = transformIterator<std::function<Real*(Real&)>, step_iterator<vecit>>;
+        using const_table_iterator = transformIterator<std::function<const Real*(const Real&)>, step_iterator<convecit>>;
         using reverse_table_iterator = std::reverse_iterator<table_iterator>;
         using const_reverse_table_iterator = std::reverse_iterator<const_table_iterator>;
 
@@ -233,7 +214,7 @@ namespace QuantLib {
             "table index (" << table << ") must be less than " << tables_ <<
             ": 3d array cannot be accessed out of range");
 #endif
-        return const_table_iterator(data_.begin() + (rows_ * columns_ * table), columns_);
+        return const_table_iterator(step_iterator(data_.begin() + (rows_ * columns_ * table), columns_), const_address_of);
     }
 
     inline threeDimensionalArray::table_iterator threeDimensionalArray::table_begin(Size table) {
@@ -242,7 +223,7 @@ namespace QuantLib {
             "table index (" << table << ") must be less than " << tables_ <<
             ": 3d array cannot be accessed out of range");
 #endif
-        return table_iterator(data_.begin() + (rows_ * columns_ * table), columns_);
+        return table_iterator(step_iterator(data_.begin() + (rows_ * columns_ * table), columns_), address_of);
     }
 
     inline threeDimensionalArray::const_table_iterator threeDimensionalArray::table_end(Size table) const {
@@ -251,7 +232,7 @@ namespace QuantLib {
             "table index (" << table << ") must be less than " << tables_ <<
             ": 3d array cannot be accessed out of range");
 #endif
-        return const_table_iterator(data_.begin() + (rows_ * columns_ * (table + 1)), columns_);
+        return const_table_iterator(step_iterator(data_.begin() + (rows_ * columns_ * (table + 1)), columns_), const_address_of);
     }
 
     inline threeDimensionalArray::table_iterator threeDimensionalArray::table_end(Size table) {
@@ -260,7 +241,7 @@ namespace QuantLib {
             "table index (" << table << ") must be less than " << tables_ <<
             ": 3d array cannot be accessed out of range");
 #endif
-        return table_iterator(data_.begin() + rows_ * columns_ * (table + 1), columns_);
+        return table_iterator(step_iterator(data_.begin() + rows_ * columns_ * (table + 1), columns_), address_of);
     }
 
     inline threeDimensionalArray::const_reverse_table_iterator

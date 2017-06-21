@@ -4,7 +4,8 @@
 #include <ql/types.hpp>
 
 
-namespace QuantLib {
+namespace {
+	using QuantLib::BigInteger, QuantLib::Size;
 
 	template <class Iter>
 	class step_iterator {
@@ -14,50 +15,45 @@ namespace QuantLib {
 		using value_type = typename Iter::value_type;
 		using reference = typename Iter::reference;
 		using pointer = typename Iter::pointer;
-		using iterator_category = std::random_access_iterator_tag;
+		using iterator_category = typename Iter::iterator_category;
 
 		explicit step_iterator(const Iter& other, BigInteger step) :
-			step_(step), super_t(other) {}
-
-		template <class IterOther, typename = std::enable_if_t
-		<std::is_convertible<IterOther, Iter>::value>>
-		explicit step_iterator(const step_iterator<IterOther>& i)
-			:  step_(static_cast<BigInteger>(i.step_)), super_t(i.super_t) {}
+			step_(step), it_(other) {}
 
 		Size step() const { return static_cast<Size>(this->step_); }
 		// iterator adapter interface
 
 		void increment() {
-			std::advance(super_t, step_);
+			std::advance(it_, step_);
 		}
 		void decrement() {
-			std::advance(super_t, -step_);
+			std::advance(it_, -step_);
 		}
 		void advance(difference_type n) {
-			super_t += n*step_;
+			it_ += n*step_;
 		}
 		difference_type
 			distance_to(const step_iterator& i) const {
-			return (i.super_t - super_t) / step_;
+			return (i.it_ - it_) / step_;
 		}
 
 
 
-		bool operator==(const step_iterator & other) const { return super_t == other.super_t; };
+		bool operator==(const step_iterator & other) const { return it_ == other.it_; };
 
-        bool operator!=(const step_iterator & other) const { return super_t != other.super_t;}
+        bool operator!=(const step_iterator & other) const { return it_ != other.it_;}
 
-        bool operator<(const step_iterator & other) const { return super_t < other.super_t; }
-        bool operator>(const step_iterator & other) const { return super_t > other.super_t; }
-        bool operator<=(const step_iterator & other) const { return super_t <= other.super_t; }
-        bool operator>=(const step_iterator & other) const { return super_t >= other.super_t; }
+        bool operator<(const step_iterator & other) const { return it_ < other.it_; }
+        bool operator>(const step_iterator & other) const { return it_ > other.it_; }
+        bool operator<=(const step_iterator & other) const { return it_ <= other.it_; }
+        bool operator>=(const step_iterator & other) const { return it_ >= other.it_; }
 
-        step_iterator &operator++() { super_t += step_;  return *this; }
-        step_iterator operator++(int) { step_iterator<Iter>new_iter(*this); this->super_t += step_; return new_iter;}
-        step_iterator &operator--() { super_t -= step_;  return *this; }
-        step_iterator operator--(int) { step_iterator<Iter>new_iter(*this); this->super_t -= step_; return new_iter;}
-        step_iterator &operator+=(difference_type d) { super_t += d * step_; return *this; }
-        step_iterator &operator-=(difference_type d) { super_t -= d * step_; return *this; }
+        step_iterator &operator++() { it_ += step_;  return *this; }
+        step_iterator operator++(int) { step_iterator<Iter>new_iter(*this); this->it_ += step_; return new_iter;}
+        step_iterator &operator--() { it_ -= step_;  return *this; }
+        step_iterator operator--(int) { step_iterator<Iter>new_iter(*this); this->it_ -= step_; return new_iter;}
+        step_iterator &operator+=(difference_type d) { it_ += d * step_; return *this; }
+        step_iterator &operator-=(difference_type d) { it_ -= d * step_; return *this; }
         step_iterator operator+(difference_type d) const {
             step_iterator<Iter>new_iter(*this); new_iter += d; return new_iter;
         }
@@ -67,14 +63,14 @@ namespace QuantLib {
 		}
         difference_type operator-(const step_iterator& other) const { return -distance_to(other); }
 
-		reference operator*() const { return *super_t; }
-		pointer operator->() const { return &(*super_t); }
+		reference operator*() const { return *it_; }
+		pointer operator->() const { return &(*it_); }
 
-        reference operator[](difference_type d) const { return super_t[d * step_]; }
+        reference operator[](difference_type d) const { return it_[d * step_]; }
 
 	private:
 		BigInteger step_;
-		Iter super_t;
+		Iter it_;
 
 	};
   }
