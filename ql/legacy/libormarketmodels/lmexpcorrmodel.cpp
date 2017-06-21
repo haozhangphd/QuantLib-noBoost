@@ -31,7 +31,7 @@ namespace QuantLib {
         generateArguments();
     }
 
-    Disposable<Matrix> LmExponentialCorrelationModel::correlation(
+    Matrix LmExponentialCorrelationModel::correlation(
                                                    Time, const Array&) const {
 
         Matrix tmp(corrMatrix_);
@@ -47,7 +47,7 @@ namespace QuantLib {
         return true;
     }
 
-    Disposable<Matrix> LmExponentialCorrelationModel::pseudoSqrt(
+    Matrix LmExponentialCorrelationModel::pseudoSqrt(
                                                    Time, const Array&) const {
         Matrix tmp(pseudoSqrt_);
         return tmp;

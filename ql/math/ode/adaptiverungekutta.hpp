@@ -29,7 +29,7 @@
 
 #include <ql/types.hpp>
 #include <ql/errors.hpp>
-#include <ql/utilities/disposable.hpp>
+
 #include <functional>
 #include <vector>
 #include <cmath>
@@ -41,7 +41,7 @@ namespace QuantLib {
     class AdaptiveRungeKutta {
       public:
         typedef std::function<
-          Disposable<std::vector<T> >(const Real,
+          std::vector<T> (const Real,
                                       const std::vector<T>&)> OdeFct;
         typedef std::function<T(const Real, const T)> OdeFct1d;
 
@@ -73,7 +73,7 @@ namespace QuantLib {
             The ode is given by a function \f$ F: R \times K^n
             \rightarrow K^n \f$ as \f$ f'(x) = F(x,f(x)) \f$, $K=R,
             C$ */
-        Disposable<std::vector<T> > operator()(const OdeFct& ode,
+        std::vector<T>  operator()(const OdeFct& ode,
                                                const std::vector<T>& y1,
                                                const Real x1,
                                                const Real x2);
@@ -112,7 +112,7 @@ namespace QuantLib {
 
 
     template<class T>
-    Disposable<std::vector<T> > AdaptiveRungeKutta<T>::operator()(
+    std::vector<T> AdaptiveRungeKutta<T>::operator()(
                                                      const OdeFct& ode,
                                                      const std::vector<T>& y1,
                                                      const Real x1,
@@ -151,7 +151,7 @@ namespace QuantLib {
             typedef typename AdaptiveRungeKutta<T>::OdeFct1d OdeFct1d;
             OdeFctWrapper(const OdeFct1d& ode1d)
             : ode1d_(ode1d) {}
-            Disposable<std::vector<T> > operator()(const Real x,
+            std::vector<T>  operator()(const Real x,
                                                    const std::vector<T>& y) {
                 std::vector<T> res(1,ode1d_(x,y[0]));
                 return res;

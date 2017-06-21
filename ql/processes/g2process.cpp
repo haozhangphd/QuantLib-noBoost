@@ -31,21 +31,21 @@ namespace QuantLib {
         return 2;
     }
 
-    Disposable<Array> G2Process::initialValues() const {
+    Array G2Process::initialValues() const {
         Array tmp(2);
         tmp[0] = x0_;
         tmp[1] = y0_;
         return tmp;
     }
 
-    Disposable<Array> G2Process::drift(Time t, const Array& x) const {
+    Array G2Process::drift(Time t, const Array& x) const {
         Array tmp(2);
         tmp[0] = xProcess_->drift(t, x[0]);
         tmp[1] = yProcess_->drift(t, x[1]);
         return tmp;
     }
 
-    Disposable<Matrix> G2Process::diffusion(Time, const Array&) const {
+    Matrix G2Process::diffusion(Time, const Array&) const {
         /* the correlation matrix is
            |  1   rho |
            | rho   1  |
@@ -61,7 +61,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Array> G2Process::expectation(Time t0, const Array& x0,
+    Array G2Process::expectation(Time t0, const Array& x0,
                                              Time dt) const {
         Array tmp(2);
         tmp[0] = xProcess_->expectation(t0, x0[0], dt);
@@ -69,7 +69,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Matrix> G2Process::stdDeviation(Time t0, const Array& x0,
+    Matrix G2Process::stdDeviation(Time t0, const Array& x0,
                                                Time dt) const {
         /* the correlation matrix is
            |  1   rho |
@@ -93,7 +93,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Matrix> G2Process::covariance(Time t0, const Array& x0,
+    Matrix G2Process::covariance(Time t0, const Array& x0,
                                              Time dt) const {
         Matrix sigma = stdDeviation(t0, x0, dt);
         Matrix result = sigma*transpose(sigma);
@@ -139,21 +139,21 @@ namespace QuantLib {
         return 2;
     }
 
-    Disposable<Array> G2ForwardProcess::initialValues() const {
+    Array G2ForwardProcess::initialValues() const {
         Array tmp(2);
         tmp[0] = x0_;
         tmp[1] = y0_;
         return tmp;
     }
 
-    Disposable<Array> G2ForwardProcess::drift(Time t, const Array& x) const {
+    Array G2ForwardProcess::drift(Time t, const Array& x) const {
         Array tmp(2);
         tmp[0] = xProcess_->drift(t, x[0]) + xForwardDrift(t, T_);
         tmp[1] = yProcess_->drift(t, x[1]) + yForwardDrift(t, T_);
         return tmp;
     }
 
-    Disposable<Matrix> G2ForwardProcess::diffusion(Time, const Array&) const {
+    Matrix G2ForwardProcess::diffusion(Time, const Array&) const {
         Matrix tmp(2,2);
         Real sigma1 = sigma_;
         Real sigma2 = eta_;
@@ -162,7 +162,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Array> G2ForwardProcess::expectation(Time t0, const Array& x0,
+    Array G2ForwardProcess::expectation(Time t0, const Array& x0,
                                                     Time dt) const {
         Array tmp(2);
         tmp[0] = xProcess_->expectation(t0, x0[0], dt) - Mx_T(t0, t0+dt, T_);
@@ -170,7 +170,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Matrix> G2ForwardProcess::stdDeviation(Time t0, const Array& x0,
+    Matrix G2ForwardProcess::stdDeviation(Time t0, const Array& x0,
                                                       Time dt) const {
         Matrix tmp(2,2);
         Real sigma1 = xProcess_->stdDeviation(t0, x0[0], dt);
@@ -187,7 +187,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Matrix> G2ForwardProcess::covariance(Time t0, const Array& x0,
+    Matrix G2ForwardProcess::covariance(Time t0, const Array& x0,
                                                     Time dt) const {
         Matrix sigma = stdDeviation(t0, x0, dt);
         Matrix result = sigma*transpose(sigma);

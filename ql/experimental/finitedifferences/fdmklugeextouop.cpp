@@ -74,21 +74,21 @@ namespace QuantLib {
         klugeOp_->setTime(t1, t2);
     }
 
-    Disposable<Array> FdmKlugeExtOUOp::apply(const Array& r) const {
+    Array FdmKlugeExtOUOp::apply(const Array& r) const {
         return ouOp_->apply(r) + klugeOp_->apply(r) + corrMap_.apply(r);
     }
 
-    Disposable<Array> FdmKlugeExtOUOp::apply_mixed(const Array& r) const {
+    Array FdmKlugeExtOUOp::apply_mixed(const Array& r) const {
         return  corrMap_.apply(r) + klugeOp_->apply_mixed(r);
     }
 
-    Disposable<Array> FdmKlugeExtOUOp::apply_direction(Size direction,
+    Array FdmKlugeExtOUOp::apply_direction(Size direction,
                                                        const Array& r) const {
         return klugeOp_->apply_direction(direction, r)
                 + ouOp_->apply_direction(direction, r);
     }
 
-    Disposable<Array>
+    Array
         FdmKlugeExtOUOp::solve_splitting(Size direction,
                                         const Array& r, Real a) const {
         if (direction == 0 || direction == 1) {
@@ -103,13 +103,13 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array>
+    Array
         FdmKlugeExtOUOp::preconditioner(const Array& r, Real dt) const {
         return klugeOp_->solve_splitting(0, r, dt);
     }
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-    Disposable<std::vector<SparseMatrix> >
+    std::vector<SparseMatrix> 
     FdmKlugeExtOUOp::toMatrixDecomp() const {
         const std::vector<SparseMatrix> klugeDecomp
             = klugeOp_->toMatrixDecomp();

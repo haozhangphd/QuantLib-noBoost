@@ -41,16 +41,16 @@ namespace QuantLib {
 
         void update();
 
-        Disposable<Array> initialValues() const {
+        Array initialValues() const {
             return hestonProcess_->initialValues();
         }
-        Disposable<Array> apply(const Array& x0, const Array& dx) const {
+        Array apply(const Array& x0, const Array& dx) const {
             return hestonProcess_->apply(x0, dx);
         }
 
-        Disposable<Array> drift(Time t, const Array& x) const;
-        Disposable<Matrix> diffusion(Time t, const Array& x) const;
-        Disposable<Array> evolve(Time t0, const Array& x0,
+        Array drift(Time t, const Array& x) const;
+        Matrix diffusion(Time t, const Array& x) const;
+        Array evolve(Time t0, const Array& x0,
                                  Time dt, const Array& dw) const;
 
         Real v0()    const { return v0_; }

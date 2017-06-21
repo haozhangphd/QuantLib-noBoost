@@ -703,7 +703,7 @@ namespace QuantLib {
         return modelOutputs_;
     }
 
-    const Disposable<Array>
+    Array
     MarkovFunctional::numeraireArray(const Time t, const Array &y) const {
 
         calculate();
@@ -743,14 +743,14 @@ namespace QuantLib {
         return res;
     }
 
-    const Disposable<Array>
+    Array
     MarkovFunctional::zerobondArray(const Time T, const Time t,
                                     const Array &y) const {
 
         return deflatedZerobondArray(T, t, y) * numeraireArray(t, y);
     }
 
-    const Disposable<Array>
+    Array
     MarkovFunctional::deflatedZerobondArray(const Time T, const Time t,
                                             const Array &y) const {
 

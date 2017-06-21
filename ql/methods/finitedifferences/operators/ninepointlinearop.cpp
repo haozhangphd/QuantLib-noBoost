@@ -70,65 +70,7 @@ namespace QuantLib {
         }
     }
 
-    NinePointLinearOp::NinePointLinearOp(const NinePointLinearOp& m)
-    : i00_(m.mesher_->layout()->size()),
-      i10_(m.mesher_->layout()->size()),
-      i20_(m.mesher_->layout()->size()),
-      i01_(m.mesher_->layout()->size()),
-      i21_(m.mesher_->layout()->size()),
-      i02_(m.mesher_->layout()->size()),
-      i12_(m.mesher_->layout()->size()),
-      i22_(m.mesher_->layout()->size()),
-      a00_(m.mesher_->layout()->size()),
-      a10_(m.mesher_->layout()->size()),
-      a20_(m.mesher_->layout()->size()),
-      a01_(m.mesher_->layout()->size()),
-      a11_(m.mesher_->layout()->size()),
-      a21_(m.mesher_->layout()->size()),
-      a02_(m.mesher_->layout()->size()),
-      a12_(m.mesher_->layout()->size()),
-      a22_(m.mesher_->layout()->size()),
-      mesher_(m.mesher_) {
-
-        const Size size = mesher_->layout()->size();
-        std::copy(m.i00_.begin(), m.i00_.end(), i00_.begin());
-        std::copy(m.i10_.begin(), m.i10_.end(), i10_.begin());
-        std::copy(m.i20_.begin(), m.i20_.end(), i20_.begin());
-        std::copy(m.i01_.begin(), m.i01_.end(), i01_.begin());
-        std::copy(m.i21_.begin(), m.i21_.end(), i21_.begin());
-        std::copy(m.i02_.begin(), m.i02_.end(), i02_.begin());
-        std::copy(m.i12_.begin(), m.i12_.end(), i12_.begin());
-        std::copy(m.i22_.begin(), m.i22_.end(), i22_.begin());
-        std::copy(m.a00_.begin(), m.a00_.end(), a00_.begin());
-        std::copy(m.a10_.begin(), m.a10_.end(), a10_.begin());
-        std::copy(m.a20_.begin(), m.a20_.end(), a20_.begin());
-        std::copy(m.a01_.begin(), m.a01_.end(), a01_.begin());
-        std::copy(m.a11_.begin(), m.a11_.end(), a11_.begin());
-        std::copy(m.a21_.begin(), m.a21_.end(), a21_.begin());
-        std::copy(m.a02_.begin(), m.a02_.end(), a02_.begin());
-        std::copy(m.a12_.begin(), m.a12_.end(), a12_.begin());
-        std::copy(m.a22_.begin(), m.a22_.end(), a22_.begin());
-    }
-
-    NinePointLinearOp& NinePointLinearOp::operator=(
-        const NinePointLinearOp& m) {
-        NinePointLinearOp temp(m);
-        swap(temp);
-        return *this;
-    }
-
-    NinePointLinearOp& NinePointLinearOp::operator=(
-        const Disposable<NinePointLinearOp>& m) {
-        swap(const_cast<Disposable<NinePointLinearOp>&>(m));
-        return *this;
-    }
-
-    NinePointLinearOp::NinePointLinearOp(
-        const Disposable<NinePointLinearOp>& from) {
-        swap(const_cast<Disposable<NinePointLinearOp>&>(from));
-    }
-
-    Disposable<Array> NinePointLinearOp::apply(const Array& u)
+    Array NinePointLinearOp::apply(const Array& u)
         const {
 
         const std::shared_ptr<FdmLinearOpLayout> index=mesher_->layout();
@@ -152,7 +94,7 @@ namespace QuantLib {
     }
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-    Disposable<SparseMatrix> NinePointLinearOp::toMatrix() const {
+    SparseMatrix NinePointLinearOp::toMatrix() const {
         const std::shared_ptr<FdmLinearOpLayout> index = mesher_->layout();
         const Size n = index->size();
 
@@ -174,7 +116,7 @@ namespace QuantLib {
 #endif
 
 
-    Disposable<NinePointLinearOp>
+    NinePointLinearOp
         NinePointLinearOp::mult(const Array & u) const {
 
         NinePointLinearOp retVal(d0_, d1_, mesher_);

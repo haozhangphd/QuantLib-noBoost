@@ -49,7 +49,7 @@ namespace QuantLib {
                                          const std::vector<Time>& fixingTimes,
                                          Real a, Real b, Real c, Real d);
 
-        Disposable<Array> volatility(
+        Array volatility(
              Time t, const Array& x = Null<Array>()) const;
         Volatility volatility(
              Size i, Time t, const Array& x = Null<Array>()) const;

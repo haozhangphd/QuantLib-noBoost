@@ -144,7 +144,7 @@ class Gaussian1dModel : public TermStructureConsistentModel, public LazyObject {
        consisting of
         2*gridPoints+1 points */
 
-    const Disposable<Array> yGrid(const Real yStdDevs, const int gridPoints,
+    Array yGrid(const Real yStdDevs, const int gridPoints,
                                   const Real T = 1.0, const Real t = 0,
                                   const Real y = 0) const;
 

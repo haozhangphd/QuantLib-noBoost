@@ -20,6 +20,7 @@
 #include "utilities.hpp"
 #include <ql/math/array.hpp>
 #include <ql/utilities/dataformatters.hpp>
+#include <iostream>
 
 using namespace QuantLib;
 
@@ -98,7 +99,7 @@ TEST_CASE( "Array_Construction", "[Array]" ) {
 
     // creation of disposable array
     Array temp1(size, value);
-    Disposable<Array> temp2(std::move(temp1));
+    Array temp2(std::move(temp1));
     if (temp2.size() != size || !temp1.empty())
         FAIL_CHECK("array not correctly moved into disposable array"
                     << "\n    original size of source: " << size
@@ -113,7 +114,7 @@ TEST_CASE( "Array_Construction", "[Array]" ) {
     }
 
     // copy constructor from disposable
-    Array a7(temp2);
+    Array a7(std::move(temp2));
     if (a7.size() != size || !temp2.empty())
         FAIL_CHECK("disposable array not correctly moved into array"
                     << "\n    original size of source: " << size
@@ -143,9 +144,9 @@ TEST_CASE( "Array_Construction", "[Array]" ) {
 
     // assignment from disposable
     Array temp3(size, value);
-    Disposable<Array> temp4(std::move(temp3));
+    Array temp4(std::move(temp3));
     Array a9;
-    a9 = temp4;
+    a9 = std::move(temp4);
     if (a9.size() != size || !temp4.empty())
         FAIL_CHECK("disposable array not correctly moved into array"
                     << "\n    original size of source: " << size

@@ -69,7 +69,7 @@ namespace QuantLib {
         QL_REQUIRE(exercise, "exercise not set");
     }
 
-    Disposable<std::vector<std::shared_ptr<CalibrationHelper> > >
+    std::vector<std::shared_ptr<CalibrationHelper> > 
     NonstandardSwaption::calibrationBasket(
         std::shared_ptr<SwapIndex> standardSwapBase,
         std::shared_ptr<SwaptionVolatilityStructure> swaptionVolatility,

@@ -57,7 +57,7 @@ namespace QuantLib {
         Real dplus(const FdmLinearOpIterator& iter, Size direction) const;
         Real dminus(const FdmLinearOpIterator& iter, Size direction) const;
         Real location(const FdmLinearOpIterator& iter, Size direction) const;
-        Disposable<Array> locations(Size direction) const;
+        Array locations(Size direction) const;
 
         const std::vector<std::shared_ptr<Fdm1dMesher> >&
             getFdm1dMeshers() const;

@@ -71,18 +71,18 @@ namespace QuantLib {
         mapX_.axpyb(Array(), m_, m_, Array(1, -r));
     }
 
-    Disposable<Array> FdmOrnsteinUhlenbackOp::apply(const Array& r) const {
+    Array FdmOrnsteinUhlenbackOp::apply(const Array& r) const {
         return mapX_.apply(r);
     }
 
-    Disposable<Array> FdmOrnsteinUhlenbackOp::apply_mixed(
+    Array FdmOrnsteinUhlenbackOp::apply_mixed(
         const Array& r) const {
 
         Array retVal(r.size(), 0.0);
         return retVal;
     }
 
-    Disposable<Array> FdmOrnsteinUhlenbackOp::apply_direction(
+    Array FdmOrnsteinUhlenbackOp::apply_direction(
         Size direction, const Array& r) const {
 
         if (direction == direction_) {
@@ -94,7 +94,7 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array> FdmOrnsteinUhlenbackOp::solve_splitting(
+    Array FdmOrnsteinUhlenbackOp::solve_splitting(
         Size direction, const Array& r, Real a) const {
 
         if (direction == direction_) {
@@ -106,13 +106,13 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array> FdmOrnsteinUhlenbackOp::preconditioner(
+    Array FdmOrnsteinUhlenbackOp::preconditioner(
         const Array& r, Real dt) const {
         return solve_splitting(direction_, r, dt);
     }
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-    Disposable<std::vector<SparseMatrix> >
+    std::vector<SparseMatrix> 
     FdmOrnsteinUhlenbackOp::toMatrixDecomp() const {
         std::vector<SparseMatrix> retVal(1, mapX_.toMatrix());
         return retVal;

@@ -40,11 +40,11 @@ namespace QuantLib {
             return corrModel_->factors();
         }
 
-        Disposable<Matrix> correlation(
+        Matrix correlation(
             Time t, const Array& x = Null<Array>()) const {
             return corrModel_->correlation(t, x);
         }
-        Disposable<Matrix> pseudoSqrt(
+        Matrix pseudoSqrt(
             Time t, const Array& x = Null<Array>()) const {
             return corrModel_->pseudoSqrt(t, x);
         }

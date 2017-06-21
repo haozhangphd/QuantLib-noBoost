@@ -72,15 +72,15 @@ namespace QuantLib {
         mapY_.axpyb(Array(), dyMap_, dyMap_, hr);
     }
 
-    Disposable<Array> FdmG2Op::apply(const Array& r) const {
+    Array FdmG2Op::apply(const Array& r) const {
         return mapX_.apply(r) + mapY_.apply(r) + apply_mixed(r);
     }
 
-    Disposable<Array> FdmG2Op::apply_mixed(const Array& r) const {
+    Array FdmG2Op::apply_mixed(const Array& r) const {
         return corrMap_.apply(r);
     }
 
-    Disposable<Array>
+    Array
     FdmG2Op::apply_direction(Size direction, const Array& r) const {
         if (direction == direction1_) {
             return mapX_.apply(r);
@@ -94,7 +94,7 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array>
+    Array
     FdmG2Op::solve_splitting(Size direction, const Array& r, Real a) const {
         if (direction == direction1_) {
             return mapX_.solve_splitting(r, a, 1.0);
@@ -108,13 +108,13 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array>
+    Array
     FdmG2Op::preconditioner(const Array& r, Real dt) const {
         return solve_splitting(direction1_, r, dt);
     }
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-    Disposable<std::vector<SparseMatrix> > FdmG2Op::toMatrixDecomp() const {
+    std::vector<SparseMatrix>  FdmG2Op::toMatrixDecomp() const {
         std::vector<SparseMatrix> retVal(3);
         retVal[0] = mapX_.toMatrix();
         retVal[1] = mapY_.toMatrix();

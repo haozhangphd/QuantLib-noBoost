@@ -153,7 +153,7 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array> FdmHestonFwdOp::apply(const Array& u) const {
+    Array FdmHestonFwdOp::apply(const Array& u) const {
         if (leverageFct_) {
             return mapX_->apply(u)
                     + mapY_->apply(u)
@@ -166,7 +166,7 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array> FdmHestonFwdOp::apply_mixed(const Array& u) const{
+    Array FdmHestonFwdOp::apply_mixed(const Array& u) const{
         if (leverageFct_) {
             return correlation_->apply(L_*u);
         }
@@ -176,7 +176,7 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array> FdmHestonFwdOp::apply_direction(
+    Array FdmHestonFwdOp::apply_direction(
         Size direction, const Array& u) const {
 
         if (direction == 0)
@@ -187,7 +187,7 @@ namespace QuantLib {
             QL_FAIL("direction too large");
     }
 
-    Disposable<Array> FdmHestonFwdOp::solve_splitting(
+    Array FdmHestonFwdOp::solve_splitting(
         Size direction, const Array& u, Real s) const{
         if (direction == 0) {
             return mapX_->solve_splitting(u, s, 1.0);
@@ -199,12 +199,12 @@ namespace QuantLib {
             QL_FAIL("direction too large");
     }
 
-    Disposable<Array> FdmHestonFwdOp::preconditioner(
+    Array FdmHestonFwdOp::preconditioner(
         const Array& u, Real dt) const{
         return solve_splitting(0, u, dt);
     }
 
-    Disposable<Array> FdmHestonFwdOp::getLeverageFctSlice(Time t1, Time t2)
+    Array FdmHestonFwdOp::getLeverageFctSlice(Time t1, Time t2)
     const {
         const std::shared_ptr<FdmLinearOpLayout> layout=mesher_->layout();
         Array v(layout->size(), 1.0);
@@ -235,7 +235,7 @@ namespace QuantLib {
     }
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-    Disposable<std::vector<SparseMatrix> > FdmHestonFwdOp::toMatrixDecomp()
+    std::vector<SparseMatrix>  FdmHestonFwdOp::toMatrixDecomp()
         const {
 
         std::vector<SparseMatrix> retVal(3);

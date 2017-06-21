@@ -135,15 +135,15 @@ namespace QuantLib {
         ouOp_->setTime(t1, t2);
     }
 
-    Disposable<Array> FdmExtOUJumpOp::apply(const Array& r) const {
+    Array FdmExtOUJumpOp::apply(const Array& r) const {
         return ouOp_->apply(r) + dyMap_.apply(r) + integro(r);
     }
 
-    Disposable<Array> FdmExtOUJumpOp::apply_mixed(const Array& r) const {
+    Array FdmExtOUJumpOp::apply_mixed(const Array& r) const {
         return  integro(r);
     }
 
-    Disposable<Array> FdmExtOUJumpOp::apply_direction(Size direction,
+    Array FdmExtOUJumpOp::apply_direction(Size direction,
                                                       const Array& r) const {
         if (direction == 0)
             return ouOp_->apply_direction(direction, r);
@@ -155,7 +155,7 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array>
+    Array
         FdmExtOUJumpOp::solve_splitting(Size direction,
                                         const Array& r, Real a) const {
         if (direction == 0) {
@@ -170,7 +170,7 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array>
+    Array
     FdmExtOUJumpOp::preconditioner(const Array& r, Real dt) const {
         return ouOp_->solve_splitting(0, r, dt);
     }
@@ -203,7 +203,7 @@ namespace QuantLib {
         return std::exp(-u)*valueOfDerivative;
     }
 
-    Disposable<Array> FdmExtOUJumpOp::integro(const Array& r) const {
+    Array FdmExtOUJumpOp::integro(const Array& r) const {
         Array integral(r.size());
         const std::shared_ptr<FdmLinearOpLayout> layout = mesher_->layout();
         const Size extraDims=layout->size()/(layout->dim()[0]*layout->dim()[1]);
@@ -248,11 +248,11 @@ namespace QuantLib {
         return process_->jumpIntensity()*(integral-r);
     }
 #else
-    Disposable<Array> FdmExtOUJumpOp::integro(const Array& r) const {
+    Array FdmExtOUJumpOp::integro(const Array& r) const {
         return prod(integroPart_, r);
     }
 
-    Disposable<std::vector<SparseMatrix> >
+    std::vector<SparseMatrix> 
     FdmExtOUJumpOp::toMatrixDecomp() const {
         QL_REQUIRE(bcSet_.empty(), "boundary conditions are not supported");
 

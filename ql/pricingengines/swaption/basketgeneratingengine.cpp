@@ -32,7 +32,7 @@ using std::fabs;
 
 namespace QuantLib {
 
-    Disposable<std::vector<std::shared_ptr<CalibrationHelper> > >
+    std::vector<std::shared_ptr<CalibrationHelper> > 
     BasketGeneratingEngine::calibrationBasket(
         const std::shared_ptr<Exercise> &exercise,
         std::shared_ptr<SwapIndex> standardSwapBase,

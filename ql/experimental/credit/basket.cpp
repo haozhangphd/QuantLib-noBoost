@@ -111,7 +111,7 @@ namespace QuantLib {
         lossModel_->setBasket(const_cast<Basket*>(this));
     }
 
-    Disposable<vector<Real> > Basket::probabilities(const Date& d) const {
+    vector<Real>  Basket::probabilities(const Date& d) const {
         vector<Real> prob(size());
         vector<DefaultProbKey> defKeys = defaultKeys();
         for (Size j = 0; j < size(); j++)
@@ -173,7 +173,7 @@ namespace QuantLib {
         return evalDateRemainingNot_;
     }
 
-    Disposable<std::vector<Size> > 
+    std::vector<Size>  
         Basket::liveList(const Date& endDate) const {
         std::vector<Size> calcBufferLiveList;
         for (Size i = 0; i < size(); i++)
@@ -198,7 +198,7 @@ namespace QuantLib {
         return notional;
     }
 
-    Disposable<vector<Real> > 
+    vector<Real>  
         Basket::remainingNotionals(const Date& endDate) const 
     {
         QL_REQUIRE(endDate >= refDate_, 
@@ -213,7 +213,7 @@ namespace QuantLib {
         return calcBufferNotionals;
     }
 
-    Disposable<std::vector<Probability> > 
+    std::vector<Probability> 
         Basket::remainingProbabilities(const Date& d) const 
     {
         QL_REQUIRE(d >= refDate_, "Target date lies before basket inception");
@@ -251,7 +251,7 @@ namespace QuantLib {
         //return positions_[position]->expectedExposure(d);
     }
 
-    Disposable<std::vector<std::string> >
+    std::vector<std::string> 
         Basket::remainingNames(const Date& endDate) const 
     {
         // maybe return zero directly instead?:
@@ -265,7 +265,7 @@ namespace QuantLib {
         return calcBufferNames;
     }
 
-    Disposable<vector<DefaultProbKey> >
+    vector<DefaultProbKey> 
         Basket::remainingDefaultKeys(const Date& endDate) const 
     {
         QL_REQUIRE(endDate >= refDate_,
@@ -332,7 +332,7 @@ namespace QuantLib {
         return cumulatedLoss() + lossModel_->expectedTrancheLoss(d);
     }
 
-    Disposable<std::vector<Real> > 
+    std::vector<Real> 
         Basket::splitVaRLevel(const Date& date, Real loss) const {
         calculate();
         return lossModel_->splitVaRLevel(date, loss);
@@ -343,7 +343,7 @@ namespace QuantLib {
         return lossModel_->expectedShortfall(d, prob);
     }
 
-    Disposable<std::map<Real, Probability> > 
+    std::map<Real, Probability> 
         Basket::lossDistribution(const Date& d) const {
         calculate();
         return lossModel_->lossDistribution(d);

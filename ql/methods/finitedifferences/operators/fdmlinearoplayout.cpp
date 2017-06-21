@@ -66,7 +66,7 @@ namespace QuantLib {
     }
 
     // smart but sometimes too slow
-    Disposable<FdmLinearOpIterator> FdmLinearOpLayout::iter_neighbourhood(
+    FdmLinearOpIterator FdmLinearOpLayout::iter_neighbourhood(
         const FdmLinearOpIterator& iterator, Size i, Integer offset) const {
 
         std::vector<Size> coordinates = iterator.coordinates();

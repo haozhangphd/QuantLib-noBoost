@@ -121,7 +121,7 @@ namespace QuantLib {
 
     //computes a replication of the swap in terms of a basket of vanilla swaps 
     //by solving a linear system of equation 
-    Disposable<Array> HaganIrregularSwaptionEngine::Basket::compute(Rate lambda) const {
+    Array HaganIrregularSwaptionEngine::Basket::compute(Rate lambda) const {
 
         //update members
         lambda_ = lambda;
@@ -178,7 +178,7 @@ namespace QuantLib {
 
         SVD svd(arr);
 
-        Disposable<Array> weights = svd.solveFor(rhs);
+        Array weights = svd.solveFor(rhs);
 
         return weights;
 
@@ -188,7 +188,7 @@ namespace QuantLib {
 
     Real HaganIrregularSwaptionEngine::Basket::operator()(Rate lambda) const {
 
-        Disposable<Array> weights = compute(lambda);
+        Array weights = compute(lambda);
 
         Real defect = -targetNPV_;
 
@@ -377,7 +377,7 @@ namespace QuantLib {
              std::shared_ptr<PricingEngine>(new BlackSwaptionEngine(termStructure_,volatilityStructure_));
 
         //retrieve weights of underlying swaps
-        Disposable<Array> weights = basket.weights();
+        Array weights = basket.weights();
 
         Real npv = 0.0;
 

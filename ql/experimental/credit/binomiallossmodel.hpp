@@ -76,7 +76,7 @@ namespace QuantLib {
         /*! Returns the probability of the default loss values given by the 
             method lossPoints.
         */
-        Disposable<std::vector<Real>>
+        std::vector<Real>
             expectedDistribution(const Date& date) const {
             // precal date conditional magnitudes:
             std::vector<Real> notionals = basket_->remainingNotionals(date);
@@ -87,13 +87,13 @@ namespace QuantLib {
                     copula_->inverseCumulativeY(invProbs[iName], iName);
 
             return copula_->integratedExpectedValue(
-			  [this, date, notionals, invProbs] (const std::vector<Real>& v) ->Disposable<std::vector<Real>> {return lossProbability(std::cref(date), std::cref(notionals), std::cref(invProbs), v);}
+			  [this, date, notionals, invProbs] (const std::vector<Real>& v) ->std::vector<Real> {return lossProbability(std::cref(date), std::cref(notionals), std::cref(invProbs), v);}
                 );
         }
         //! attainable loss points this model provides
-        Disposable<std::vector<Real> > lossPoints(const Date&) const;
+        std::vector<Real> lossPoints(const Date&) const;
         //! Returns the cumulative full loss distribution
-        Disposable<std::map<Real, Probability> > 
+        std::map<Real, Probability> 
             lossDistribution(const Date& d) const;
         //! Loss level for this percentile
         Real percentile(const Date& d, Real percentile) const;
@@ -109,7 +109,7 @@ namespace QuantLib {
             const std::vector<Probability>& uncondDefProbs, 
             const std::vector<Real>&) const;
         // expected as in time-value, not average, see literature
-        Disposable<std::vector<Real> >
+        std::vector<Real>
             expConditionalLgd(const Date& d,
                                const std::vector<Real>& mktFactors) const
         {
@@ -123,7 +123,7 @@ namespace QuantLib {
 
         //! Loss probability density conditional on the market factor value.
         // Heres where the burden of the algorithm setup lies.
-        Disposable<std::vector<Real> >
+        std::vector<Real>
             lossProbability(      
                 const Date& date,
                 // expected exposures at the passed date, no wrong way means
@@ -146,7 +146,7 @@ namespace QuantLib {
         distribution of a given number of defaults.
     */
     template< class LLM>
-    Disposable<std::vector<Real> > BinomialLossModel<LLM>::lossProbability(
+    std::vector<Real> BinomialLossModel<LLM>::lossProbability(
         const Date& date,
         const std::vector<Real>& bsktNots,
         const std::vector<Real>& uncondDefProbInv, 
@@ -271,7 +271,7 @@ namespace QuantLib {
     }
 
     template< class LLM>
-    Disposable<std::vector<Real> >
+    std::vector<Real>
         BinomialLossModel<LLM>::lossPoints(const Date& d) const 
     {
         std::vector<Real> notionals = basket_->remainingNotionals(d);
@@ -327,7 +327,7 @@ namespace QuantLib {
 
 
     template< class LLM>
-    Disposable<std::map<Real, Probability> > 
+    std::map<Real, Probability> 
         BinomialLossModel<LLM>::lossDistribution(const Date& d) const 
     {
         std::map<Real, Probability> distrib;

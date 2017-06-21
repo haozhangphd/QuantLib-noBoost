@@ -69,7 +69,7 @@ namespace QuantLib {
 
         Real evolve(const FdmLinearOpIterator& iter, Time t) const;
 
-        virtual Disposable<Array> changeState(
+        virtual Array changeState(
             Real gasPrice, const Array& state, Time t) const = 0;
 
         const Real heatRate_;

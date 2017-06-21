@@ -95,7 +95,7 @@ namespace QuantLib {
         return std::exp(-y*y)*valueOfDerivative;
     }
     
-    Disposable<Array> FdmBatesOp::integro(const Array& r) const {
+    Array FdmBatesOp::integro(const Array& r) const {
         const shared_ptr<FdmLinearOpLayout> layout = mesher_->layout();
         
         QL_REQUIRE(layout->dim().size() == 2, "invalid layout dimension");
@@ -133,7 +133,7 @@ namespace QuantLib {
     }
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-    Disposable<std::vector<SparseMatrix> > FdmBatesOp::toMatrixDecomp() const {
+    std::vector<SparseMatrix>  FdmBatesOp::toMatrixDecomp() const {
         QL_FAIL("not implemented");
     }
 #endif

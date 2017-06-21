@@ -349,8 +349,8 @@ namespace QuantLib {
     }
 
 
-    Disposable<std::vector<Size> > LocalVolRNDCalculator::rescaleTimeSteps()
-    const {
+    std::vector<Size>&&  LocalVolRNDCalculator::rescaleTimeSteps() const
+    {
         calculate();
 
         return std::move(rescaleTimeSteps_);
@@ -367,7 +367,7 @@ namespace QuantLib {
             return (*pFct_[idx])(x);
     }
 
-    Disposable<Array> LocalVolRNDCalculator::rescalePDF(
+    Array LocalVolRNDCalculator::rescalePDF(
         const Array& x, const Array& p) const {
 
         Array retVal = p/DiscreteSimpsonIntegral()(x, p);

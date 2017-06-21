@@ -37,13 +37,13 @@ namespace QuantLib {
         //! \name StochasticProcess interface
         //@{
         Size size() const;
-        Disposable<Array> initialValues() const;
-        Disposable<Array> drift(Time t, const Array& x) const;
-        Disposable<Matrix> diffusion(Time t, const Array& x) const;
-        Disposable<Array> expectation(Time t0, const Array& x0, Time dt) const;
-        Disposable<Matrix> stdDeviation(Time t0, const Array& x0,
+        Array initialValues() const;
+        Array drift(Time t, const Array& x) const;
+        Matrix diffusion(Time t, const Array& x) const;
+        Array expectation(Time t0, const Array& x0, Time dt) const;
+        Matrix stdDeviation(Time t0, const Array& x0,
                                         Time dt) const;
-        Disposable<Matrix> covariance(Time t0, const Array& x0, Time dt) const;
+        Matrix covariance(Time t0, const Array& x0, Time dt) const;
         //@}
         Real x0() const;
         Real y0() const;
@@ -66,13 +66,13 @@ namespace QuantLib {
         //! \name StochasticProcess interface
         //@{
         Size size() const;
-        Disposable<Array> initialValues() const;
-        Disposable<Array> drift(Time t, const Array& x) const;
-        Disposable<Matrix> diffusion(Time t, const Array& x) const;
-        Disposable<Array> expectation(Time t0, const Array& x0, Time dt) const;
-        Disposable<Matrix> stdDeviation(Time t0, const Array& x0,
+        Array initialValues() const;
+        Array drift(Time t, const Array& x) const;
+        Matrix diffusion(Time t, const Array& x) const;
+        Array expectation(Time t0, const Array& x0, Time dt) const;
+        Matrix stdDeviation(Time t0, const Array& x0,
                                         Time dt) const;
-        Disposable<Matrix> covariance(Time t0, const Array& x0, Time dt) const;
+        Matrix covariance(Time t0, const Array& x0, Time dt) const;
         //@}
       protected:
         Real x0_, y0_, a_, sigma_, b_, eta_, rho_;

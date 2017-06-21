@@ -27,7 +27,7 @@
 
 namespace QuantLib {
 
-    Disposable<Array> ConjugateGradient::getUpdatedDirection(const Problem& P,
+    Array ConjugateGradient::getUpdatedDirection(const Problem& P,
                                                              Real gold2,
                                                              const Array&) {
         return -lineSearch_->lastGradient() +

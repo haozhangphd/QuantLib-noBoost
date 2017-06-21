@@ -41,9 +41,9 @@ namespace QuantLib {
         std::shared_ptr<LmVolatilityModel>  volatilityModel() const;
         std::shared_ptr<LmCorrelationModel> correlationModel() const;
 
-        Disposable<Matrix> diffusion(
+        Matrix diffusion(
             Time t, const Array& x = Null<Array>()) const;
-        Disposable<Matrix> covariance(
+        Matrix covariance(
             Time t, const Array& x = Null<Array>()) const;
 
         using LfmCovarianceParameterization::integratedCovariance;

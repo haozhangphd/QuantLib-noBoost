@@ -72,14 +72,14 @@ namespace QuantLib {
 
 		std::shared_ptr<TimeGrid> timeGrid() const;
 		std::shared_ptr<Fdm1dMesher> mesher(Time t) const;
-		Disposable<std::vector<Size> > rescaleTimeSteps() const;
+		std::vector<Size>&& rescaleTimeSteps() const;
 
 	  protected:
 		void performCalculations() const;
 
 	  private:
 		Real probabilityInterpolation(Size idx, Real x) const;
-		Disposable<Array> rescalePDF(const Array& x, const Array& p) const;
+		Array rescalePDF(const Array& x, const Array& p) const;
 
 
 		const Size xGrid_, tGrid_;

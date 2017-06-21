@@ -66,15 +66,15 @@ namespace QuantLib {
         Real weightedSpreadError(const Matrix& weights);
         Real weightedSpotNpvError(const Matrix& weights);
         Real weightedFwdNpvError(const Matrix& weights);
-        Disposable<Array> weightedSpreadErrors(const Matrix& weights);
-        Disposable<Array> weightedSpotNpvErrors(const Matrix& weights);
-        Disposable<Array> weightedFwdNpvErrors(const Matrix& weights);
+        Array weightedSpreadErrors(const Matrix& weights);
+        Array weightedSpotNpvErrors(const Matrix& weights);
+        Array weightedFwdNpvErrors(const Matrix& weights);
 
       private:
         void performCalculations() const;
         Real weightedMean(const Matrix& var,
                           const Matrix& weights);
-        Disposable<Array> weightedMeans(const Matrix& var,
+        Array weightedMeans(const Matrix& var,
                                         const Matrix& weights);
 
         std::vector<Period> swapLengths_;

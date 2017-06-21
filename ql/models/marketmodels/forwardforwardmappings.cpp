@@ -25,7 +25,7 @@ FOR A PARTICULAR PURPOSE.  See the license for more details.
 
 namespace QuantLib {
 
-    Disposable<Matrix>
+    Matrix
         ForwardForwardMappings::ForwardForwardJacobian(const CurveState& cs,
         Size multiplier,
         Size offset)
@@ -60,7 +60,7 @@ namespace QuantLib {
         return jacobian;
         }
 
-    Disposable<Matrix>
+    Matrix
         ForwardForwardMappings::YMatrix(const CurveState& cs,
         const std::vector<Spread>& shortDisplacements,
         const std::vector<Spread>& longDisplacements,

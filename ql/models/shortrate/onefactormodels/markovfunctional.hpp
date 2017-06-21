@@ -358,7 +358,7 @@ namespace QuantLib {
             updateNumeraireTabulation();
         }
 
-        Disposable<std::vector<bool> > FixedFirstVolatility() const {
+        std::vector<bool>  FixedFirstVolatility() const {
             std::vector<bool> c(volatilities_.size(), false);
             c[0] = true;
             return c;
@@ -387,11 +387,11 @@ namespace QuantLib {
                                 const Option::Type &type,
                                 const Real strike) const;
 
-        const Disposable<Array>
+        Array
         deflatedZerobondArray(const Time T, const Time t, const Array &y) const;
-        const Disposable<Array> numeraireArray(const Time t,
+        Array numeraireArray(const Time t,
                                                const Array &y) const;
-        const Disposable<Array> zerobondArray(const Time T, const Time t,
+        Array zerobondArray(const Time T, const Time t,
                                               const Array &y) const;
 
         Real deflatedZerobond(const Time T, const Time t = 0.0,

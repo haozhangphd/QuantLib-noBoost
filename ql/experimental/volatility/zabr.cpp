@@ -69,7 +69,7 @@ Real ZabrModel::lognormalVolatility(const Real strike) const {
     return lognormalVolatility(std::vector<Real>(1, strike))[0];
 }
 
-Disposable<std::vector<Real> >
+std::vector<Real>
 ZabrModel::lognormalVolatility(const std::vector<Real> &strikes) const {
     std::vector<Real> x_ = x(strikes);
     std::vector<Real> result(strikes.size());
@@ -90,7 +90,7 @@ Real ZabrModel::normalVolatility(const Real strike) const {
     return normalVolatility(std::vector<Real>(1, strike))[0];
 }
 
-Disposable<std::vector<Real> >
+std::vector<Real>
 ZabrModel::normalVolatility(const std::vector<Real> &strikes) const {
     std::vector<Real> x_ = x(strikes);
     std::vector<Real> result(strikes.size());
@@ -111,7 +111,7 @@ Real ZabrModel::localVolatility(const Real f) const {
     return localVolatility(std::vector<Real>(1, f))[0];
 }
 
-Disposable<std::vector<Real> >
+std::vector<Real>
 ZabrModel::localVolatility(const std::vector<Real> &f) const {
     std::vector<Real> x_ = x(f);
     std::vector<Real> result(f.size());
@@ -125,7 +125,7 @@ Real ZabrModel::fdPrice(const Real strike) const {
     return fdPrice(std::vector<Real>(1, strike))[0];
 }
 
-Disposable<std::vector<Real> >
+std::vector<Real>
 ZabrModel::fdPrice(const std::vector<Real> &strikes) const {
 
     // TODO check strikes to be increasing
@@ -315,7 +315,7 @@ Real ZabrModel::x(const Real strike) const {
     return x(std::vector<Real>(1, strike))[0];
 }
 
-Disposable<std::vector<Real> >
+std::vector<Real>
 ZabrModel::x(const std::vector<Real> &strikes) const {
 
     QL_REQUIRE(strikes[0] > 0.0 || beta_ < 1.0,

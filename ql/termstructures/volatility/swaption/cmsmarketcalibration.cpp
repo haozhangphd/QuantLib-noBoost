@@ -37,11 +37,11 @@ namespace {
               calibrationType_(smileAndCms->calibrationType_) {};
 
         Real value(const Array &x) const;
-        Disposable<Array> values(const Array &x) const;
+        Array values(const Array &x) const;
 
       protected:
         Real switchErrorFunctionOnCalibrationType() const;
-        Disposable<Array> switchErrorsFunctionOnCalibrationType() const;
+        Array switchErrorsFunctionOnCalibrationType() const;
 
         CmsMarketCalibration *smileAndCms_;
         Handle<SwaptionVolatilityStructure> volCube_;
@@ -116,7 +116,7 @@ namespace {
         return switchErrorFunctionOnCalibrationType();
     }
 
-    Disposable<Array> ObjectiveFunction::values(const Array &x) const {
+    Array ObjectiveFunction::values(const Array &x) const {
         updateVolatilityCubeAndCmsMarket(x);
         return switchErrorsFunctionOnCalibrationType();
     }
@@ -150,7 +150,7 @@ namespace {
         }
     }
 
-    Disposable<Array>
+    Array
     ObjectiveFunction::switchErrorsFunctionOnCalibrationType() const {
         switch (calibrationType_) {
         case CmsMarketCalibration::OnSpread:

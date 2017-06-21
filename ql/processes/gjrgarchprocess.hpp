@@ -74,11 +74,11 @@ namespace QuantLib {
                         Discretization d = FullTruncation);
 
         Size size() const;
-        Disposable<Array> initialValues() const;
-        Disposable<Array> drift(Time t, const Array& x) const;
-        Disposable<Matrix> diffusion(Time t, const Array& x) const;
-        Disposable<Array> apply(const Array& x0, const Array& dx) const;
-        Disposable<Array> evolve(Time t0, const Array& x0,
+        Array initialValues() const;
+        Array drift(Time t, const Array& x) const;
+        Matrix diffusion(Time t, const Array& x) const;
+        Array apply(const Array& x0, const Array& dx) const;
+        Array evolve(Time t0, const Array& x0,
                                  Time dt, const Array& dw) const;
 
         Real v0()     const { return v0_; }

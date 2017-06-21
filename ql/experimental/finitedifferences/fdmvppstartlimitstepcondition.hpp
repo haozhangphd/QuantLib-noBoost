@@ -46,7 +46,7 @@ namespace QuantLib {
         Real maxValue(const Array& states) const;
 
       private:
-        Disposable<Array> changeState(Real gasPrice,
+        Array changeState(Real gasPrice,
                                       const Array& state, Time t) const;
 
         const Size nStarts_;

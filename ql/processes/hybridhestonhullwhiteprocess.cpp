@@ -57,7 +57,7 @@ namespace QuantLib {
         return 3;
     }
 
-    Disposable<Array> HybridHestonHullWhiteProcess::initialValues() const {
+    Array HybridHestonHullWhiteProcess::initialValues() const {
         Array retVal(3);
         retVal[0] = hestonProcess_->s0()->value();
         retVal[1] = hestonProcess_->v0();
@@ -66,7 +66,7 @@ namespace QuantLib {
         return retVal;
     }
 
-    Disposable<Array> 
+    Array 
     HybridHestonHullWhiteProcess::drift(Time t, const Array& x) const {
         Array retVal(3), x0(2);
         
@@ -79,7 +79,7 @@ namespace QuantLib {
         return retVal;
     }
 
-    Disposable<Array> 
+    Array 
     HybridHestonHullWhiteProcess::apply(const Array& x0,const Array& dx) const {
         Array retVal(3), xt(2), dxt(2);
         
@@ -94,7 +94,7 @@ namespace QuantLib {
         return retVal;
     }
     
-    Disposable<Matrix> 
+    Matrix 
     HybridHestonHullWhiteProcess::diffusion(Time t, const Array& x) const {
         Matrix retVal(3,3);
 
@@ -112,7 +112,7 @@ namespace QuantLib {
         return retVal;
     }
 
-    Disposable<Array> 
+    Array 
     HybridHestonHullWhiteProcess::evolve(Time t0, const Array& x0,
                                          Time dt, const Array& dw) const {
 

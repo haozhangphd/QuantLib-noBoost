@@ -73,17 +73,17 @@ namespace QuantLib {
         Size size() const;
         void setTime(Time t1, Time t2);
 
-        Disposable<Array> apply(const Array& r) const;
-        Disposable<Array> apply_mixed(const Array& r) const;
+        Array apply(const Array& r) const;
+        Array apply_mixed(const Array& r) const;
 
-        Disposable<Array> apply_direction(Size direction,
+        Array apply_direction(Size direction,
                                           const Array& r) const;
-        Disposable<Array> solve_splitting(Size direction,
+        Array solve_splitting(Size direction,
                                           const Array& r, Real s) const;
-        Disposable<Array> preconditioner(const Array& r, Real s) const;
+        Array preconditioner(const Array& r, Real s) const;
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-        Disposable<std::vector<SparseMatrix> > toMatrixDecomp() const;
+        std::vector<SparseMatrix>  toMatrixDecomp() const;
 #endif
       private:
 

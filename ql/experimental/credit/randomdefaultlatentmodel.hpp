@@ -172,7 +172,7 @@ namespace QuantLib {
         Chen, Z., Glasserman, P. 'Fast pricing of basket default swaps' in
         Operations Research Vol. 56, No. 2, March/April 2008, pp. 286-303
         */
-        virtual Disposable<std::vector<Probability> > probsBeingNthEvent(Size n,
+        virtual std::vector<Probability> probsBeingNthEvent(Size n,
             const Date& d) const;
         //! Pearsons' default probability correlation.
         virtual Real defaultCorrelation(const Date& d, Size iName,
@@ -180,7 +180,7 @@ namespace QuantLib {
         virtual Real expectedTrancheLoss(const Date& d) const;
         virtual std::pair<Real, Real> expectedTrancheLossInterval(const Date& d,
             Probability confidencePerc) const;
-        virtual Disposable<std::map<Real, Probability> >
+        virtual std::map<Real, Probability>
             lossDistribution(const Date& d) const;
         virtual Histogram computeHistogram(const Date& d) const;
         virtual Real expectedShortfall(const Date& d, Real percent) const;
@@ -192,7 +192,7 @@ namespace QuantLib {
         /*! Distributes the total VaR amount along the portfolio counterparties.
             The passed loss amount is in loss units.
         */
-        virtual Disposable<std::vector<Real> > splitVaRLevel(const Date& date,
+        virtual std::vector<Real> splitVaRLevel(const Date& date,
             Real loss) const;
         /*! Distributes the total VaR amount along the portfolio
             counterparties.
@@ -202,7 +202,7 @@ namespace QuantLib {
 
             The passed loss amount is in loss units.
         */
-        virtual Disposable<std::vector<std::vector<Real> > > splitVaRAndError(
+        virtual std::vector<std::vector<Real> >  splitVaRAndError(
             const Date& date, Real loss, Probability confInterval) const;
         //@}
     public:
@@ -257,7 +257,7 @@ namespace QuantLib {
     }
 
     template<template <class, class> class D, class C, class URNG>
-    Disposable<std::vector<Probability> >
+    std::vector<Probability>
         RandomLM<D, C, URNG>::probsBeingNthEvent(Size n,
             const Date& d) const
     {
@@ -387,7 +387,7 @@ namespace QuantLib {
 
 
     template<template <class, class> class D, class C, class URNG>
-    Disposable<std::map<Real, Probability> >
+    std::map<Real, Probability>
         RandomLM<D, C, URNG>::lossDistribution(const Date& d) const {
 
         Histogram hist = computeHistogram(d);
@@ -542,7 +542,7 @@ namespace QuantLib {
     of the stimator just computed. See the reference for a discussion.
     */
     template<template <class, class> class D, class C, class URNG>
-    std::tuple<Real, Real, Real> // disposable?
+    std::tuple<Real, Real, Real>
         RandomLM<D, C, URNG>::percentileAndInterval(const Date& d,
             Real percentile) const {
 
@@ -627,7 +627,7 @@ namespace QuantLib {
 
 
     template<template <class, class> class D, class C, class URNG>
-    Disposable<std::vector<Real> > RandomLM<D, C, URNG>::splitVaRLevel(
+    std::vector<Real> RandomLM<D, C, URNG>::splitVaRLevel(
         const Date& date, Real loss) const
     {
         std::vector<Real> varLevels = splitVaRAndError(date, loss, 0.95)[0];
@@ -642,7 +642,7 @@ namespace QuantLib {
     template<template <class, class> class D, class C, class URNG>
     /* FIX ME: some trouble on limit cases, like zero loss or no losses over the
     requested level.*/
-    Disposable<std::vector<std::vector<Real> > >
+    std::vector<std::vector<Real> > 
         RandomLM<D, C, URNG>::splitVaRAndError(const Date& date, Real loss,
             Probability confInterval) const
     {

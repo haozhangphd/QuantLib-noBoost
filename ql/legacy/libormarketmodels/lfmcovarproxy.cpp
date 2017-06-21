@@ -45,7 +45,7 @@ namespace QuantLib {
         return corrModel_;
     }
 
-    Disposable<Matrix> LfmCovarianceProxy::diffusion(Time t,
+    Matrix LfmCovarianceProxy::diffusion(Time t,
                                                      const Array& x) const {
 
         Matrix pca = corrModel_->pseudoSqrt(t, x);
@@ -59,7 +59,7 @@ namespace QuantLib {
         return pca;
     }
 
-    Disposable<Matrix> LfmCovarianceProxy::covariance(Time t,
+    Matrix LfmCovarianceProxy::covariance(Time t,
                                                       const Array& x) const {
 
         Array  volatility  = volaModel_->volatility(t, x);

@@ -39,23 +39,23 @@ namespace QuantLib {
                   const Matrix& correlation);
         // stochastic process interface
         Size size() const;
-        Disposable<Array> initialValues() const;
-        Disposable<Array> drift(Time t, const Array& x) const;
-        Disposable<Array> expectation(Time t0, const Array& x0, Time dt) const;
+        Array initialValues() const;
+        Array drift(Time t, const Array& x) const;
+        Array expectation(Time t0, const Array& x0, Time dt) const;
 
-        Disposable<Matrix> diffusion(Time t, const Array& x) const;
-        Disposable<Matrix> covariance(Time t0, const Array& x0, Time dt) const;
-        Disposable<Matrix> stdDeviation(Time t0, const Array& x0,
+        Matrix diffusion(Time t, const Array& x) const;
+        Matrix covariance(Time t0, const Array& x0, Time dt) const;
+        Matrix stdDeviation(Time t0, const Array& x0,
                                         Time dt) const;
 
-        Disposable<Array> apply(const Array& x0, const Array& dx) const;
-        Disposable<Array> evolve(Time t0, const Array& x0,
+        Array apply(const Array& x0, const Array& dx) const;
+        Array evolve(Time t0, const Array& x0,
                                   Time dt, const Array& dw) const;
 
         Time time(const Date&) const;
         // inspectors
         const std::shared_ptr<StochasticProcess1D>& process(Size i) const;
-        Disposable<Matrix> correlation() const;
+        Matrix correlation() const;
       protected:
         std::vector<std::shared_ptr<StochasticProcess1D> > processes_;
         Matrix sqrtCorrelation_;

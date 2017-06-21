@@ -51,7 +51,7 @@ namespace QuantLib {
         void setStep(Time dt);
 
       protected:
-        Disposable<Array> apply(const Array& r) const;   
+        Array apply(const Array& r) const;   
           
         Time dt_;
         const Real relTol_;

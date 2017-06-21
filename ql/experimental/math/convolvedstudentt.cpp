@@ -83,7 +83,7 @@ namespace QuantLib {
           a2_ = a_ * a_;
     }
 
-    Disposable<std::vector<Real> >
+    std::vector<Real>
     CumulativeBehrensFisher::polynCharactT(Natural n) const {
         Natural nu = 2 * n +1;
         std::vector<Real> low(1,1.), high(1,1.);
@@ -106,7 +106,7 @@ namespace QuantLib {
         return high;
     }
 
-    Disposable<std::vector<Real> >
+    std::vector<Real>
     CumulativeBehrensFisher::convolveVectorPolynomials(
         const std::vector<Real>& v1,
         const std::vector<Real>& v2) const {

@@ -43,9 +43,9 @@ namespace QuantLib {
         std::vector<Parameter>& params();
         void setParams(const std::vector<Parameter> & arguments);
 
-        virtual Disposable<Matrix> correlation(
+        virtual Matrix correlation(
             Time t, const Array& x = Null<Array>()) const = 0;
-        virtual Disposable<Matrix> pseudoSqrt(
+        virtual Matrix pseudoSqrt(
             Time t, const Array& x = Null<Array>()) const;
         virtual Real correlation(
             Size i, Size j, Time t, const Array& x = Null<Array>()) const;

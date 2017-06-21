@@ -1236,7 +1236,7 @@ TEST_CASE( "FdmLinearOp_FdmHestonHullWhiteOp", "[FdmLinearOp]" ) {
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
 namespace {
-    Disposable<Array> axpy(
+    Array axpy(
         const boost::numeric::ublas::compressed_matrix<Real>& A,
         const Array& x) {
         
@@ -1280,10 +1280,10 @@ TEST_CASE( "FdmLinearOp_BiCGstab", "[FdmLinearOp]" ) {
         }
     }
     
-    std::function<Disposable<Array>(const Array&)> matmult([a](const Array& x){return axpy(a, x);});
+    std::function<Array(const Array&)> matmult([a](const Array& x){return axpy(a, x);});
 
     SparseILUPreconditioner ilu(a, 4);
-    std::function<Disposable<Array>(const Array&)> precond([&ilu](const Array& x){return ilu.apply(x);});
+    std::function<Array(const Array&)> precond([&ilu](const Array& x){return ilu.apply(x);});
 
 
     Array b(n*m);

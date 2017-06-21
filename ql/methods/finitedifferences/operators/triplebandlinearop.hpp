@@ -38,21 +38,16 @@ namespace QuantLib {
         TripleBandLinearOp(Size direction,
                            const std::shared_ptr<FdmMesher>& mesher);
 
-        TripleBandLinearOp(const TripleBandLinearOp& m);
-        TripleBandLinearOp(const Disposable<TripleBandLinearOp>& m);
-        TripleBandLinearOp& operator=(const TripleBandLinearOp& m);
-        TripleBandLinearOp& operator=(const Disposable<TripleBandLinearOp>& m);
-
-        Disposable<Array> apply(const Array& r) const;
-        Disposable<Array> solve_splitting(const Array& r, Real a,
+        Array apply(const Array& r) const;
+        Array solve_splitting(const Array& r, Real a,
                                           Real b = 1.0) const;
 
-        Disposable<TripleBandLinearOp> mult(const Array& u) const;
+        TripleBandLinearOp mult(const Array& u) const;
         // interpret u as the diagonal of a diagonal matrix, multiplied on LHS
-        Disposable<TripleBandLinearOp> multR(const Array& u) const;
+        TripleBandLinearOp multR(const Array& u) const;
         // interpret u as the diagonal of a diagonal matrix, multiplied on RHS
-        Disposable<TripleBandLinearOp> add(const TripleBandLinearOp& m) const;
-        Disposable<TripleBandLinearOp> add(const Array& u) const;
+        TripleBandLinearOp add(const TripleBandLinearOp& m) const;
+        TripleBandLinearOp add(const Array& u) const;
 
         // some very basic linear algebra routines
         void axpyb(const Array& a, const TripleBandLinearOp& x,
@@ -61,7 +56,7 @@ namespace QuantLib {
         void swap(TripleBandLinearOp& m);
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-        Disposable<SparseMatrix> toMatrix() const;
+        SparseMatrix toMatrix() const;
 #endif
 
       protected:

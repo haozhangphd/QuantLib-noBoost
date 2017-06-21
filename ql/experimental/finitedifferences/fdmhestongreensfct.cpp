@@ -41,7 +41,7 @@ namespace QuantLib {
       process_(process),
       trafoType_(trafoType_) { }
 
-    Disposable<Array> FdmHestonGreensFct::get(Time t, Algorithm algorithm)
+    Array FdmHestonGreensFct::get(Time t, Algorithm algorithm)
     const {
         const Rate r = process_->riskFreeRate()->forwardRate(0, t, Continuous);
         const Rate q = process_->dividendYield()->forwardRate(0,t, Continuous);

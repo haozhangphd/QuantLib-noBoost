@@ -37,18 +37,14 @@ namespace QuantLib {
       public:
         NinePointLinearOp(Size d0, Size d1,
                 const std::shared_ptr<FdmMesher>& mesher);
-        NinePointLinearOp(const NinePointLinearOp& m);
-        NinePointLinearOp(const Disposable<NinePointLinearOp>& m);
-        NinePointLinearOp& operator=(const NinePointLinearOp& m);
-        NinePointLinearOp& operator=(const Disposable<NinePointLinearOp>& m);
 
-        Disposable<Array> apply(const Array& r) const;
-        Disposable<NinePointLinearOp> mult(const Array& u) const;
+        Array apply(const Array& r) const;
+        NinePointLinearOp mult(const Array& u) const;
 
         void swap(NinePointLinearOp& m);
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-        Disposable<SparseMatrix> toMatrix() const;
+        SparseMatrix toMatrix() const;
 #endif
 
       protected:

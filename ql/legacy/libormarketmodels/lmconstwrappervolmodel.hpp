@@ -37,7 +37,7 @@ namespace QuantLib {
           volaModel_(volaModel) {
         }
 
-        Disposable<Array> volatility(
+        Array volatility(
             Time t, const Array& x = Null<Array>()) const {
             return volaModel_->volatility(t, x);
         }

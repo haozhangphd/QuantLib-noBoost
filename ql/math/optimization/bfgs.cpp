@@ -23,7 +23,7 @@
 
 namespace QuantLib {
 
-    Disposable<Array> BFGS::getUpdatedDirection(const Problem& P,
+    Array BFGS::getUpdatedDirection(const Problem& P,
                                                 Real,
                                                 const Array& oldGradient) {
         if (inverseHessian_.rows() == 0)

@@ -68,7 +68,7 @@ namespace QuantLib {
 
         void setParams(const Array& params);
       protected:
-        Disposable<Array> w_0(Size alpha, Size beta) const;
+        Array w_0(Size alpha, Size beta) const;
 
         std::vector<Real> f_;
         std::vector<Time> accrualPeriod_;

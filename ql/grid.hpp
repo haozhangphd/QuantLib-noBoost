@@ -28,13 +28,13 @@
 
 namespace QuantLib {
 
-    Disposable<Array> CenteredGrid(Real center, Real dx, Size steps);
-    Disposable<Array> BoundedGrid(Real xMin, Real xMax, Size steps);
-    Disposable<Array> BoundedLogGrid(Real xMin, Real xMax, Size steps);
+    Array CenteredGrid(Real center, Real dx, Size steps);
+    Array BoundedGrid(Real xMin, Real xMax, Size steps);
+    Array BoundedLogGrid(Real xMin, Real xMax, Size steps);
 
     // inline definitions
 
-    inline Disposable<Array> CenteredGrid(Real center, Real dx,
+    inline Array CenteredGrid(Real center, Real dx,
                                           Size steps) {
         Array result(steps+1);
         for (Size i=0; i<steps+1; i++)
@@ -42,7 +42,7 @@ namespace QuantLib {
         return result;
     }
 
-    inline Disposable<Array> BoundedGrid(Real xMin, Real xMax,
+    inline Array BoundedGrid(Real xMin, Real xMax,
                                          Size steps) {
         Array result(steps+1);
         Real x=xMin, dx=(xMax-xMin)/steps;
@@ -51,7 +51,7 @@ namespace QuantLib {
         return result;
     }
 
-    inline Disposable<Array> BoundedLogGrid(Real xMin, Real xMax,
+    inline Array BoundedLogGrid(Real xMin, Real xMax,
                                             Size steps) {
         Array result(steps+1);
         Real gridLogSpacing = (std::log(xMax) - std::log(xMin)) / 

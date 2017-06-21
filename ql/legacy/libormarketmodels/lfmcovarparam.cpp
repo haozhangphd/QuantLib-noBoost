@@ -44,14 +44,14 @@ namespace QuantLib {
                                   m.row_begin(j_), 0.0);
     }
 
-    Disposable<Matrix> LfmCovarianceParameterization::covariance(
+    Matrix LfmCovarianceParameterization::covariance(
                                                Time t, const Array& x) const {
         Matrix sigma = this->diffusion(t, x);
         Matrix result = sigma*transpose(sigma);
         return result;
     }
 
-    Disposable<Matrix> LfmCovarianceParameterization::integratedCovariance(
+    Matrix LfmCovarianceParameterization::integratedCovariance(
                                                Time t, const Array& x) const {
         // this implementation is not intended for production.
         // because it is too slow and too inefficient.

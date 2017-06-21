@@ -45,11 +45,11 @@ namespace QuantLib {
             const std::shared_ptr<OptionletVolatilityStructure> & capletVol,
             const Matrix& correlation = Matrix(), Size factors = 1);
 
-        Disposable<Matrix> diffusion (
+        Matrix diffusion (
             Time t, const Array& x = Null<Array>()) const;
-        Disposable<Matrix> covariance(
+        Matrix covariance(
             Time t, const Array& x = Null<Array>()) const;
-        Disposable<Matrix> integratedCovariance(
+        Matrix integratedCovariance(
             Time t, const Array& x = Null<Array>()) const;
 
       protected:

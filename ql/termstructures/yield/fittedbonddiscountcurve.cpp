@@ -40,7 +40,7 @@ namespace QuantLib {
       public:
         FittingCost(FittedBondDiscountCurve::FittingMethod* fittingMethod);
         Real value(const Array& x) const;
-        Disposable<Array> values(const Array& x) const;
+        Array values(const Array& x) const;
       private:
         FittedBondDiscountCurve::FittingMethod* fittingMethod_;
         mutable vector<Size> firstCashFlow_;
@@ -250,7 +250,7 @@ namespace QuantLib {
         return squaredError;
     }
 
-    Disposable<Array>
+    Array
     FittedBondDiscountCurve::FittingMethod::FittingCost::values(
                                                        const Array &x) const {
         Date refDate  = fittingMethod_->curve_->referenceDate();

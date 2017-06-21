@@ -60,7 +60,7 @@
 
 namespace QuantLib {
 
-    Disposable<Matrix> inverse(const Matrix& m) {
+    Matrix inverse(const Matrix& m) {
         #if !defined(QL_NO_UBLAS_SUPPORT)
 
         QL_REQUIRE(m.rows() == m.columns(), "matrix is not square");

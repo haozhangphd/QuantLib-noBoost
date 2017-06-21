@@ -38,7 +38,7 @@ namespace QuantLib {
 
     class BiCGstab  {
       public:
-        typedef std::function<Disposable<Array>(const Array&)> MatrixMult;
+        typedef std::function<Array(const Array&)> MatrixMult;
         
         BiCGstab(const MatrixMult& A, Size maxIter, Real relTol,
                  const MatrixMult& preConditioner = MatrixMult());

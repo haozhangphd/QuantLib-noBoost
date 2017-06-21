@@ -45,14 +45,14 @@ namespace QuantLib {
         class discretization {
           public:
             virtual ~discretization() {}
-            virtual Disposable<Array> drift(const StochasticProcess&,
+            virtual Array drift(const StochasticProcess&,
                                             Time t0, const Array& x0,
                                             Time dt) const = 0;
-            virtual Disposable<Matrix> diffusion(
+            virtual Matrix diffusion(
                                               const StochasticProcess&,
                                               Time t0, const Array& x0,
                                               Time dt) const = 0;
-            virtual Disposable<Matrix> covariance(
+            virtual Matrix covariance(
                                               const StochasticProcess&,
                                               Time t0, const Array& x0,
                                               Time dt) const = 0;
@@ -65,16 +65,16 @@ namespace QuantLib {
         //! returns the number of independent factors of the process
         virtual Size factors() const;
         //! returns the initial values of the state variables
-        virtual Disposable<Array> initialValues() const = 0;
+        virtual Array initialValues() const = 0;
         /*! \brief returns the drift part of the equation, i.e.,
                    \f$ \mu(t, \mathrm{x}_t) \f$
         */
-        virtual Disposable<Array> drift(Time t,
+        virtual Array drift(Time t,
                                         const Array& x) const = 0;
         /*! \brief returns the diffusion part of the equation, i.e.
                    \f$ \sigma(t, \mathrm{x}_t) \f$
         */
-        virtual Disposable<Matrix> diffusion(Time t,
+        virtual Matrix diffusion(Time t,
                                              const Array& x) const = 0;
         /*! returns the expectation
             \f$ E(\mathrm{x}_{t_0 + \Delta t}
@@ -84,7 +84,7 @@ namespace QuantLib {
             overridden in derived classes which want to hard-code a
             particular discretization.
         */
-        virtual Disposable<Array> expectation(Time t0,
+        virtual Array expectation(Time t0,
                                               const Array& x0,
                                               Time dt) const;
         /*! returns the standard deviation
@@ -95,7 +95,7 @@ namespace QuantLib {
             overridden in derived classes which want to hard-code a
             particular discretization.
         */
-        virtual Disposable<Matrix> stdDeviation(Time t0,
+        virtual Matrix stdDeviation(Time t0,
                                                 const Array& x0,
                                                 Time dt) const;
         /*! returns the covariance
@@ -106,7 +106,7 @@ namespace QuantLib {
             overridden in derived classes which want to hard-code a
             particular discretization.
         */
-        virtual Disposable<Matrix> covariance(Time t0,
+        virtual Matrix covariance(Time t0,
                                               const Array& x0,
                                               Time dt) const;
         /*! returns the asset value after a time interval \f$ \Delta t
@@ -119,14 +119,14 @@ namespace QuantLib {
             where \f$ E \f$ is the expectation and \f$ S \f$ the
             standard deviation.
         */
-        virtual Disposable<Array> evolve(Time t0,
+        virtual Array evolve(Time t0,
                                          const Array& x0,
                                          Time dt,
                                          const Array& dw) const;
         /*! applies a change to the asset value. By default, it
             returns \f$ \mathrm{x} + \Delta \mathrm{x} \f$.
         */
-        virtual Disposable<Array> apply(const Array& x0,
+        virtual Array apply(const Array& x0,
                                         const Array& dx) const;
         //@}
 
@@ -228,18 +228,18 @@ namespace QuantLib {
       private:
         // StochasticProcess interface implementation
         Size size() const;
-        Disposable<Array> initialValues() const;
-        Disposable<Array> drift(Time t, const Array& x) const;
-        Disposable<Matrix> diffusion(Time t, const Array& x) const;
-        Disposable<Array> expectation(Time t0, const Array& x0,
+        Array initialValues() const;
+        Array drift(Time t, const Array& x) const;
+        Matrix diffusion(Time t, const Array& x) const;
+        Array expectation(Time t0, const Array& x0,
                                       Time dt) const;
-        Disposable<Matrix> stdDeviation(Time t0, const Array& x0,
+        Matrix stdDeviation(Time t0, const Array& x0,
                                         Time dt) const;
-        Disposable<Matrix> covariance(Time t0, const Array& x0,
+        Matrix covariance(Time t0, const Array& x0,
                                       Time dt) const;
-        Disposable<Array> evolve(Time t0, const Array& x0,
+        Array evolve(Time t0, const Array& x0,
                                  Time dt, const Array& dw) const;
-        Disposable<Array> apply(const Array& x0, const Array& dx) const;
+        Array apply(const Array& x0, const Array& dx) const;
     };
 
 
@@ -249,12 +249,12 @@ namespace QuantLib {
         return 1;
     }
 
-    inline Disposable<Array> StochasticProcess1D::initialValues() const {
+    inline Array StochasticProcess1D::initialValues() const {
         Array a(1, x0());
         return a;
     }
 
-    inline Disposable<Array> StochasticProcess1D::drift(
+    inline Array StochasticProcess1D::drift(
                                                Time t, const Array& x) const {
         #if defined(QL_EXTRA_SAFETY_CHECKS)
         QL_REQUIRE(x.size() == 1, "1-D array required");
@@ -263,7 +263,7 @@ namespace QuantLib {
         return a;
     }
 
-    inline Disposable<Matrix> StochasticProcess1D::diffusion(
+    inline Matrix StochasticProcess1D::diffusion(
                                                Time t, const Array& x) const {
         #if defined(QL_EXTRA_SAFETY_CHECKS)
         QL_REQUIRE(x.size() == 1, "1-D array required");
@@ -272,7 +272,7 @@ namespace QuantLib {
         return m;
     }
 
-    inline Disposable<Array> StochasticProcess1D::expectation(
+    inline Array StochasticProcess1D::expectation(
                                     Time t0, const Array& x0, Time dt) const {
         #if defined(QL_EXTRA_SAFETY_CHECKS)
         QL_REQUIRE(x0.size() == 1, "1-D array required");
@@ -281,7 +281,7 @@ namespace QuantLib {
         return a;
     }
 
-    inline Disposable<Matrix> StochasticProcess1D::stdDeviation(
+    inline Matrix StochasticProcess1D::stdDeviation(
                                     Time t0, const Array& x0, Time dt) const {
         #if defined(QL_EXTRA_SAFETY_CHECKS)
         QL_REQUIRE(x0.size() == 1, "1-D array required");
@@ -290,7 +290,7 @@ namespace QuantLib {
         return m;
     }
 
-    inline Disposable<Matrix> StochasticProcess1D::covariance(
+    inline Matrix StochasticProcess1D::covariance(
                                     Time t0, const Array& x0, Time dt) const {
         #if defined(QL_EXTRA_SAFETY_CHECKS)
         QL_REQUIRE(x0.size() == 1, "1-D array required");
@@ -299,7 +299,7 @@ namespace QuantLib {
         return m;
     }
 
-    inline Disposable<Array> StochasticProcess1D::evolve(
+    inline Array StochasticProcess1D::evolve(
                                              Time t0, const Array& x0,
                                              Time dt, const Array& dw) const {
         #if defined(QL_EXTRA_SAFETY_CHECKS)
@@ -310,7 +310,7 @@ namespace QuantLib {
         return a;
     }
 
-    inline Disposable<Array> StochasticProcess1D::apply(
+    inline Array StochasticProcess1D::apply(
                                                       const Array& x0,
                                                       const Array& dx) const {
         #if defined(QL_EXTRA_SAFETY_CHECKS)

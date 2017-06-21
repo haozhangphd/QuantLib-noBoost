@@ -121,7 +121,7 @@ namespace QuantLib {
         return (protectionValue_ - premiumValue_) / remainingNotional_;
     }
 
-    Disposable<vector<Real>> SyntheticCDO::expectedTrancheLoss() const {
+    vector<Real>&& SyntheticCDO::expectedTrancheLoss() const && {
         calculate();
         return std::move(expectedTrancheLoss_);
     }

@@ -69,14 +69,14 @@ namespace QuantLib {
                 || discretization_ == BroadieKayaExactSchemeLaguerre) ? 3 : 2;
     }
 
-    Disposable<Array> HestonProcess::initialValues() const {
+    Array HestonProcess::initialValues() const {
         Array tmp(2);
         tmp[0] = s0_->value();
         tmp[1] = v0_;
         return tmp;
     }
 
-    Disposable<Array> HestonProcess::drift(Time t, const Array& x) const {
+    Array HestonProcess::drift(Time t, const Array& x) const {
         Array tmp(2);
         const Real vol = (x[1] > 0.0) ? std::sqrt(x[1])
                          : (discretization_ == Reflection) ? - std::sqrt(-x[1])
@@ -91,7 +91,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Matrix> HestonProcess::diffusion(Time, const Array& x) const {
+    Matrix HestonProcess::diffusion(Time, const Array& x) const {
         /* the correlation matrix is
            |  1   rho |
            | rho   1  |
@@ -112,7 +112,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Array> HestonProcess::apply(const Array& x0,
+    Array HestonProcess::apply(const Array& x0,
                                            const Array& dx) const {
         Array tmp(2);
         tmp[0] = x0[0] * std::exp(dx[0]);
@@ -403,7 +403,7 @@ namespace QuantLib {
                          /((sigma_*sigma_)*(1-std::exp(-kappa_*t)))*v0_)(v/k) / k;
      }
 
-    Disposable<Array> HestonProcess::evolve(Time t0, const Array& x0,
+    Array HestonProcess::evolve(Time t0, const Array& x0,
                                             Time dt, const Array& dw) const {
         Array retVal(2);
         Real vol, vol2, mu, nu, dy;

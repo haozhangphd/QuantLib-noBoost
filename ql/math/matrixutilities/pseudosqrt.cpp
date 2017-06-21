@@ -85,7 +85,7 @@ namespace QuantLib {
               targetMatrix_(targetMatrix), targetVariance_(targetVariance),
               currentRoot_(size_, size_), tempMatrix_(size_, size_),
               currentMatrix_(size_, size_) {}
-            Disposable<Array> values(const Array&) const {
+            Array values(const Array&) const {
                 QL_FAIL("values method not implemented");
             }
             Real value(const Array& x) const {
@@ -137,7 +137,7 @@ namespace QuantLib {
         };
 
         // Optimization function for hypersphere and lower-diagonal algorithm
-        const Disposable <Matrix> hypersphereOptimize(
+        const Matrix hypersphereOptimize(
                                                 const Matrix& targetMatrix,
                                                 const Matrix& currentRoot,
                                                 const bool lowerDiagonal) {
@@ -279,7 +279,7 @@ namespace QuantLib {
         }
 
         // Take a matrix and make all the diagonal entries 1.
-        const Disposable <Matrix>
+        const Matrix
         projectToUnitDiagonalMatrix(const Matrix& M) {
             Size size = M.rows();
             QL_REQUIRE(size == M.columns(),
@@ -293,7 +293,7 @@ namespace QuantLib {
         }
 
         // Take a matrix and make all the eigenvalues non-negative
-        const Disposable <Matrix>
+        const Matrix
         projectToPositiveSemidefiniteMatrix(Matrix& M) {
             Size size = M.rows();
             QL_REQUIRE(size == M.columns(),
@@ -311,7 +311,7 @@ namespace QuantLib {
 
         // implementation of the Higham algorithm to find the nearest
         // correlation matrix.
-        const Disposable <Matrix>
+        const Matrix
         highamImplementation(const Matrix& A,
                              const Size maxIterations,
                              const Real& tolerance) {
@@ -351,7 +351,7 @@ namespace QuantLib {
     }
 
 
-    const Disposable<Matrix> pseudoSqrt(const Matrix& matrix,
+    Matrix pseudoSqrt(const Matrix& matrix,
                                         SalvagingAlgorithm::Type sa) {
         Size size = matrix.rows();
 
@@ -432,7 +432,7 @@ namespace QuantLib {
     }
 
 
-    const Disposable<Matrix> rankReducedSqrt(const Matrix& matrix,
+    Matrix rankReducedSqrt(const Matrix& matrix,
                                              Size maxRank,
                                              Real componentRetainedPercentage,
                                              SalvagingAlgorithm::Type sa) {

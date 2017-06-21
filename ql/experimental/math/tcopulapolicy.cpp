@@ -70,7 +70,7 @@ namespace QuantLib {
         }
     }
 
-    Disposable<std::vector<Real> > 
+    std::vector<Real> 
     TCopulaPolicy::allFactorCumulInverter(
         const std::vector<Real>& probs) const 
     {

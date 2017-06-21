@@ -54,12 +54,8 @@ namespace QuantLib {
                    " instead of " << n_-1);
     }
 
-    TridiagonalOperator::TridiagonalOperator(
-                                const Disposable<TridiagonalOperator>& from) {
-        swap(const_cast<Disposable<TridiagonalOperator>&>(from));
-    }
 
-    Disposable<Array> TridiagonalOperator::applyTo(const Array& v) const {
+    Array TridiagonalOperator::applyTo(const Array& v) const {
         QL_REQUIRE(n_!=0,
                    "uninitialized TridiagonalOperator");
         QL_REQUIRE(v.size()==n_,
@@ -81,7 +77,7 @@ namespace QuantLib {
         return result;
     }
 
-    Disposable<Array> TridiagonalOperator::solveFor(const Array& rhs) const  {
+    Array TridiagonalOperator::solveFor(const Array& rhs) const  {
 
         Array result(rhs.size());
         solveFor(rhs, result);
@@ -114,7 +110,7 @@ namespace QuantLib {
         result[0] -= temp_[1]*result[1];
     }
 
-    Disposable<Array> TridiagonalOperator::SOR(const Array& rhs,
+    Array TridiagonalOperator::SOR(const Array& rhs,
                                                Real tol) const {
         QL_REQUIRE(n_!=0,
                    "uninitialized TridiagonalOperator");
@@ -159,7 +155,7 @@ namespace QuantLib {
         return result;
     }
 
-    Disposable<TridiagonalOperator>
+    TridiagonalOperator
     TridiagonalOperator::identity(Size size) {
         TridiagonalOperator I(Array(size-1, 0.0),     // lower diagonal
                               Array(size,   1.0),     // diagonal

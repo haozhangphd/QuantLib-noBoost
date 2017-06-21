@@ -203,17 +203,17 @@ namespace QuantLib {
 
     // array of errors to be used by Levenberg-Marquardt optimization
 
-    Disposable<Array> CmsMarket::weightedFwdNpvErrors(const Matrix& w) {
+    Array CmsMarket::weightedFwdNpvErrors(const Matrix& w) {
         performCalculations();
         return weightedMeans(errFwdCmsLegNPV_, w);
     }
 
-    Disposable<Array> CmsMarket::weightedSpotNpvErrors(const Matrix& w) {
+    Array CmsMarket::weightedSpotNpvErrors(const Matrix& w) {
         performCalculations();
         return weightedMeans(errSpotCmsLegNPV_, w);
     }
 
-    Disposable<Array> CmsMarket::weightedSpreadErrors(const Matrix& w) {
+    Array CmsMarket::weightedSpreadErrors(const Matrix& w) {
         performCalculations();
         return weightedMeans(errSpreads_, w);
     }
@@ -230,7 +230,7 @@ namespace QuantLib {
         return mean;
     }
 
-    Disposable<Array> CmsMarket::weightedMeans(const Matrix& var,
+    Array CmsMarket::weightedMeans(const Matrix& var,
                                                const Matrix& w) {
         Array weightedVars(nExercise_*nSwapIndexes_);
         for (Size i=0; i<nExercise_; ++i) {

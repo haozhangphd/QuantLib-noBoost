@@ -54,7 +54,7 @@ namespace QuantLib {
           public:
             Garch11CostFunction (const std::vector<Volatility> &);
             virtual Real value(const Array& x) const;
-            virtual Disposable<Array> values(const Array& x) const;
+            virtual Array values(const Array& x) const;
             virtual void gradient(Array& grad, const Array& x) const;
             virtual Real valueAndGradient(Array& grad, const Array& x) const;
           private:
@@ -77,7 +77,7 @@ namespace QuantLib {
             return retval / (2.0*r2_.size());
         }
 
-        Disposable<Array> Garch11CostFunction::values(const Array& x) const {
+        Array Garch11CostFunction::values(const Array& x) const {
             Array retval (r2_.size());
             Real sigma2 = 0;
             Real u2 = 0;

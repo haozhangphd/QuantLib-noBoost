@@ -65,10 +65,10 @@ namespace QuantLib {
         Size size() const;
         Size factors() const;
 
-        Disposable<Array> initialValues() const;
-        Disposable<Array> drift(Time t, const Array& x) const;
-        Disposable<Matrix> diffusion(Time t, const Array& x) const;
-        Disposable<Array> evolve(Time t0, const Array& x0,
+        Array initialValues() const;
+        Array drift(Time t, const Array& x) const;
+        Matrix diffusion(Time t, const Array& x) const;
+        Array evolve(Time t0, const Array& x0,
                                  Time dt, const Array& dw) const;
 
         std::shared_ptr<ExtendedOrnsteinUhlenbeckProcess>

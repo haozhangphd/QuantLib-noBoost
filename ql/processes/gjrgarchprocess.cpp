@@ -46,14 +46,14 @@ namespace QuantLib {
         return 2;
     }
 
-    Disposable<Array> GJRGARCHProcess::initialValues() const {
+    Array GJRGARCHProcess::initialValues() const {
         Array tmp(2);
         tmp[0] = s0_->value();
         tmp[1] = daysPerYear_*v0_;
         return tmp;
     }
 
-    Disposable<Array> GJRGARCHProcess::drift(Time t, const Array& x) const {
+    Array GJRGARCHProcess::drift(Time t, const Array& x) const {
         Array tmp(2);
         const Real N = CumulativeNormalDistribution()(lambda_);
         const Real n = std::exp(-lambda_*lambda_/2.0)/std::sqrt(2*M_PI);
@@ -73,7 +73,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Matrix> GJRGARCHProcess::diffusion(Time, const Array& x) const {
+    Matrix GJRGARCHProcess::diffusion(Time, const Array& x) const {
         /* the correlation matrix is
            |  1   rho |
            | rho   1  |
@@ -111,7 +111,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Array> GJRGARCHProcess::apply(const Array& x0,
+    Array GJRGARCHProcess::apply(const Array& x0,
                                            const Array& dx) const {
         Array tmp(2);
         tmp[0] = x0[0] * std::exp(dx[0]);
@@ -119,7 +119,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Array> GJRGARCHProcess::evolve(Time t0, const Array& x0,
+    Array GJRGARCHProcess::evolve(Time t0, const Array& x0,
                                             Time dt, const Array& dw) const {
         Array retVal(2);
         Real vol, mu, nu;

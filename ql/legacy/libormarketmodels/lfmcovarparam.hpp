@@ -45,11 +45,11 @@ namespace QuantLib {
         Size size() const { return size_; }
         Size factors() const { return factors_; }
 
-        virtual Disposable<Matrix> diffusion(
+        virtual Matrix diffusion(
                             Time t, const Array& x = Null<Array>()) const = 0;
-        virtual Disposable<Matrix> covariance(
+        virtual Matrix covariance(
                             Time t, const Array& x = Null<Array>()) const;
-        virtual Disposable<Matrix> integratedCovariance(
+        virtual Matrix integratedCovariance(
                             Time t, const Array& x = Null<Array>()) const;
 
       protected:

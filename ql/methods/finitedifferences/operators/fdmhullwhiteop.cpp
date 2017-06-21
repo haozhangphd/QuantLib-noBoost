@@ -58,16 +58,16 @@ namespace QuantLib {
         mapT_.axpyb(Array(), dzMap_, dzMap_, -(x_+phi));
     }
 
-    Disposable<Array> FdmHullWhiteOp::apply(const Array& r) const {
+    Array FdmHullWhiteOp::apply(const Array& r) const {
         return mapT_.apply(r);
     }
 
-    Disposable<Array> FdmHullWhiteOp::apply_mixed(const Array& r) const {
+    Array FdmHullWhiteOp::apply_mixed(const Array& r) const {
         Array retVal(r.size(), 0.0);
         return retVal;
     }
 
-    Disposable<Array>
+    Array
     FdmHullWhiteOp::apply_direction(Size direction, const Array& r) const {
         if (direction == direction_)
             return mapT_.apply(r);
@@ -77,7 +77,7 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array> FdmHullWhiteOp::solve_splitting(
+    Array FdmHullWhiteOp::solve_splitting(
         Size direction, const Array& r, Real a) const {
 
         if (direction == direction_) {
@@ -89,13 +89,13 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array>
+    Array
     FdmHullWhiteOp::preconditioner(const Array& r, Real dt) const {
         return solve_splitting(direction_, r, dt);
     }
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-    Disposable<std::vector<SparseMatrix> >
+    std::vector<SparseMatrix> 
     FdmHullWhiteOp::toMatrixDecomp() const {
         std::vector<SparseMatrix> retVal(1, mapT_.toMatrix());
         return retVal;

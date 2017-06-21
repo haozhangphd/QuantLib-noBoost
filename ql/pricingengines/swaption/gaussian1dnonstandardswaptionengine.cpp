@@ -19,7 +19,7 @@
 
 #include <ql/pricingengines/swaption/gaussian1dnonstandardswaptionengine.hpp>
 #include <ql/rebatedexercise.hpp>
-#include <ql/utilities/disposable.hpp>
+
 #include <ql/time/daycounters/actualactual.hpp>
 #include <ql/quotes/simplequote.hpp>
 #include <ql/math/interpolations/cubicinterpolation.hpp>
@@ -97,7 +97,7 @@ namespace QuantLib {
         return arguments_.fixedPayDates.back();
     }
 
-    const Disposable<Array> Gaussian1dNonstandardSwaptionEngine::initialGuess(
+    Array Gaussian1dNonstandardSwaptionEngine::initialGuess(
         const Date &expiry) const {
 
         Size fixedIdx =

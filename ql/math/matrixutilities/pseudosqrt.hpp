@@ -61,7 +61,7 @@ namespace QuantLib {
         - the correctness of the results is tested by checking
           returned values against numerical calculations.
     */
-    const Disposable<Matrix> pseudoSqrt(
+    Matrix pseudoSqrt(
                         const Matrix&,
                         SalvagingAlgorithm::Type = SalvagingAlgorithm::None);
 
@@ -78,7 +78,7 @@ namespace QuantLib {
 
         \relates Matrix
     */
-    const Disposable<Matrix> rankReducedSqrt(const Matrix&,
+    Matrix rankReducedSqrt(const Matrix&,
                                              Size maxRank,
                                              Real componentRetainedPercentage,
                                              SalvagingAlgorithm::Type);

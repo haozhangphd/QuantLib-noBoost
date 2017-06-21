@@ -297,7 +297,7 @@ namespace {
             return retVal;
         }
 
-        Disposable<Array> values(const Array& params) const {
+        Array values(const Array& params) const {
             const Real theta = params[0];
             const Real kappa = params[1];
             const Real sigma = params[2];

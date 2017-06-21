@@ -69,7 +69,7 @@ namespace QuantLib {
         return part1-part2;
     }
 
-    Disposable<Matrix>
+    Matrix
     SwapForwardMappings::coterminalSwapForwardJacobian(const CurveState& cs)
     {
         Size n = cs.numberOfRates();
@@ -100,7 +100,7 @@ namespace QuantLib {
         return jacobian;
     }
 
-    Disposable<Matrix>
+    Matrix
     SwapForwardMappings::coterminalSwapZedMatrix(const CurveState& cs,
                                                  const Spread displacement) {
             Size n = cs.numberOfRates();
@@ -114,7 +114,7 @@ namespace QuantLib {
     }
 
 
-    Disposable<Matrix>
+    Matrix
     SwapForwardMappings::coinitialSwapForwardJacobian(const CurveState& cs)
     {
         Size n = cs.numberOfRates();
@@ -127,7 +127,7 @@ namespace QuantLib {
         return jacobian;
     }
 
-    Disposable<Matrix>
+    Matrix
     SwapForwardMappings::cmSwapForwardJacobian(const CurveState& cs,
                                                const Size spanningForwards)
     {
@@ -141,7 +141,7 @@ namespace QuantLib {
         return jacobian;
     }
 
-    Disposable<Matrix>
+    Matrix
     SwapForwardMappings::coinitialSwapZedMatrix(const CurveState& cs,
                                                 const Spread displacement)
     {
@@ -159,7 +159,7 @@ namespace QuantLib {
         return zMatrix;
     }
 
-    Disposable<Matrix>
+    Matrix
     SwapForwardMappings::cmSwapZedMatrix(const CurveState& cs,
                                          const Size spanningForwards,
                                          const Spread displacement)

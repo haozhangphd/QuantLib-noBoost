@@ -158,11 +158,11 @@ namespace QuantLib {
         return U_;
     }
 
-    Disposable<Array> SparseILUPreconditioner::apply(const Array& b) const {
+    Array SparseILUPreconditioner::apply(const Array& b) const {
         return backwardSolve(forwardSolve(b));
     }
 
-    Disposable<Array> SparseILUPreconditioner::forwardSolve(
+    Array SparseILUPreconditioner::forwardSolve(
                                                        const Array& b) const {
         Integer n = b.size();
         Array y(n, 0.0);
@@ -179,7 +179,7 @@ namespace QuantLib {
         return y;
     }
 
-    Disposable<Array> SparseILUPreconditioner::backwardSolve(
+    Array SparseILUPreconditioner::backwardSolve(
                                                        const Array& y) const {
         Size n = y.size();
         Array x(n, 0.0);

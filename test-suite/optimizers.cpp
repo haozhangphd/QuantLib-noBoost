@@ -68,7 +68,7 @@ namespace {
             return y;
         }
 
-        Disposable<Array> values(const Array& x) const{
+        Array values(const Array& x) const{
             QL_REQUIRE(x.size()==1,"independent variable must be 1 dimensional");
             Array y(1);
             y[0] = value(x);
@@ -87,7 +87,7 @@ namespace {
       public:
         Real value(const Array&) const { return 1.0; }
 
-        Disposable<Array> values(const Array&) const{
+        Array values(const Array&) const{
             // dummy nested optimization
             Array coefficients(3, 1.0);
             OneDimensionalPolynomialDegreeN oneDimensionalPolynomialDegreeN(coefficients);
@@ -375,7 +375,7 @@ namespace {
 
     class FirstDeJong : public CostFunction {
       public:
-        Disposable<Array> values(const Array& x) const {
+        Array values(const Array& x) const {
             Array retVal(x.size(),value(x));
             return retVal;
         }
@@ -386,7 +386,7 @@ namespace {
 
     class SecondDeJong : public CostFunction {
       public:
-        Disposable<Array> values(const Array& x) const {
+        Array values(const Array& x) const {
             Array retVal(x.size(),value(x));
             return retVal;
         }
@@ -398,7 +398,7 @@ namespace {
 
     class ModThirdDeJong : public CostFunction {
       public:
-        Disposable<Array> values(const Array& x) const {
+        Array values(const Array& x) const {
             Array retVal(x.size(),value(x));
             return retVal;
         }
@@ -416,7 +416,7 @@ namespace {
         ModFourthDeJong()
         : uniformRng_(MersenneTwisterUniformRng(4711)) {
         }
-        Disposable<Array> values(const Array& x) const {
+        Array values(const Array& x) const {
             Array retVal(x.size(),value(x));
             return retVal;
         }
@@ -432,7 +432,7 @@ namespace {
 
     class Griewangk : public CostFunction {
       public:
-        Disposable<Array> values(const Array& x) const{
+        Array values(const Array& x) const{
             Array retVal(x.size(),value(x));
             return retVal;
         }

@@ -36,7 +36,7 @@ using namespace std::placeholders;
 namespace QuantLib {
 
     namespace detail {
-        typedef Disposable<std::vector<Real> > DispArray;
+        typedef std::vector<Real> DispArray;
     }
 
     /*! \brief Integrates a vector or scalar function of vector domain. 
@@ -97,9 +97,7 @@ namespace QuantLib {
         cost... up to the compiler. It can not be templated all the way since
         the integration entries functions can not be templates.
         Most times integrands will return a scalar or vector but could be a 
-        matrix too. Also vectors might be returned as vector or Disposable 
-        wrapped (which is preferred and I have removed the plain vector
-        version).
+        matrix too. Also vectors might be returned as vector.
          */
         template<class RetType_T>
         RetType_T operator()(std::function<RetType_T (
@@ -228,7 +226,7 @@ namespace QuantLib {
         return f(varBuffer_);
     }
 
-    //! Terminal integrand; disposable vector function version
+    //! Terminal integrand; vector function version
     template<>
     inline detail::DispArray
         GaussianQuadMultidimIntegrator::vectorIntegratorVR<1>(

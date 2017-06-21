@@ -42,7 +42,7 @@ namespace QuantLib {
               bcSet_(bcSet) {
     }
 
-    Disposable<Array> ImplicitEulerScheme::apply(const Array &r) const {
+    Array ImplicitEulerScheme::apply(const Array &r) const {
         return r - dt_ * map_->apply(r);
     }
 

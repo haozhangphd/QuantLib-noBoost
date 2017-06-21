@@ -31,7 +31,7 @@
 #include <ql/termstructures/yieldtermstructure.hpp>
 #include <ql/termstructures/volatility/swaption/swaptionvolstructure.hpp>
 #include <ql/models/calibrationhelper.hpp>
-#include <ql/utilities/disposable.hpp>
+
 
 namespace QuantLib {
 
@@ -61,7 +61,7 @@ namespace QuantLib {
             return swap_;
         }
         //@}
-        Disposable<std::vector<std::shared_ptr<CalibrationHelper> > >
+        std::vector<std::shared_ptr<CalibrationHelper> > 
         calibrationBasket(
             std::shared_ptr<SwapIndex> standardSwapBase,
             std::shared_ptr<SwaptionVolatilityStructure> swaptionVolatility,

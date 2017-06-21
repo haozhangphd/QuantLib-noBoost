@@ -60,7 +60,7 @@ namespace QuantLib {
     typedef boost::numeric::ublas::matrix_reference<SparseMatrix>
         SparseMatrixReference;
 
-    inline Disposable<Array> prod(const SparseMatrix& A, const Array& x) {
+    inline Array prod(const SparseMatrix& A, const Array& x) {
         Array b(x.size());
 
         for (Size i=0; i < A.filled1()-1; ++i) {

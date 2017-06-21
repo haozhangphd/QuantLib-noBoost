@@ -96,7 +96,7 @@ namespace QuantLib {
         Real underlyingNpv(const Date &expiry, const Real y) const;
         VanillaSwap::Type underlyingType() const;
         const Date underlyingLastDate() const;
-        const Disposable<Array> initialGuess(const Date &expiry) const;
+        Array initialGuess(const Date &expiry) const;
 
       private:
         const int integrationPoints_;

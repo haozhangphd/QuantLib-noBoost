@@ -64,7 +64,7 @@ namespace QuantLib {
         return l2 >= l1 ? l2 : l1;
     }
 
-    const Disposable<Array>
+    Array
     Gaussian1dFloatFloatSwaptionEngine::initialGuess(const Date &expiry) const {
 
         Size idx1 =

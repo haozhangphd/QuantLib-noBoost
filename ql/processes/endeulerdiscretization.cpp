@@ -21,7 +21,7 @@
 
 namespace QuantLib {
 
-    Disposable<Array> EndEulerDiscretization::drift(
+    Array EndEulerDiscretization::drift(
                                       const StochasticProcess& process,
                                       Time t0, const Array& x0,
                                       Time dt) const {
@@ -33,7 +33,7 @@ namespace QuantLib {
         return process.drift(t0+dt, x0)*dt;
     }
 
-    Disposable<Matrix> EndEulerDiscretization::diffusion(
+    Matrix EndEulerDiscretization::diffusion(
                                       const StochasticProcess& process,
                                       Time t0, const Array& x0,
                                       Time dt) const {
@@ -45,7 +45,7 @@ namespace QuantLib {
         return process.diffusion(t0+dt, x0) * std::sqrt(dt);
     }
 
-    Disposable<Matrix> EndEulerDiscretization::covariance(
+    Matrix EndEulerDiscretization::covariance(
                                       const StochasticProcess& process,
                                       Time t0, const Array& x0,
                                       Time dt) const {

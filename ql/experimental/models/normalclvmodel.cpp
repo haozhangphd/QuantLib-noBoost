@@ -72,7 +72,7 @@ namespace QuantLib {
         return rndCalculator_->invcdf(q, bsProcess_->time(d));
     }
 
-    Disposable<Array> NormalCLVModel::collocationPointsX(const Date& d) const {
+    Array NormalCLVModel::collocationPointsX(const Date& d) const {
         const Time t = bsProcess_->time(d);
 
         const Real expectation
@@ -83,7 +83,7 @@ namespace QuantLib {
         return expectation + stdDeviation*x_;
     }
 
-    Disposable<Array> NormalCLVModel::collocationPointsY(const Date& d) const {
+    Array NormalCLVModel::collocationPointsY(const Date& d) const {
         Array s(x_.size());
 
         CumulativeNormalDistribution N;

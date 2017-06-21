@@ -74,7 +74,7 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array> LiborForwardModelProcess::drift(Time t,
+    Array LiborForwardModelProcess::drift(Time t,
                                                       const Array& x) const {
         Array f(size_, 0.0);
         Matrix covariance(lfmParam_->covariance(t, x));
@@ -91,17 +91,17 @@ namespace QuantLib {
         return f;
     }
 
-    Disposable<Matrix>
+    Matrix
     LiborForwardModelProcess::diffusion(Time t, const Array& x) const {
         return lfmParam_->diffusion(t, x);
     }
 
-    Disposable<Matrix> LiborForwardModelProcess::covariance(
+    Matrix LiborForwardModelProcess::covariance(
         Time t, const Array& x, Time dt) const {
         return lfmParam_->covariance(t, x)*dt;
     }
 
-    Disposable<Array> LiborForwardModelProcess::apply(
+    Array LiborForwardModelProcess::apply(
         const Array& x0, const Array& dx) const {
         Array tmp(size_);
 
@@ -112,7 +112,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Array> LiborForwardModelProcess::evolve(
+    Array LiborForwardModelProcess::evolve(
                                              Time t0, const Array& x0,
                                              Time dt, const Array& dw) const {
         /* predictor-corrector step to reduce discretization errors.
@@ -157,7 +157,7 @@ namespace QuantLib {
         return f;
     }
 
-    Disposable<Array> LiborForwardModelProcess::initialValues() const {
+    Array LiborForwardModelProcess::initialValues() const {
         Array tmp = initialValues_;
         return tmp;
     }

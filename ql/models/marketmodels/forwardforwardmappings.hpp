@@ -35,7 +35,7 @@ namespace QuantLib {
         {
             /*! Returns the dg[i]/df[j] jacobian between
             forward rates with tenor multipler and forward rates with tenor 1*/
-            Disposable<Matrix>
+            Matrix
                 ForwardForwardJacobian(const CurveState& cs, 
                                        Size multiplier,
                                        Size offset);
@@ -43,7 +43,7 @@ namespace QuantLib {
             /*! Returns the Y matrix to switch base          
             forward rates with tenor multipler and forward rates with tenor 1*/
 
-            Disposable<Matrix>
+            Matrix
                 YMatrix(const CurveState& cs,
                 const std::vector<Spread>& shortDisplacements,
                 const std::vector<Spread>& longDisplacements,

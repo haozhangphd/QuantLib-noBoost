@@ -28,7 +28,7 @@
 
 namespace QuantLib {
 
-    Disposable<Matrix> exponentialCorrelations(
+    Matrix exponentialCorrelations(
                                         const std::vector<Time>& rateTimes,
                                         Real longTermCorr,
                                         Real beta,

@@ -31,7 +31,7 @@ namespace QuantLib {
                           const ParametricExercise& exercise,
                           Size exerciseIndex);
             Real value(const Array& parameters) const;
-            Disposable<Array> values(const Array&) const {
+            Array values(const Array&) const {
                 QL_FAIL("values method not implemented");
             }
         private:

@@ -50,7 +50,7 @@ namespace QuantLib {
             return locations_[direction][iter.coordinates()[direction]];
         }
 
-        Disposable<Array> locations(Size direction) const;
+        Array locations(Size direction) const;
 
       private:
         std::vector<Real> dx_;

@@ -42,24 +42,24 @@ namespace QuantLib {
     */
     class TridiagonalOperator {
         // unary operators
-        friend Disposable<TridiagonalOperator>
+        friend TridiagonalOperator
         operator+(const TridiagonalOperator&);
-        friend Disposable<TridiagonalOperator>
+        friend TridiagonalOperator
         operator-(const TridiagonalOperator&);
         // binary operators
-        friend Disposable<TridiagonalOperator>
+        friend TridiagonalOperator
         operator+(const TridiagonalOperator&,
                   const TridiagonalOperator&);
-        friend Disposable<TridiagonalOperator>
+        friend TridiagonalOperator
         operator-(const TridiagonalOperator&,
                   const TridiagonalOperator&);
-        friend Disposable<TridiagonalOperator>
+        friend TridiagonalOperator
         operator*(Real,
                   const TridiagonalOperator&);
-        friend Disposable<TridiagonalOperator>
+        friend TridiagonalOperator
         operator*(const TridiagonalOperator&,
                   Real);
-        friend Disposable<TridiagonalOperator>
+        friend TridiagonalOperator
         operator/(const TridiagonalOperator&,
                   Real);
       public:
@@ -69,14 +69,12 @@ namespace QuantLib {
         TridiagonalOperator(const Array& low,
                             const Array& mid,
                             const Array& high);
-        TridiagonalOperator(const Disposable<TridiagonalOperator>&);
-        TridiagonalOperator& operator=(const Disposable<TridiagonalOperator>&);
         //! \name Operator interface
         //@{
         //! apply operator to a given array
-        Disposable<Array> applyTo(const Array& v) const;
+        Array applyTo(const Array& v) const;
         //! solve linear system for a given right-hand side
-        Disposable<Array> solveFor(const Array& rhs) const;
+        Array solveFor(const Array& rhs) const;
         /*! solve linear system for a given right-hand side
             without result Array allocation. The rhs and result parameters
             can be the same Array, in which case rhs will be changed
@@ -84,10 +82,10 @@ namespace QuantLib {
         void solveFor(const Array& rhs,
                       Array& result) const;
         //! solve linear system with SOR approach
-        Disposable<Array> SOR(const Array& rhs,
+        Array SOR(const Array& rhs,
                               Real tol) const;
         //! identity instance
-        static Disposable<TridiagonalOperator> identity(Size size);
+        static TridiagonalOperator identity(Size size);
         //@}
         //! \name Inspectors
         //@{
@@ -128,12 +126,6 @@ namespace QuantLib {
 
 
     // inline definitions
-
-    inline TridiagonalOperator& TridiagonalOperator::operator=(
-                                const Disposable<TridiagonalOperator>& from) {
-        swap(const_cast<Disposable<TridiagonalOperator>&>(from));
-        return *this;
-    }
 
     inline void TridiagonalOperator::setFirstRow(Real valB,
                                                  Real valC) {
@@ -186,13 +178,13 @@ namespace QuantLib {
 
     // Time constant algebra
 
-    inline Disposable<TridiagonalOperator>
+    inline TridiagonalOperator
     operator+(const TridiagonalOperator& D) {
         TridiagonalOperator D1 = D;
         return D1;
     }
 
-    inline Disposable<TridiagonalOperator>
+    inline TridiagonalOperator
     operator-(const TridiagonalOperator& D) {
         Array low = -D.lowerDiagonal_,
             mid = -D.diagonal_,
@@ -201,7 +193,7 @@ namespace QuantLib {
         return result;
     }
 
-    inline Disposable<TridiagonalOperator>
+    inline TridiagonalOperator
     operator+(const TridiagonalOperator& D1,
               const TridiagonalOperator& D2) {
         Array low = D1.lowerDiagonal_ + D2.lowerDiagonal_,
@@ -211,7 +203,7 @@ namespace QuantLib {
         return result;
     }
 
-    inline Disposable<TridiagonalOperator>
+    inline TridiagonalOperator
     operator-(const TridiagonalOperator& D1,
               const TridiagonalOperator& D2) {
         Array low = D1.lowerDiagonal_ - D2.lowerDiagonal_,
@@ -221,7 +213,7 @@ namespace QuantLib {
         return result;
     }
 
-    inline Disposable<TridiagonalOperator>
+    inline TridiagonalOperator
     operator*(Real a,
               const TridiagonalOperator& D) {
         Array low = D.lowerDiagonal_ * a,
@@ -231,7 +223,7 @@ namespace QuantLib {
         return result;
     }
 
-    inline Disposable<TridiagonalOperator>
+    inline TridiagonalOperator
     operator*(const TridiagonalOperator& D,
               Real a) {
         Array low = D.lowerDiagonal_ * a,
@@ -241,7 +233,7 @@ namespace QuantLib {
         return result;
     }
 
-    inline Disposable<TridiagonalOperator>
+    inline TridiagonalOperator
     operator/(const TridiagonalOperator& D,
               Real a) {
         Array low = D.lowerDiagonal_ / a,

@@ -44,7 +44,7 @@ namespace QuantLib {
                                            const EndCriteria& endCriteria);
       protected:
         //! computes the new search direction
-        virtual Disposable<Array>
+        virtual Array
         getUpdatedDirection(const Problem &P,
                             Real gold2,
                             const Array& gradient) = 0;

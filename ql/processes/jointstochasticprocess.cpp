@@ -68,7 +68,7 @@ namespace QuantLib {
         return factors_;
     }
 
-    Disposable<Array> JointStochasticProcess::slice(const Array& x,
+    Array JointStochasticProcess::slice(const Array& x,
                                                     Size i) const {
         // cut out the ith process' variables
         Size n = vsize_[i+1]-vsize_[i];
@@ -77,7 +77,7 @@ namespace QuantLib {
         return y;
     }
 
-    Disposable<Array> JointStochasticProcess::initialValues() const {
+    Array JointStochasticProcess::initialValues() const {
         Array retVal(size());
 
         for (const_iterator iter = l_.begin(); iter != l_.end(); ++iter) {
@@ -91,7 +91,7 @@ namespace QuantLib {
     }
 
 
-    Disposable<Array> JointStochasticProcess::drift(Time t,
+    Array JointStochasticProcess::drift(Time t,
                                                     const Array& x) const {
         Array retVal(size());
 
@@ -106,7 +106,7 @@ namespace QuantLib {
         return retVal;
     }
 
-    Disposable<Array> JointStochasticProcess::expectation(Time t0,
+    Array JointStochasticProcess::expectation(Time t0,
                                                           const Array& x0,
                                                           Time dt) const {
         Array retVal(size());
@@ -123,7 +123,7 @@ namespace QuantLib {
     }
 
 
-    Disposable<Matrix> JointStochasticProcess::diffusion(
+    Matrix JointStochasticProcess::diffusion(
                                                Time t, const Array& x) const {
         // might need some improvement in the future
         const Time dt = 0.001;
@@ -131,7 +131,7 @@ namespace QuantLib {
     }
 
 
-    Disposable<Matrix> JointStochasticProcess::covariance(Time t0,
+    Matrix JointStochasticProcess::covariance(Time t0,
                                                           const Array& x0,
                                                           Time dt) const {
 
@@ -165,14 +165,14 @@ namespace QuantLib {
     }
 
 
-    Disposable<Matrix> JointStochasticProcess::stdDeviation(Time t0,
+    Matrix JointStochasticProcess::stdDeviation(Time t0,
                                                             const Array& x0,
                                                             Time dt) const {
         return pseudoSqrt(covariance(t0, x0, dt));
     }
 
 
-    Disposable<Array> JointStochasticProcess::apply(const Array& x0,
+    Array JointStochasticProcess::apply(const Array& x0,
                                                     const Array& dx) const {
         Array retVal(size());
 
@@ -186,7 +186,7 @@ namespace QuantLib {
         return retVal;
     }
 
-    Disposable<Array> JointStochasticProcess::evolve(
+    Array JointStochasticProcess::evolve(
         Time t0, const Array& x0, Time dt, const Array& dw) const {
         Array dv(modelFactors_);
 

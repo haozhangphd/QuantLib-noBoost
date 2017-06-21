@@ -67,11 +67,11 @@ namespace QuantLib {
         return 1u;
     }
 
-    Disposable<Array> FdmLocalVolFwdOp::apply(const Array& u) const {
+    Array FdmLocalVolFwdOp::apply(const Array& u) const {
         return mapT_.apply(u);
     }
 
-    Disposable<Array> FdmLocalVolFwdOp::apply_direction(
+    Array FdmLocalVolFwdOp::apply_direction(
         Size direction, const Array& r) const {
         if (direction == direction_)
             return mapT_.apply(r);
@@ -81,12 +81,12 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array> FdmLocalVolFwdOp::apply_mixed(const Array& r) const {
+    Array FdmLocalVolFwdOp::apply_mixed(const Array& r) const {
         Array retVal(r.size(), 0.0);
         return retVal;
     }
 
-    Disposable<Array> FdmLocalVolFwdOp::solve_splitting(
+    Array FdmLocalVolFwdOp::solve_splitting(
         Size direction, const Array& r, Real dt) const {
         if (direction == direction_)
             return mapT_.solve_splitting(r, dt, 1.0);
@@ -96,13 +96,13 @@ namespace QuantLib {
         }
     }
 
-    Disposable<Array> FdmLocalVolFwdOp::preconditioner(
+    Array FdmLocalVolFwdOp::preconditioner(
         const Array& r, Real dt) const {
         return solve_splitting(direction_, r, dt);
     }
 
 #if !defined(QL_NO_UBLAS_SUPPORT)
-    Disposable<std::vector<SparseMatrix> >
+    std::vector<SparseMatrix> 
     FdmLocalVolFwdOp::toMatrixDecomp() const {
         std::vector<SparseMatrix> retVal(1, mapT_.toMatrix());
         return retVal;

@@ -46,7 +46,7 @@ namespace QuantLib {
               CovarianceDecomposition
     */
     template<class DataIterator>
-    Disposable<Matrix> getCovariance(DataIterator stdDevBegin,
+    Matrix getCovariance(DataIterator stdDevBegin,
                                      DataIterator stdDevEnd,
                                      const Matrix& corr,
                                      Real tolerance = 1.0e-12){

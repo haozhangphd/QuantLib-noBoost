@@ -22,7 +22,7 @@
 #define quantlib_tap_correlations_hpp
 
 #include <ql/types.hpp>
-#include <ql/utilities/disposable.hpp>
+
 #include <ql/math/matrix.hpp>
 #include <ql/math/optimization/costfunction.hpp>
 #include <functional>
@@ -42,24 +42,24 @@ namespace QuantLib {
         - the correctness of the results is tested by checking
           returned values against numerical calculations.
     */
-    Disposable<Matrix>
+    Matrix
     triangularAnglesParametrization(const Array& angles,
                                     Size matrixSize,
                                     Size rank);
 
-    Disposable<Matrix>
+    Matrix
     lmmTriangularAnglesParametrization(const Array& angles,
                                        Size matrixSize,
                                        Size rank);
 
     // the same function using the angles parameterized by the following
     // transformation \f[ \teta_i = \frac{\Pi}{2} - arctan(x_i)\f]
-    Disposable<Matrix>
+    Matrix
     triangularAnglesParametrizationUnconstrained(const Array& x,
                                                  Size matrixSize,
                                                  Size rank);
 
-    Disposable<Matrix>
+    Matrix
     lmmTriangularAnglesParametrizationUnconstrained(const Array& x,
                                                     Size matrixSize,
                                                     Size rank);
@@ -78,14 +78,14 @@ namespace QuantLib {
         - the correctness of the results is tested by checking
           returned values against numerical calculations.
     */
-    Disposable<Matrix>
+    Matrix
     triangularAnglesParametrizationRankThree(Real alpha,
                                              Real t0,
                                              Real epsilon,
                                              Size nbRows);
 
     // the same function with parameters packed in an Array
-    Disposable<Matrix>
+    Matrix
     triangularAnglesParametrizationRankThreeVectorial(const Array& paramters,
                                                       Size nbRows);
 
@@ -95,17 +95,17 @@ namespace QuantLib {
       public:
         FrobeniusCostFunction(
             const Matrix& target,
-            const std::function<Disposable<Matrix>(const Array&,
+            const std::function<Matrix(const Array&,
                                                      Size,
                                                      Size)>& f,
                                                      Size matrixSize,
                                                      Size rank)
         : target_(target), f_(f), matrixSize_(matrixSize), rank_(rank) {}
         Real value (const Array &x) const;
-        Disposable<Array> values (const Array &x) const;
+        Array values (const Array &x) const;
       private:
         Matrix target_;
-        std::function<Disposable<Matrix>(const Array&, Size, Size)> f_;
+        std::function<Matrix(const Array&, Size, Size)> f_;
         Size matrixSize_;
         Size rank_;
     };

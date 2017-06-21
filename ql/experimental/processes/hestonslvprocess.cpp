@@ -46,7 +46,7 @@ namespace QuantLib {
         rho_   = hestonProcess_->rho();
     }
 
-    Disposable<Array> HestonSLVProcess::drift(Time t, const Array& x) const {
+    Array HestonSLVProcess::drift(Time t, const Array& x) const {
         Array tmp(2);
 
         const Real s = std::exp(x[0]);
@@ -62,7 +62,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Matrix> HestonSLVProcess::diffusion(Time t, const Array& x)
+    Matrix HestonSLVProcess::diffusion(Time t, const Array& x)
     const {
 
         const Real s = std::exp(x[0]);
@@ -79,7 +79,7 @@ namespace QuantLib {
         return tmp;
     }
 
-    Disposable<Array> HestonSLVProcess::evolve(
+    Array HestonSLVProcess::evolve(
         Time t0, const Array& x0, Time dt, const Array& dw) const {
         Array retVal(2);
 

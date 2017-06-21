@@ -146,7 +146,7 @@ namespace QuantLib {
         }
 
 
-        Disposable<Array> rescalePDF(
+        Array rescalePDF(
             const Array& p,
             const std::shared_ptr<FdmMesherComposite>& mesher,
             FdmSquareRootFwdOp::TransformationType trafoType, Real alpha) {
@@ -158,7 +158,7 @@ namespace QuantLib {
 
 
         template <class Interpolator>
-        Disposable<Array> reshapePDF(
+        Array reshapePDF(
             const Array& p,
             const std::shared_ptr<FdmMesherComposite>& oldMesher,
             const std::shared_ptr<FdmMesherComposite>& newMesher,

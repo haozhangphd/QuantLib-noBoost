@@ -51,7 +51,7 @@ namespace QuantLib {
         Real avgInnerValue(const FdmLinearOpIterator& iter, Time t);
 
       private:
-        Disposable<Array> getState(
+        Array getState(
             const std::shared_ptr<ModelType>& model,
             Time t,
             const FdmLinearOpIterator& iter) const;

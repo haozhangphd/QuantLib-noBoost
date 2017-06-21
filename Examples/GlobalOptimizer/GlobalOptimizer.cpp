@@ -61,7 +61,7 @@ Real ackley(const Array& x) {
     return M_E + 20.0 - 20.0*std::exp(p1)-std::exp(p2);
 }
 
-Disposable<Array> ackleyValues(const Array& x) {
+Array ackleyValues(const Array& x) {
     Array y(x.size());
     for (Size i = 0; i < x.size(); i++) {
         Real p1 = x[i] * x[i];
@@ -77,7 +77,7 @@ Real sphere(const Array& x) {
     return DotProduct(x, x);
 }
 
-Disposable<Array> sphereValues(const Array& x) {
+Array sphereValues(const Array& x) {
     Array y(x.size());
     for (Size i = 0; i < x.size(); i++) {
         y[i] = x[i]*x[i];
@@ -106,7 +106,7 @@ Real easom(const Array& x) {
     return -p1*std::exp(-p2);
 }
 
-Disposable<Array> easomValues(const Array& x) {
+Array easomValues(const Array& x) {
     Array y(x.size());
     for (Size i = 0; i < x.size(); i++) {
         Real p1 = std::cos(x[i]);
@@ -137,14 +137,14 @@ Real printFunction(Problem& p, const Array& x) {
 class TestFunction : public CostFunction {
 public:
     typedef std::function<Real(const Array&)> RealFunc;
-    typedef std::function<Disposable<Array>(const Array&)> ArrayFunc;
+    typedef std::function<Array(const Array&)> ArrayFunc;
     TestFunction(const RealFunc & f, const ArrayFunc & fs = ArrayFunc()) : f_(f), fs_(fs) {}
-    TestFunction(Real(*f)(const Array&), Disposable<Array>(*fs)(const Array&) = NULL) : f_(f), fs_(fs) {}
+    TestFunction(Real(*f)(const Array&), Array(*fs)(const Array&) = NULL) : f_(f), fs_(fs) {}
     virtual ~TestFunction(){}
     virtual Real value(const Array& x) const {
         return f_(x);
     }
-    virtual Disposable<Array> values(const Array& x) const {
+    virtual Array values(const Array& x) const {
         if(!fs_)
             throw std::runtime_error("Invalid function");
         return fs_(x);

@@ -40,28 +40,28 @@ namespace QuantLib {
         Size size() const;
         Size factors() const;
 
-        Disposable<Array> initialValues() const;
-        Disposable<Array> drift(Time t, const Array& x) const;
-        Disposable<Array> expectation(Time t0, const Array& x0, Time dt) const;
+        Array initialValues() const;
+        Array drift(Time t, const Array& x) const;
+        Array expectation(Time t0, const Array& x0, Time dt) const;
 
-        Disposable<Matrix> diffusion(Time t, const Array& x) const;
-        Disposable<Matrix> covariance(Time t0, const Array& x0, Time dt) const;
-        Disposable<Matrix> stdDeviation(Time t0, const Array& x0,
+        Matrix diffusion(Time t, const Array& x) const;
+        Matrix covariance(Time t0, const Array& x0, Time dt) const;
+        Matrix stdDeviation(Time t0, const Array& x0,
                                         Time dt) const;
 
-        Disposable<Array> apply(const Array& x0, const Array& dx) const;
-        Disposable<Array> evolve(Time t0, const Array& x0,
+        Array apply(const Array& x0, const Array& dx) const;
+        Array evolve(Time t0, const Array& x0,
                                  Time dt, const Array& dw) const;
 
         virtual void preEvolve(Time t0, const Array& x0,
                                Time dt, const Array& dw) const = 0;
-        virtual Disposable<Array> postEvolve(Time t0, const Array& x0,
+        virtual Array postEvolve(Time t0, const Array& x0,
                                              Time dt, const Array& dw,
                                              const Array& y0) const = 0;
 
         virtual DiscountFactor numeraire(Time t, const Array& x) const = 0;
         virtual bool correlationIsStateDependent() const = 0;
-        virtual Disposable<Matrix> crossModelCorrelation(
+        virtual Matrix crossModelCorrelation(
                                 Time t0, const Array& x0) const = 0;
 
         const std::vector<std::shared_ptr<StochasticProcess> > &
@@ -72,7 +72,7 @@ namespace QuantLib {
 
       protected:
         std::vector<std::shared_ptr<StochasticProcess> > l_;
-        Disposable<Array> slice(const Array& x, Size i) const;
+        Array slice(const Array& x, Size i) const;
 
       private:
         typedef

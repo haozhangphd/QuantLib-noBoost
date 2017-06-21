@@ -41,7 +41,7 @@ namespace QuantLib {
           University Of Chicago Press, 1976. Chapter 9 is relevant to
           this context.
     */
-    Disposable<std::vector<Real> > factorReduction(Matrix mtrx,
+    std::vector<Real> factorReduction(Matrix mtrx,
                                                    Size maxIters = 25);
 
 }
