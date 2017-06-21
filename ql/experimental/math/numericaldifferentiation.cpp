@@ -25,7 +25,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
-#include <boost/multi_array.hpp>
+#include <ql/math/threedimensionalarray.hpp>
 #if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
 #pragma GCC diagnostic pop
 #endif
@@ -69,7 +69,7 @@ namespace QuantLib {
             QL_REQUIRE(N > M, "number of points must be greater "
                                "than the order of the derivative");
 
-            boost::multi_array<Real, 3>  d(boost::extents[M+1][N][N]);
+            threeDimensionalArray d(M+1, N, N);
             d[0][0][0] = 1.0;
             Real c1 = 1.0;
 

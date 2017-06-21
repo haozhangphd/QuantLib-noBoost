@@ -32,7 +32,7 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
-#include <boost/multi_array.hpp>
+#include <ql/math/threedimensionalarray.hpp>
 #if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
 #pragma GCC diagnostic pop
 #endif
@@ -136,8 +136,8 @@ namespace QuantLib {
 
         const Size timeSteps = timeGrid_->size()-1;
 
-        typedef boost::multi_array<Real, 3> path_type;
-        path_type paths(boost::extents[calibrationPaths_][timeSteps][2]);
+        typedef threeDimensionalArray path_type;
+        path_type paths(calibrationPaths_, timeSteps, 2);
 
         const std::shared_ptr<BrownianGenerator> brownianGenerator =
             brownianGeneratorFactory_->create(2, timeSteps);
