@@ -285,6 +285,9 @@ namespace {
 TEST_CASE( "NormalCLVModel_MonteCarloBSOptionPricing", "[NormalCLVModel]" ) {
     INFO("Testing Monte Carlo BS option pricing...");
 
+    // the evaluation date was set in 'quantlibtestsuite.cpp', 'init_unit_test_suite' function
+    QuantLib::Settings::instance().evaluationDate() = Date(7, September, 2015);
+
     SavedSettings backup;
 
     const DayCounter dc = Actual365Fixed();
