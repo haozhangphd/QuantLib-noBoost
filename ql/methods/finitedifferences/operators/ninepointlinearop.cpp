@@ -93,7 +93,6 @@ namespace QuantLib {
         return retVal;
     }
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
     SparseMatrix NinePointLinearOp::toMatrix() const {
         const std::shared_ptr<FdmLinearOpLayout> index = mesher_->layout();
         const Size n = index->size();
@@ -113,7 +112,6 @@ namespace QuantLib {
 
         return retVal;
     }
-#endif
 
 
     NinePointLinearOp

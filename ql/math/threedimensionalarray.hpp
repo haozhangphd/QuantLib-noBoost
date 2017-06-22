@@ -86,9 +86,9 @@ namespace QuantLib {
         Size rows() const;
         Size columns() const;
         bool empty() const;
-        Size size1() const;
-        Size size2() const;
-        Size size3() const;
+        Size table_size() const;
+        Size row_size() const;
+        Size column_size() const;
 
         // Utilities
         void swap(threeDimensionalArray &) noexcept;
@@ -298,15 +298,15 @@ namespace QuantLib {
         return columns_;
     }
 
-    inline Size threeDimensionalArray::size1() const {
+    inline Size threeDimensionalArray::table_size() const {
         return tables_;
     }
 
-    inline Size threeDimensionalArray::size2() const {
+    inline Size threeDimensionalArray::row_size() const {
         return rows_;
     }
 
-    inline Size threeDimensionalArray::size3() const {
+    inline Size threeDimensionalArray::column_size() const {
         return columns_;
     }
 

@@ -73,10 +73,8 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
-#if !defined(QL_NO_UBLAS_SUPPORT)
 #include <boost/numeric/ublas/vector.hpp>
 #include <boost/numeric/ublas/operation.hpp>
-#endif
 #include <functional>
 #if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
 #pragma GCC diagnostic pop
@@ -396,7 +394,6 @@ TEST_CASE( "FdmLinearOp_SecondDerivativesMapApply", "[FdmLinearOp]" ) {
 }
 
 TEST_CASE( "FdmLinearOp_DerivativeWeightsOnNonUniformGrids", "[FdmLinearOp]" ) {
-#ifndef QL_NO_UBLAS_SUPPORT
     INFO("Testing finite differences coefficients...");
 
     const std::shared_ptr<Fdm1dMesher> mesherX(
@@ -570,7 +567,6 @@ TEST_CASE( "FdmLinearOp_DerivativeWeightsOnNonUniformGrids", "[FdmLinearOp]" ) {
             }
         }
     }
-#endif
 }
 
 TEST_CASE( "FdmLinearOp_SecondOrderMixedDerivativesMapApply", "[FdmLinearOp]" ) {
@@ -1234,10 +1230,9 @@ TEST_CASE( "FdmLinearOp_FdmHestonHullWhiteOp", "[FdmLinearOp]" ) {
     }
 }
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
 namespace {
     Array axpy(
-        const boost::numeric::ublas::compressed_matrix<Real>& A,
+        const SparseMatrix& A,
         const Array& x) {
         
         boost::numeric::ublas::vector<Real> tmpX(x.size()), y(x.size());
@@ -1248,17 +1243,15 @@ namespace {
         return retVal;
     }
 }
-#endif
 
 
 TEST_CASE( "FdmLinearOp_BiCGstab", "[FdmLinearOp]" ) {
-#if !defined(QL_NO_UBLAS_SUPPORT)
     INFO("Testing bi-conjugated gradient stabilized algorithm "
                        "with Heston operator...");
 
     const Size n=41, m=21;
     const Real theta = 1.0;
-    boost::numeric::ublas::compressed_matrix<Real> a(n*m, n*m);
+    SparseMatrix a(n*m, n*m);
     
     for (Size i=0; i < n; ++i) {
         for (Size j=0; j < m; ++j) {
@@ -1305,7 +1298,6 @@ TEST_CASE( "FdmLinearOp_BiCGstab", "[FdmLinearOp]" ) {
                 "\n tolerance:  " << tol <<
                 "\n error:      " << error);
     }  
-#endif
 }
 
 TEST_CASE( "FdmLinearOp_CrankNicolsonWithDamping", "[FdmLinearOp]" ) {
@@ -1401,7 +1393,6 @@ TEST_CASE( "FdmLinearOp_CrankNicolsonWithDamping", "[FdmLinearOp]" ) {
 }
 
 TEST_CASE( "FdmLinearOp_SpareMatrixReference", "[FdmLinearOp]" ) {
-#ifndef QL_NO_UBLAS_SUPPORT
     INFO("Testing SparseMatrixReference type...");
 
     const Size rows    = 10;
@@ -1442,11 +1433,9 @@ TEST_CASE( "FdmLinearOp_SpareMatrixReference", "[FdmLinearOp]" ) {
             }
         }
     }
-#endif
 }
 
 namespace {
-#ifndef QL_NO_UBLAS_SUPPORT
     Size nrElementsOfSparseMatrix(const SparseMatrix& m) {
         Size retVal = 0;
         for (SparseMatrix::const_iterator1 i1 = m.begin1();
@@ -1455,11 +1444,9 @@ namespace {
         }
         return retVal;
     }
-#endif
 }
 
 TEST_CASE( "FdmLinearOp_SparseMatrixZeroAssignment", "[FdmLinearOp]" ) {
-#ifndef QL_NO_UBLAS_SUPPORT
     INFO("Testing assignment to zero in sparse matrix...");
 
     SparseMatrix m(5,5);
@@ -1478,7 +1465,6 @@ TEST_CASE( "FdmLinearOp_SparseMatrixZeroAssignment", "[FdmLinearOp]" ) {
     if (nrElementsOfSparseMatrix(m) != 3) {
         FAIL("three elements expected");
     }
-#endif
 }
 
 TEST_CASE( "FdmLinearOp_FdmMesherIntegral", "[FdmLinearOp]" ) {

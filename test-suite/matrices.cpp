@@ -356,11 +356,11 @@ TEST_CASE( "Matrices_Inverse", "[Matrices]" ) {
         for (Size i=0; i < A.rows(); ++i) eins[i][i] = 1.0;
 
         if (norm(I1 - eins) > tol)
-            FAIL("inverse(A)*A does not recover unit matrix (norm = "
+            FAIL_CHECK("inverse(A)*A does not recover unit matrix (norm = "
                        << norm(I1-eins) << ")");
 
         if (norm(I2 - eins) > tol)
-            FAIL("A*inverse(A) does not recover unit matrix (norm = "
+            FAIL_CHECK("A*inverse(A) does not recover unit matrix (norm = "
                        << norm(I1-eins) << ")");
     }
 }
@@ -379,7 +379,7 @@ TEST_CASE( "Matrices_Determinant", "[Matrices]" ) {
     for (Size j=0; j<LENGTH(testMatrices); ++j) {
         const Real calculated = determinant(testMatrices[j]);
         if (std::fabs(expected[j] - calculated) > tol)
-            FAIL("determinant calculation failed "
+            FAIL_CHECK("determinant calculation failed "
                        << "\n matrix     :\n" << testMatrices[j]
                        << "\n calculated : " << calculated
                        << "\n expected   : " << expected[j]);
@@ -411,7 +411,7 @@ TEST_CASE( "Matrices_Determinant", "[Matrices]" ) {
         const Real calculated = determinant(m);
 
         if (std::fabs(expected-calculated) > tol)
-            FAIL("determinant calculation failed "
+            FAIL_CHECK("determinant calculation failed "
                        << "\n matrix     :\n" << m
                        << "\n calculated : " << calculated
                        << "\n expected   : " << expected);

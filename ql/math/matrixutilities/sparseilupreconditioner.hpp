@@ -26,7 +26,6 @@ FOR A PARTICULAR PURPOSE.  See the license for more details.
 
 #include <ql/qldefines.hpp>
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
 
 #include <ql/math/array.hpp>
 #include <ql/math/matrixutilities/sparsematrix.hpp>
@@ -56,5 +55,4 @@ namespace QuantLib {
 
 }
 
-#endif
 #endif

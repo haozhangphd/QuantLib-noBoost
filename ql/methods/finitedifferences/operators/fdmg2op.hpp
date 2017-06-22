@@ -51,9 +51,7 @@ namespace QuantLib {
             solve_splitting(Size direction, const Array& r, Real s) const;
         Array preconditioner(const Array& r, Real s) const;
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
         std::vector<SparseMatrix>  toMatrixDecomp() const;
-#endif
       private:
         const Size direction1_, direction2_;
         const Array x_, y_;

@@ -63,9 +63,7 @@ namespace QuantLib {
                                           const Array& r, Real s) const;
         Array preconditioner(const Array& r, Real s) const;
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
         std::vector<SparseMatrix>  toMatrixDecomp() const;
-#endif
       private:
         Array integro(const Array& r) const;
 
@@ -80,23 +78,7 @@ namespace QuantLib {
 
         const TripleBandLinearOp dyMap_;
 
-#if defined(QL_NO_UBLAS_SUPPORT)
-        class IntegroIntegrand {
-          public:
-            IntegroIntegrand(const std::shared_ptr<LinearInterpolation>& i,
-                             const FdmBoundaryConditionSet& bcSet,
-                             Real y, Real eta);
-            Real operator()(Real u) const;
-            
-          private:
-            const Real y_, eta_;
-            const FdmBoundaryConditionSet& bcSet_;
-            const std::shared_ptr<LinearInterpolation>& interpl_;
-        };
-            
-#else
         SparseMatrix integroPart_;
-#endif
     };
 }
 

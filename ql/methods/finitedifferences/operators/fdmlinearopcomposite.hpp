@@ -29,9 +29,7 @@
 #include <ql/math/matrixutilities/sparsematrix.hpp>
 #include <ql/methods/finitedifferences/operators/fdmlinearop.hpp>
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
 #include <numeric>
-#endif
 
 namespace QuantLib {
 
@@ -51,7 +49,6 @@ namespace QuantLib {
         virtual Array 
             preconditioner(const Array& r, Real s) const = 0;
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
         virtual std::vector<SparseMatrix>  toMatrixDecomp() const {
             QL_FAIL(" ublas representation is not implemented");
         }
@@ -62,7 +59,6 @@ namespace QuantLib {
                                                   SparseMatrix(dcmp.front()));
             return retVal;
         }
-#endif
     };
 }
 

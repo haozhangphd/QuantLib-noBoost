@@ -1,6 +1,7 @@
 /* -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 
 /*
+ Copyright (C) 2017 Hao Zhang
  Copyright (C) 2000, 2001, 2002, 2003 RiskMap srl
  Copyright (C) 2003, 2004, 2005, 2006 StatPro Italia srl
  Copyright (C) 2003, 2004 Ferdinando Ametrano
@@ -131,8 +132,8 @@ namespace QuantLib {
         Size rows() const;
         Size columns() const;
         bool empty() const;
-        Size size1() const;
-        Size size2() const;
+        Size row_size() const;
+        Size column_size() const;
         //@}
 
         //! \name Utilities
@@ -207,10 +208,8 @@ namespace QuantLib {
     template <class Iterator>
     inline Matrix::Matrix(Size rows, Size columns,
         Iterator begin, Iterator end)
-        : data_(rows * columns),
-        rows_(rows), columns_(columns) {
-        std::copy(begin, end, this->begin());
-    }
+        : data_(begin, end),
+        rows_(rows), columns_(columns) {}
 
     inline void Matrix::swap(Matrix& from) noexcept {
         using std::swap;
@@ -422,7 +421,7 @@ namespace QuantLib {
         Size arraySize = std::min<Size>(rows(), columns());
         Array tmp(arraySize);
         for (Size i = 0; i < arraySize; i++)
-            tmp[i] = (*this)[i][i];
+            tmp[i] = data_[i * (columns_ +1)];
         return tmp;
     }
 
@@ -438,11 +437,11 @@ namespace QuantLib {
         return columns_;
     }
 
-    inline Size Matrix::size1() const {
+    inline Size Matrix::row_size() const {
         return rows();
     }
 
-    inline Size Matrix::size2() const {
+    inline Size Matrix::column_size() const {
         return columns();
     }
 
@@ -563,13 +562,13 @@ namespace QuantLib {
         Iterator2 v2begin,
         Iterator2 v2end) {
 
-        Size size1 = std::distance(v1begin, v1end);
-        QL_REQUIRE(size1 > 0, "null first vector");
+        Size row_size = std::distance(v1begin, v1end);
+        QL_REQUIRE(row_size > 0, "null first vector");
 
-        Size size2 = std::distance(v2begin, v2end);
-        QL_REQUIRE(size2 > 0, "null second vector");
+        Size column_size = std::distance(v2begin, v2end);
+        QL_REQUIRE(column_size > 0, "null second vector");
 
-        Matrix result(size1, size2);
+        Matrix result(row_size, column_size);
 
         for (Size i = 0; v1begin != v1end; i++, v1begin++)
             std::transform(v2begin, v2end, result.row_begin(i),

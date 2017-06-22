@@ -27,9 +27,7 @@
 #include <ql/methods/finitedifferences/operators/fdm2dblackscholesop.hpp>
 #include <ql/methods/finitedifferences/operators/secondordermixedderivativeop.hpp>
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
 #include <boost/numeric/ublas/matrix.hpp>
-#endif
 
 namespace QuantLib {
 
@@ -153,7 +151,6 @@ namespace QuantLib {
         return solve_splitting(0, r, dt);
     }
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
     std::vector<SparseMatrix> 
     Fdm2dBlackScholesOp::toMatrixDecomp() const {
         std::vector<SparseMatrix> retVal(3);
@@ -165,5 +162,4 @@ namespace QuantLib {
 
         return retVal;
     }
-#endif
 }

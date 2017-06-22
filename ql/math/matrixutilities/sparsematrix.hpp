@@ -18,64 +18,64 @@ FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
 /*! \file sparsematrix.hpp
-    \brief typedef for boost sparse matrix class
 */
 
 #ifndef quantlib_sparse_matrix_hpp
 #define quantlib_sparse_matrix_hpp
 
 #include <ql/qldefines.hpp>
-
-#if !defined(QL_NO_UBLAS_SUPPORT)
-
 #include <ql/math/array.hpp>
-
-#if defined(QL_PATCH_MSVC)
-#pragma warning(push)
-#pragma warning(disable:4180)
-#pragma warning(disable:4127)
-#endif
-
-
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#endif
-
 #include <boost/serialization/array_wrapper.hpp>
-
 #include <boost/numeric/ublas/matrix_sparse.hpp>
 
-#if defined(QL_PATCH_MSVC)
-#pragma warning(pop)
-#endif
-
-
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic pop
-#endif
 
 namespace QuantLib {
     typedef boost::numeric::ublas::compressed_matrix<Real> SparseMatrix;
-    typedef boost::numeric::ublas::matrix_reference<SparseMatrix>
-        SparseMatrixReference;
 
-    inline Array prod(const SparseMatrix& A, const Array& x) {
+    // This is not used ANYWHERE in the QuantLib library
+    // TODO-HAO:Change this once boost::numeric::ublas::compressed_matrix is removed
+    class SparseMatrixReference {
+    public:
+        explicit SparseMatrixReference(SparseMatrix &m) : data_(m) {}
+
+        operator const SparseMatrix &() const { return data_; }
+
+        SparseMatrix::const_reference operator()(size_t i, size_t j) const {
+            return data_(i, j);
+        }
+
+        SparseMatrix::reference operator()(size_t i, size_t j) {
+            return data_(i, j);
+        }
+
+        SparseMatrix operator+(const SparseMatrix &right) {
+            return SparseMatrix() + right;
+        }
+
+        friend SparseMatrix operator+(const SparseMatrix &left, const SparseMatrixReference &right) {
+            return left + SparseMatrix(right);
+        }
+
+    private:
+        SparseMatrix &data_;
+
+    };
+
+    inline Array prod(const SparseMatrix &A, const Array &x) {
         Array b(x.size());
 
-        for (Size i=0; i < A.filled1()-1; ++i) {
+        for (Size i = 0; i < A.filled1() - 1; ++i) {
             const Size begin = A.index1_data()[i];
-            const Size end   = A.index1_data()[i+1];
-            Real t=0;
-            for (Size j=begin; j < end; ++j) {
-                t += A.value_data()[j]*x[A.index2_data()[j]];
+            const Size end = A.index1_data()[i + 1];
+            Real t = 0;
+            for (Size j = begin; j < end; ++j) {
+                t += A.value_data()[j] * x[A.index2_data()[j]];
             }
 
-            b[i]=t;
+            b[i] = t;
         }
         return b;
     }
 }
 
-#endif
 #endif

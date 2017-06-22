@@ -43,9 +43,7 @@ namespace QuantLib {
 
         void swap(NinePointLinearOp& m);
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
         SparseMatrix toMatrix() const;
-#endif
 
       protected:
         NinePointLinearOp() {}

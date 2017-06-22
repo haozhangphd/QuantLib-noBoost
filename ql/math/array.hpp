@@ -1,6 +1,7 @@
 /* -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 
 /*
+ Copyright (C) 2017 Hao Zhang
  Copyright (C) 2000, 2001, 2002, 2003 RiskMap srl
  Copyright (C) 2003, 2004, 2005, 2006, 2009 StatPro Italia srl
  Copyright (C) 2004 Ferdinando Ametrano
@@ -160,6 +161,8 @@ namespace QuantLib {
         //@{
         void swap(Array &) noexcept;  // never throws
         //@}
+        Real* data();
+        const Real* data() const;
 
     private:
         std::vector<Real> data_;
@@ -479,6 +482,16 @@ namespace QuantLib {
         using std::swap;
         data_.swap(from.data_);
     }
+
+
+    inline Real* Array::data() {
+        return data_.data();
+    }
+
+    inline const Real* Array::data() const {
+        return data_.data();
+    }
+
 
 
     // dot product

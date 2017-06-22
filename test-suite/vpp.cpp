@@ -870,7 +870,6 @@ TEST_CASE( "VPP_VPPPricing", "[VPP]" ) {
 }
 
 TEST_CASE( "VPP_KlugeExtOUMatrixDecomposition", "[VPP]" ) {
-#ifndef QL_NO_UBLAS_SUPPORT
     INFO("Testing KlugeExtOU matrix decomposition...");
 
     SavedSettings backup;
@@ -961,5 +960,4 @@ TEST_CASE( "VPP_KlugeExtOUMatrixDecomposition", "[VPP]" ) {
             }
         }
     }
-#endif
 }

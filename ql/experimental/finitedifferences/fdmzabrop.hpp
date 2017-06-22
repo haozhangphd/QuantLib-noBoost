@@ -84,9 +84,7 @@ class FdmZabrOp : public FdmLinearOpComposite {
                                       Real s) const;
     Array preconditioner(const Array &r, Real s) const;
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
     std::vector<SparseMatrix>  toMatrixDecomp() const;
-#endif
 
   private:
     const Array volatilityValues_;

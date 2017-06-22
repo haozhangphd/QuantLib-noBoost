@@ -55,9 +55,7 @@ namespace QuantLib {
 
         void swap(TripleBandLinearOp& m);
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
         SparseMatrix toMatrix() const;
-#endif
 
       protected:
         TripleBandLinearOp() {}

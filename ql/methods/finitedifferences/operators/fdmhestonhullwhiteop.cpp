@@ -156,7 +156,6 @@ namespace QuantLib {
         return solve_splitting(0, r, dt);
     }
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
     std::vector<SparseMatrix> 
     FdmHestonHullWhiteOp::toMatrixDecomp() const {
         std::vector<SparseMatrix> retVal(4);
@@ -167,5 +166,4 @@ namespace QuantLib {
 
         return retVal;
     }
-#endif
 }

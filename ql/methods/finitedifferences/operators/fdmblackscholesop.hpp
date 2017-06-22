@@ -55,9 +55,7 @@ namespace QuantLib {
                                           const Array& r, Real s) const;
         Array preconditioner(const Array& r, Real s) const;
 
-#if !defined(QL_NO_UBLAS_SUPPORT)
         std::vector<SparseMatrix>  toMatrixDecomp() const;
-#endif
       private:
         const std::shared_ptr<FdmMesher> mesher_;
         const std::shared_ptr<YieldTermStructure> rTS_, qTS_;

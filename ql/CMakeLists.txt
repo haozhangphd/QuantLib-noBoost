@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 file(GLOB_RECURSE QUANTLIB_FILES "*.hpp" "*.cpp")
 
 add_library(QuantLib SHARED ${QUANTLIB_FILES})
-#target_link_libraries(QuantLib quadmath)
+target_link_libraries(QuantLib -Wl,--start-group libmkl_gnu_thread.a libmkl_intel_lp64.a libmkl_core.a -Wl,--end-group gomp)
