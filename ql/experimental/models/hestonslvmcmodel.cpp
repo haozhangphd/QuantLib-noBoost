@@ -147,8 +147,8 @@ namespace QuantLib {
             std::vector<Real> tmp(2);
             for (Size j=0; j < timeSteps; ++j) {
                 brownianGenerator->nextStep(tmp);
-                paths[i][j][0] = tmp[0];
-                paths[i][j][1] = tmp[1];
+                paths(i, j, 0) = tmp[0];
+                paths(i, j, 1) = tmp[1];
             }
         }
 
@@ -162,8 +162,8 @@ namespace QuantLib {
                 x0[0] = pairs[i].first;
                 x0[1] = pairs[i].second;
 
-                dw[0] = paths[i][n-1][0];
-                dw[1] = paths[i][n-1][1];
+                dw[0] = paths(i, n-1, 0);
+                dw[1] = paths(i, n-1, 1);
 
                 x0 = slvProcess->evolve(t, x0, dt, dw);
 

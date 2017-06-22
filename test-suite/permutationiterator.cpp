@@ -72,3 +72,26 @@ TEST_CASE("PermutationIterator_Iteration", "[.]") {
     }
 }
 
+TEST_CASE("PermutationIterator_Assignment", "[.]") {
+
+    INFO("Testing assigning values to permutation iterators...");
+
+    std::vector<int> v(10, 1);
+    std::partial_sum(v.begin(), v.end(), v.begin());
+
+    std::vector<int> index{3, 1, 4, 1, 5, 9, 2, 6, 5, 4};
+
+    using permIter = permutationIterator<std::vector<int>::iterator, std::vector<int>::iterator>;
+    permIter begin(v.begin(), index.begin());
+    permIter it = begin;
+    permIter end(v.begin(), index.end());
+
+    *begin = -1;
+    begin[1] = -2;
+    begin[2] = -3;
+
+    std::vector<int> result(begin, end);
+    std::vector<int> expected{-1, -2, -3, -2, 6, 10, 3, 7, 6, -3};
+
+    CHECK(result == expected);
+}

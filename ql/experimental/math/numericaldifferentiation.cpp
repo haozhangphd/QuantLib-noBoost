@@ -70,7 +70,7 @@ namespace QuantLib {
                                "than the order of the derivative");
 
             threeDimensionalArray d(M+1, N, N);
-            d[0][0][0] = 1.0;
+            d(0, 0, 0) = 1.0;
             Real c1 = 1.0;
 
             for (Size n=1; n < N; ++n) {
@@ -80,14 +80,14 @@ namespace QuantLib {
                     c2*=c3;
 
                     for (Size m=0; m <= std::min(n, M); ++m) {
-                        d[m][n][nu] = (x[n]*d[m][n-1][nu]
-                             - ((m > 0)? m*d[m-1][n-1][nu] : 0.0))/c3;
+                        d(m, n, nu) = (x[n]*d(m, n-1, nu)
+                             - ((m > 0)? m*d(m-1, n-1, nu) : 0.0))/c3;
                     }
                 }
 
                 for (Size m=0; m <= M; ++m) {
-                    d[m][n][n] = c1/c2*( ((m > 0)? m*d[m-1][n-1][n-1] : 0.0) -
-                        x[n-1]*d[m][n-1][n-1] );
+                    d(m, n, n) = c1/c2*( ((m > 0)? m*d(m-1, n-1, n-1) : 0.0) -
+                        x[n-1]*d(m, n-1, n-1) );
                 }
                 c1=c2;
             }
@@ -95,7 +95,7 @@ namespace QuantLib {
 
             Array retVal(N);
             for (Size i=0; i < N; ++i) {
-                retVal[i] = d[M][N-1][i];
+                retVal[i] = d(M, N-1, i);
             }
             return retVal;
         }

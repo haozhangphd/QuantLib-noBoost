@@ -18,15 +18,13 @@
 */
 
 /*! \file levyflightdistribution.hpp
-    \brief Levy Flight, aka Pareto Type I, distribution as needed by Boost Random
+    \brief Levy Flight, aka Pareto Type I
 */
 
 #ifndef quantlib_levy_flight_distribution_hpp
 #define quantlib_levy_flight_distribution_hpp
 
 #include <ql/qldefines.hpp>
-
-// The included Boost.Random headers were added in Boost 1.47
 
 #include <ql/types.hpp>
 #include <ql/errors.hpp>
@@ -35,7 +33,6 @@
 
 namespace QuantLib {
 
-    //! Levy Flight distribution as needed by Boost Random
     /*! The levy flight distribution is a random distribution with 
         the following form:
         p(x) = \frac{\alpha x_m^{\alpha}}{x^{\alpha+1}}

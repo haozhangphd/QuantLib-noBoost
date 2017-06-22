@@ -31,13 +31,6 @@ namespace QuantLib {
     //! inner_product implementation using Duff's device
     /*! See http://www.lysator.liu.se/c/duffs-device.html
         and http://en.wikipedia.org/wiki/Duff's_device
-
-        \todo investigate the possible advantages of using
-              boost implementation, see:
-              <boost/numeric/ublas/detail/duff.hpp>
-              <boost/numeric/ublas/functional.hpp>
-              <boostnumeric/ublas/detail/matrix_assign.hpp>
-              <boost/numeric/ublas/detail/vector_assign.hpp>
     */
     template <class InputIterator1, class InputIterator2, class T>
     inline T inner_product(InputIterator1 f1, InputIterator1 l1,

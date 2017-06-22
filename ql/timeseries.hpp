@@ -31,7 +31,6 @@
 #include <ql/errors.hpp>
 #include <ql/utilities/transformiterator.hpp>
 #include <functional>
-#include <boost/utility.hpp>
 #include <map>
 #include <vector>
 

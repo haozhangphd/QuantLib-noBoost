@@ -241,6 +241,10 @@ TEST_CASE( "NthToDefault_Gauss", "[NthToDefault]" ) {
 }
 
 
+//this test case is also hiddedn in unmodified QuantLib, see
+//https://github.com/lballabio/QuantLib/issues/262
+//the test fails if enabled.
+
 TEST_CASE( "NthToDefault_GaussStudent", "[.]" ) {
     #ifndef QL_PATCH_SOLARIS
     INFO("Testing nth-to-default against Hull-White values "
