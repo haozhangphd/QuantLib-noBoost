@@ -219,6 +219,12 @@ namespace QuantLib {
         */
         void setMaxEvaluations(Size evaluations);
 
+        //! check if the lower bound is enforced
+        bool lowerBoundEnforced() const;
+
+        //! check if the upper bound is enforced
+        bool upperBoundEnforced() const;
+
         //! sets the lower bound for the function domain
         void setLowerBound(Real lowerBound);
 
@@ -238,6 +244,16 @@ namespace QuantLib {
 
 
     // inline definitions
+    template<class T>
+    inline bool Solver1D<T>::lowerBoundEnforced() const {
+        return lowerBoundEnforced_;
+    }
+
+    template<class T>
+    inline bool Solver1D<T>::upperBoundEnforced() const {
+        return upperBoundEnforced_;
+    }
+
 
     template<class T>
     inline void Solver1D<T>::setMaxEvaluations(Size evaluations) {

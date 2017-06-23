@@ -21,7 +21,7 @@
 
 #include <ql/experimental/finitedifferences/squarerootprocessrndcalculator.hpp>
 #include <ql/math/distributions/chisquaredistribution.hpp>
-#include <boost/math/special_functions/gamma.hpp>
+#include <ql/math/incompletegamma.hpp>
 
 namespace QuantLib {
 
@@ -67,13 +67,13 @@ namespace QuantLib {
         const Real alpha = 0.5 * df_;
         const Real beta = alpha / theta_;
 
-        return boost::math::gamma_p(alpha, beta * v);
+        return incompleteGammaFunction(alpha, beta * v);
     }
 
     Real SquareRootProcessRNDCalculator::stationary_invcdf(Real q) const {
         const Real alpha = 0.5 * df_;
         const Real beta = alpha / theta_;
 
-        return boost::math::gamma_p_inv(alpha, q) / beta;
+        return inverseIncompleteGammaFunction(alpha, q) / beta;
     }
 }

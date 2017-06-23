@@ -41,15 +41,25 @@ namespace QuantLib {
                                  Real x,
                                  Real accuracy = 1.0e-13,
                                  Integer maxIteration = 100);
+
     Real incompleteGammaFunctionSeriesRepr(Real a,
                                            Real x,
                                            Real accuracy = 1.0e-13,
                                            Integer maxIteration = 100);
+
     Real incompleteGammaFunctionContinuedFractionRepr(
-                                                  Real a,
-                                                  Real x,
-                                                  Real accuracy = 1.0e-13,
-                                                  Integer maxIteration = 100);
+            Real a,
+            Real x,
+            Real accuracy = 1.0e-13,
+            Integer maxIteration = 100);
+
+    Real incompleteGammaFunctionQuadratureRepr(Real a, Real x);
+
+    Real inverseIncompleteGammaFunction(Real a,
+                                        Real p,
+                                        Real accuracy = 1.0e-13,
+                                        Integer maxIteration = 100);
+
 
 }
 

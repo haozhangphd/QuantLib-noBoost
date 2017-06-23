@@ -25,6 +25,7 @@
 #include <ql/math/solvers1d/ridder.hpp>
 #include <ql/math/solvers1d/secant.hpp>
 #include <ql/math/solvers1d/newton.hpp>
+#include <ql/math/solvers1d/halley.hpp>
 #include <ql/math/solvers1d/finitedifferencenewtonsafe.hpp>
 
 using namespace QuantLib;
@@ -37,6 +38,8 @@ namespace {
         Real operator()(Real x) const { return x * x - 1.0; }
 
         Real derivative(Real x) const { return 2.0 * x; }
+
+        Real derivative2(Real x) const { return 0.5 / x; }
     };
 
     class F2 {
@@ -44,6 +47,8 @@ namespace {
         Real operator()(Real x) const { return 1.0 - x * x; }
 
         Real derivative(Real x) const { return -2.0 * x; }
+
+        Real derivative2(Real x) const { return 0.5 / x; }
     };
 
     class F3 {
@@ -51,6 +56,8 @@ namespace {
         Real operator()(Real x) const { return std::atan(x - 1); }
 
         Real derivative(Real x) const { return 1.0 / (1.0 + (x - 1.0) * (x - 1.0)); }
+
+        Real derivative2(Real x) const { return -x / (1 + x * x); }
     };
 
     template<class S, class F>
@@ -62,9 +69,9 @@ namespace {
             Real root = solver.solve(f, accuracy[i], guess, 0.1);
             if (std::fabs(root - expected) > accuracy[i]) {
                 FAIL(name << " solver (not bracketed):\n"
-                                << "    expected:   " << expected << "\n"
-                                << "    calculated: " << root << "\n"
-                                << "    accuracy:   " << accuracy[i]);
+                          << "    expected:   " << expected << "\n"
+                          << "    calculated: " << root << "\n"
+                          << "    accuracy:   " << accuracy[i]);
             }
         }
     }
@@ -79,9 +86,9 @@ namespace {
             Real root = solver.solve(f, accuracy[i], guess, 0.0, 2.0);
             if (std::fabs(root - expected) > accuracy[i]) {
                 FAIL(name << " solver (bracketed):\n"
-                                << "    expected:   " << expected << "\n"
-                                << "    calculated: " << root << "\n"
-                                << "    accuracy:   " << accuracy[i]);
+                          << "    expected:   " << expected << "\n"
+                          << "    calculated: " << root << "\n"
+                          << "    accuracy:   " << accuracy[i]);
             }
         }
     }
@@ -97,6 +104,8 @@ namespace {
         }
 
         Real derivative(Real x) const { return 2.0 * x; }
+
+        Real derivative2(Real x) const { return 0.5 / x; }
 
     private:
         Real &result_;
@@ -133,12 +142,12 @@ namespace {
             // returning
             if (result != argument) {
                 FAIL(name << " solver ("
-                                << (bracketed ? "" : "not ")
-                                << "bracketed):\n"
-                                << "    index:   " << i << "\n"
-                                << "    expected:   " << result << "\n"
-                                << "    calculated: " << argument << "\n"
-                                << "    error: " << error);
+                          << (bracketed ? "" : "not ")
+                          << "bracketed):\n"
+                          << "    index:   " << i << "\n"
+                          << "    expected:   " << result << "\n"
+                          << "    calculated: " << argument << "\n"
+                          << "    error: " << error);
             }
         }
     }
@@ -172,42 +181,52 @@ namespace {
 }
 
 
-TEST_CASE( "Solver1D_Brent", "[Solver1D]" ) {
+TEST_CASE("Solver1D_Brent", "[Solver1D]") {
     INFO("Testing Brent solver...");
     test_solver(Brent(), "Brent", 1.0e-6);
 }
 
-TEST_CASE( "Solver1D_Bisection", "[Solver1D]" ) {
+TEST_CASE("Solver1D_Bisection", "[Solver1D]") {
     INFO("Testing bisection solver...");
     test_solver(Bisection(), "Bisection", 1.0e-6);
 }
 
-TEST_CASE( "Solver1D_FalsePosition", "[Solver1D]" ) {
+TEST_CASE("Solver1D_FalsePosition", "[Solver1D]") {
     INFO("Testing false-position solver...");
     test_solver(FalsePosition(), "FalsePosition", 1.0e-6);
 }
 
-TEST_CASE( "Solver1D_Newton", "[Solver1D]" ) {
+TEST_CASE("Solver1D_Newton", "[Solver1D]") {
     INFO("Testing Newton solver...");
     test_solver(Newton(), "Newton", 1.0e-12);
 }
 
-TEST_CASE( "Solver1D_NewtonSafe", "[Solver1D]" ) {
+TEST_CASE("Solver1D_NewtonSafe", "[Solver1D]") {
     INFO("Testing Newton-safe solver...");
     test_solver(NewtonSafe(), "NewtonSafe", 1.0e-9);
 }
 
-TEST_CASE( "Solver1D_FiniteDifferenceNewtonSafe", "[Solver1D]" ) {
+TEST_CASE("Solver1D_Halley", "[.]") {
+    INFO("Testing Halley solver...");
+    test_solver(Halley(), "Halley", 1.0e-12);
+}
+
+TEST_CASE("Solver1D_HalleySafe", "[.]") {
+    INFO("Testing Halley-safe solver...");
+    test_solver(HalleySafe(), "HalleySafe", 1.0e-9);
+}
+
+TEST_CASE("Solver1D_FiniteDifferenceNewtonSafe", "[Solver1D]") {
     INFO("Testing finite-difference Newton-safe solver...");
     test_solver(FiniteDifferenceNewtonSafe(), "FiniteDifferenceNewtonSafe", Null<Real>());
 }
 
-TEST_CASE( "Solver1D_Ridder", "[Solver1D]" ) {
+TEST_CASE("Solver1D_Ridder", "[Solver1D]") {
     INFO("Testing Ridder solver...");
     test_solver(Ridder(), "Ridder", 1.0e-6);
 }
 
-TEST_CASE( "Solver1D_Secant", "[Solver1D]" ) {
+TEST_CASE("Solver1D_Secant", "[Solver1D]") {
     INFO("Testing secant solver...");
     test_solver(Secant(), "Secant", 1.0e-6);
 }

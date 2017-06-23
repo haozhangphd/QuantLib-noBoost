@@ -18,6 +18,7 @@
 */
 
 #include <ql/experimental/volatility/noarbsabr.hpp>
+#include <ql/math/incompletegamma.hpp>
 #include <boost/math/special_functions/gamma.hpp>
 
 #include <ql/math/solvers1d/brent.hpp>
@@ -310,11 +311,11 @@ Real D0Interpolator::operator()() const {
 Real D0Interpolator::phi(const Real d0) const {
     if (d0 < 1e-14)
         return detail::NoArbSabrModel::phiByTau_cutoff * expiryTime_;
-    return boost::math::gamma_q_inv(gamma_, d0) * expiryTime_;
+    return inverseIncompleteGammaFunction(gamma_, 1-d0) * expiryTime_;
 }
 
 Real D0Interpolator::d0(const Real phi) const {
-    return boost::math::gamma_q(gamma_, std::max(0.0, phi / expiryTime_));
+    return 1-incompleteGammaFunction(gamma_, std::max(0.0, phi / expiryTime_));
 }
 
 } // namespace detail
