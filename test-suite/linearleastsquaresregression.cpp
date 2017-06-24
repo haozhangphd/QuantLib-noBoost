@@ -27,7 +27,7 @@
 #pragma GCC diagnostic ignored "-Wunused-local-typedefs"
 #endif
 #include <functional>
-#include <boost/circular_buffer.hpp>
+#include "circular_buffer.hpp"
 #if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
 #pragma GCC diagnostic pop
 #endif
@@ -228,7 +228,7 @@ TEST_CASE( "LinearLeastSquaresRegression_1dLinearRegression", "[LinearLeastSquar
     }    
 
     // an alternative container type 
-    boost::circular_buffer<Real> cx(x.begin(), x.end()), cy(y.begin(), y.end());
+    circular_buffer cx(x.begin(), x.end()), cy(y.begin(), y.end());
     LinearRegression m1(cx, cy);
 
     for (Size i=0; i < 2; ++i) {
