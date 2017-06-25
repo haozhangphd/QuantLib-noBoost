@@ -31,7 +31,6 @@
 
 #include <iostream>
 #include <iomanip>
-#include <boost/lexical_cast.hpp>
 
 using namespace std;
 using namespace QuantLib;
@@ -73,7 +72,7 @@ int main(int, char* []) {
         std::vector<std::string> names;
         for(Size i=0; i<hazardRates.size(); i++)
             names.emplace_back(std::string("Acme") + 
-                boost::lexical_cast<std::string>(i));
+                to_string(i));
         std::vector<Handle<DefaultProbabilityTermStructure> > defTS;
         for(Size i=0; i<hazardRates.size(); i++)
             defTS.emplace_back(Handle<DefaultProbabilityTermStructure>(

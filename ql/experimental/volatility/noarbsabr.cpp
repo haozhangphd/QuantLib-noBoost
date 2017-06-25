@@ -19,8 +19,6 @@
 
 #include <ql/experimental/volatility/noarbsabr.hpp>
 #include <ql/math/incompletegamma.hpp>
-#include <boost/math/special_functions/gamma.hpp>
-
 #include <ql/math/solvers1d/brent.hpp>
 #include <ql/math/modifiedbessel.hpp>
 
