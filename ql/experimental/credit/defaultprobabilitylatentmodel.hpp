@@ -290,13 +290,12 @@ namespace QuantLib {
     Real DefaultLatentModel<CP>::conditionalProbAtLeastNEvents(Size n,
                                                                const Date &date,
                                                                const std::vector<Real> &mktFactors) const {
+        if (n == 0)
+	    return 1;
+
         QL_REQUIRE(basket_, "No portfolio basket set.");
 
-        /* \todo
-        This algorithm traverses all permutations starting form the
-        lowest one. This is inneficient, there shouldnt be any need to
-        go through the invalid ones. Use combinations of n elements.
-
+        /* TODO-HAO:
         See integration in O'Kane for homogeneous ntds.
         */
         // first position with as many defaults as desired:

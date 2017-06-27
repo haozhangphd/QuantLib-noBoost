@@ -40,7 +40,7 @@ namespace QuantLib {
 
     inline unsigned long binomialCoefficient(BigNatural n, BigNatural k) {
 
-	    // TODO: investigate this threshold
+	    // TODO-HAO: investigate this threshold
 	if (n > 30)
 		return std::floor(0.5 + std::exp(binomialCoefficientLn(n, k)));
 

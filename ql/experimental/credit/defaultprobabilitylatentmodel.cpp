@@ -25,7 +25,7 @@ namespace QuantLib {
         M. ACM Transactions on Mathematical Software, Vol. 3, No. 2, June 1977.
         https://stackoverflow.com/questions/561/how-to-use-combinations-of-sets-as-test-data#794  */
 
-	/* TODO: return vector<vector<Size>> for all possible j in one function */
+	/* TODO-HAO: return vector<vector<Size>> for all possible j in one function */
 
         std::vector<Size> combination(Size n, Size i, Size j) {
 
