@@ -260,6 +260,7 @@ namespace QuantLib {
 #else
 
 #include <atomic>
+#include <mutex>
 #include <set>
 
 namespace QuantLib {
@@ -299,37 +300,38 @@ namespace QuantLib {
       private:
 
         class Proxy {
-          public:
-            explicit Proxy(Observer* const observer)
-             : active_  (true),
-               observer_(observer) {
+        public:
+            explicit Proxy(Observer *const observer)
+                    : active_(true),
+                      observer_(observer) {
             }
 
             void update() const {
-                std::lock_guard<std::recursive_mutex> lock(mutex_);
+                std::scoped_lock<std::recursive_mutex> lock(mutex_);
                 if (active_) {
                     const std::weak_ptr<Observer> o
-                        = observer_->weak_from_this();
-                    if (!o._empty()) {
+                            = observer_->weak_from_this();
+                    if (!o.expired()) {
                         const std::shared_ptr<Observer> obs(o.lock());
                         if (obs)
                             obs->update();
                     }
-                    else {
+                        // if o is uninitialized and not expired
+                    else if (!o.owner_before(std::weak_ptr < Observer > {}) &&
+                             !std::weak_ptr < Observer > {}.owner_before(o))
                         observer_->update();
-                    }
                 }
             }
 
             void deactivate() {
-                std::lock_guard<std::recursive_mutex> lock(mutex_);
+                std::scoped_lock<std::recursive_mutex> lock(mutex_);
                 active_ = false;
             }
 
         private:
             bool active_;
             mutable std::recursive_mutex mutex_;
-            Observer* const observer_;
+            Observer *const observer_;
         };
 
         std::shared_ptr<Proxy> proxy_;
@@ -337,10 +339,6 @@ namespace QuantLib {
 
         set_type observables_;
     };
-
-    namespace detail {
-        class Signal;
-    }
 
     //! Object that notifies its changes to a set of observers
     /*! \ingroup patterns */
@@ -364,8 +362,6 @@ namespace QuantLib {
         void registerObserver(const std::shared_ptr<Observer::Proxy>&);
         void unregisterObserver(const std::shared_ptr<Observer::Proxy>&);
 
-        std::shared_ptr<detail::Signal> sig_;
-
         set_type observers_;
         mutable std::recursive_mutex mutex_;
 
@@ -379,7 +375,7 @@ namespace QuantLib {
 
     public:
         void disableUpdates(bool deferred=false) {
-            std::lock_guard<std::mutex> lock(mutex_);
+            std::scoped_lock<std::mutex> lock(mutex_);
             updatesType_ = (deferred) ? UpdatesDeferred : 0;
         }
         void enableUpdates();
@@ -389,9 +385,9 @@ namespace QuantLib {
       private:
         ObservableSettings() : updatesType_(UpdatesEnabled) {}
 
-        typedef std::unorderedset<std::weak_ptr<Observer::Proxy>,
+        typedef std::set<std::weak_ptr<Observer::Proxy>,
                          std::owner_less<std::weak_ptr<Observer::Proxy> > >
-            set_type;
+				 set_type;
         typedef set_type::iterator iterator;
 
         void registerDeferredObservers(const Observable::set_type& observers);
@@ -404,7 +400,6 @@ namespace QuantLib {
         enum UpdateType { UpdatesEnabled = 1, UpdatesDeferred = 2} ;
         std::atomic<int> updatesType_;
     };
-
 
     // inline definitions
 
@@ -419,7 +414,7 @@ namespace QuantLib {
     }
 
     inline void ObservableSettings::enableUpdates() {
-        std::lock_guard<std::mutex> lock(mutex_);
+        std::scoped_lock<std::mutex> lock(mutex_);
 
         // if there are outstanding deferred updates, do the notification
         updatesType_ = UpdatesEnabled;
@@ -428,13 +423,13 @@ namespace QuantLib {
             bool successful = true;
             std::string errMsg;
 
-            for (iterator i=deferredObservers_.begin();
-                i!=deferredObservers_.end(); ++i) {
+            for (iterator i = deferredObservers_.begin();
+                 i != deferredObservers_.end(); ++i) {
                 try {
                     const std::shared_ptr<Observer::Proxy> proxy = i->lock();
                     if (proxy)
                         proxy->update();
-                } catch (std::exception& e) {
+                } catch (std::exception &e) {
                     successful = false;
                     errMsg = e.what();
                 } catch (...) {
@@ -445,20 +440,19 @@ namespace QuantLib {
             deferredObservers_.clear();
 
             QL_ENSURE(successful,
-                  "could not notify one or more observers: " << errMsg);
+                      "could not notify one or more observers: " << errMsg);
         }
     }
 
-
     /*! \warning notification is sent before the copy constructor has
-             a chance of actually change the data
-             members. Therefore, observers whose update() method
-             tries to use their observables will not see the
-             updated values. It is suggested that the update()
-             method just raise a flag in order to trigger
-            a later recalculation.
+         a chance of actually change the data
+         members. Therefore, observers whose update() method
+         tries to use their observables will not see the
+         updated values. It is suggested that the update()
+         method just raise a flag in order to trigger
+        a later recalculation.
     */
-    inline Observable& Observable::operator=(const Observable& o) {
+    inline Observable &Observable::operator=(const Observable &o) {
         // as above, the observer set is not copied. Moreover,
         // observers of this object must be notified of the change
         if (&o != this)
@@ -466,11 +460,12 @@ namespace QuantLib {
         return *this;
     }
 
+
     inline Observer::Observer(const Observer& o) {
         proxy_.reset(new Proxy(this));
 
         {
-             std::lock_guard<std::recursive_mutex> lock(o.mutex_);
+             std::scoped_lock<std::recursive_mutex> lock(o.mutex_);
              observables_ = o.observables_;
         }
 
@@ -479,7 +474,7 @@ namespace QuantLib {
     }
 
     inline Observer& Observer::operator=(const Observer& o) {
-        std::lock_guard<std::recursive_mutex> lock(mutex_);
+        std::scoped_lock<std::recursive_mutex> lock(mutex_);
         if (!proxy_) {
             proxy_.reset(new Proxy(this));
         }
@@ -489,7 +484,7 @@ namespace QuantLib {
             (*i)->unregisterObserver(proxy_);
 
         {
-            std::lock_guard<std::recursive_mutex> lock(o.mutex_);
+            std::scoped_lock<std::recursive_mutex> lock(o.mutex_);
             observables_ = o.observables_;
         }
         for (i=observables_.begin(); i!=observables_.end(); ++i)
@@ -499,7 +494,8 @@ namespace QuantLib {
     }
 
     inline Observer::~Observer() {
-        std::lock_guard<std::recursive_mutex> lock(mutex_);
+        std::scoped_lock<std::recursive_mutex> lock(mutex_);
+
         if (proxy_)
             proxy_->deactivate();
 
@@ -509,7 +505,7 @@ namespace QuantLib {
 
     inline std::pair<Observer::iterator, bool>
     Observer::registerWith(const std::shared_ptr<Observable>& h) {
-        std::lock_guard<std::recursive_mutex> lock(mutex_);
+        std::scoped_lock<std::recursive_mutex> lock(mutex_);
         if (!proxy_) {
             proxy_.reset(new Proxy(this));
         }
@@ -524,7 +520,7 @@ namespace QuantLib {
     inline void
     Observer::registerWithObservables(const std::shared_ptr<Observer>& o) {
         if (o) {
-            std::lock_guard<std::recursive_mutex> lock(o->mutex_);
+            std::scoped_lock<std::recursive_mutex> lock(o->mutex_);
 
             for (iterator i = o->observables_.begin();
                  i != o->observables_.end(); ++i)
@@ -532,9 +528,9 @@ namespace QuantLib {
         }
     }
 
-    inline
-    Size Observer::unregisterWith(const std::shared_ptr<Observable>& h) {
-        std::lock_guard<std::recursive_mutex> lock(mutex_);
+
+    inline Size Observer::unregisterWith(const std::shared_ptr<Observable>& h) {
+        std::scoped_lock<std::recursive_mutex> lock(mutex_);
 
         if (h)  {
             QL_REQUIRE(proxy_, "unregister called without a proxy");
@@ -544,8 +540,8 @@ namespace QuantLib {
         return observables_.erase(h);
     }
 
-    inline void Observer::unregisterWithAll() {
-        std::lock_guard<std::recursive_mutex> lock(mutex_);
+     inline void Observer::unregisterWithAll() {
+        std::scoped_lock<std::recursive_mutex> lock(mutex_);
 
         for (iterator i=observables_.begin(); i!=observables_.end(); ++i)
             (*i)->unregisterObserver(proxy_);

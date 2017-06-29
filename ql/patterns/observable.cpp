@@ -89,78 +89,52 @@ namespace QuantLib {
 
 #else
 
-#include <boost/signals2/signal_type.hpp>
-
 namespace QuantLib {
 
-    namespace detail {
-
-        class Signal {
-          public:
-            typedef boost::signals2::signal_type<
-                void(),
-                boost::signals2::keywords::mutex_type<std::recursive_mutex> >
-                ::type signal_type;
-
-            void connect(const signal_type::slot_type& slot) {
-                sig_.connect(slot);
-            }
-
-            template <class T>
-            void disconnect(const T& slot) {
-                sig_.disconnect(slot);
-            }
-
-            void operator()() const {
-                sig_.operator()();
-            }
-          private:
-            signal_type sig_;
-        };
+    void Observable::registerObserver(const std::shared_ptr<Observer::Proxy> &observerProxy) {
+        std::scoped_lock<std::recursive_mutex> lock(mutex_);
+        observers_.insert(observerProxy);
 
     }
 
-    void Observable::registerObserver(
-        const std::shared_ptr<Observer::Proxy>& observerProxy) {
+    void Observable::unregisterObserver(const std::shared_ptr<Observer::Proxy> &observerProxy) {
         {
-            std::lock_guard<std::recursive_mutex> lock(mutex_);
-            observers_.insert(observerProxy);
-        }
-
-        detail::Signal::signal_type::slot_type slot(&Observer::Proxy::update,
-                                    observerProxy.get());
-        sig_->connect(slot.track(observerProxy));
-    }
-
-    void Observable::unregisterObserver(
-        const std::shared_ptr<Observer::Proxy>& observerProxy) {
-        {
-            std::lock_guard<std::recursive_mutex> lock(mutex_);
+            std::scoped_lock<std::recursive_mutex> lock(mutex_);
             observers_.erase(observerProxy);
         }
 
         if (settings_.updatesDeferred()) {
-            std::lock_guard<std::mutex> sLock(settings_.mutex_);
+            std::scoped_lock<std::mutex> sLock(settings_.mutex_);
             if (settings_.updatesDeferred()) {
                 settings_.unregisterDeferredObserver(observerProxy);
             }
         }
-
-        sig_->disconnect(std::bind(&Observer::Proxy::update,
-                             observerProxy.get()));
     }
 
     void Observable::notifyObservers() {
         if (settings_.updatesEnabled()) {
-            return sig_->operator()();
+            std::scoped_lock<std::recursive_mutex> lock(mutex_);
+            set_type observers_copy_(observers_);
+            for (auto const &o : observers_copy_) {
+                if (o) {
+                    o->update();
+                }
+            }
+            return;
         }
 
-        std::lock_guard<std::mutex> sLock(settings_.mutex_);
+        std::scoped_lock<std::mutex> sLock(settings_.mutex_);
         if (settings_.updatesEnabled()) {
-            return sig_->operator()();
-        }
-        else if (settings_.updatesDeferred()) {
-            std::lock_guard<std::recursive_mutex> lock(mutex_);
+            std::scoped_lock<std::recursive_mutex> lock(mutex_);
+            set_type observers_copy_(observers_);
+            for (auto const &o : observers_copy_) {
+                if (o) {
+                    o->update();
+                }
+            }
+            return;
+        } else if (settings_.updatesDeferred()) {
+            std::scoped_lock<std::recursive_mutex> lock(mutex_);
             // if updates are only deferred, flag this for later notification
             // these are held centrally by the settings singleton
             settings_.registerDeferredObservers(observers_);
@@ -168,12 +142,10 @@ namespace QuantLib {
     }
 
     Observable::Observable()
-    : sig_(new detail::Signal()),
-      settings_(ObservableSettings::instance()) { }
+            : settings_(ObservableSettings::instance()), observers_(1000) {}
 
-    Observable::Observable(const Observable&)
-    : sig_(new detail::Signal()),
-      settings_(ObservableSettings::instance()) {
+    Observable::Observable(const Observable &)
+            : settings_(ObservableSettings::instance()) {
         // the observer set is not copied; no observer asked to
         // register with this object
     }
