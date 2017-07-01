@@ -25,7 +25,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "RngTraits_Gaussian", "[RngTraits]" ) {
+TEST_CASE("RngTraits_Gaussian", "[RngTraits]") {
 
     INFO("Testing Gaussian pseudo-random number generation...");
 
@@ -46,7 +46,7 @@ TEST_CASE( "RngTraits_Gaussian", "[RngTraits]" ) {
 }
 
 
-TEST_CASE( "RngTraits_DefaultPoisson", "[RngTraits]" ) {
+TEST_CASE("RngTraits_DefaultPoisson", "[RngTraits]") {
 
     INFO("Testing Poisson pseudo-random number generation...");
 
@@ -68,7 +68,7 @@ TEST_CASE( "RngTraits_DefaultPoisson", "[RngTraits]" ) {
 }
 
 
-TEST_CASE( "RngTraits_CustomPoisson", "[RngTraits]" ) {
+TEST_CASE("RngTraits_CustomPoisson", "[RngTraits]") {
 
     INFO("Testing custom Poisson pseudo-random number generation...");
 

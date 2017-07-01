@@ -171,7 +171,7 @@ namespace {
 }
 
 
-TEST_CASE( "InflationCPIBond_CleanPrice", "[InflationCPIBond]" ) {
+TEST_CASE("InflationCPIBond_CleanPrice", "[InflationCPIBond]") {
     IndexManager::instance().clearHistories();
   
     CommonVars common;

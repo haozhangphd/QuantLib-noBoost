@@ -65,7 +65,7 @@ namespace {
 }
 
 
-TEST_CASE( "DayCounter_ActualActual", "[DayCounter]" ) {
+TEST_CASE("DayCounter_ActualActual", "[DayCounter]") {
 
     INFO("Testing actual/actual day counters...");
 
@@ -173,7 +173,7 @@ TEST_CASE( "DayCounter_ActualActual", "[DayCounter]" ) {
     }
 }
 
-TEST_CASE( "DayCounter_ActualActualWithSchedule", "[DayCounter]" ) {
+TEST_CASE("DayCounter_ActualActualWithSchedule", "[DayCounter]") {
 
     INFO("Testing actual/actual day counter with schedule...");
 
@@ -254,7 +254,7 @@ TEST_CASE( "DayCounter_ActualActualWithSchedule", "[DayCounter]" ) {
     }
 }
 
-TEST_CASE( "DayCounter_Simple", "[DayCounter]" ) {
+TEST_CASE("DayCounter_Simple", "[DayCounter]") {
 
     INFO("Testing simple day counter...");
 
@@ -280,7 +280,7 @@ TEST_CASE( "DayCounter_Simple", "[DayCounter]" ) {
     }
 }
 
-TEST_CASE( "DayCounter_One", "[DayCounter]" ) {
+TEST_CASE("DayCounter_One", "[DayCounter]") {
 
     INFO("Testing 1/1 day counter...");
 
@@ -306,7 +306,7 @@ TEST_CASE( "DayCounter_One", "[DayCounter]" ) {
     }
 }
 
-TEST_CASE( "DayCounter_Business252", "[DayCounter]" ) {
+TEST_CASE("DayCounter_Business252", "[DayCounter]") {
 
     INFO("Testing business/252 day counter...");
 
@@ -373,7 +373,7 @@ TEST_CASE( "DayCounter_Business252", "[DayCounter]" ) {
     }
 }
 
-TEST_CASE( "DayCounter_Thirty360_BondBasis", "[DayCounter]") {
+TEST_CASE("DayCounter_Thirty360_BondBasis", "[DayCounter]") {
 
     INFO("Testing thirty/360 day counter (Bond Basis)...");
 
@@ -436,7 +436,7 @@ TEST_CASE( "DayCounter_Thirty360_BondBasis", "[DayCounter]") {
     }
 }
 
-TEST_CASE( "DayCounter_Thirty360_EurobondBasis", "[DayCounter]") {
+TEST_CASE("DayCounter_Thirty360_EurobondBasis", "[DayCounter]") {
 
     INFO("Testing thirty/360 day counter (Eurobond Basis)...");
 
@@ -506,7 +506,7 @@ TEST_CASE( "DayCounter_Thirty360_EurobondBasis", "[DayCounter]") {
     }
 }
 
-TEST_CASE( "DayCounter_Intraday", "[DayCounter]" ) {
+TEST_CASE("DayCounter_Intraday", "[DayCounter]") {
 #ifdef QL_HIGH_RESOLUTION_DATE
 
     INFO("Testing intraday behavior of day counter ...");

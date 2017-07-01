@@ -104,7 +104,7 @@ namespace {
 }
 
 
-TEST_CASE( "BermudanSwaption_CachedValues", "[BermudanSwaption]" ) {
+TEST_CASE("BermudanSwaption_CachedValues", "[BermudanSwaption]") {
 
     INFO(
         "Testing Bermudan swaption with HW model against cached values...");
@@ -227,7 +227,7 @@ TEST_CASE( "BermudanSwaption_CachedValues", "[BermudanSwaption]" ) {
                     << "expected:   " << otmValue);
 }
 
-TEST_CASE( "BermudanSwaption_CachedG2Values", "[BermudanSwaption]" ) {
+TEST_CASE("BermudanSwaption_CachedG2Values", "[BermudanSwaption]") {
     INFO(
         "Testing Bermudan swaption with G2 model against cached values...");
 

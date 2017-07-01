@@ -24,7 +24,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "CommodityUnitOfMeasure_Direct", "[CommodityUnitOfMeasure]" ) {
+TEST_CASE("CommodityUnitOfMeasure_Direct", "[CommodityUnitOfMeasure]") {
 
     INFO("Testing direct commodity unit of measure conversions...");
 

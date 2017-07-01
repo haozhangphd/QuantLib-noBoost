@@ -43,12 +43,12 @@ using namespace QuantLib;
 
 using std::fabs;
 
-TEST_CASE( "LowDiscrepancy_SeedGenerator", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_SeedGenerator", "[LowDiscrepancy]") {
     INFO("Testing random-seed generator...");
     SeedGenerator::instance().get();
 }
 
-TEST_CASE( "LowDiscrepancy_PolynomialsModuloTwo", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_PolynomialsModuloTwo", "[LowDiscrepancy]") {
 
     INFO("Testing " << PPMT_MAX_DIM <<
                        " primitive polynomials modulo two...");
@@ -81,7 +81,7 @@ TEST_CASE( "LowDiscrepancy_PolynomialsModuloTwo", "[LowDiscrepancy]" ) {
 
 }
 
-TEST_CASE( "LowDiscrepancy_RandomizedLowDiscrepancySequence", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_RandomizedLowDiscrepancySequence", "[LowDiscrepancy]") {
 
     INFO("Testing randomized low-discrepancy sequences up to "
                        "dimension " << PPMT_MAX_DIM << "...");
@@ -165,7 +165,7 @@ namespace
 }
 
 
-TEST_CASE( "LowDiscrepancy_RandomizedLattices", "[LowDiscrepancy]" )
+TEST_CASE("LowDiscrepancy_RandomizedLattices", "[LowDiscrepancy]")
 {
     testRandomizedLatticeRule(LatticeRule::A, "A");
     testRandomizedLatticeRule(LatticeRule::B, "B");
@@ -175,7 +175,7 @@ TEST_CASE( "LowDiscrepancy_RandomizedLattices", "[LowDiscrepancy]" )
 }
 
 
-TEST_CASE( "LowDiscrepancy_Sobol", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_Sobol", "[LowDiscrepancy]") {
 
     INFO("Testing Sobol sequences up to dimension "
                        << PPMT_MAX_DIM << "...");
@@ -259,7 +259,7 @@ TEST_CASE( "LowDiscrepancy_Sobol", "[LowDiscrepancy]" ) {
     }
 }
 
-TEST_CASE( "LowDiscrepancy_Faure", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_Faure", "[LowDiscrepancy]") {
 
     INFO("Testing Faure sequences...");
 
@@ -408,7 +408,7 @@ TEST_CASE( "LowDiscrepancy_Faure", "[LowDiscrepancy]" ) {
     }
 }
 
-TEST_CASE( "LowDiscrepancy_Halton", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_Halton", "[LowDiscrepancy]") {
 
     INFO("Testing Halton sequences...");
 
@@ -900,7 +900,7 @@ namespace {
 }
 
 
-TEST_CASE( "LowDiscrepancy_MersenneTwisterDiscrepancy", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_MersenneTwisterDiscrepancy", "[LowDiscrepancy]") {
 
     INFO("Testing Mersenne-twister discrepancy...");
 
@@ -917,7 +917,7 @@ TEST_CASE( "LowDiscrepancy_MersenneTwisterDiscrepancy", "[LowDiscrepancy]" ) {
                              "DiscrMersenneTwis");
 }
 
-TEST_CASE( "LowDiscrepancy_PlainHaltonDiscrepancy", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_PlainHaltonDiscrepancy", "[LowDiscrepancy]") {
 
     INFO("Testing plain Halton discrepancy...");
 
@@ -933,7 +933,7 @@ TEST_CASE( "LowDiscrepancy_PlainHaltonDiscrepancy", "[LowDiscrepancy]" ) {
                              "DiscrPlain_Halton");
 }
 
-TEST_CASE( "LowDiscrepancy_RandomStartHaltonDiscrepancy", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_RandomStartHaltonDiscrepancy", "[LowDiscrepancy]") {
 
     INFO("Testing random-start Halton discrepancy...");
 
@@ -949,7 +949,7 @@ TEST_CASE( "LowDiscrepancy_RandomStartHaltonDiscrepancy", "[LowDiscrepancy]" ) {
                              "DiscrRStartHalton");
 }
 
-TEST_CASE( "LowDiscrepancy_RandomShiftHaltonDiscrepancy", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_RandomShiftHaltonDiscrepancy", "[LowDiscrepancy]") {
 
     INFO("Testing random-shift Halton discrepancy...");
 
@@ -965,7 +965,7 @@ TEST_CASE( "LowDiscrepancy_RandomShiftHaltonDiscrepancy", "[LowDiscrepancy]" ) {
                              "DiscrRShiftHalton");
 }
 
-TEST_CASE( "LowDiscrepancy_RandomStartRandomShiftHaltonDiscrepancy", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_RandomStartRandomShiftHaltonDiscrepancy", "[LowDiscrepancy]") {
 
     INFO("Testing random-start, random-shift Halton discrepancy...");
 
@@ -981,7 +981,7 @@ TEST_CASE( "LowDiscrepancy_RandomStartRandomShiftHaltonDiscrepancy", "[LowDiscre
                              "DiscrRStRShHalton");
 }
 
-TEST_CASE( "LowDiscrepancy_JackelSobolDiscrepancy", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_JackelSobolDiscrepancy", "[LowDiscrepancy]") {
 
     INFO("Testing Jaeckel-Sobol discrepancy...");
 
@@ -997,7 +997,7 @@ TEST_CASE( "LowDiscrepancy_JackelSobolDiscrepancy", "[LowDiscrepancy]" ) {
                              "DiscrJackel_Sobol");
 }
 
-TEST_CASE( "LowDiscrepancy_SobolLevitanSobolDiscrepancy", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_SobolLevitanSobolDiscrepancy", "[LowDiscrepancy]") {
 
     INFO("Testing Levitan-Sobol discrepancy...");
 
@@ -1013,7 +1013,7 @@ TEST_CASE( "LowDiscrepancy_SobolLevitanSobolDiscrepancy", "[LowDiscrepancy]" ) {
                              "DiscrSobLev_Sobol");
 }
 
-TEST_CASE( "LowDiscrepancy_SobolLevitanLemieuxSobolDiscrepancy", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_SobolLevitanLemieuxSobolDiscrepancy", "[LowDiscrepancy]") {
 
     INFO("Testing Levitan-Lemieux-Sobol discrepancy...");
 
@@ -1029,7 +1029,7 @@ TEST_CASE( "LowDiscrepancy_SobolLevitanLemieuxSobolDiscrepancy", "[LowDiscrepanc
                              "DiscrSobLevLem_Sobol");
 }
 
-TEST_CASE( "LowDiscrepancy_UnitSobolDiscrepancy", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_UnitSobolDiscrepancy", "[LowDiscrepancy]") {
 
     INFO("Testing unit Sobol discrepancy...");
 
@@ -1046,7 +1046,7 @@ TEST_CASE( "LowDiscrepancy_UnitSobolDiscrepancy", "[LowDiscrepancy]" ) {
 }
 
 
-TEST_CASE( "LowDiscrepancy_SobolSkipping", "[LowDiscrepancy]" ) {
+TEST_CASE("LowDiscrepancy_SobolSkipping", "[LowDiscrepancy]") {
 
     INFO("Testing Sobol sequence skipping...");
 

@@ -41,7 +41,7 @@ namespace {
 
 }
 
-TEST_CASE( "PartialTimeBarrierOption_AnalyticEngine", "[PartialTimeBarrierOption]" ) {
+TEST_CASE("PartialTimeBarrierOption_AnalyticEngine", "[PartialTimeBarrierOption]") {
     INFO(
         "Testing analytic engine for partial-time barrier option...");
 

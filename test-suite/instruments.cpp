@@ -29,7 +29,7 @@ using namespace QuantLib;
 
 using std::shared_ptr;
 
-TEST_CASE( "Instrument_Observable", "[Instrument]" ) {
+TEST_CASE("Instrument_Observable", "[Instrument]") {
 
     INFO("Testing observability of instruments...");
 
@@ -65,7 +65,7 @@ TEST_CASE( "Instrument_Observable", "[Instrument]" ) {
 }
 
 
-TEST_CASE( "Instrument_CompositeWhenShiftingDates", "[Instrument]" ) {
+TEST_CASE("Instrument_CompositeWhenShiftingDates", "[Instrument]") {
 
     INFO(
         "Testing reaction of composite instrument to date changes...");

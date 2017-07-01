@@ -30,7 +30,7 @@ public:
     Real operator()(Real x) const { return x*x;};
 };
 
-TEST_CASE( "SampledCurve_Construction", "[SampledCurve]" ) {
+TEST_CASE("SampledCurve_Construction", "[SampledCurve]") {
 
     INFO("Testing sampled curve construction...");
 

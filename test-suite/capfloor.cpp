@@ -136,7 +136,7 @@ namespace {
 }
 
 
-TEST_CASE( "CapFloor_Vega", "[CapFloor]" ) {
+TEST_CASE("CapFloor_Vega", "[CapFloor]") {
 
     INFO("Testing cap/floor vega...");
 
@@ -191,7 +191,7 @@ TEST_CASE( "CapFloor_Vega", "[CapFloor]" ) {
     }
 }
 
-TEST_CASE( "CapFloor_StrikeDependency", "[CapFloor]" ) {
+TEST_CASE("CapFloor_StrikeDependency", "[CapFloor]") {
 
     INFO("Testing cap/floor dependency on strike...");
 
@@ -253,7 +253,7 @@ TEST_CASE( "CapFloor_StrikeDependency", "[CapFloor]" ) {
     }
 }
 
-TEST_CASE( "CapFloor_Consistency", "[CapFloor]" ) {
+TEST_CASE("CapFloor_Consistency", "[CapFloor]") {
 
     INFO("Testing consistency between cap, floor and collar...");
 
@@ -367,7 +367,7 @@ TEST_CASE( "CapFloor_Consistency", "[CapFloor]" ) {
     }
 }
 
-TEST_CASE( "CapFloor_Parity", "[CapFloor]" ) {
+TEST_CASE("CapFloor_Parity", "[CapFloor]") {
 
     INFO("Testing cap/floor parity...");
 
@@ -418,7 +418,7 @@ TEST_CASE( "CapFloor_Parity", "[CapFloor]" ) {
     }
 }
 
-TEST_CASE( "CapFloor_ATMRate", "[CapFloor]" ) {
+TEST_CASE("CapFloor_ATMRate", "[CapFloor]") {
 
     INFO("Testing cap/floor ATM rate...");
 
@@ -480,7 +480,7 @@ TEST_CASE( "CapFloor_ATMRate", "[CapFloor]" ) {
 }
 
 
-TEST_CASE( "CapFloor_ImpliedVolatility", "[CapFloor]" ) {
+TEST_CASE("CapFloor_ImpliedVolatility", "[CapFloor]") {
 
     INFO("Testing implied term volatility for cap and floor...");
 
@@ -568,7 +568,7 @@ TEST_CASE( "CapFloor_ImpliedVolatility", "[CapFloor]" ) {
     }
 }
 
-TEST_CASE( "CapFloor_CachedValue", "[CapFloor]" ) {
+TEST_CASE("CapFloor_CachedValue", "[CapFloor]") {
 
     INFO("Testing Black cap/floor price against cached values...");
 

@@ -39,7 +39,7 @@ namespace {
 }
 
 
-TEST_CASE( "Covariance_RankReduction", "[Covariance]" ) {
+TEST_CASE("Covariance_RankReduction", "[Covariance]") {
 
     INFO("Testing matrix rank reduction salvaging algorithms...");
 
@@ -95,7 +95,7 @@ TEST_CASE( "Covariance_RankReduction", "[Covariance]" ) {
             << "salvaged matrix:\n" << goodCov);
 }
 
-TEST_CASE( "Covariance_SalvagingMatrix", "[Covariance]" ) {
+TEST_CASE("Covariance_SalvagingMatrix", "[Covariance]") {
 
     INFO("Testing positive semi-definiteness salvaging "
                        "algorithms...");
@@ -150,7 +150,7 @@ TEST_CASE( "Covariance_SalvagingMatrix", "[Covariance]" ) {
             << "salvaged matrix:\n" << goodCov);
 }
 
-TEST_CASE( "Covariance_Covariance", "[Covariance]" ) {
+TEST_CASE("Covariance_Covariance", "[Covariance]") {
 
     INFO("Testing covariance and correlation calculations...");
 

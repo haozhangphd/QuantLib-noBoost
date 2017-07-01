@@ -79,7 +79,7 @@ namespace {
 }
 
 
-TEST_CASE( "Bond_Yield", "[Bond]" ) {
+TEST_CASE("Bond_Yield", "[Bond]") {
 
     INFO("Testing consistency of bond price/yield calculation...");
 
@@ -164,7 +164,7 @@ TEST_CASE( "Bond_Yield", "[Bond]" ) {
     }
 }
 
-TEST_CASE( "Bond_AtmRate", "[Bond]" ) {
+TEST_CASE("Bond_AtmRate", "[Bond]") {
 
     INFO("Testing consistency of bond price/ATM rate calculation...");
 
@@ -229,7 +229,7 @@ TEST_CASE( "Bond_AtmRate", "[Bond]" ) {
     }
 }
 
-TEST_CASE( "Bond_Zspread", "[Bond]" ) {
+TEST_CASE("Bond_Zspread", "[Bond]") {
 
     INFO("Testing consistency of bond price/z-spread calculation...");
 
@@ -324,7 +324,7 @@ TEST_CASE( "Bond_Zspread", "[Bond]" ) {
 
 
 
-TEST_CASE( "Bond_Theoretical", "[Bond]" ) {
+TEST_CASE("Bond_Theoretical", "[Bond]") {
 
     INFO("Testing theoretical bond price/yield calculation...");
 
@@ -415,7 +415,7 @@ TEST_CASE( "Bond_Theoretical", "[Bond]" ) {
 }
 
 
-TEST_CASE( "Bond_Cached", "[Bond]" ) {
+TEST_CASE("Bond_Cached", "[Bond]") {
 
     INFO(
         "Testing bond price/yield calculation against cached values...");
@@ -627,7 +627,7 @@ TEST_CASE( "Bond_Cached", "[Bond]" ) {
 
 
 
-TEST_CASE( "Bond_CachedZero", "[Bond]" ) {
+TEST_CASE("Bond_CachedZero", "[Bond]") {
 
     INFO("Testing zero-coupon bond prices against cached values...");
 
@@ -708,7 +708,7 @@ TEST_CASE( "Bond_CachedZero", "[Bond]" ) {
 }
 
 
-TEST_CASE( "Bond_CachedFixed", "[Bond]" ) {
+TEST_CASE("Bond_CachedFixed", "[Bond]") {
 
     INFO("Testing fixed-coupon bond prices against cached values...");
 
@@ -806,7 +806,7 @@ TEST_CASE( "Bond_CachedFixed", "[Bond]" ) {
 }
 
 
-TEST_CASE( "Bond_CachedFloating", "[Bond]" ) {
+TEST_CASE("Bond_CachedFloating", "[Bond]") {
 
     INFO("Testing floating-rate bond prices against cached values...");
 
@@ -934,7 +934,7 @@ TEST_CASE( "Bond_CachedFloating", "[Bond]" ) {
     }
 }
 
-TEST_CASE( "Bond_BrazilianCached", "[Bond]" ) {
+TEST_CASE("Bond_BrazilianCached", "[Bond]") {
 
     INFO(
         "Testing Brazilian public bond prices against Andima cached values...");
@@ -1020,7 +1020,7 @@ TEST_CASE( "Bond_BrazilianCached", "[Bond]" ) {
     }
 }
 
-TEST_CASE( "Bond_ExCouponGilt", "[Bond]" ) {
+TEST_CASE("Bond_ExCouponGilt", "[Bond]") {
     INFO(
         "Testing ex-coupon UK Gilt price against market values...");
     /* UK Gilts have an exCouponDate 7 business days before the coupon
@@ -1158,7 +1158,7 @@ TEST_CASE( "Bond_ExCouponGilt", "[Bond]" ) {
 }
 
 
-TEST_CASE( "Bond_ExCouponAustralianBond", "[Bond]" ) {
+TEST_CASE("Bond_ExCouponAustralianBond", "[Bond]") {
     INFO(
         "Testing ex-coupon Australian bond price against market values...");
     /* Australian Government Bonds have an exCouponDate 7 calendar
@@ -1300,7 +1300,7 @@ TEST_CASE( "Bond_ExCouponAustralianBond", "[Bond]" ) {
 /// This requires the use of the Schedule to be constructed
 /// with a custom date vector
 /// </summary>
-TEST_CASE( "Bond_BondFromScheduleWithDateVector", "[Bond]" )
+TEST_CASE("Bond_BondFromScheduleWithDateVector", "[Bond]")
 {
     INFO("Testing South African R2048 bond price using Schedule constructor with Date vector...");
     SavedSettings backup;

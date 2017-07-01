@@ -45,7 +45,7 @@ void checkD0(const Real sigmaI, const Real beta, const Real rho, const Real nu,
 }
 }
 
-TEST_CASE( "NoArbSabr_AbsorptionMatrix", "[NoArbSabr]" ) {
+TEST_CASE("NoArbSabr_AbsorptionMatrix", "[NoArbSabr]") {
 
     INFO("Testing no-arbitrage Sabr absorption matrix...");
 
@@ -71,7 +71,7 @@ TEST_CASE( "NoArbSabr_AbsorptionMatrix", "[NoArbSabr]" ) {
 
 }
 
-TEST_CASE( "NoArbSabr_ConsistencyWithHagan", "[NoArbSabr]" ) {
+TEST_CASE("NoArbSabr_ConsistencyWithHagan", "[NoArbSabr]") {
 
     INFO("Testing consistency of noarb-sabr with Hagan et al (2002)");
 

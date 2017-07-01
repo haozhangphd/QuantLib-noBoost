@@ -117,7 +117,7 @@ namespace {
 
 }
 
-TEST_CASE( "AssetSwap_Consistency", "[AssetSwap]" ) {
+TEST_CASE("AssetSwap_Consistency", "[AssetSwap]") {
     INFO(
                  "Testing consistency between fair price and fair spread...");
 
@@ -502,7 +502,7 @@ TEST_CASE( "AssetSwap_Consistency", "[AssetSwap]" ) {
 
 }
 
-TEST_CASE( "AssetSwap_ImpliedValue", "[AssetSwap]" ) {
+TEST_CASE("AssetSwap_ImpliedValue", "[AssetSwap]") {
 
     INFO("Testing implied bond value against asset-swap fair"
                        " price with null spread...");
@@ -870,7 +870,7 @@ TEST_CASE( "AssetSwap_ImpliedValue", "[AssetSwap]" ) {
 }
 
 
-TEST_CASE( "AssetSwap_MarketASWSpread", "[AssetSwap]" ) {
+TEST_CASE("AssetSwap_MarketASWSpread", "[AssetSwap]") {
 
     INFO("Testing relationship between market asset swap"
                        " and par asset swap...");
@@ -1310,7 +1310,7 @@ TEST_CASE( "AssetSwap_MarketASWSpread", "[AssetSwap]" ) {
 }
 
 
-TEST_CASE( "AssetSwap_ZSpread", "[AssetSwap]" ) {
+TEST_CASE("AssetSwap_ZSpread", "[AssetSwap]") {
 
     INFO("Testing clean and dirty price with null Z-spread "
                        "against theoretical prices...");
@@ -1630,7 +1630,7 @@ TEST_CASE( "AssetSwap_ZSpread", "[AssetSwap]" ) {
 }
 
 
-TEST_CASE( "AssetSwap_GenericBondImplied", "[AssetSwap]" ) {
+TEST_CASE("AssetSwap_GenericBondImplied", "[AssetSwap]") {
 
     INFO("Testing implied generic-bond value against"
                        " asset-swap fair price with null spread...");
@@ -2021,7 +2021,7 @@ TEST_CASE( "AssetSwap_GenericBondImplied", "[AssetSwap]" ) {
 }
 
 
-TEST_CASE( "AssetSwap_MASWWithGenericBond", "[AssetSwap]" ) {
+TEST_CASE("AssetSwap_MASWWithGenericBond", "[AssetSwap]") {
 
     INFO("Testing market asset swap against par asset swap "
                        "with generic bond...");
@@ -2496,7 +2496,7 @@ TEST_CASE( "AssetSwap_MASWWithGenericBond", "[AssetSwap]" ) {
 }
 
 
-TEST_CASE( "AssetSwap_ZSpreadWithGenericBond", "[AssetSwap]" ) {
+TEST_CASE("AssetSwap_ZSpreadWithGenericBond", "[AssetSwap]") {
 
     INFO("Testing clean and dirty price with null Z-spread "
                        "against theoretical prices...");
@@ -2861,7 +2861,7 @@ TEST_CASE( "AssetSwap_ZSpreadWithGenericBond", "[AssetSwap]" ) {
 }
 
 
-TEST_CASE( "AssetSwap_SpecializedBondVsGenericBond", "[AssetSwap]" ) {
+TEST_CASE("AssetSwap_SpecializedBondVsGenericBond", "[AssetSwap]") {
 
     INFO("Testing clean and dirty prices for specialized bond"
                        " against equivalent generic bond...");
@@ -3420,7 +3420,7 @@ TEST_CASE( "AssetSwap_SpecializedBondVsGenericBond", "[AssetSwap]" ) {
 }
 
 
-TEST_CASE( "AssetSwap_SpecializedBondVsGenericBondUsingAsw", "[AssetSwap]" ) {
+TEST_CASE("AssetSwap_SpecializedBondVsGenericBondUsingAsw", "[AssetSwap]") {
 
     INFO("Testing asset-swap prices and spreads for specialized"
                        " bond against equivalent generic bond...");

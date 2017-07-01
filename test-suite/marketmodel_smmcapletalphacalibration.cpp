@@ -217,7 +217,7 @@ namespace {
 }
 
 
-TEST_CASE( "MarketModelSmmCapletAlphaCalibration_Function", "[MarketModelSmmCapletAlphaCalibration]" ) {
+TEST_CASE("MarketModelSmmCapletAlphaCalibration_Function", "[MarketModelSmmCapletAlphaCalibration]") {
 
     INFO("Testing alpha caplet calibration "
                        "in a lognormal coterminal swap market model...");

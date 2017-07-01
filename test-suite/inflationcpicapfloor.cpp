@@ -323,7 +323,7 @@ namespace {
 
 
 
-TEST_CASE( "InflationCPICapFloor_cpicapfloorpricesurface", "[InflationCPICapFloor]") {
+TEST_CASE("InflationCPICapFloor_cpicapfloorpricesurface", "[InflationCPICapFloor]") {
 
     // check inflation leg vs calculation directly from inflation TS
     CommonVars common;
@@ -380,7 +380,7 @@ TEST_CASE( "InflationCPICapFloor_cpicapfloorpricesurface", "[InflationCPICapFloo
 }
 
 
-TEST_CASE( "InflationCPICapFloor_cpicapfloorpricer", "[InflationCPICapFloor]") {
+TEST_CASE("InflationCPICapFloor_cpicapfloorpricer", "[InflationCPICapFloor]") {
 
     CommonVars common;
     Real nominal = 1.0;

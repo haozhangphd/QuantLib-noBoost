@@ -29,7 +29,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "TwoAssetCorrelationOption_AnalyticEngine", "[TwoAssetCorrelationOption]" ) {
+TEST_CASE("TwoAssetCorrelationOption_AnalyticEngine", "[TwoAssetCorrelationOption]") {
     INFO(
         "Testing analytic engine for two-asset correlation option...");
 

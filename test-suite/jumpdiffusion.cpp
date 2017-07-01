@@ -92,7 +92,7 @@ namespace {
 }
 
 
-TEST_CASE( "JumpDiffusion_Merton76", "[JumpDiffusion]" ) {
+TEST_CASE("JumpDiffusion_Merton76", "[JumpDiffusion]") {
 
     INFO("Testing Merton 76 jump-diffusion model "
                        "for European options...");
@@ -342,7 +342,7 @@ TEST_CASE( "JumpDiffusion_Merton76", "[JumpDiffusion]" ) {
 
 }
 
-TEST_CASE( "JumpDiffusion_Greeks", "[JumpDiffusion]" ) {
+TEST_CASE("JumpDiffusion_Greeks", "[JumpDiffusion]") {
 
     INFO("Testing jump-diffusion option greeks...");
 

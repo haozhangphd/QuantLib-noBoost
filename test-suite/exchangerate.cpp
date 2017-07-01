@@ -27,7 +27,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "ExchangeRate_Direct", "[ExchangeRate]" ) {
+TEST_CASE("ExchangeRate_Direct", "[ExchangeRate]") {
 
     INFO("Testing direct exchange rates...");
 
@@ -59,7 +59,7 @@ TEST_CASE( "ExchangeRate_Direct", "[ExchangeRate]" ) {
     }
 }
 
-TEST_CASE( "ExchangeRate_Derived", "[ExchangeRate]" ) {
+TEST_CASE("ExchangeRate_Derived", "[ExchangeRate]") {
 
     INFO("Testing derived exchange rates...");
 
@@ -94,7 +94,7 @@ TEST_CASE( "ExchangeRate_Derived", "[ExchangeRate]" ) {
     }
 }
 
-TEST_CASE( "ExchangeRate_DirectLookup", "[ExchangeRate]" ) {
+TEST_CASE("ExchangeRate_DirectLookup", "[ExchangeRate]") {
 
     INFO("Testing lookup of direct exchange rates...");
 
@@ -164,7 +164,7 @@ TEST_CASE( "ExchangeRate_DirectLookup", "[ExchangeRate]" ) {
     }
 }
 
-TEST_CASE( "ExchangeRate_TriangulatedLookup", "[ExchangeRate]" ) {
+TEST_CASE("ExchangeRate_TriangulatedLookup", "[ExchangeRate]") {
 
     INFO("Testing lookup of triangulated exchange rates...");
 
@@ -230,7 +230,7 @@ TEST_CASE( "ExchangeRate_TriangulatedLookup", "[ExchangeRate]" ) {
     }
 }
 
-TEST_CASE( "ExchangeRate_SmartLookup", "[ExchangeRate]" ) {
+TEST_CASE("ExchangeRate_SmartLookup", "[ExchangeRate]") {
 
     INFO("Testing lookup of derived exchange rates...");
 

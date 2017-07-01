@@ -39,7 +39,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "GJRGARCHModel_Engines", "[GJRGARCHModel]" ) {
+TEST_CASE("GJRGARCHModel_Engines", "[GJRGARCHModel]") {
     INFO(
        "Testing Monte Carlo GJR-GARCH engine against "
        "analytic GJR-GARCH engine...");
@@ -192,7 +192,7 @@ TEST_CASE( "GJRGARCHModel_Engines", "[GJRGARCHModel]" ) {
 }
 
 
-TEST_CASE( "GJRGARCHModel_DAXCalibration", "[GJRGARCHModel]" ) {
+TEST_CASE("GJRGARCHModel_DAXCalibration", "[GJRGARCHModel]") {
     /* this example is taken from A. Sepp
        Pricing European-Style Options under Jump Diffusion Processes
        with Stochstic Volatility: Applications of Fourier Transform

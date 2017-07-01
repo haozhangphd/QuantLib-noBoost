@@ -26,7 +26,7 @@ using namespace QuantLib;
 
 
 
-TEST_CASE( "BlackFormula_BachelierImpliedVol", "[BlackFormula]" ){
+TEST_CASE("BlackFormula_BachelierImpliedVol", "[BlackFormula]"){
 
 
     INFO("Testing Bachelier implied vol...");
@@ -55,7 +55,7 @@ TEST_CASE( "BlackFormula_BachelierImpliedVol", "[BlackFormula]" ){
     return;
 }
 
-TEST_CASE( "BlackFormula_ChambersImpliedVol", "[BlackFormula]" ) {
+TEST_CASE("BlackFormula_ChambersImpliedVol", "[BlackFormula]") {
 
     INFO("Testing Chambers-Nawalkha implied vol approximation...");
 

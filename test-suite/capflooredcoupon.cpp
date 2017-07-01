@@ -189,7 +189,7 @@ namespace {
 }
 
 
-TEST_CASE( "CapFlooredCoupon_LargeRates", "[CapFlooredCoupon]" ) {
+TEST_CASE("CapFlooredCoupon_LargeRates", "[CapFlooredCoupon]") {
 
     INFO("Testing degenerate collared coupon...");
 
@@ -233,7 +233,7 @@ TEST_CASE( "CapFlooredCoupon_LargeRates", "[CapFlooredCoupon]" ) {
    }
 }
 
-TEST_CASE( "CapFlooredCoupon_Decomposition", "[CapFlooredCoupon]" ) {
+TEST_CASE("CapFlooredCoupon_Decomposition", "[CapFlooredCoupon]") {
 
     INFO("Testing collared coupon against its decomposition...");
 

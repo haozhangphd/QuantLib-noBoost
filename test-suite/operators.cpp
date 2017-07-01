@@ -38,7 +38,7 @@ Real average = 0.0, sigma = 1.0;
 }
 
 
-TEST_CASE( "Operator_Tridiagonal", "[Operator]" ) {
+TEST_CASE("Operator_Tridiagonal", "[Operator]") {
 
     INFO("Testing tridiagonal operator...");
 
@@ -120,7 +120,7 @@ TEST_CASE( "Operator_Tridiagonal", "[Operator]" ) {
                    "\n                  tolerance: " << tolerance);
 }
 
-TEST_CASE( "Operator_Consistency", "[Operator]" ) {
+TEST_CASE("Operator_Consistency", "[Operator]") {
 
     INFO("Testing differential operators...");
 
@@ -168,7 +168,7 @@ TEST_CASE( "Operator_Consistency", "[Operator]" ) {
     }
 }
 
-TEST_CASE( "Operator_BSMOperatorConsistency", "[Operator]" ) {
+TEST_CASE("Operator_BSMOperatorConsistency", "[Operator]") {
     INFO("Testing consistency of BSM operators...");
 
     Array grid(10);

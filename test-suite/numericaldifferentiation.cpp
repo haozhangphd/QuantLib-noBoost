@@ -67,7 +67,7 @@ namespace {
     }
 }
 
-TEST_CASE( "NumericalDifferentiation_TabulatedCentralScheme", "[NumericalDifferentiation]" ) {
+TEST_CASE("NumericalDifferentiation_TabulatedCentralScheme", "[NumericalDifferentiation]") {
     INFO("Testing numerical differentiation "
                        "using the central scheme...");
     const std::function<Real(Real)> f;
@@ -99,7 +99,7 @@ TEST_CASE( "NumericalDifferentiation_TabulatedCentralScheme", "[NumericalDiffere
         std::vector<Real>{-1.5, -1.0, -0.5, 0.0, 0.5, 1.0, 1.5});
 }
 
-TEST_CASE( "NumericalDifferentiation_TabulatedBackwardScheme", "[NumericalDifferentiation]" ) {
+TEST_CASE("NumericalDifferentiation_TabulatedBackwardScheme", "[NumericalDifferentiation]") {
     INFO("Testing numerical differentiation "
                        "using the backward scheme...");
     const std::function<Real(Real)> f;
@@ -126,7 +126,7 @@ TEST_CASE( "NumericalDifferentiation_TabulatedBackwardScheme", "[NumericalDiffer
 }
 
 
-TEST_CASE( "NumericalDifferentiation_TabulatedForwardScheme", "[NumericalDifferentiation]" ) {
+TEST_CASE("NumericalDifferentiation_TabulatedForwardScheme", "[NumericalDifferentiation]") {
     INFO("Testing numerical differentiation "
                        "using the Forward scheme...");
     const std::function<Real(Real)> f;
@@ -154,7 +154,7 @@ TEST_CASE( "NumericalDifferentiation_TabulatedForwardScheme", "[NumericalDiffere
 }
 
 
-TEST_CASE( "NumericalDifferentiation_IrregularSchemeFirstOrder", "[NumericalDifferentiation]" ) {
+TEST_CASE("NumericalDifferentiation_IrregularSchemeFirstOrder", "[NumericalDifferentiation]") {
     INFO("Testing numerical differentiation "
                        "of first order using an irregular scheme...");
     const std::function<Real(Real)> f;
@@ -174,7 +174,7 @@ TEST_CASE( "NumericalDifferentiation_IrregularSchemeFirstOrder", "[NumericalDiff
         std::vector<Real>{alpha, beta, gamma});
 }
 
-TEST_CASE( "NumericalDifferentiation_IrregularSchemeSecondOrder", "[NumericalDifferentiation]" ) {
+TEST_CASE("NumericalDifferentiation_IrregularSchemeSecondOrder", "[NumericalDifferentiation]") {
     INFO("Testing numerical differentiation "
                        "of second order using an irregular scheme...");
     const std::function<Real(Real)> f;
@@ -195,7 +195,7 @@ TEST_CASE( "NumericalDifferentiation_IrregularSchemeSecondOrder", "[NumericalDif
 }
 
 
-TEST_CASE( "NumericalDifferentiation_DerivativesOfSineFunction", "[NumericalDifferentiation]" ) {
+TEST_CASE("NumericalDifferentiation_DerivativesOfSineFunction", "[NumericalDifferentiation]") {
     INFO("Testing numerical differentiation"
                        " of sin function...");
 
@@ -279,7 +279,7 @@ namespace {
     }
 }
 
-TEST_CASE( "NumericalDifferentiation_CoefficientBasedOnVandermonde", "[NumericalDifferentiation]" ) {
+TEST_CASE("NumericalDifferentiation_CoefficientBasedOnVandermonde", "[NumericalDifferentiation]") {
     INFO("Testing coefficients from numerical differentiation"
                        " by comparison with results from"
                        " Vandermonde matrix inversion...");

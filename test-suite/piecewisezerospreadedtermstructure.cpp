@@ -77,7 +77,7 @@ namespace {
 
 }
 
-TEST_CASE( "PiecewiseZeroSpreadedTermStructure_FlatInterpolationLeft", "[PiecewiseZeroSpreadedTermStructure]" ) {
+TEST_CASE("PiecewiseZeroSpreadedTermStructure_FlatInterpolationLeft", "[PiecewiseZeroSpreadedTermStructure]") {
 
     INFO("Testing flat interpolation before the first spreaded date...");
 
@@ -116,7 +116,7 @@ TEST_CASE( "PiecewiseZeroSpreadedTermStructure_FlatInterpolationLeft", "[Piecewi
 
 }
 
-TEST_CASE( "PiecewiseZeroSpreadedTermStructure_FlatInterpolationRight", "[PiecewiseZeroSpreadedTermStructure]" ) {
+TEST_CASE("PiecewiseZeroSpreadedTermStructure_FlatInterpolationRight", "[PiecewiseZeroSpreadedTermStructure]") {
 
     INFO("Testing flat interpolation after the last spreaded date...");
 
@@ -156,7 +156,7 @@ TEST_CASE( "PiecewiseZeroSpreadedTermStructure_FlatInterpolationRight", "[Piecew
 
 }
 
-TEST_CASE( "PiecewiseZeroSpreadedTermStructure_LinearInterpolationMultipleSpreads", "[PiecewiseZeroSpreadedTermStructure]" ) {
+TEST_CASE("PiecewiseZeroSpreadedTermStructure_LinearInterpolationMultipleSpreads", "[PiecewiseZeroSpreadedTermStructure]") {
 
     INFO("Testing linear interpolation with more than two spreaded dates...");
 
@@ -201,7 +201,7 @@ TEST_CASE( "PiecewiseZeroSpreadedTermStructure_LinearInterpolationMultipleSpread
 
 }
 
-TEST_CASE( "PiecewiseZeroSpreadedTermStructure_LinearInterpolation", "[PiecewiseZeroSpreadedTermStructure]" ) {
+TEST_CASE("PiecewiseZeroSpreadedTermStructure_LinearInterpolation", "[PiecewiseZeroSpreadedTermStructure]") {
 
     INFO("Testing linear interpolation between two dates...");
 
@@ -245,7 +245,7 @@ TEST_CASE( "PiecewiseZeroSpreadedTermStructure_LinearInterpolation", "[Piecewise
 
 }
 
-TEST_CASE( "PiecewiseZeroSpreadedTermStructure_ForwardFlatInterpolation", "[PiecewiseZeroSpreadedTermStructure]" ) {
+TEST_CASE("PiecewiseZeroSpreadedTermStructure_ForwardFlatInterpolation", "[PiecewiseZeroSpreadedTermStructure]") {
 
     INFO("Testing forward flat interpolation between two dates...");
 
@@ -284,7 +284,7 @@ TEST_CASE( "PiecewiseZeroSpreadedTermStructure_ForwardFlatInterpolation", "[Piec
 
 }
 
-TEST_CASE( "PiecewiseZeroSpreadedTermStructure_BackwardFlatInterpolation", "[PiecewiseZeroSpreadedTermStructure]" ) {
+TEST_CASE("PiecewiseZeroSpreadedTermStructure_BackwardFlatInterpolation", "[PiecewiseZeroSpreadedTermStructure]") {
 
     INFO("Testing backward flat interpolation between two dates...");
 
@@ -326,7 +326,7 @@ TEST_CASE( "PiecewiseZeroSpreadedTermStructure_BackwardFlatInterpolation", "[Pie
 
 }
 
-TEST_CASE( "PiecewiseZeroSpreadedTermStructure_DefaultInterpolation", "[PiecewiseZeroSpreadedTermStructure]" ) {
+TEST_CASE("PiecewiseZeroSpreadedTermStructure_DefaultInterpolation", "[PiecewiseZeroSpreadedTermStructure]") {
 
     INFO("Testing default interpolation between two dates...");
 
@@ -365,7 +365,7 @@ TEST_CASE( "PiecewiseZeroSpreadedTermStructure_DefaultInterpolation", "[Piecewis
 
 }
 
-TEST_CASE( "PiecewiseZeroSpreadedTermStructure_SetInterpolationFactory", "[PiecewiseZeroSpreadedTermStructure]" ) {
+TEST_CASE("PiecewiseZeroSpreadedTermStructure_SetInterpolationFactory", "[PiecewiseZeroSpreadedTermStructure]") {
 
     INFO("Testing factory constructor with additional parameters...");
 
@@ -415,7 +415,7 @@ TEST_CASE( "PiecewiseZeroSpreadedTermStructure_SetInterpolationFactory", "[Piece
 
 }
 
-TEST_CASE( "PiecewiseZeroSpreadedTermStructure_MaxDate", "[PiecewiseZeroSpreadedTermStructure]" ) {
+TEST_CASE("PiecewiseZeroSpreadedTermStructure_MaxDate", "[PiecewiseZeroSpreadedTermStructure]") {
 
     INFO("Testing term structure max date...");
 
@@ -449,7 +449,7 @@ TEST_CASE( "PiecewiseZeroSpreadedTermStructure_MaxDate", "[PiecewiseZeroSpreaded
 
 }
 
-TEST_CASE( "PiecewiseZeroSpreadedTermStructure_QuoteChanging", "[PiecewiseZeroSpreadedTermStructure]" ) {
+TEST_CASE("PiecewiseZeroSpreadedTermStructure_QuoteChanging", "[PiecewiseZeroSpreadedTermStructure]") {
 
     INFO("Testing quote update...");
 

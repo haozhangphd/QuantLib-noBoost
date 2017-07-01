@@ -230,7 +230,7 @@ namespace {
 
 
 
-TEST_CASE( "MarketModelSmmCapletHomoCalibration_Function", "[MarketModelSmmCapletHomoCalibration]" ) {
+TEST_CASE("MarketModelSmmCapletHomoCalibration_Function", "[MarketModelSmmCapletHomoCalibration]") {
 
     INFO("Testing max homogeneity caplet calibration "
                        "in a lognormal coterminal swap market model...");
@@ -365,7 +365,7 @@ TEST_CASE( "MarketModelSmmCapletHomoCalibration_Function", "[MarketModelSmmCaple
 
 
 
-TEST_CASE( "MarketModelSmmCapletHomoCalibration_PeriodFunction", "[MarketModelSmmCapletHomoCalibration]" )
+TEST_CASE("MarketModelSmmCapletHomoCalibration_PeriodFunction", "[MarketModelSmmCapletHomoCalibration]")
 {
 
     INFO("Testing max homogeneity periodic caplet calibration "
@@ -534,7 +534,7 @@ TEST_CASE( "MarketModelSmmCapletHomoCalibration_PeriodFunction", "[MarketModelSm
 }
 
 
-TEST_CASE( "MarketModelSmmCapletHomoCalibration_SphereCylinder", "[MarketModelSmmCapletHomoCalibration]" ) {
+TEST_CASE("MarketModelSmmCapletHomoCalibration_SphereCylinder", "[MarketModelSmmCapletHomoCalibration]") {
 
     INFO("Testing sphere-cylinder optimization...");
 

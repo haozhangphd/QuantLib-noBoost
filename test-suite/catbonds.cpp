@@ -59,7 +59,7 @@ namespace {
     }
 }
 
-TEST_CASE( "CatBond_EventSetForWholeYears", "[CatBond]" ) {
+TEST_CASE("CatBond_EventSetForWholeYears", "[CatBond]") {
     INFO("Testing that catastrophe events are split correctly for periods of whole years...");
 
 	EventSet catRisk(sampleEvents, eventsStart, eventsEnd);
@@ -91,7 +91,7 @@ TEST_CASE( "CatBond_EventSetForWholeYears", "[CatBond]" ) {
 }
 
 
-TEST_CASE( "CatBond_EventSetForIrregularPeriods", "[CatBond]" ) {
+TEST_CASE("CatBond_EventSetForIrregularPeriods", "[CatBond]") {
     INFO("Testing that catastrophe events are split correctly for irregular periods...");
 	
 	EventSet catRisk(sampleEvents, eventsStart, eventsEnd);
@@ -115,7 +115,7 @@ TEST_CASE( "CatBond_EventSetForIrregularPeriods", "[CatBond]" ) {
 }
 
 
-TEST_CASE( "CatBond_EventSetForNoEvents", "[CatBond]" ) {
+TEST_CASE("CatBond_EventSetForNoEvents", "[CatBond]") {
     INFO("Testing that catastrophe events are split correctly when there are no simulated events...");
 
     std::shared_ptr<std::vector<std::pair<Date, Real> > > emptyEvents(new std::vector<std::pair<Date, Real> >());
@@ -135,7 +135,7 @@ TEST_CASE( "CatBond_EventSetForNoEvents", "[CatBond]" ) {
     REQUIRE(!simulation->nextPath(path));
 }
 
-TEST_CASE( "CatBond_BetaRisk", "[CatBond]" ) {
+TEST_CASE("CatBond_BetaRisk", "[CatBond]") {
     INFO("Testing that beta risk gives correct terminal distribution...");
 
     const size_t PATHS = 1000000;
@@ -195,7 +195,7 @@ namespace {
     };
 }
 
-TEST_CASE( "CatBond_RiskFreeAgainstFloatingRateBond", "[CatBond]" ) {
+TEST_CASE("CatBond_RiskFreeAgainstFloatingRateBond", "[CatBond]") {
     INFO("Testing floating-rate cat bond against risk-free floating-rate bond...");
 
     CommonVars vars;
@@ -374,7 +374,7 @@ TEST_CASE( "CatBond_RiskFreeAgainstFloatingRateBond", "[CatBond]" ) {
 
 
 
-TEST_CASE( "CatBond_CatBondInDoomScenario", "[CatBond]" ) {
+TEST_CASE("CatBond_CatBondInDoomScenario", "[CatBond]") {
     INFO("Testing floating-rate cat bond in a doom scenario (certain default)...");
 
     CommonVars vars;
@@ -437,7 +437,7 @@ TEST_CASE( "CatBond_CatBondInDoomScenario", "[CatBond]" ) {
 }
 
 
-TEST_CASE( "CatBond_CatBondWithDoomOnceInTenYears", "[CatBond]" ) {
+TEST_CASE("CatBond_CatBondWithDoomOnceInTenYears", "[CatBond]") {
     INFO("Testing floating-rate cat bond in a doom once in 10 years scenario...");
 
     CommonVars vars;
@@ -518,7 +518,7 @@ TEST_CASE( "CatBond_CatBondWithDoomOnceInTenYears", "[CatBond]" ) {
     CHECK(riskFreeYield < yield);
 }
 
-TEST_CASE( "CatBond_CatBondWithDoomOnceInTenYearsProportional", "[CatBond]" ) {
+TEST_CASE("CatBond_CatBondWithDoomOnceInTenYearsProportional", "[CatBond]") {
     INFO("Testing floating-rate cat bond in a doom once in 10 years scenario with proportional notional reduction...");
 
     CommonVars vars;
@@ -598,7 +598,7 @@ TEST_CASE( "CatBond_CatBondWithDoomOnceInTenYearsProportional", "[CatBond]" ) {
 }
 
 
-TEST_CASE( "CatBond_CatBondWithGeneratedEventsProportional", "[CatBond]" ) {
+TEST_CASE("CatBond_CatBondWithGeneratedEventsProportional", "[CatBond]") {
     INFO("Testing floating-rate cat bond in a generated scenario with proportional notional reduction...");
 
     CommonVars vars;

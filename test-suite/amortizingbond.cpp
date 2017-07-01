@@ -25,7 +25,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "AmortizingBond_AmortizingFixedRateBond", "[AmortizingBond]" ) {
+TEST_CASE("AmortizingBond_AmortizingFixedRateBond", "[AmortizingBond]") {
 	INFO("Testing amortizing fixed rate bond...");
 
 	/*

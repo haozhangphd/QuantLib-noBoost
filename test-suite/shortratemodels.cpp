@@ -52,7 +52,7 @@ namespace {
 }
 
 
-TEST_CASE( "ShortRateModel_CachedHullWhite", "[ShortRateModel]" ) {
+TEST_CASE("ShortRateModel_CachedHullWhite", "[ShortRateModel]") {
     INFO("Testing Hull-White calibration against cached values using swaptions with start delay...");
 
     SavedSettings backup;
@@ -127,7 +127,7 @@ TEST_CASE( "ShortRateModel_CachedHullWhite", "[ShortRateModel]" ) {
     }
 }
 
-TEST_CASE( "ShortRateModel_CachedHullWhiteFixedReversion", "[ShortRateModel]" ) {
+TEST_CASE("ShortRateModel_CachedHullWhiteFixedReversion", "[ShortRateModel]") {
     INFO("Testing Hull-White calibration with fixed reversion against cached values...");
 
     SavedSettings backup;
@@ -204,7 +204,7 @@ TEST_CASE( "ShortRateModel_CachedHullWhiteFixedReversion", "[ShortRateModel]" ) 
 }
 
 
-TEST_CASE( "ShortRateModel_CachedHullWhite2", "[ShortRateModel]" ) {
+TEST_CASE("ShortRateModel_CachedHullWhite2", "[ShortRateModel]") {
     INFO("Testing Hull-White calibration against cached "
                        "values using swaptions without start delay...");
 
@@ -286,7 +286,7 @@ TEST_CASE( "ShortRateModel_CachedHullWhite2", "[ShortRateModel]" ) {
     }
 }
 
-TEST_CASE( "ShortRateModel_Swaps", "[ShortRateModel]" ) {
+TEST_CASE("ShortRateModel_Swaps", "[ShortRateModel]") {
     INFO("Testing Hull-White swap pricing against known values...");
 
     SavedSettings backup;
@@ -397,7 +397,7 @@ TEST_CASE( "ShortRateModel_Swaps", "[ShortRateModel]" ) {
     }
 }
 
-TEST_CASE( "ShortRateModel_FuturesConvexityBias", "[ShortRateModel]" ) {
+TEST_CASE("ShortRateModel_FuturesConvexityBias", "[ShortRateModel]") {
     INFO("Testing Hull-White futures convexity bias...");
 
     // G. Kirikos, D. Novak, "Convexity Conundrums", Risk Magazine, March 1997

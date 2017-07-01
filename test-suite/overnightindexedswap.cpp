@@ -213,7 +213,7 @@ namespace {
 }
 
 
-TEST_CASE( "OvernightIndexedSwap_FairRate", "[OvernightIndexedSwap]" ) {
+TEST_CASE("OvernightIndexedSwap_FairRate", "[OvernightIndexedSwap]") {
 
     INFO("Testing Eonia-swap calculation of fair fixed rate...");
 
@@ -241,7 +241,7 @@ TEST_CASE( "OvernightIndexedSwap_FairRate", "[OvernightIndexedSwap]" ) {
 }
 
 
-TEST_CASE( "OvernightIndexedSwap_FairSpread", "[OvernightIndexedSwap]" ) {
+TEST_CASE("OvernightIndexedSwap_FairSpread", "[OvernightIndexedSwap]") {
 
     INFO("Testing Eonia-swap calculation of "
                        "fair floating spread...");
@@ -272,7 +272,7 @@ TEST_CASE( "OvernightIndexedSwap_FairSpread", "[OvernightIndexedSwap]" ) {
 
 }
 
-TEST_CASE( "OvernightIndexedSwap_CachedValue", "[OvernightIndexedSwap]" ) {
+TEST_CASE("OvernightIndexedSwap_CachedValue", "[OvernightIndexedSwap]") {
 
     INFO("Testing Eonia-swap calculation against cached value...");
 
@@ -296,7 +296,7 @@ TEST_CASE( "OvernightIndexedSwap_CachedValue", "[OvernightIndexedSwap]" ) {
 }
 
 
-TEST_CASE( "OvernightIndexedSwap_Bootstrap", "[OvernightIndexedSwap]" ) {
+TEST_CASE("OvernightIndexedSwap_Bootstrap", "[OvernightIndexedSwap]") {
 
     INFO("Testing Eonia-swap curve building...");
 

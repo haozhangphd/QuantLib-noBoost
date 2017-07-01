@@ -108,7 +108,7 @@ namespace {
 }
 
 
-TEST_CASE( "ConvertibleBond_Bond", "[ConvertibleBond]" ) {
+TEST_CASE("ConvertibleBond_Bond", "[ConvertibleBond]") {
 
     /* when deeply out-of-the-money, the value of the convertible bond
        should equal that of the underlying plain-vanilla bond. */
@@ -300,7 +300,7 @@ TEST_CASE( "ConvertibleBond_Bond", "[ConvertibleBond]" ) {
     }
 }
 
-TEST_CASE( "ConvertibleBond_Option", "[ConvertibleBond]" ) {
+TEST_CASE("ConvertibleBond_Option", "[ConvertibleBond]") {
 
     /* a zero-coupon convertible bond with no credit spread is
        equivalent to a call option. */
@@ -361,7 +361,7 @@ TEST_CASE( "ConvertibleBond_Option", "[ConvertibleBond]" ) {
     }
 }
 
-TEST_CASE( "ConvertibleBond_Regression", "[ConvertibleBond]" ) {
+TEST_CASE("ConvertibleBond_Regression", "[ConvertibleBond]") {
 
     INFO(
        "Testing fixed-coupon convertible bond in known regression case...");

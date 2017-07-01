@@ -29,7 +29,7 @@ using namespace QuantLib;
 
 using std::exp;
 
-TEST_CASE( "Functions_Factorial", "[Functions]" ) {
+TEST_CASE("Functions_Factorial", "[Functions]") {
 
     INFO("Testing factorial numbers...");
 
@@ -51,7 +51,7 @@ TEST_CASE( "Functions_Factorial", "[Functions]" ) {
     }
 }
 
-TEST_CASE( "Functions_GammaFunction", "[Functions]" ) {
+TEST_CASE("Functions_GammaFunction", "[Functions]") {
 
     INFO("Testing Gamma function...");
 
@@ -76,7 +76,7 @@ TEST_CASE( "Functions_GammaFunction", "[Functions]" ) {
     }
 }
 
-TEST_CASE( "Functions_GammaValues", "[Functions]" ) {
+TEST_CASE("Functions_GammaValues", "[Functions]") {
 
     INFO("Testing Gamma values...");
 
@@ -111,7 +111,7 @@ TEST_CASE( "Functions_GammaValues", "[Functions]" ) {
     }
 }
 
-TEST_CASE( "Functions_ModifiedBesselFunctions", "[Functions]" ) {
+TEST_CASE("Functions_ModifiedBesselFunctions", "[Functions]") {
     INFO("Testing modified Bessel function of first and second kind...");
 
     /* reference values are computed with R and the additional package Bessel
@@ -227,7 +227,7 @@ TEST_CASE( "Functions_ModifiedBesselFunctions", "[Functions]" ) {
     }
 }
 
-TEST_CASE( "Functions_WeightedModifiedBesselFunctions", "[Functions]" ) {
+TEST_CASE("Functions_WeightedModifiedBesselFunctions", "[Functions]") {
     INFO("Testing weighted modified Bessel functions...");
     Real nu = -5.0;
     while (nu <= 5.0) {

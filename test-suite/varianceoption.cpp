@@ -26,7 +26,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "VarianceOption_IntegralHeston", "[VarianceOption]" ) {
+TEST_CASE("VarianceOption_IntegralHeston", "[VarianceOption]") {
 
     INFO("Testing variance option with integral Heston engine...");
 

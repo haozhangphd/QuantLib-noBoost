@@ -209,7 +209,7 @@ namespace {
 }
 
 
-TEST_CASE( "QuantoOption_Values", "[QuantoOption]" ) {
+TEST_CASE("QuantoOption_Values", "[QuantoOption]") {
 
     INFO("Testing quanto option values...");
 
@@ -287,7 +287,7 @@ TEST_CASE( "QuantoOption_Values", "[QuantoOption]" ) {
 }
 
 
-TEST_CASE( "QuantoOption_Greeks", "[QuantoOption]" ) {
+TEST_CASE("QuantoOption_Greeks", "[QuantoOption]") {
 
     INFO("Testing quanto option greeks...");
 
@@ -491,7 +491,7 @@ TEST_CASE( "QuantoOption_Greeks", "[QuantoOption]" ) {
 
 
 
-TEST_CASE( "QuantoOption_ForwardValues", "[QuantoOption]" ) {
+TEST_CASE("QuantoOption_ForwardValues", "[QuantoOption]") {
 
     INFO("Testing quanto-forward option values...");
 
@@ -573,7 +573,7 @@ TEST_CASE( "QuantoOption_ForwardValues", "[QuantoOption]" ) {
 }
 
 
-TEST_CASE( "QuantoOption_ForwardGreeks", "[QuantoOption]" ) {
+TEST_CASE("QuantoOption_ForwardGreeks", "[QuantoOption]") {
 
     INFO("Testing quanto-forward option greeks...");
 
@@ -784,7 +784,7 @@ TEST_CASE( "QuantoOption_ForwardGreeks", "[QuantoOption]" ) {
 }
 
 
-TEST_CASE( "QuantoOption_ForwardPerformanceValues", "[QuantoOption]" ) {
+TEST_CASE("QuantoOption_ForwardPerformanceValues", "[QuantoOption]") {
 
     INFO("Testing quanto-forward-performance option values...");
 
@@ -866,7 +866,7 @@ TEST_CASE( "QuantoOption_ForwardPerformanceValues", "[QuantoOption]" ) {
 
 }
 
-TEST_CASE( "QuantoOption_BarrierValues", "[QuantoOption]" )  {
+TEST_CASE("QuantoOption_BarrierValues", "[QuantoOption]")  {
 
     INFO("Testing quanto-barrier option values...");
 
@@ -954,7 +954,7 @@ TEST_CASE( "QuantoOption_BarrierValues", "[QuantoOption]" )  {
     }
 }
 
-TEST_CASE( "QuantoOption_DoubleBarrierValues", "[QuantoOption]" )  {
+TEST_CASE("QuantoOption_DoubleBarrierValues", "[QuantoOption]")  {
 
     INFO("Testing quanto-double-barrier option values...");
 

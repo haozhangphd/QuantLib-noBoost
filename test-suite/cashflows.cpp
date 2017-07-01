@@ -35,7 +35,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "CashFlows_Settings", "[CashFlows]" ) {
+TEST_CASE("CashFlows_Settings", "[CashFlows]") {
 
     INFO("Testing cash-flow settings...");
 
@@ -169,7 +169,7 @@ TEST_CASE( "CashFlows_Settings", "[CashFlows]" ) {
 
 }
 
-TEST_CASE( "CashFlows_AccessViolation", "[CashFlows]" ) {
+TEST_CASE("CashFlows_AccessViolation", "[CashFlows]") {
     INFO("Testing dynamic cast of coupon in Black pricer...");
 
     SavedSettings backup;
@@ -214,7 +214,7 @@ TEST_CASE( "CashFlows_AccessViolation", "[CashFlows]" ) {
     }
 }
 
-TEST_CASE( "CashFlows_DefaultSettlementDate", "[CashFlows]" ) {
+TEST_CASE("CashFlows_DefaultSettlementDate", "[CashFlows]") {
     INFO("Testing default evaluation date in cashflows methods...");
     Date today = Settings::instance().evaluationDate();
     Schedule schedule =
@@ -244,7 +244,7 @@ TEST_CASE( "CashFlows_DefaultSettlementDate", "[CashFlows]" ) {
         FAIL_CHECK("null accrued amount with default settlement date");
 }
 
-TEST_CASE( "CashFlows_NullFixingDays", "[CashFlows]" ) {
+TEST_CASE("CashFlows_NullFixingDays", "[CashFlows]") {
     INFO("Testing ibor leg construction with null fixing days...");
     Date today = Settings::instance().evaluationDate();
     Schedule schedule =
@@ -263,7 +263,7 @@ TEST_CASE( "CashFlows_NullFixingDays", "[CashFlows]" ) {
         .withFixingDays(Null<Natural>());
 }
 
-TEST_CASE( "CashFlows_IrregularFirstCouponReferenceDatesAtEndOfMonth", "[CashFlows]" ) {
+TEST_CASE("CashFlows_IrregularFirstCouponReferenceDatesAtEndOfMonth", "[CashFlows]") {
     INFO("Testing irregular first coupon reference dates with end of month enabled...");
     Schedule schedule =
         MakeSchedule()
@@ -285,7 +285,7 @@ TEST_CASE( "CashFlows_IrregularFirstCouponReferenceDatesAtEndOfMonth", "[CashFlo
                     "got " << firstCoupon->referencePeriodStart());
 }
 
-TEST_CASE( "CashFlows_IrregularLastCouponReferenceDatesAtEndOfMonth", "[CashFlows]" ) {
+TEST_CASE("CashFlows_IrregularLastCouponReferenceDatesAtEndOfMonth", "[CashFlows]") {
     INFO("Testing irregular last coupon reference dates with end of month enabled...");
     Schedule schedule =
             MakeSchedule()

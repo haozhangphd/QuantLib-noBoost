@@ -169,7 +169,7 @@ namespace {
 }
 
 
-TEST_CASE( "BasketOption_EuroTwoValues", "[BasketOption]" ) {
+TEST_CASE("BasketOption_EuroTwoValues", "[BasketOption]") {
 
     INFO("Testing two-asset European basket options...");
 
@@ -400,7 +400,7 @@ TEST_CASE( "BasketOption_EuroTwoValues", "[BasketOption]" ) {
     }
 }
 
-TEST_CASE( "BasketOption_BarraquandThreeValues", "[BasketOption]" ) {
+TEST_CASE("BasketOption_BarraquandThreeValues", "[BasketOption]") {
 
     INFO("Testing three-asset basket options "
                        "against Barraquand's values...");
@@ -617,7 +617,7 @@ TEST_CASE( "BasketOption_BarraquandThreeValues", "[BasketOption]" ) {
     }
 }
 
-TEST_CASE( "BasketOption_TavellaValues", "[BasketOption]" ) {
+TEST_CASE("BasketOption_TavellaValues", "[BasketOption]") {
 
     INFO("Testing three-asset American basket options "
                        "against Tavella's values...");
@@ -864,7 +864,7 @@ void OneDAmericanValues(unsigned from, unsigned to) {
    because the samples array size was off by one when antithetic
    paths were added.
 */
-TEST_CASE( "BasketOption_OddSamples", "[BasketOption]" ) {
+TEST_CASE("BasketOption_OddSamples", "[BasketOption]") {
 
     INFO("Testing antithetic engine using odd sample number...");
 
@@ -947,7 +947,7 @@ TEST_CASE( "BasketOption_OddSamples", "[BasketOption]" ) {
     }
 }
 
-TEST_CASE( "BasketOption_LocalVolatilitySpreadOption", "[BasketOption]" ) {
+TEST_CASE("BasketOption_LocalVolatilitySpreadOption", "[BasketOption]") {
 
     INFO("Testing 2D local-volatility spread-option pricing...");
 
@@ -1014,7 +1014,7 @@ TEST_CASE( "BasketOption_LocalVolatilitySpreadOption", "[BasketOption]" ) {
     }
 }
 
-TEST_CASE( "BasketOption_2DPDEGreeks", "[BasketOption]" ) {
+TEST_CASE("BasketOption_2DPDEGreeks", "[BasketOption]") {
 
     INFO("Testing Greeks of two-dimensional PDE engine...");
 
@@ -1089,7 +1089,7 @@ TEST_CASE( "BasketOption_2DPDEGreeks", "[BasketOption]" ) {
     }
 }
 
-TEST_CASE( "BasketOption_OneDAmericanValues", "[BasketOption]") {
+TEST_CASE("BasketOption_OneDAmericanValues", "[BasketOption]") {
     const Size nTestCases = std::min(Size(5), LENGTH(oneDataValues));
     for (Size i=0; i < nTestCases; ++i) 
 	    OneDAmericanValues(i * LENGTH(oneDataValues)/nTestCases,

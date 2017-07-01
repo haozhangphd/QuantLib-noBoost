@@ -35,7 +35,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "LinearLeastSquaresRegression_Regression", "[LinearLeastSquaresRegression]" ) {
+TEST_CASE("LinearLeastSquaresRegression_Regression", "[LinearLeastSquaresRegression]") {
 
     INFO("Testing linear least-squares regression...");
 
@@ -113,7 +113,7 @@ namespace {
     }
 }
 
-TEST_CASE( "LinearLeastSquaresRegression_MultiDimRegression", "[LinearLeastSquaresRegression]" ) {
+TEST_CASE("LinearLeastSquaresRegression_MultiDimRegression", "[LinearLeastSquaresRegression]") {
 
     INFO(
         "Testing multi-dimensional linear least-squares regression...");
@@ -185,7 +185,7 @@ TEST_CASE( "LinearLeastSquaresRegression_MultiDimRegression", "[LinearLeastSquar
     }
 }
 
-TEST_CASE( "LinearLeastSquaresRegression_1dLinearRegression", "[LinearLeastSquaresRegression]" ) {
+TEST_CASE("LinearLeastSquaresRegression_1dLinearRegression", "[LinearLeastSquaresRegression]") {
 
     INFO("Testing 1D simple linear least-squares regression...");
 

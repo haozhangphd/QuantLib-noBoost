@@ -27,7 +27,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "PagodaOption_Cached", "[PagodaOption]" ) {
+TEST_CASE("PagodaOption_Cached", "[PagodaOption]") {
 
     INFO("Testing pagoda option against cached values...");
 

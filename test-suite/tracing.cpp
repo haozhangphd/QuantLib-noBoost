@@ -71,7 +71,7 @@ namespace {
 }
 
 
-TEST_CASE( "Tracing_Output", "[Tracing]" ) {
+TEST_CASE("Tracing_Output", "[Tracing]") {
 
     INFO("Testing tracing...");
 

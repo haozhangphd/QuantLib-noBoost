@@ -45,7 +45,7 @@ namespace {
 }
 
 
-TEST_CASE( "Quote_Observable", "[Quote]" ) {
+TEST_CASE("Quote_Observable", "[Quote]") {
 
     INFO("Testing observability of quotes...");
 
@@ -59,7 +59,7 @@ TEST_CASE( "Quote_Observable", "[Quote]" ) {
 
 }
 
-TEST_CASE( "Quote_ObservableHandle", "[Quote]" ) {
+TEST_CASE("Quote_ObservableHandle", "[Quote]") {
 
     INFO("Testing observability of quote handles...");
 
@@ -80,7 +80,7 @@ TEST_CASE( "Quote_ObservableHandle", "[Quote]" ) {
 
 }
 
-TEST_CASE( "Quote_Derived", "[Quote]" ) {
+TEST_CASE("Quote_Derived", "[Quote]") {
 
     INFO("Testing derived quotes...");
 
@@ -100,7 +100,7 @@ TEST_CASE( "Quote_Derived", "[Quote]" ) {
     }
 }
 
-TEST_CASE( "Quote_Composite", "[Quote]" ) {
+TEST_CASE("Quote_Composite", "[Quote]") {
 
     INFO("Testing composite quotes...");
 
@@ -121,7 +121,7 @@ TEST_CASE( "Quote_Composite", "[Quote]" ) {
     }
 }
 
-TEST_CASE( "Quote_ForwardValueQuoteAndImpliedStdevQuote", "[Quote]" ){
+TEST_CASE("Quote_ForwardValueQuoteAndImpliedStdevQuote", "[Quote]"){
     INFO(
             "Testing forward-value and implied-standard-deviation quotes...");
     Real forwardRate = .05;

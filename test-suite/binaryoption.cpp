@@ -87,7 +87,7 @@ namespace {
 }
 
 
-TEST_CASE( "BinaryOption_CashOrNothingHaugValues", "[BinaryOption]" ) {
+TEST_CASE("BinaryOption_CashOrNothingHaugValues", "[BinaryOption]") {
 
     INFO("Testing cash-or-nothing barrier options against Haug's values...");
 
@@ -189,7 +189,7 @@ TEST_CASE( "BinaryOption_CashOrNothingHaugValues", "[BinaryOption]" ) {
     }
 }
 
-TEST_CASE( "BinaryOption_AssetOrNothingHaugValues", "[BinaryOption]" ) {
+TEST_CASE("BinaryOption_AssetOrNothingHaugValues", "[BinaryOption]") {
 
     INFO("Testing asset-or-nothing barrier options against Haug's values...");
 

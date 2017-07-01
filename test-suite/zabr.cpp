@@ -25,7 +25,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "Zabr_Consistency", "[Zabr]" ) {
+TEST_CASE("Zabr_Consistency", "[Zabr]") {
 
     Real tol = 1E-4;
 

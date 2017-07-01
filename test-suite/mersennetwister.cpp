@@ -23,7 +23,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "MersenneTwister_Values", "[MersenneTwister]" ) {
+TEST_CASE("MersenneTwister_Values", "[MersenneTwister]") {
 
     INFO("Testing Mersenne twister...");
 

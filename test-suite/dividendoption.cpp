@@ -60,7 +60,7 @@ using namespace QuantLib;
 
 // tests
 
-TEST_CASE( "DividendOption_EuropeanValues", "[DividendOption]" ) {
+TEST_CASE("DividendOption_EuropeanValues", "[DividendOption]") {
 
     INFO(
               "Testing dividend European option values with no dividends...");
@@ -159,7 +159,7 @@ TEST_CASE( "DividendOption_EuropeanValues", "[DividendOption]" ) {
 // Reference pg. 253 - Hull - Options, Futures, and Other Derivatives 5th ed
 // Exercise 12.8
 
-TEST_CASE( "DividendOption_EuropeanKnownValue", "[.]" ) {
+TEST_CASE("DividendOption_EuropeanKnownValue", "[.]") {
 
     INFO(
               "Testing dividend European option values with known value...");
@@ -225,7 +225,7 @@ TEST_CASE( "DividendOption_EuropeanKnownValue", "[.]" ) {
 }
 
 
-TEST_CASE( "DividendOption_EuropeanStartLimit", "[DividendOption]" ) {
+TEST_CASE("DividendOption_EuropeanStartLimit", "[DividendOption]") {
 
     INFO(
        "Testing dividend European option with a dividend on today's date...");
@@ -318,7 +318,7 @@ TEST_CASE( "DividendOption_EuropeanStartLimit", "[DividendOption]" ) {
     }
 }
 
-TEST_CASE( "DividendOption_EuropeanEndLimit", "[.]" ) {
+TEST_CASE("DividendOption_EuropeanEndLimit", "[.]") {
 
     INFO(
               "Testing dividend European option values with end limits...");
@@ -417,7 +417,7 @@ TEST_CASE( "DividendOption_EuropeanEndLimit", "[.]" ) {
 }
 
 
-TEST_CASE( "DividendOption_EuropeanGreeks", "[DividendOption]" ) {
+TEST_CASE("DividendOption_EuropeanGreeks", "[DividendOption]") {
 
     INFO("Testing dividend European option greeks...");
 
@@ -565,7 +565,7 @@ TEST_CASE( "DividendOption_EuropeanGreeks", "[DividendOption]" ) {
 }
 
 
-TEST_CASE( "DividendOption_FdEuropeanValues", "[DividendOption]" ) {
+TEST_CASE("DividendOption_FdEuropeanValues", "[DividendOption]") {
 
     INFO(
               "Testing finite-difference dividend European option values...");
@@ -793,7 +793,7 @@ namespace {
 }
 
 
-TEST_CASE( "DividendOption_FdEuropeanGreeks", "[DividendOption]" ) {
+TEST_CASE("DividendOption_FdEuropeanGreeks", "[DividendOption]") {
 
     INFO(
              "Testing finite-differences dividend European option greeks...");
@@ -811,7 +811,7 @@ TEST_CASE( "DividendOption_FdEuropeanGreeks", "[DividendOption]" ) {
     }
 }
 
-TEST_CASE( "DividendOption_FdAmericanGreeks", "[DividendOption]" ) {
+TEST_CASE("DividendOption_FdAmericanGreeks", "[DividendOption]") {
     INFO(
              "Testing finite-differences dividend American option greeks...");
 
@@ -888,7 +888,7 @@ namespace {
 }
 
 
-TEST_CASE( "DividendOption_FdEuropeanDegenerate", "[DividendOption]" ) {
+TEST_CASE("DividendOption_FdEuropeanDegenerate", "[DividendOption]") {
 
     INFO(
          "Testing degenerate finite-differences dividend European option...");
@@ -904,7 +904,7 @@ TEST_CASE( "DividendOption_FdEuropeanDegenerate", "[DividendOption]" ) {
     testFdDegenerate<FDDividendEuropeanEngine<CrankNicolson> >(today,exercise);
 }
 
-TEST_CASE( "DividendOption_FdAmericanDegenerate", "[DividendOption]" ) {
+TEST_CASE("DividendOption_FdAmericanDegenerate", "[DividendOption]") {
 
     INFO(
          "Testing degenerate finite-differences dividend American option...");

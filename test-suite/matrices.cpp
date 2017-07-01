@@ -104,7 +104,7 @@ namespace {
 }
 
 
-TEST_CASE( "Matrices_Eigenvectors", "[Matrices]" ) {
+TEST_CASE("Matrices_Eigenvectors", "[Matrices]") {
 
     INFO("Testing eigenvalues and eigenvectors calculation...");
 
@@ -144,7 +144,7 @@ TEST_CASE( "Matrices_Eigenvectors", "[Matrices]" ) {
     }
 }
 
-TEST_CASE( "Matrices_Sqrt", "[Matrices]" ) {
+TEST_CASE("Matrices_Sqrt", "[Matrices]") {
 
     INFO("Testing matricial square root...");
 
@@ -164,7 +164,7 @@ TEST_CASE( "Matrices_Sqrt", "[Matrices]" ) {
     }
 }
 
-TEST_CASE( "Matrices_HighamSqrt", "[Matrices]" ) {
+TEST_CASE("Matrices_HighamSqrt", "[Matrices]") {
     INFO("Testing Higham matricial square root...");
 
     setup();
@@ -183,7 +183,7 @@ TEST_CASE( "Matrices_HighamSqrt", "[Matrices]" ) {
     }
 }
 
-TEST_CASE( "Matrices_SVD", "[Matrices]" ) {
+TEST_CASE("Matrices_SVD", "[Matrices]") {
 
     INFO("Testing singular value decomposition...");
 
@@ -228,7 +228,7 @@ TEST_CASE( "Matrices_SVD", "[Matrices]" ) {
     }
 }
 
-TEST_CASE( "Matrices_QRDecomposition", "[Matrices]" ) {
+TEST_CASE("Matrices_QRDecomposition", "[Matrices]") {
 
     INFO("Testing QR decomposition...");
 
@@ -265,7 +265,7 @@ TEST_CASE( "Matrices_QRDecomposition", "[Matrices]" ) {
     }
 }
 
-TEST_CASE( "Matrices_QRSolve", "[Matrices]" ) {
+TEST_CASE("Matrices_QRSolve", "[Matrices]") {
 
     INFO("Testing QR solve...");
 
@@ -336,7 +336,7 @@ TEST_CASE( "Matrices_QRSolve", "[Matrices]" ) {
     }
 }
 
-TEST_CASE( "Matrices_Inverse", "[Matrices]" ) {
+TEST_CASE("Matrices_Inverse", "[Matrices]") {
 
     INFO("Testing LU inverse calculation...");
 
@@ -365,7 +365,7 @@ TEST_CASE( "Matrices_Inverse", "[Matrices]" ) {
     }
 }
 
-TEST_CASE( "Matrices_Determinant", "[Matrices]" ) {
+TEST_CASE("Matrices_Determinant", "[Matrices]") {
 
     INFO("Testing LU determinant calculation...");
 
@@ -418,7 +418,7 @@ TEST_CASE( "Matrices_Determinant", "[Matrices]" ) {
     }
 }
 
-TEST_CASE( "Matrices_OrthogonalProjection", "[Matrices]" ) {
+TEST_CASE("Matrices_OrthogonalProjection", "[Matrices]") {
     INFO("Testing orthogonal projections...");
 
     Size dimension = 1000;
@@ -484,7 +484,7 @@ TEST_CASE( "Matrices_OrthogonalProjection", "[Matrices]" ) {
 
 }
 
-TEST_CASE( "Matrices_CholeskyDecomposition", "[Matrices]" ) {
+TEST_CASE("Matrices_CholeskyDecomposition", "[Matrices]") {
 
     INFO("Testing Cholesky Decomposition...");
 
@@ -555,7 +555,7 @@ TEST_CASE( "Matrices_CholeskyDecomposition", "[Matrices]" ) {
     }
 }
 
-TEST_CASE( "Matrices_MoorePenroseInverse", "[Matrices]" ) {
+TEST_CASE("Matrices_MoorePenroseInverse", "[Matrices]") {
     // this is taken from
     // http://de.mathworks.com/help/matlab/ref/pinv.html
     Real tmp[8][6] = {{64, 2, 3, 61, 60, 6},    {9, 55, 54, 12, 13, 51},

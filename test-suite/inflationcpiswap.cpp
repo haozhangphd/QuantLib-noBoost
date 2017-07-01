@@ -259,7 +259,7 @@ namespace {
 
 
 
-TEST_CASE( "CPISwap_consistency", "[CPISwap]") {
+TEST_CASE("CPISwap_consistency", "[CPISwap]") {
 
     // check inflation leg vs calculation directly from inflation TS
     CommonVars common;
@@ -373,7 +373,7 @@ TEST_CASE( "CPISwap_consistency", "[CPISwap]") {
 }
 
 
-TEST_CASE( "CPISwap_zciisconsistency", "[CPISwap]") {
+TEST_CASE("CPISwap_zciisconsistency", "[CPISwap]") {
     CommonVars common;
 
     ZeroCouponInflationSwap::Type ztype = ZeroCouponInflationSwap::Payer;
@@ -428,7 +428,7 @@ TEST_CASE( "CPISwap_zciisconsistency", "[CPISwap]") {
 }
 
 
-TEST_CASE( "CPISwap_cpibondconsistency", "[CPISwap]" ) {
+TEST_CASE("CPISwap_cpibondconsistency", "[CPISwap]") {
     CommonVars common;
 
     // ZeroInflationSwap aka CPISwap

@@ -24,7 +24,7 @@ using namespace QuantLib;
 
 using namespace std;
 
-TEST_CASE( "Autocovariances_Convolutions", "[Autocovariances]" ) {
+TEST_CASE("Autocovariances_Convolutions", "[Autocovariances]") {
     INFO("Testing convolutions...");
     Array x(10, 1, 1);
     Array conv(6);
@@ -38,7 +38,7 @@ TEST_CASE( "Autocovariances_Convolutions", "[Autocovariances]" ) {
                     << "    expected:     " << Array(expected, expected+6));
 }
 
-TEST_CASE( "Autocovariances_AutoCovariances", "[Autocovariances]" ) {
+TEST_CASE("Autocovariances_AutoCovariances", "[Autocovariances]") {
     INFO("Testing auto-covariances...");
     Array x(10, 1, 1);
     Array acovf(6);
@@ -57,7 +57,7 @@ TEST_CASE( "Autocovariances_AutoCovariances", "[Autocovariances]" ) {
                     << "    expected:     " << Array(expected, expected+6));
 }
 
-TEST_CASE( "Autocovariances_AutoCorrelations", "[Autocovariances]" ) {
+TEST_CASE("Autocovariances_AutoCorrelations", "[Autocovariances]") {
     INFO("Testing auto-correlations...");
     Array x(10, 1, 1);
     Array acorf(6);

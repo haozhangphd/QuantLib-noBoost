@@ -192,7 +192,7 @@ namespace {
 }
 
 
-TEST_CASE( "EuropeanOption_Values", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_Values", "[EuropeanOption]") {
 
     INFO("Testing European option values...");
 
@@ -314,7 +314,7 @@ TEST_CASE( "EuropeanOption_Values", "[EuropeanOption]" ) {
 
 
 
-TEST_CASE( "EuropeanOption_GreekValues", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_GreekValues", "[EuropeanOption]") {
 
     INFO("Testing European option greek values...");
 
@@ -603,7 +603,7 @@ TEST_CASE( "EuropeanOption_GreekValues", "[EuropeanOption]" ) {
 
 }
 
-TEST_CASE( "EuropeanOption_Greeks", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_Greeks", "[EuropeanOption]") {
 
     INFO("Testing analytic European option greeks...");
 
@@ -764,7 +764,7 @@ TEST_CASE( "EuropeanOption_Greeks", "[EuropeanOption]" ) {
     }
 }
 
-TEST_CASE( "EuropeanOption_ImpliedVol", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_ImpliedVol", "[EuropeanOption]") {
 
     INFO("Testing European option implied volatility...");
 
@@ -892,7 +892,7 @@ TEST_CASE( "EuropeanOption_ImpliedVol", "[EuropeanOption]" ) {
 }
 
 
-TEST_CASE( "EuropeanOption_ImpliedVolContainment", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_ImpliedVolContainment", "[EuropeanOption]") {
 
     INFO("Testing self-containment of "
                        "implied volatility calculation...");
@@ -1075,7 +1075,7 @@ namespace {
 }
 
 
-TEST_CASE( "EuropeanOption_JRBinomialEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_JRBinomialEngines", "[EuropeanOption]") {
 
     INFO("Testing JR binomial European engines "
                        "against analytic results...");
@@ -1093,7 +1093,7 @@ TEST_CASE( "EuropeanOption_JRBinomialEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,steps,samples,relativeTol,true);
 }
 
-TEST_CASE( "EuropeanOption_CRRBinomialEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_CRRBinomialEngines", "[EuropeanOption]") {
 
     INFO("Testing CRR binomial European engines "
                        "against analytic results...");
@@ -1111,7 +1111,7 @@ TEST_CASE( "EuropeanOption_CRRBinomialEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,steps,samples,relativeTol,true);
 }
 
-TEST_CASE( "EuropeanOption_EQPBinomialEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_EQPBinomialEngines", "[EuropeanOption]") {
 
     INFO("Testing EQP binomial European engines "
                        "against analytic results...");
@@ -1129,7 +1129,7 @@ TEST_CASE( "EuropeanOption_EQPBinomialEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,steps,samples,relativeTol,true);
 }
 
-TEST_CASE( "EuropeanOption_TGEOBinomialEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_TGEOBinomialEngines", "[EuropeanOption]") {
 
     INFO("Testing TGEO binomial European engines "
                        "against analytic results...");
@@ -1147,7 +1147,7 @@ TEST_CASE( "EuropeanOption_TGEOBinomialEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,steps,samples,relativeTol,true);
 }
 
-TEST_CASE( "EuropeanOption_TIANBinomialEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_TIANBinomialEngines", "[EuropeanOption]") {
 
     INFO("Testing TIAN binomial European engines "
                        "against analytic results...");
@@ -1165,7 +1165,7 @@ TEST_CASE( "EuropeanOption_TIANBinomialEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,steps,samples,relativeTol,true);
 }
 
-TEST_CASE( "EuropeanOption_LRBinomialEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_LRBinomialEngines", "[EuropeanOption]") {
 
     INFO("Testing LR binomial European engines "
                        "against analytic results...");
@@ -1183,7 +1183,7 @@ TEST_CASE( "EuropeanOption_LRBinomialEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,steps,samples,relativeTol,true);
 }
 
-TEST_CASE( "EuropeanOption_JOSHIBinomialEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_JOSHIBinomialEngines", "[EuropeanOption]") {
 
     INFO("Testing Joshi binomial European engines "
                        "against analytic results...");
@@ -1201,7 +1201,7 @@ TEST_CASE( "EuropeanOption_JOSHIBinomialEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,steps,samples,relativeTol,true);
 }
 
-TEST_CASE( "EuropeanOption_FdEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_FdEngines", "[EuropeanOption]") {
 
     INFO("Testing finite-difference European engines "
                        "against analytic results...");
@@ -1219,7 +1219,7 @@ TEST_CASE( "EuropeanOption_FdEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,timeSteps,gridPoints,relativeTol,true);
 }
 
-TEST_CASE( "EuropeanOption_IntegralEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_IntegralEngines", "[EuropeanOption]") {
 
     INFO("Testing integral engines against analytic results...");
 
@@ -1233,7 +1233,7 @@ TEST_CASE( "EuropeanOption_IntegralEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,timeSteps,gridPoints,relativeTol);
 }
 
-TEST_CASE( "EuropeanOption_McEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_McEngines", "[EuropeanOption]") {
 
     INFO("Testing Monte Carlo European engines "
                        "against analytic results...");
@@ -1248,7 +1248,7 @@ TEST_CASE( "EuropeanOption_McEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,steps,samples,relativeTol);
 }
 
-TEST_CASE( "EuropeanOption_QmcEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_QmcEngines", "[EuropeanOption]") {
 
     INFO("Testing Quasi Monte Carlo European engines "
                        "against analytic results...");
@@ -1263,7 +1263,7 @@ TEST_CASE( "EuropeanOption_QmcEngines", "[EuropeanOption]" ) {
     testEngineConsistency(engine,steps,samples,relativeTol);
 }
 
-TEST_CASE( "EuropeanOption_FFTEngines", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_FFTEngines", "[EuropeanOption]") {
 
     INFO("Testing FFT European engines "
                        "against analytic results...");
@@ -1279,7 +1279,7 @@ TEST_CASE( "EuropeanOption_FFTEngines", "[EuropeanOption]" ) {
 }
 
 
-TEST_CASE( "EuropeanOption_PriceCurve", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_PriceCurve", "[EuropeanOption]") {
 
     INFO("Testing European price curves...");
 
@@ -1377,7 +1377,7 @@ TEST_CASE( "EuropeanOption_PriceCurve", "[EuropeanOption]" ) {
 }
 
 
-TEST_CASE( "EuropeanOption_LocalVolatility", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_LocalVolatility", "[EuropeanOption]") {
     INFO("Testing finite-differences with local volatility...");
 
     SavedSettings backup;
@@ -1511,7 +1511,7 @@ TEST_CASE( "EuropeanOption_LocalVolatility", "[EuropeanOption]" ) {
     }
 }
 
-TEST_CASE( "EuropeanOption_AnalyticEngineDiscountCurve", "[EuropeanOption]" ) {
+TEST_CASE("EuropeanOption_AnalyticEngineDiscountCurve", "[EuropeanOption]") {
     INFO(
         "Testing separate discount curve for analytic European engine...");
 

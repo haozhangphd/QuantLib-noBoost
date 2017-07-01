@@ -272,7 +272,7 @@ namespace {
 }
 
 
-TEST_CASE( "Cms_FairRate", "[Cms]" )  {
+TEST_CASE("Cms_FairRate", "[Cms]")  {
 
     INFO("Testing Hagan-pricer flat-vol equivalence for coupons...");
 
@@ -336,7 +336,7 @@ TEST_CASE( "Cms_FairRate", "[Cms]" )  {
     }
 }
 
-TEST_CASE( "Cms_CmsSwap", "[Cms]" ) {
+TEST_CASE("Cms_CmsSwap", "[Cms]") {
 
     INFO("Testing Hagan-pricer flat-vol equivalence for swaps...");
 
@@ -401,7 +401,7 @@ TEST_CASE( "Cms_CmsSwap", "[Cms]" ) {
 
 }
 
-TEST_CASE( "Cms_Parity", "[Cms]" ) {
+TEST_CASE("Cms_Parity", "[Cms]") {
 
     INFO("Testing put-call parity for capped-floored CMS coupons...");
 

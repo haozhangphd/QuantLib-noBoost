@@ -87,7 +87,7 @@ namespace {
 }
 
 
-TEST_CASE( "VPP_GemanRoncoroniProcess", "[VPP]" ) {
+TEST_CASE("VPP_GemanRoncoroniProcess", "[VPP]") {
 
     INFO("Testing Geman-Roncoroni process...");
 
@@ -212,7 +212,7 @@ TEST_CASE( "VPP_GemanRoncoroniProcess", "[VPP]" ) {
     }
 }
 
-TEST_CASE( "VPP_SimpleExtOUStorageEngine", "[VPP]" ) {
+TEST_CASE("VPP_SimpleExtOUStorageEngine", "[VPP]") {
 
     INFO("Testing simple-storage option based on ext. OU model...");
 
@@ -260,7 +260,7 @@ TEST_CASE( "VPP_SimpleExtOUStorageEngine", "[VPP]" ) {
 }
 
 
-TEST_CASE( "VPP_KlugeExtOUSpreadOption", "[VPP]" ) {
+TEST_CASE("VPP_KlugeExtOUSpreadOption", "[VPP]") {
 
     INFO("Testing simple Kluge ext-Ornstein-Uhlenbeck spread option...");
 
@@ -393,7 +393,7 @@ namespace {
                               51.59,57.44,56.50,55.12,57.22,54.61,49.92,45.20};
 }
 
-TEST_CASE( "VPP_VPPIntrinsicValue", "[VPP]" ) {
+TEST_CASE("VPP_VPPIntrinsicValue", "[VPP]") {
 
     INFO("Testing VPP step condition...");
 
@@ -550,7 +550,7 @@ namespace {
 }
 
 
-TEST_CASE( "VPP_VPPPricing", "[VPP]" ) {
+TEST_CASE("VPP_VPPPricing", "[VPP]") {
     INFO("Testing VPP pricing using perfect foresight or FDM...");
 
     SavedSettings backup;
@@ -869,7 +869,7 @@ TEST_CASE( "VPP_VPPPricing", "[VPP]" ) {
     }
 }
 
-TEST_CASE( "VPP_KlugeExtOUMatrixDecomposition", "[VPP]" ) {
+TEST_CASE("VPP_KlugeExtOUMatrixDecomposition", "[VPP]") {
     INFO("Testing KlugeExtOU matrix decomposition...");
 
     SavedSettings backup;

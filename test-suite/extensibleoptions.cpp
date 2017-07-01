@@ -32,7 +32,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "ExtensibleOptions_AnalyticHolderExtensibleOptionEngine", "[ExtensibleOptions]" ) {
+TEST_CASE("ExtensibleOptions_AnalyticHolderExtensibleOptionEngine", "[ExtensibleOptions]") {
     INFO(
         "Testing analytic engine for holder-extensible option...");
 
@@ -85,7 +85,7 @@ TEST_CASE( "ExtensibleOptions_AnalyticHolderExtensibleOptionEngine", "[Extensibl
 }
 
 
-TEST_CASE( "ExtensibleOptions_AnalyticWriterExtensibleOptionEngine", "[ExtensibleOptions]" ) {
+TEST_CASE("ExtensibleOptions_AnalyticWriterExtensibleOptionEngine", "[ExtensibleOptions]") {
     INFO("Testing analytic engine for writer-extensible option...");
 
     // What we need for the option (tests):

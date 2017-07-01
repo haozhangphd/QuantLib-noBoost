@@ -58,7 +58,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "NormalCLVModel_BSCumlativeDistributionFunction", "[NormalCLVModel]" ) {
+TEST_CASE("NormalCLVModel_BSCumlativeDistributionFunction", "[NormalCLVModel]") {
     INFO("Testing Black-Scholes cumulative distribution function"
                                " with constant volatility...");
 
@@ -103,7 +103,7 @@ TEST_CASE( "NormalCLVModel_BSCumlativeDistributionFunction", "[NormalCLVModel]" 
     }
 }
 
-TEST_CASE( "NormalCLVModel_HestonCumlativeDistributionFunction", "[NormalCLVModel]" ) {
+TEST_CASE("NormalCLVModel_HestonCumlativeDistributionFunction", "[NormalCLVModel]") {
     INFO("Testing Heston cumulative distribution function...");
 
     SavedSettings backup;
@@ -157,7 +157,7 @@ TEST_CASE( "NormalCLVModel_HestonCumlativeDistributionFunction", "[NormalCLVMode
 }
 
 
-TEST_CASE( "NormalCLVModel_Illustrative1DExample", "[NormalCLVModel]" ) {
+TEST_CASE("NormalCLVModel_Illustrative1DExample", "[NormalCLVModel]") {
     INFO(
             "Testing illustrative 1D example of normal CLV model...");
 
@@ -282,7 +282,7 @@ namespace {
     };
 }
 
-TEST_CASE( "NormalCLVModel_MonteCarloBSOptionPricing", "[NormalCLVModel]" ) {
+TEST_CASE("NormalCLVModel_MonteCarloBSOptionPricing", "[NormalCLVModel]") {
     INFO("Testing Monte Carlo BS option pricing...");
 
     // the evaluation date was set in 'quantlibtestsuite.cpp', 'init_unit_test_suite' function
@@ -380,7 +380,7 @@ TEST_CASE( "NormalCLVModel_MonteCarloBSOptionPricing", "[NormalCLVModel]" ) {
     }
 }
 
-TEST_CASE( "NormalCLVModel_MoustacheGraph", "[NormalCLVModel]" ) {
+TEST_CASE("NormalCLVModel_MoustacheGraph", "[NormalCLVModel]") {
     INFO(
             "Testing double no-touch pricing with normal CLV model...");
 

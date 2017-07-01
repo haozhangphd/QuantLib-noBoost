@@ -114,7 +114,7 @@ namespace {
 }
 
 
-TEST_CASE( "Swaption_StrikeDependency", "[Swaption]" ) {
+TEST_CASE("Swaption_StrikeDependency", "[Swaption]") {
 
     INFO("Testing swaption dependency on strike...");
 
@@ -216,7 +216,7 @@ TEST_CASE( "Swaption_StrikeDependency", "[Swaption]" ) {
     }
 }
 
-TEST_CASE( "Swaption_SpreadDependency", "[Swaption]" ) {
+TEST_CASE("Swaption_SpreadDependency", "[Swaption]") {
 
     INFO("Testing swaption dependency on spread...");
 
@@ -309,7 +309,7 @@ TEST_CASE( "Swaption_SpreadDependency", "[Swaption]" ) {
     }
 }
 
-TEST_CASE( "Swaption_SpreadTreatment", "[Swaption]" ) {
+TEST_CASE("Swaption_SpreadTreatment", "[Swaption]") {
 
     INFO("Testing swaption treatment of spread...");
 
@@ -378,7 +378,7 @@ TEST_CASE( "Swaption_SpreadTreatment", "[Swaption]" ) {
     }
 }
 
-TEST_CASE( "Swaption_CachedValue", "[Swaption]" ) {
+TEST_CASE("Swaption_CachedValue", "[Swaption]") {
 
     INFO("Testing swaption value against cached value...");
 
@@ -413,7 +413,7 @@ TEST_CASE( "Swaption_CachedValue", "[Swaption]" ) {
                     "\nexpected:   " << cachedNPV);
 }
 
-TEST_CASE( "Swaption_Vega", "[Swaption]" ) {
+TEST_CASE("Swaption_Vega", "[Swaption]") {
 
     INFO("Testing swaption vega...");
 
@@ -484,7 +484,7 @@ TEST_CASE( "Swaption_Vega", "[Swaption]" ) {
 
 
 
-TEST_CASE( "Swaption_CashSettledSwaptions", "[Swaption]" ) {
+TEST_CASE("Swaption_CashSettledSwaptions", "[Swaption]") {
 
     INFO("Testing cash settled swaptions modified annuity...");
 
@@ -825,7 +825,7 @@ TEST_CASE( "Swaption_CashSettledSwaptions", "[Swaption]" ) {
 
 
 
-TEST_CASE( "Swaption_ImpliedVolatility", "[Swaption]" ) {
+TEST_CASE("Swaption_ImpliedVolatility", "[Swaption]") {
 
     INFO("Testing implied volatility for swaptions...");
 

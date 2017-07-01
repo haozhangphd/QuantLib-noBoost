@@ -69,7 +69,7 @@ namespace {
 }
 
 
-TEST_CASE( "DigitalCoupon_AssetOrNothing", "[DigitalCoupon]" ) {
+TEST_CASE("DigitalCoupon_AssetOrNothing", "[DigitalCoupon]") {
 
     INFO("Testing European asset-or-nothing digital coupon...");
 
@@ -258,7 +258,7 @@ TEST_CASE( "DigitalCoupon_AssetOrNothing", "[DigitalCoupon]" ) {
     }
 }
 
-TEST_CASE( "DigitalCoupon_AssetOrNothingDeepInTheMoney", "[DigitalCoupon]" ) {
+TEST_CASE("DigitalCoupon_AssetOrNothingDeepInTheMoney", "[DigitalCoupon]") {
 
     INFO("Testing European deep in-the-money asset-or-nothing "
                        "digital coupon...");
@@ -370,7 +370,7 @@ TEST_CASE( "DigitalCoupon_AssetOrNothingDeepInTheMoney", "[DigitalCoupon]" ) {
     }
 }
 
-TEST_CASE( "DigitalCoupon_AssetOrNothingDeepOutTheMoney", "[DigitalCoupon]" ) {
+TEST_CASE("DigitalCoupon_AssetOrNothingDeepOutTheMoney", "[DigitalCoupon]") {
 
     INFO("Testing European deep out-the-money asset-or-nothing "
                        "digital coupon...");
@@ -480,7 +480,7 @@ TEST_CASE( "DigitalCoupon_AssetOrNothingDeepOutTheMoney", "[DigitalCoupon]" ) {
     }
 }
 
-TEST_CASE( "DigitalCoupon_CashOrNothing", "[DigitalCoupon]" ) {
+TEST_CASE("DigitalCoupon_CashOrNothing", "[DigitalCoupon]") {
 
     INFO("Testing European cash-or-nothing digital coupon...");
 
@@ -635,7 +635,7 @@ TEST_CASE( "DigitalCoupon_CashOrNothing", "[DigitalCoupon]" ) {
     }
 }
 
-TEST_CASE( "DigitalCoupon_CashOrNothingDeepInTheMoney", "[DigitalCoupon]" ) {
+TEST_CASE("DigitalCoupon_CashOrNothingDeepInTheMoney", "[DigitalCoupon]") {
 
     INFO("Testing European deep in-the-money cash-or-nothing "
                        "digital coupon...");
@@ -745,7 +745,7 @@ TEST_CASE( "DigitalCoupon_CashOrNothingDeepInTheMoney", "[DigitalCoupon]" ) {
     }
 }
 
-TEST_CASE( "DigitalCoupon_CashOrNothingDeepOutTheMoney", "[DigitalCoupon]" ) {
+TEST_CASE("DigitalCoupon_CashOrNothingDeepOutTheMoney", "[DigitalCoupon]") {
 
     INFO("Testing European deep out-the-money cash-or-nothing "
                        "digital coupon...");
@@ -857,7 +857,7 @@ TEST_CASE( "DigitalCoupon_CashOrNothingDeepOutTheMoney", "[DigitalCoupon]" ) {
 }
 
 
-TEST_CASE( "DigitalCoupon_CallPutParity", "[DigitalCoupon]" ) {
+TEST_CASE("DigitalCoupon_CallPutParity", "[DigitalCoupon]") {
 
     INFO("Testing call/put parity for European digital coupon...");
 
@@ -960,7 +960,7 @@ TEST_CASE( "DigitalCoupon_CallPutParity", "[DigitalCoupon]" ) {
     }
 }
 
-TEST_CASE( "DigitalCoupon_ReplicationType", "[DigitalCoupon]" ) {
+TEST_CASE("DigitalCoupon_ReplicationType", "[DigitalCoupon]") {
 
     INFO("Testing replication type for European digital coupon...");
 

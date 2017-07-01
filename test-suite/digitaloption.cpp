@@ -71,7 +71,7 @@ namespace {
 }
 
 
-TEST_CASE( "DigitalOption_CashOrNothingEuropeanValues", "[DigitalOption]" ) {
+TEST_CASE("DigitalOption_CashOrNothingEuropeanValues", "[DigitalOption]") {
 
     INFO("Testing European cash-or-nothing digital option...");
 
@@ -126,7 +126,7 @@ TEST_CASE( "DigitalOption_CashOrNothingEuropeanValues", "[DigitalOption]" ) {
     }
 }
 
-TEST_CASE( "DigitalOption_AssetOrNothingEuropeanValues", "[DigitalOption]" ) {
+TEST_CASE("DigitalOption_AssetOrNothingEuropeanValues", "[DigitalOption]") {
 
     INFO("Testing European asset-or-nothing digital option...");
 
@@ -181,7 +181,7 @@ TEST_CASE( "DigitalOption_AssetOrNothingEuropeanValues", "[DigitalOption]" ) {
     }
 }
 
-TEST_CASE( "DigitalOption_GapEuropeanValues", "[DigitalOption]" ) {
+TEST_CASE("DigitalOption_GapEuropeanValues", "[DigitalOption]") {
 
     INFO("Testing European gap digital option...");
 
@@ -236,7 +236,7 @@ TEST_CASE( "DigitalOption_GapEuropeanValues", "[DigitalOption]" ) {
     }
 }
 
-TEST_CASE( "DigitalOption_CashAtHitOrNothingAmericanValues", "[DigitalOption]" ) {
+TEST_CASE("DigitalOption_CashAtHitOrNothingAmericanValues", "[DigitalOption]") {
 
     INFO("Testing American cash-(at-hit)-or-nothing "
                        "digital option...");
@@ -304,7 +304,7 @@ TEST_CASE( "DigitalOption_CashAtHitOrNothingAmericanValues", "[DigitalOption]" )
     }
 }
 
-TEST_CASE( "DigitalOption_AssetAtHitOrNothingAmericanValues", "[DigitalOption]" ) {
+TEST_CASE("DigitalOption_AssetAtHitOrNothingAmericanValues", "[DigitalOption]") {
 
     INFO("Testing American asset-(at-hit)-or-nothing "
                        "digital option...");
@@ -370,7 +370,7 @@ TEST_CASE( "DigitalOption_AssetAtHitOrNothingAmericanValues", "[DigitalOption]" 
     }
 }
 
-TEST_CASE( "DigitalOption_CashAtExpiryOrNothingAmericanValues", "[DigitalOption]" ) {
+TEST_CASE("DigitalOption_CashAtExpiryOrNothingAmericanValues", "[DigitalOption]") {
 
     INFO("Testing American cash-(at-expiry)-or-nothing "
                        "digital option...");
@@ -439,7 +439,7 @@ TEST_CASE( "DigitalOption_CashAtExpiryOrNothingAmericanValues", "[DigitalOption]
     }
 }
 
-TEST_CASE( "DigitalOption_AssetAtExpiryOrNothingAmericanValues", "[DigitalOption]" ) {
+TEST_CASE("DigitalOption_AssetAtExpiryOrNothingAmericanValues", "[DigitalOption]") {
 
     INFO("Testing American asset-(at-expiry)-or-nothing "
                        "digital option...");
@@ -512,7 +512,7 @@ TEST_CASE( "DigitalOption_AssetAtExpiryOrNothingAmericanValues", "[DigitalOption
     }
 }
 
-TEST_CASE( "DigitalOption_CashAtHitOrNothingAmericanGreeks", "[DigitalOption]" ) {
+TEST_CASE("DigitalOption_CashAtHitOrNothingAmericanGreeks", "[DigitalOption]") {
 
     INFO("Testing American cash-(at-hit)-or-nothing "
                        "digital option greeks...");
@@ -680,7 +680,7 @@ TEST_CASE( "DigitalOption_CashAtHitOrNothingAmericanGreeks", "[DigitalOption]" )
 }
 
 
-TEST_CASE( "DigitalOption_MCCashAtHit", "[DigitalOption]" ) {
+TEST_CASE("DigitalOption_MCCashAtHit", "[DigitalOption]") {
 
     INFO("Testing Monte Carlo cash-(at-hit)-or-nothing "
                        "American engine...");

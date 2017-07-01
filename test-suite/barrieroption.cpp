@@ -160,7 +160,7 @@ namespace {
 }
 
 
-TEST_CASE( "BarrierOption_HaugValues", "[BarrierOption]" ) {
+TEST_CASE("BarrierOption_HaugValues", "[BarrierOption]") {
 
     INFO("Testing barrier options against Haug's values...");
 
@@ -407,7 +407,7 @@ TEST_CASE( "BarrierOption_HaugValues", "[BarrierOption]" ) {
     }
 }
 
-TEST_CASE( "BarrierOption_BabsiriValues", "[BarrierOption]" ) {
+TEST_CASE("BarrierOption_BabsiriValues", "[BarrierOption]") {
 
     INFO("Testing barrier options against Babsiri's values...");
 
@@ -516,7 +516,7 @@ TEST_CASE( "BarrierOption_BabsiriValues", "[BarrierOption]" ) {
     }
 }
 
-TEST_CASE( "BarrierOption_BeagleholeValues", "[BarrierOption]" ) {
+TEST_CASE("BarrierOption_BeagleholeValues", "[BarrierOption]") {
 
     INFO("Testing barrier options against Beaglehole's values...");
 
@@ -616,7 +616,7 @@ TEST_CASE( "BarrierOption_BeagleholeValues", "[BarrierOption]" ) {
     }
 }
 
-TEST_CASE( "BarrierOption_Perturbative", "[BarrierOption]" ) {
+TEST_CASE("BarrierOption_Perturbative", "[BarrierOption]") {
     INFO("Testing perturbative engine for barrier options...");
 
     Real S = 100.0;
@@ -709,7 +709,7 @@ TEST_CASE( "BarrierOption_Perturbative", "[BarrierOption]" ) {
     */
 }
 
-TEST_CASE( "BarrierOption_LocalVolAndHestonComparison", "[BarrierOption]" ) {
+TEST_CASE("BarrierOption_LocalVolAndHestonComparison", "[BarrierOption]") {
     INFO("Testing local volatility and Heston FD engines "
                        "for barrier options...");
 
@@ -848,7 +848,7 @@ TEST_CASE( "BarrierOption_LocalVolAndHestonComparison", "[BarrierOption]" ) {
 }
 
 
-TEST_CASE( "BarrierOption_VannaVolgaSimpleBarrierValues", "[BarrierOption]" ) {
+TEST_CASE("BarrierOption_VannaVolgaSimpleBarrierValues", "[BarrierOption]") {
     INFO("Testing barrier FX options against Vanna/Volga values...");
 
     SavedSettings backup;

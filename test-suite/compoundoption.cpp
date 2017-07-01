@@ -81,7 +81,7 @@ namespace {
 }
 
 
-TEST_CASE( "CompoundOption_PutCallParity", "[CompoundOption]" ){
+TEST_CASE("CompoundOption_PutCallParity", "[CompoundOption]"){
 
     INFO("Testing compound-option put-call parity...");
 
@@ -200,7 +200,7 @@ TEST_CASE( "CompoundOption_PutCallParity", "[CompoundOption]" ){
     }
 }
 
-TEST_CASE( "CompoundOption_Values", "[CompoundOption]" ){
+TEST_CASE("CompoundOption_Values", "[CompoundOption]"){
 
     INFO("Testing compound-option values and greeks...");
 

@@ -273,7 +273,7 @@ namespace {
 }
 
 
-TEST_CASE( "Optimizers_", "[Optimizers]" ) {
+TEST_CASE("Optimizers_", "[Optimizers]") {
     INFO("Testing optimizers...");
 
     setup();
@@ -355,7 +355,7 @@ TEST_CASE( "Optimizers_", "[Optimizers]" ) {
 }
 
 
-TEST_CASE( "Optimizers_nestedOptimization", "[Optimizers]" ) {
+TEST_CASE("Optimizers_nestedOptimization", "[Optimizers]") {
     INFO("Testing nested optimizations...");
     OptimizationBasedCostFunction optimizationBasedCostFunction;
     NoConstraint constraint;
@@ -450,7 +450,7 @@ namespace {
     };
 }
 
-TEST_CASE( "Optimizers_DifferentialEvolution", "[Optimizers]" ) {
+TEST_CASE("Optimizers_DifferentialEvolution", "[Optimizers]") {
     INFO("Testing differential evolution...");
 
     /* Note:

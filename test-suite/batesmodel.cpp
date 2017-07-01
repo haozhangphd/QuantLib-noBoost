@@ -56,7 +56,7 @@ namespace {
 }
 
 
-TEST_CASE( "BatesModel_AnalyticVsBlack", "[BatesModel]" ) {
+TEST_CASE("BatesModel_AnalyticVsBlack", "[BatesModel]") {
 
     INFO("Testing analytic Bates engine against Black formula...");
 
@@ -169,7 +169,7 @@ TEST_CASE( "BatesModel_AnalyticVsBlack", "[BatesModel]" ) {
 }
 
 
-TEST_CASE( "BatesModel_AnalyticAndMcVsJumpDiffusion", "[BatesModel]" ) {
+TEST_CASE("BatesModel_AnalyticAndMcVsJumpDiffusion", "[BatesModel]") {
 
     INFO("Testing analytic Bates engine against Merton-76 engine...");
 
@@ -296,7 +296,7 @@ namespace {
     };
 }
 
-TEST_CASE( "BatesModel_AnalyticVsMCPricing", "[BatesModel]" ) {
+TEST_CASE("BatesModel_AnalyticVsMCPricing", "[BatesModel]") {
     INFO("Testing analytic Bates engine against Monte-Carlo "
                        "engine...");
 
@@ -379,7 +379,7 @@ TEST_CASE( "BatesModel_AnalyticVsMCPricing", "[BatesModel]" ) {
     }
 }
 
-TEST_CASE( "BatesModel_DAXCalibration", "[BatesModel]" ) {
+TEST_CASE("BatesModel_DAXCalibration", "[BatesModel]") {
     /* this example is taken from A. Sepp
        Pricing European-Style Options under Jump Diffusion Processes
        with Stochstic Volatility: Applications of Fourier Transform

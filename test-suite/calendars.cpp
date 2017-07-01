@@ -41,7 +41,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "Calendar_ModifiedCalendars", "[Calendar]" ) {
+TEST_CASE("Calendar_ModifiedCalendars", "[Calendar]") {
 
     INFO("Testing calendar modification...");
 
@@ -90,7 +90,7 @@ TEST_CASE( "Calendar_ModifiedCalendars", "[Calendar]" ) {
 }
 
 
-TEST_CASE( "Calendar_JointCalendars", "[Calendar]" ) {
+TEST_CASE("Calendar_JointCalendars", "[Calendar]") {
 
     INFO("Testing joint calendars...");
 
@@ -156,7 +156,7 @@ TEST_CASE( "Calendar_JointCalendars", "[Calendar]" ) {
     }
 }
 
-TEST_CASE( "Calendar_USSettlement", "[Calendar]" ) {
+TEST_CASE("Calendar_USSettlement", "[Calendar]") {
     INFO("Testing US settlement holiday list...");
 
     std::vector<Date> expectedHol;
@@ -219,7 +219,7 @@ TEST_CASE( "Calendar_USSettlement", "[Calendar]" ) {
     }
 }
 
-TEST_CASE( "Calendar_USGovernmentBondMarket", "[Calendar]" ) {
+TEST_CASE("Calendar_USGovernmentBondMarket", "[Calendar]") {
     INFO("Testing US government bond market holiday list...");
 
     std::vector<Date> expectedHol;
@@ -250,7 +250,7 @@ TEST_CASE( "Calendar_USGovernmentBondMarket", "[Calendar]" ) {
                    << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_USNewYorkStockExchange", "[Calendar]" ) {
+TEST_CASE("Calendar_USNewYorkStockExchange", "[Calendar]") {
     INFO("Testing New York Stock Exchange holiday list...");
 
     std::vector<Date> expectedHol;
@@ -349,7 +349,7 @@ TEST_CASE( "Calendar_USNewYorkStockExchange", "[Calendar]" ) {
     }
 }
 
-TEST_CASE( "Calendar_TARGET", "[Calendar]" ) {
+TEST_CASE("Calendar_TARGET", "[Calendar]") {
     INFO("Testing TARGET holiday list...");
 
     std::vector<Date> expectedHol;
@@ -414,7 +414,7 @@ TEST_CASE( "Calendar_TARGET", "[Calendar]" ) {
 
 }
 
-TEST_CASE( "Calendar_GermanyFrankfurt", "[Calendar]" ) {
+TEST_CASE("Calendar_GermanyFrankfurt", "[Calendar]") {
     INFO("Testing Frankfurt Stock Exchange holiday list...");
 
     std::vector<Date> expectedHol;
@@ -448,7 +448,7 @@ TEST_CASE( "Calendar_GermanyFrankfurt", "[Calendar]" ) {
                    << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_GermanyEurex", "[Calendar]" ) {
+TEST_CASE("Calendar_GermanyEurex", "[Calendar]") {
     INFO("Testing Eurex holiday list...");
 
     std::vector<Date> expectedHol;
@@ -482,7 +482,7 @@ TEST_CASE( "Calendar_GermanyEurex", "[Calendar]" ) {
                    << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_GermanyXetra", "[Calendar]" ) {
+TEST_CASE("Calendar_GermanyXetra", "[Calendar]") {
     INFO("Testing Xetra holiday list...");
 
     std::vector<Date> expectedHol;
@@ -516,7 +516,7 @@ TEST_CASE( "Calendar_GermanyXetra", "[Calendar]" ) {
                    << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_UKSettlement", "[Calendar]" ) {
+TEST_CASE("Calendar_UKSettlement", "[Calendar]") {
     INFO("Testing UK settlement holiday list...");
 
     std::vector<Date> expectedHol;
@@ -571,7 +571,7 @@ TEST_CASE( "Calendar_UKSettlement", "[Calendar]" ) {
                    << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_UKExchange", "[Calendar]" ) {
+TEST_CASE("Calendar_UKExchange", "[Calendar]") {
     INFO("Testing London Stock Exchange holiday list...");
 
     std::vector<Date> expectedHol;
@@ -626,7 +626,7 @@ TEST_CASE( "Calendar_UKExchange", "[Calendar]" ) {
                    << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_UKMetals", "[Calendar]" ) {
+TEST_CASE("Calendar_UKMetals", "[Calendar]") {
     INFO("Testing London Metals Exchange holiday list...");
 
     std::vector<Date> expectedHol;
@@ -681,7 +681,7 @@ TEST_CASE( "Calendar_UKMetals", "[Calendar]" ) {
                    << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_ItalyExchange", "[Calendar]" ) {
+TEST_CASE("Calendar_ItalyExchange", "[Calendar]") {
     INFO("Testing Milan Stock Exchange holiday list...");
 
     std::vector<Date> expectedHol;
@@ -726,7 +726,7 @@ TEST_CASE( "Calendar_ItalyExchange", "[Calendar]" ) {
                    << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_Russia", "[Calendar]" )
+TEST_CASE("Calendar_Russia", "[Calendar]")
 {
   INFO("Testing Russia holiday list...");
 
@@ -1329,7 +1329,7 @@ TEST_CASE( "Calendar_Russia", "[Calendar]" )
       << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_Brazil", "[Calendar]" ) {
+TEST_CASE("Calendar_Brazil", "[Calendar]") {
     INFO("Testing Brazil holiday list...");
 
     std::vector<Date> expectedHol;
@@ -1375,7 +1375,7 @@ TEST_CASE( "Calendar_Brazil", "[Calendar]" ) {
 }
 
 
-TEST_CASE( "Calendar_SouthKoreanSettlement", "[Calendar]" ) {
+TEST_CASE("Calendar_SouthKoreanSettlement", "[Calendar]") {
     INFO("Testing South-Korean settlement holiday list...");
 
     std::vector<Date> expectedHol;
@@ -1464,7 +1464,7 @@ TEST_CASE( "Calendar_SouthKoreanSettlement", "[Calendar]" ) {
                    << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_KoreaStockExchange", "[Calendar]" ) {
+TEST_CASE("Calendar_KoreaStockExchange", "[Calendar]") {
     INFO("Testing Korea Stock Exchange holiday list...");
 
     std::vector<Date> expectedHol;
@@ -1558,7 +1558,7 @@ TEST_CASE( "Calendar_KoreaStockExchange", "[Calendar]" ) {
                    << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_ChinaSSE", "[Calendar]" ) {
+TEST_CASE("Calendar_ChinaSSE", "[Calendar]") {
     INFO("Testing China Shanghai Stock Exchange holiday list...");
 
     std::vector<Date> expectedHol;
@@ -1652,7 +1652,7 @@ TEST_CASE( "Calendar_ChinaSSE", "[Calendar]" ) {
             << " calculated holidays");
 }
 
-TEST_CASE( "Calendar_ChinaIB", "[Calendar]" ) {
+TEST_CASE("Calendar_ChinaIB", "[Calendar]") {
     INFO("Testing China Inter Bank working weekends list...");
     
     std::vector<Date> expectedWorkingWeekEnds;
@@ -1708,7 +1708,7 @@ TEST_CASE( "Calendar_ChinaIB", "[Calendar]" ) {
             << " calculated working weekends");
 }
 
-TEST_CASE( "Calendar_EndOfMonth", "[Calendar]" ) {
+TEST_CASE("Calendar_EndOfMonth", "[Calendar]") {
     INFO("Testing end-of-month calculation...");
 
     Calendar c = TARGET(); // any calendar would be OK
@@ -1735,7 +1735,7 @@ TEST_CASE( "Calendar_EndOfMonth", "[Calendar]" ) {
     }
 }
 
-TEST_CASE( "Calendar_BusinessDaysBetween", "[Calendar]" ) {
+TEST_CASE("Calendar_BusinessDaysBetween", "[Calendar]") {
 
     INFO("Testing calculation of business days between dates...");
 
@@ -1782,7 +1782,7 @@ TEST_CASE( "Calendar_BusinessDaysBetween", "[Calendar]" ) {
 }
 
 
-TEST_CASE( "Calendar_BespokeCalendars", "[Calendar]" ) {
+TEST_CASE("Calendar_BespokeCalendars", "[Calendar]") {
 
     INFO("Testing bespoke calendars...");
 

@@ -140,7 +140,7 @@ namespace {
 }
 
 
-TEST_CASE( "PathGenerator_PathGenerator", "[PathGenerator]" ) {
+TEST_CASE("PathGenerator_PathGenerator", "[PathGenerator]") {
 
     INFO("Testing 1-D path generation against cached values...");
 
@@ -177,7 +177,7 @@ TEST_CASE( "PathGenerator_PathGenerator", "[PathGenerator]" ) {
 }
 
 
-TEST_CASE( "PathGenerator_MultiPathGenerator", "[PathGenerator]" ) {
+TEST_CASE("PathGenerator_MultiPathGenerator", "[PathGenerator]") {
 
     INFO("Testing n-D path generation against cached values...");
 

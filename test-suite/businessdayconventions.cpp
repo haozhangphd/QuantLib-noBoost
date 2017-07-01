@@ -44,7 +44,7 @@ namespace {
 
 }
 
-TEST_CASE( "BusinessDayConvention_Conventions", "[BusinessDayConvention]" ) {
+TEST_CASE("BusinessDayConvention_Conventions", "[BusinessDayConvention]") {
 
     INFO("Testing business day conventions...");
 

@@ -23,7 +23,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "Period_YearsMonthsAlgebra", "[Period]" ) {
+TEST_CASE("Period_YearsMonthsAlgebra", "[Period]") {
 
     INFO("Testing period algebra on years/months...");
 
@@ -76,7 +76,7 @@ TEST_CASE( "Period_YearsMonthsAlgebra", "[Period]" ) {
                     " instead of " << Years);
 }
 
-TEST_CASE( "Period_WeeksDaysAlgebra", "[Period]" ) {
+TEST_CASE("Period_WeeksDaysAlgebra", "[Period]") {
 
     INFO("Testing period algebra on weeks/days...");
 

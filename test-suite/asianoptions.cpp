@@ -84,7 +84,7 @@ namespace {
 }
 
 
-TEST_CASE( "AsianOption_AnalyticContinuousGeometricAveragePrice", "[AsianOption]" ) {
+TEST_CASE("AsianOption_AnalyticContinuousGeometricAveragePrice", "[AsianOption]") {
 
     INFO(
              "Testing analytic continuous geometric average-price Asians...");
@@ -165,7 +165,7 @@ TEST_CASE( "AsianOption_AnalyticContinuousGeometricAveragePrice", "[AsianOption]
 }
 
 
-TEST_CASE( "AsianOption_AnalyticContinuousGeometricAveragePriceGreeks", "[AsianOption]" ) {
+TEST_CASE("AsianOption_AnalyticContinuousGeometricAveragePriceGreeks", "[AsianOption]") {
 
     INFO(
        "Testing analytic continuous geometric average-price Asian greeks...");
@@ -322,7 +322,7 @@ TEST_CASE( "AsianOption_AnalyticContinuousGeometricAveragePriceGreeks", "[AsianO
 }
 
 
-TEST_CASE( "AsianOption_AnalyticDiscreteGeometricAveragePrice", "[AsianOption]" ) {
+TEST_CASE("AsianOption_AnalyticDiscreteGeometricAveragePrice", "[AsianOption]") {
 
     INFO(
                "Testing analytic discrete geometric average-price Asians...");
@@ -384,7 +384,7 @@ TEST_CASE( "AsianOption_AnalyticDiscreteGeometricAveragePrice", "[AsianOption]" 
     }
 }
 
-TEST_CASE( "AsianOption_AnalyticDiscreteGeometricAverageStrike", "[AsianOption]" ) {
+TEST_CASE("AsianOption_AnalyticDiscreteGeometricAverageStrike", "[AsianOption]") {
 
     INFO(
               "Testing analytic discrete geometric average-strike Asians...");
@@ -444,7 +444,7 @@ TEST_CASE( "AsianOption_AnalyticDiscreteGeometricAverageStrike", "[AsianOption]"
 }
 
 
-TEST_CASE( "AsianOption_MCDiscreteGeometricAveragePrice", "[AsianOption]" ) {
+TEST_CASE("AsianOption_MCDiscreteGeometricAveragePrice", "[AsianOption]") {
 
     INFO(
             "Testing Monte Carlo discrete geometric average-price Asians...");
@@ -533,7 +533,7 @@ namespace {
 }
 
 
-TEST_CASE( "AsianOption_MCDiscreteArithmeticAveragePrice", "[AsianOption]" ) {
+TEST_CASE("AsianOption_MCDiscreteArithmeticAveragePrice", "[AsianOption]") {
 
     INFO(
            "Testing Monte Carlo discrete arithmetic average-price Asians...");
@@ -688,7 +688,7 @@ TEST_CASE( "AsianOption_MCDiscreteArithmeticAveragePrice", "[AsianOption]" ) {
 }
 
 
-TEST_CASE( "AsianOption_MCDiscreteArithmeticAverageStrike", "[AsianOption]" ) {
+TEST_CASE("AsianOption_MCDiscreteArithmeticAverageStrike", "[AsianOption]") {
 
     INFO(
           "Testing Monte Carlo discrete arithmetic average-strike Asians...");
@@ -826,7 +826,7 @@ TEST_CASE( "AsianOption_MCDiscreteArithmeticAverageStrike", "[AsianOption]" ) {
 
 }
 
-TEST_CASE( "AsianOption_AnalyticDiscreteGeometricAveragePriceGreeks", "[AsianOption]" ) {
+TEST_CASE("AsianOption_AnalyticDiscreteGeometricAveragePriceGreeks", "[AsianOption]") {
 
     INFO("Testing discrete-averaging geometric Asian greeks...");
 
@@ -990,7 +990,7 @@ TEST_CASE( "AsianOption_AnalyticDiscreteGeometricAveragePriceGreeks", "[AsianOpt
 }
 
 
-TEST_CASE( "AsianOption_PastFixings", "[AsianOption]" ) {
+TEST_CASE("AsianOption_PastFixings", "[AsianOption]") {
 
     INFO("Testing use of past fixings in Asian options...");
 
@@ -1145,7 +1145,7 @@ namespace {
 
 }
 
-TEST_CASE( "AsianOption_LevyEngine", "[AsianOption]" ) {
+TEST_CASE("AsianOption_LevyEngine", "[AsianOption]") {
 
     INFO("Testing Levy engine for Asians options...");
 
@@ -1248,7 +1248,7 @@ namespace {
 
 }
 
-TEST_CASE( "AsianOption_VecerEngine", "[AsianOption]" ) {
+TEST_CASE("AsianOption_VecerEngine", "[AsianOption]") {
     INFO("Testing Vecer engine for Asian options...");
 
     VecerData cases[] = {

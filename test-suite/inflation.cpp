@@ -91,7 +91,7 @@ namespace {
 //===========================================================================================
 
 
-TEST_CASE( "Inflation_ZeroIndex", "[Inflation]" ) {
+TEST_CASE("Inflation_ZeroIndex", "[Inflation]") {
     INFO("Testing zero inflation indices...");
 
     SavedSettings backup;
@@ -177,7 +177,7 @@ TEST_CASE( "Inflation_ZeroIndex", "[Inflation]" ) {
 
 
 
-TEST_CASE( "Inflation_ZeroTermStructure", "[Inflation]" ) {
+TEST_CASE("Inflation_ZeroTermStructure", "[Inflation]") {
     INFO("Testing zero inflation term structure...");
 
     SavedSettings backup;
@@ -611,7 +611,7 @@ TEST_CASE( "Inflation_ZeroTermStructure", "[Inflation]" ) {
     hz.linkTo(std::shared_ptr<ZeroInflationTermStructure>());
 }
 
-TEST_CASE( "Inflation_ZeroIndexFutureFixing", "[Inflation]" ) {
+TEST_CASE("Inflation_ZeroIndexFutureFixing", "[Inflation]") {
     INFO("Testing that zero inflation indices forecast future fixings...");
 
     SavedSettings backup;
@@ -654,7 +654,7 @@ TEST_CASE( "Inflation_ZeroIndexFutureFixing", "[Inflation]" ) {
 // year on year tests, index, termstructure, and swaps
 //===========================================================================================
 
-TEST_CASE( "Inflation_YYIndex", "[Inflation]" ) {
+TEST_CASE("Inflation_YYIndex", "[Inflation]") {
     INFO("Testing year-on-year inflation indices...");
 
     SavedSettings backup;
@@ -807,7 +807,7 @@ TEST_CASE( "Inflation_YYIndex", "[Inflation]" ) {
 }
 
 
-TEST_CASE( "Inflation_YYTermStructure", "[Inflation]" ) {
+TEST_CASE("Inflation_YYTermStructure", "[Inflation]") {
     INFO("Testing year-on-year inflation term structure...");
 
     SavedSettings backup;
@@ -968,7 +968,7 @@ TEST_CASE( "Inflation_YYTermStructure", "[Inflation]" ) {
     hy.linkTo(std::shared_ptr<YoYInflationTermStructure>());
 }
 
-TEST_CASE( "Inflation_Period", "[Inflation]" ) {
+TEST_CASE("Inflation_Period", "[Inflation]") {
     INFO("Testing inflation period...");
 
     Date d;

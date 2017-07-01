@@ -1483,7 +1483,7 @@ namespace {
 
 //******************************************************************************************//
 //******************************************************************************************//
-TEST_CASE( "RangeAccrual_InfiniteRange", "[RangeAccrual]" )  {
+TEST_CASE("RangeAccrual_InfiniteRange", "[RangeAccrual]")  {
 
     INFO("Testing infinite range accrual floaters...");
 
@@ -1535,7 +1535,7 @@ TEST_CASE( "RangeAccrual_InfiniteRange", "[RangeAccrual]" )  {
     }
 }
 
-TEST_CASE( "RangeAccrual_PriceMonotonicityWithRespectToLowerStrike", "[RangeAccrual]" ) {
+TEST_CASE("RangeAccrual_PriceMonotonicityWithRespectToLowerStrike", "[RangeAccrual]") {
 
     INFO(
             "Testing price monotonicity with respect to the lower strike...");
@@ -1591,7 +1591,7 @@ TEST_CASE( "RangeAccrual_PriceMonotonicityWithRespectToLowerStrike", "[RangeAccr
 }
 
 
-TEST_CASE( "RangeAccrual_PriceMonotonicityWithRespectToUpperStrike", "[RangeAccrual]" ) {
+TEST_CASE("RangeAccrual_PriceMonotonicityWithRespectToUpperStrike", "[RangeAccrual]") {
 
     INFO(
             "Testing price monotonicity with respect to the upper strike...");

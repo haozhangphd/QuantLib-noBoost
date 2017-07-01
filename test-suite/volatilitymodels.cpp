@@ -27,7 +27,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "VolatilityModels_Construction", "[VolatilityModels]" ) {
+TEST_CASE("VolatilityModels_Construction", "[VolatilityModels]") {
 
     INFO("Testing volatility model construction...");
 

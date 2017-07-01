@@ -107,7 +107,7 @@ namespace {
 }
 
 
-TEST_CASE( "LiborMarketModelProcess_Initialisation", "[LiborMarketModelProcess]" ) {
+TEST_CASE("LiborMarketModelProcess_Initialisation", "[LiborMarketModelProcess]") {
     INFO("Testing caplet LMM process initialisation...");
 
     SavedSettings backup;
@@ -150,7 +150,7 @@ TEST_CASE( "LiborMarketModelProcess_Initialisation", "[LiborMarketModelProcess]"
     }
 }
 
-TEST_CASE( "LiborMarketModelProcess_LambdaBootstrapping", "[LiborMarketModelProcess]" ) {
+TEST_CASE("LiborMarketModelProcess_LambdaBootstrapping", "[LiborMarketModelProcess]") {
     INFO("Testing caplet LMM lambda bootstrapping...");
 
     SavedSettings backup;
@@ -197,7 +197,7 @@ TEST_CASE( "LiborMarketModelProcess_LambdaBootstrapping", "[LiborMarketModelProc
     }
 }
 
-TEST_CASE( "LiborMarketModelProcess_MonteCarloCapletPricing", "[LiborMarketModelProcess]" ) {
+TEST_CASE("LiborMarketModelProcess_MonteCarloCapletPricing", "[LiborMarketModelProcess]") {
     INFO("Testing caplet LMM Monte-Carlo caplet pricing...");
 
     SavedSettings backup;

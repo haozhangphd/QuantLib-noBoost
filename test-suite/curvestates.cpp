@@ -120,14 +120,14 @@ namespace {
 }
 
 
-TEST_CASE( "CurveStates_LMMCurveState", "[.]" ) {
+TEST_CASE("CurveStates_LMMCurveState", "[.]") {
 
     INFO("Testing Libor-market-model curve state...");
 
     CommonVars vars;
 }
 
-TEST_CASE( "CurveStates_CoterminalSwapCurveState", "[.]" ) {
+TEST_CASE("CurveStates_CoterminalSwapCurveState", "[.]") {
 
     INFO("Testing coterminal-swap-market-model curve state...");
 
@@ -135,7 +135,7 @@ TEST_CASE( "CurveStates_CoterminalSwapCurveState", "[.]" ) {
 }
 
 
-TEST_CASE( "CurveStates_CMSwapCurveState", "[CurveStates]" ) {
+TEST_CASE("CurveStates_CMSwapCurveState", "[CurveStates]") {
 
     INFO("Testing constant-maturity-swap-market-model curve state...");
 

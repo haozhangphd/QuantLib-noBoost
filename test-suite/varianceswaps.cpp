@@ -92,7 +92,7 @@ namespace {
 }
 
 
-TEST_CASE( "VarianceSwap_ReplicatingVarianceSwap", "[VarianceSwap]" ) {
+TEST_CASE("VarianceSwap_ReplicatingVarianceSwap", "[VarianceSwap]") {
 
     INFO("Testing variance swap with replicating cost engine...");
 
@@ -219,7 +219,7 @@ TEST_CASE( "VarianceSwap_ReplicatingVarianceSwap", "[VarianceSwap]" ) {
 }
 
 
-TEST_CASE( "VarianceSwap_MCVarianceSwap", "[VarianceSwap]" ) {
+TEST_CASE("VarianceSwap_MCVarianceSwap", "[VarianceSwap]") {
 
     INFO("Testing variance swap with Monte Carlo engine...");
 

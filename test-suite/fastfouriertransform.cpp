@@ -29,7 +29,7 @@ using namespace QuantLib;
 
 using namespace std;
 
-TEST_CASE( "FastFourierTransform_Simple", "[FastFourierTransform]" ) {
+TEST_CASE("FastFourierTransform_Simple", "[FastFourierTransform]") {
     INFO("Testing complex direct FFT...");
     typedef std::complex<Real> cx;
     cx a[] = { cx(0,0), cx(1,1), cx(3,3), cx(4,4),
@@ -51,7 +51,7 @@ TEST_CASE( "FastFourierTransform_Simple", "[FastFourierTransform]" ) {
     }
 }
 
-TEST_CASE( "FastFourierTransform_Inverse", "[FastFourierTransform]" ) {
+TEST_CASE("FastFourierTransform_Inverse", "[FastFourierTransform]") {
     INFO("Testing convolution via inverse FFT...");
     Array x(3);
     x[0] = 1;

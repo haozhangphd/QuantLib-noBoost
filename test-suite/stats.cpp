@@ -116,7 +116,7 @@ namespace {
 }
 
 
-TEST_CASE( "Statistics_Statistics", "[Statistics]" ) {
+TEST_CASE("Statistics_Statistics", "[Statistics]") {
 
     INFO("Testing statistics...");
 
@@ -236,7 +236,7 @@ namespace {
 }
 
 
-TEST_CASE( "Statistics_SequenceStatistics", "[Statistics]" ) {
+TEST_CASE("Statistics_SequenceStatistics", "[Statistics]") {
 
     INFO("Testing sequence statistics...");
 
@@ -316,7 +316,7 @@ namespace {
 }
 
 
-TEST_CASE( "Statistics_ConvergenceStatistics", "[Statistics]" ) {
+TEST_CASE("Statistics_ConvergenceStatistics", "[Statistics]") {
 
     INFO("Testing convergence statistics...");
 
@@ -332,7 +332,7 @@ TEST_CASE( "Statistics_ConvergenceStatistics", "[Statistics]" ) {
                     << ") can not be reproduced against cached result ("       \
                     << expected << ")");
 
-TEST_CASE( "Statistics_IncrementalStatistics", "[Statistics]" ) {
+TEST_CASE("Statistics_IncrementalStatistics", "[Statistics]") {
 
     INFO("Testing incremental statistics...");
 

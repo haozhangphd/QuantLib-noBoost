@@ -63,7 +63,7 @@ namespace {
 }
 
 
-TEST_CASE( "Rounding_Closest", "[Rounding]" ) {
+TEST_CASE("Rounding_Closest", "[Rounding]") {
 
     INFO("Testing closest decimal rounding...");
 
@@ -81,7 +81,7 @@ TEST_CASE( "Rounding_Closest", "[Rounding]" ) {
     }
 }
 
-TEST_CASE( "Rounding_Up", "[Rounding]" ) {
+TEST_CASE("Rounding_Up", "[Rounding]") {
 
     INFO("Testing upward decimal rounding...");
 
@@ -99,7 +99,7 @@ TEST_CASE( "Rounding_Up", "[Rounding]" ) {
     }
 }
 
-TEST_CASE( "Rounding_Down", "[Rounding]" ) {
+TEST_CASE("Rounding_Down", "[Rounding]") {
 
     INFO("Testing downward decimal rounding...");
 
@@ -117,7 +117,7 @@ TEST_CASE( "Rounding_Down", "[Rounding]" ) {
     }
 }
 
-TEST_CASE( "Rounding_Floor", "[Rounding]" ) {
+TEST_CASE("Rounding_Floor", "[Rounding]") {
 
     INFO("Testing floor decimal rounding...");
 
@@ -135,7 +135,7 @@ TEST_CASE( "Rounding_Floor", "[Rounding]" ) {
     }
 }
 
-TEST_CASE( "Rounding_Ceiling", "[Rounding]" ) {
+TEST_CASE("Rounding_Ceiling", "[Rounding]") {
 
     INFO("Testing ceiling decimal rounding...");
 

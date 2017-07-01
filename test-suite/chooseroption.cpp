@@ -50,7 +50,7 @@ using namespace QuantLib;
         << "    tolerance:        " << tolerance);
 
 
-TEST_CASE( "ChooserOption_AnalyticSimpleChooserEngine", "[ChooserOption]" ){
+TEST_CASE("ChooserOption_AnalyticSimpleChooserEngine", "[ChooserOption]"){
 
     INFO("Testing analytic simple chooser option...");
 
@@ -102,7 +102,7 @@ TEST_CASE( "ChooserOption_AnalyticSimpleChooserEngine", "[ChooserOption]" ){
 }
 
 
-TEST_CASE( "ChooserOption_AnalyticComplexChooserEngine", "[ChooserOption]" ){
+TEST_CASE("ChooserOption_AnalyticComplexChooserEngine", "[ChooserOption]"){
     INFO("Testing analytic complex chooser option...");
 
     /* The example below is from

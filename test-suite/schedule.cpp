@@ -47,7 +47,7 @@ namespace {
 }
 
 
-TEST_CASE( "Schedule_DailySchedule", "[Schedule]" ) {
+TEST_CASE("Schedule_DailySchedule", "[Schedule]") {
     INFO("Testing schedule with daily frequency...");
 
     Date startDate = Date(17,January,2012);
@@ -72,7 +72,7 @@ TEST_CASE( "Schedule_DailySchedule", "[Schedule]" ) {
     check_dates(s, expected);
 }
 
-TEST_CASE( "Schedule_EndDateWithEomAdjustment", "[Schedule]" ) {
+TEST_CASE("Schedule_EndDateWithEomAdjustment", "[Schedule]") {
     INFO(
         "Testing end date for schedule with end-of-month adjustment...");
 
@@ -115,7 +115,7 @@ TEST_CASE( "Schedule_EndDateWithEomAdjustment", "[Schedule]" ) {
 }
 
 
-TEST_CASE( "Schedule_DatesPastEndDateWithEomAdjustment", "[Schedule]" ) {
+TEST_CASE("Schedule_DatesPastEndDateWithEomAdjustment", "[Schedule]") {
     INFO(
         "Testing that no dates are past the end date with EOM adjustment...");
 
@@ -143,7 +143,7 @@ TEST_CASE( "Schedule_DatesPastEndDateWithEomAdjustment", "[Schedule]" ) {
         FAIL_CHECK("last period should not be regular");
 }
 
-TEST_CASE( "Schedule_DatesSameAsEndDateWithEomAdjustment", "[Schedule]" ) {
+TEST_CASE("Schedule_DatesSameAsEndDateWithEomAdjustment", "[Schedule]") {
     INFO(
         "Testing that next-to-last date same as end date is removed...");
 
@@ -171,7 +171,7 @@ TEST_CASE( "Schedule_DatesSameAsEndDateWithEomAdjustment", "[Schedule]" ) {
         FAIL_CHECK("last period should be regular");
 }
 
-TEST_CASE( "Schedule_ForwardDatesWithEomAdjustment", "[Schedule]" ) {
+TEST_CASE("Schedule_ForwardDatesWithEomAdjustment", "[Schedule]") {
     INFO(
         "Testing that the last date is not adjusted for EOM when "
         "termination date convention is unadjusted...");
@@ -195,7 +195,7 @@ TEST_CASE( "Schedule_ForwardDatesWithEomAdjustment", "[Schedule]" ) {
     check_dates(s, expected);
 }
 
-TEST_CASE( "Schedule_BackwardDatesWithEomAdjustment", "[Schedule]" ) {
+TEST_CASE("Schedule_BackwardDatesWithEomAdjustment", "[Schedule]") {
     INFO(
         "Testing that the first date is not adjusted for EOM "
         "going backward when termination date convention is unadjusted...");
@@ -219,7 +219,7 @@ TEST_CASE( "Schedule_BackwardDatesWithEomAdjustment", "[Schedule]" ) {
     check_dates(s, expected);
 }
 
-TEST_CASE( "Schedule_DoubleFirstDateWithEomAdjustment", "[Schedule]" ) {
+TEST_CASE("Schedule_DoubleFirstDateWithEomAdjustment", "[Schedule]") {
     INFO(
         "Testing that the first date is not duplicated due to "
         "EOM convention when going backwards...");
@@ -242,7 +242,7 @@ TEST_CASE( "Schedule_DoubleFirstDateWithEomAdjustment", "[Schedule]" ) {
     check_dates(s, expected);
 }
 
-TEST_CASE( "Schedule_CDS2015Convention", "[Schedule]" ) {
+TEST_CASE("Schedule_CDS2015Convention", "[Schedule]") {
     INFO("Testing CDS2015 semi-annual rolling convention...");
     //From September 20th 2016 to March 19th 2017 of the next Year,
     //end date is December 20th 2021 for a 5 year Swap
@@ -281,7 +281,7 @@ TEST_CASE( "Schedule_CDS2015Convention", "[Schedule]" ) {
 
 }
 
-TEST_CASE( "Schedule_DateConstructor", "[Schedule]" ) {
+TEST_CASE("Schedule_DateConstructor", "[Schedule]") {
     INFO("Testing the constructor taking a vector of dates and "
                        "possibly additional meta information...");
 
@@ -342,7 +342,7 @@ TEST_CASE( "Schedule_DateConstructor", "[Schedule]" ) {
         FAIL_CHECK("schedule2 has end of month flag false, expected true");
 }
 
-TEST_CASE( "Schedule_FourWeeksTenor", "[Schedule]" ) {
+TEST_CASE("Schedule_FourWeeksTenor", "[Schedule]") {
     INFO(
         "Testing that a four-weeks tenor works...");
 

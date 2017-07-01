@@ -273,7 +273,7 @@ namespace {
 
 
 
-TEST_CASE( "InflationCapFloor_Consistency", "[InflationCapFloor]" ) {
+TEST_CASE("InflationCapFloor_Consistency", "[InflationCapFloor]") {
 
     INFO("Testing consistency between yoy inflation cap,"
                        " floor and collar...");
@@ -401,7 +401,7 @@ TEST_CASE( "InflationCapFloor_Consistency", "[InflationCapFloor]" ) {
 // (actually in arrears with a lag of a few months) thus the first optionlet
 // is relevant.  Hence we can do a parity test without a special definition
 // of the YoY cap/floor instrument.
-TEST_CASE( "InflationCapFloor_Parity", "[InflationCapFloor]" ) {
+TEST_CASE("InflationCapFloor_Parity", "[InflationCapFloor]") {
 
     INFO("Testing yoy inflation cap/floor parity...");
 
@@ -476,7 +476,7 @@ TEST_CASE( "InflationCapFloor_Parity", "[InflationCapFloor]" ) {
 
 
 
-TEST_CASE( "InflationCapFloor_CachedValue", "[InflationCapFloor]" ) {
+TEST_CASE("InflationCapFloor_CachedValue", "[InflationCapFloor]") {
 
     INFO("Testing Black yoy inflation cap/floor price"
                        " against cached values...");

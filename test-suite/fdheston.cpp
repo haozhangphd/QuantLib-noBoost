@@ -55,7 +55,7 @@ namespace {
     };
 }
 
-TEST_CASE( "FdHeston_FdmHestonBarrierVsBlackScholes", "[FdHeston]" ) {
+TEST_CASE("FdHeston_FdmHestonBarrierVsBlackScholes", "[FdHeston]") {
 
     INFO("Testing FDM with barrier option in Heston model...");
 
@@ -206,7 +206,7 @@ TEST_CASE( "FdHeston_FdmHestonBarrierVsBlackScholes", "[FdHeston]" ) {
     }
 }
 
-TEST_CASE( "FdHeston_FdmHestonBarrier", "[FdHeston]" ) {
+TEST_CASE("FdHeston_FdmHestonBarrier", "[FdHeston]") {
 
     INFO("Testing FDM with barrier option for Heston model vs "
                        "Black-Scholes model...");
@@ -260,7 +260,7 @@ TEST_CASE( "FdHeston_FdmHestonBarrier", "[FdHeston]" ) {
     }
 }
 
-TEST_CASE( "FdHeston_FdmHestonAmerican", "[FdHeston]" ) {
+TEST_CASE("FdHeston_FdmHestonAmerican", "[FdHeston]") {
 
     INFO("Testing FDM with American option in Heston model...");
 
@@ -314,7 +314,7 @@ TEST_CASE( "FdHeston_FdmHestonAmerican", "[FdHeston]" ) {
 }
 
 
-TEST_CASE( "FdHeston_FdmHestonIkonenToivanen", "[FdHeston]" ) {
+TEST_CASE("FdHeston_FdmHestonIkonenToivanen", "[FdHeston]") {
 
     INFO("Testing FDM Heston for Ikonen and Toivanen tests...");
 
@@ -363,7 +363,7 @@ TEST_CASE( "FdHeston_FdmHestonIkonenToivanen", "[FdHeston]" ) {
     }
 }
 
-TEST_CASE( "FdHeston_FdmHestonBlackScholes", "[FdHeston]" ) {
+TEST_CASE("FdHeston_FdmHestonBlackScholes", "[FdHeston]") {
 
     INFO("Testing FDM Heston with Black Scholes model...");
 
@@ -437,7 +437,7 @@ TEST_CASE( "FdHeston_FdmHestonBlackScholes", "[FdHeston]" ) {
 
 
 
-TEST_CASE( "FdHeston_FdmHestonEuropeanWithDividends", "[FdHeston]" ) {
+TEST_CASE("FdHeston_FdmHestonEuropeanWithDividends", "[FdHeston]") {
 
     INFO("Testing FDM with European option with dividends"
                        " in Heston model...");
@@ -508,7 +508,7 @@ namespace {
     };    
 }
 
-TEST_CASE( "FdHeston_FdmHestonConvergence", "[FdHeston]" ) {
+TEST_CASE("FdHeston_FdmHestonConvergence", "[FdHeston]") {
 
     /* convergence tests based on 
        ADI finite difference schemes for option pricing in the
@@ -595,7 +595,7 @@ TEST_CASE( "FdHeston_FdmHestonConvergence", "[FdHeston]" ) {
     }
 }
 
-TEST_CASE( "FdHeston_FdmHestonIntradayPricing", "[FdHeston]" ) {
+TEST_CASE("FdHeston_FdmHestonIntradayPricing", "[FdHeston]") {
 #ifdef QL_HIGH_RESOLUTION_DATE
 
     INFO("Testing FDM Heston intraday pricing ...");

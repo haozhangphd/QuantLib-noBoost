@@ -24,7 +24,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "CreditRiskPlus_ReferenceValues", "[CreditRiskPlus]" ) {
+TEST_CASE("CreditRiskPlus_ReferenceValues", "[CreditRiskPlus]") {
 
     INFO(
         "Testing extended credit risk plus model against reference values...");

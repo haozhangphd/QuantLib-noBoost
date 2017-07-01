@@ -381,7 +381,7 @@ struct CommonVars {
 };
 }
 
-TEST_CASE( "OptionletStripper_FlatTermVolatilityStripping1", "[OptionletStripper]" ) {
+TEST_CASE("OptionletStripper_FlatTermVolatilityStripping1", "[OptionletStripper]") {
 
     INFO(
         "Testing forward/forward vol stripping from flat term vol "
@@ -442,7 +442,7 @@ TEST_CASE( "OptionletStripper_FlatTermVolatilityStripping1", "[OptionletStripper
     }
 }
 
-TEST_CASE( "OptionletStripper_TermVolatilityStripping1", "[OptionletStripper]" ) {
+TEST_CASE("OptionletStripper_TermVolatilityStripping1", "[OptionletStripper]") {
 
     INFO(
         "Testing forward/forward vol stripping from non-flat term "
@@ -504,7 +504,7 @@ TEST_CASE( "OptionletStripper_TermVolatilityStripping1", "[OptionletStripper]" )
     }
 }
 
-TEST_CASE( "OptionletStripper_TermVolatilityStrippingNormalVol", "[OptionletStripper]" ) {
+TEST_CASE("OptionletStripper_TermVolatilityStrippingNormalVol", "[OptionletStripper]") {
 
     INFO(
         "Testing forward/forward vol stripping from non-flat normal vol term "
@@ -577,7 +577,7 @@ TEST_CASE( "OptionletStripper_TermVolatilityStrippingNormalVol", "[OptionletStri
     }
 }
 
-TEST_CASE( "OptionletStripper_TermVolatilityStrippingShiftedLogNormalVol", "[OptionletStripper]" ) {
+TEST_CASE("OptionletStripper_TermVolatilityStrippingShiftedLogNormalVol", "[OptionletStripper]") {
 
     INFO(
         "Testing forward/forward vol stripping from non-flat normal vol term "
@@ -651,7 +651,7 @@ TEST_CASE( "OptionletStripper_TermVolatilityStrippingShiftedLogNormalVol", "[Opt
     }
 }
 
-TEST_CASE( "OptionletStripper_FlatTermVolatilityStripping2", "[OptionletStripper]" ) {
+TEST_CASE("OptionletStripper_FlatTermVolatilityStripping2", "[OptionletStripper]") {
 
   INFO(
         "Testing forward/forward vol stripping from flat term vol "
@@ -718,7 +718,7 @@ TEST_CASE( "OptionletStripper_FlatTermVolatilityStripping2", "[OptionletStripper
 
 }
 
-TEST_CASE( "OptionletStripper_TermVolatilityStripping2", "[OptionletStripper]" ) {
+TEST_CASE("OptionletStripper_TermVolatilityStripping2", "[OptionletStripper]") {
 
   INFO(
         "Testing forward/forward vol stripping from non-flat term vol "
@@ -784,7 +784,7 @@ TEST_CASE( "OptionletStripper_TermVolatilityStripping2", "[OptionletStripper]" )
   }
 }
 
-TEST_CASE( "OptionletStripper_SwitchStrike", "[OptionletStripper]" ) {
+TEST_CASE("OptionletStripper_SwitchStrike", "[OptionletStripper]") {
     INFO("Testing switch strike level and recalibration of level "
                        "in case of curve relinking...");
 

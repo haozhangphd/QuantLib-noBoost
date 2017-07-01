@@ -34,12 +34,9 @@
 #include <ql/math/ode/adaptiverungekutta.hpp>
 #include <ql/methods/finitedifferences/meshers/concentrating1dmesher.hpp>
 
-// asinh is missing in WIN32 (and possibly on other compilers)
-#if !defined(QL_HAVE_ASINH)
+//there is a bug in some glibc versions, so that asinh() gives wrong result
+//the bug only shows up with g++ -O0, g++ -O3 bypasses the glibc implementation of asinh(), and the bug does not show up
 #define asinh(x) std::log(x + std::sqrt(x * x + 1))
-#endif
-
-using namespace std::placeholders;
 
 namespace QuantLib {
 

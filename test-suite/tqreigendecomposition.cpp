@@ -29,7 +29,7 @@ namespace {
 }
 
 
-TEST_CASE( "TqrEigenDecomposition_EigenValueDecomposition", "[TqrEigenDecomposition]" ) {
+TEST_CASE("TqrEigenDecomposition_EigenValueDecomposition", "[TqrEigenDecomposition]") {
     INFO("Testing TQR eigenvalue decomposition...");
 
     Array diag(5);
@@ -56,7 +56,7 @@ TEST_CASE( "TqrEigenDecomposition_EigenValueDecomposition", "[TqrEigenDecomposit
     }
 }
 
-TEST_CASE( "TqrEigenDecomposition_ZeroOffDiagEigenValues", "[TqrEigenDecomposition]" ) {
+TEST_CASE("TqrEigenDecomposition_ZeroOffDiagEigenValues", "[TqrEigenDecomposition]") {
     INFO("Testing TQR zero-off-diagonal eigenvalues...");
 
     Array diag(5);
@@ -82,7 +82,7 @@ TEST_CASE( "TqrEigenDecomposition_ZeroOffDiagEigenValues", "[TqrEigenDecompositi
     }
 }
 
-TEST_CASE( "TqrEigenDecomposition_EigenVectorDecomposition", "[TqrEigenDecomposition]" ) {
+TEST_CASE("TqrEigenDecomposition_EigenVectorDecomposition", "[TqrEigenDecomposition]") {
     INFO("Testing TQR eigenvector decomposition...");
 
     Array diag(2,1);

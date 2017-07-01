@@ -423,7 +423,7 @@ namespace {
 }
 
 
-TEST_CASE( "MarketModelSmm_MultiStepCoterminalSwapsAndSwaptions", "[MarketModelSmm]" ) {
+TEST_CASE("MarketModelSmm_MultiStepCoterminalSwapsAndSwaptions", "[MarketModelSmm]") {
 
     INFO("Testing exact repricing of "
                        "multi-step coterminal swaps and swaptions "

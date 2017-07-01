@@ -68,7 +68,7 @@ namespace {
 }
 
 
-TEST_CASE( "DoubleBinaryOption_HaugValues", "[DoubleBinaryOption]" ) {
+TEST_CASE("DoubleBinaryOption_HaugValues", "[DoubleBinaryOption]") {
 
     INFO("Testing cash-or-nothing double barrier options against Haug's values...");
 

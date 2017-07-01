@@ -240,7 +240,7 @@ namespace {
 }
 
 
-TEST_CASE( "ExtendedTrees_JRBinomialEngines", "[ExtendedTrees]" ) {
+TEST_CASE("ExtendedTrees_JRBinomialEngines", "[ExtendedTrees]") {
 
     INFO("Testing time-dependent JR binomial European engines "
                        "against analytic results...");
@@ -257,7 +257,7 @@ TEST_CASE( "ExtendedTrees_JRBinomialEngines", "[ExtendedTrees]" ) {
     testEngineConsistency(engine, steps, relativeTol);
 }
 
-TEST_CASE( "ExtendedTrees_CRRBinomialEngines", "[ExtendedTrees]" ) {
+TEST_CASE("ExtendedTrees_CRRBinomialEngines", "[ExtendedTrees]") {
 
     INFO("Testing time-dependent CRR binomial European engines "
                        "against analytic results...");
@@ -274,7 +274,7 @@ TEST_CASE( "ExtendedTrees_CRRBinomialEngines", "[ExtendedTrees]" ) {
     testEngineConsistency(engine, steps, relativeTol);
 }
 
-TEST_CASE( "ExtendedTrees_EQPBinomialEngines", "[ExtendedTrees]" ) {
+TEST_CASE("ExtendedTrees_EQPBinomialEngines", "[ExtendedTrees]") {
 
     INFO("Testing time-dependent EQP binomial European engines "
                        "against analytic results...");
@@ -291,7 +291,7 @@ TEST_CASE( "ExtendedTrees_EQPBinomialEngines", "[ExtendedTrees]" ) {
     testEngineConsistency(engine, steps, relativeTol);
 }
 
-TEST_CASE( "ExtendedTrees_TGEOBinomialEngines", "[ExtendedTrees]" ) {
+TEST_CASE("ExtendedTrees_TGEOBinomialEngines", "[ExtendedTrees]") {
 
     INFO("Testing time-dependent TGEO binomial European engines "
                        "against analytic results...");
@@ -308,7 +308,7 @@ TEST_CASE( "ExtendedTrees_TGEOBinomialEngines", "[ExtendedTrees]" ) {
     testEngineConsistency(engine, steps, relativeTol);
 }
 
-TEST_CASE( "ExtendedTrees_TIANBinomialEngines", "[ExtendedTrees]" ) {
+TEST_CASE("ExtendedTrees_TIANBinomialEngines", "[ExtendedTrees]") {
 
     INFO("Testing time-dependent TIAN binomial European engines "
                        "against analytic results...");
@@ -325,7 +325,7 @@ TEST_CASE( "ExtendedTrees_TIANBinomialEngines", "[ExtendedTrees]" ) {
     testEngineConsistency(engine, steps, relativeTol);
 }
 
-TEST_CASE( "ExtendedTrees_LRBinomialEngines", "[ExtendedTrees]" ) {
+TEST_CASE("ExtendedTrees_LRBinomialEngines", "[ExtendedTrees]") {
 
     INFO("Testing time-dependent LR binomial European engines "
                        "against analytic results...");
@@ -342,7 +342,7 @@ TEST_CASE( "ExtendedTrees_LRBinomialEngines", "[ExtendedTrees]" ) {
     testEngineConsistency(engine, steps, relativeTol);
 }
 
-TEST_CASE( "ExtendedTrees_JOSHIBinomialEngines", "[ExtendedTrees]" ) {
+TEST_CASE("ExtendedTrees_JOSHIBinomialEngines", "[ExtendedTrees]") {
 
     INFO("Testing time-dependent Joshi binomial European engines "
                        "against analytic results...");

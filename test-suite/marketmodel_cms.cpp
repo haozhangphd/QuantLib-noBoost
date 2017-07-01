@@ -430,7 +430,7 @@ namespace {
 }
 
 
-TEST_CASE( "MarketModelCms_MultiStepCmSwapsAndSwaptions", "[MarketModelCms]" ) {
+TEST_CASE("MarketModelCms_MultiStepCmSwapsAndSwaptions", "[MarketModelCms]") {
 
     INFO("Testing exact repricing of "
                        "multi-step constant maturity swaps and swaptions "

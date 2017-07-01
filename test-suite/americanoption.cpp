@@ -70,7 +70,7 @@ namespace {
 }
 
 
-TEST_CASE( "AmericanOption_BaroneAdesiWhaleyValues", "[AmericanOption]" ) {
+TEST_CASE("AmericanOption_BaroneAdesiWhaleyValues", "[AmericanOption]") {
 
     INFO("Testing Barone-Adesi and Whaley approximation "
                        "for American options...");
@@ -175,7 +175,7 @@ TEST_CASE( "AmericanOption_BaroneAdesiWhaleyValues", "[AmericanOption]" ) {
 }
 
 
-TEST_CASE( "AmericanOption_BjerksundStenslandValues", "[AmericanOption]" ) {
+TEST_CASE("AmericanOption_BjerksundStenslandValues", "[AmericanOption]") {
 
     INFO("Testing Bjerksund and Stensland approximation "
                        "for American options...");
@@ -326,7 +326,7 @@ namespace {
 }
 
 
-TEST_CASE( "AmericanOption_JuValues", "[AmericanOption]" ) {
+TEST_CASE("AmericanOption_JuValues", "[AmericanOption]") {
 
     INFO("Testing Ju approximation for American options...");
 
@@ -380,7 +380,7 @@ TEST_CASE( "AmericanOption_JuValues", "[AmericanOption]" ) {
 }
 
 
-TEST_CASE( "AmericanOption_FdValues", "[AmericanOption]" ) {
+TEST_CASE("AmericanOption_FdValues", "[AmericanOption]") {
 
     INFO("Testing finite-difference engine "
                        "for American options...");
@@ -558,12 +558,12 @@ namespace {
 }
 
 
-TEST_CASE( "AmericanOption_FdAmericanGreeks", "[AmericanOption]" ) {
+TEST_CASE("AmericanOption_FdAmericanGreeks", "[AmericanOption]") {
     INFO("Testing finite-differences American option greeks...");
     testFdGreeks<FDAmericanEngine<CrankNicolson> >();
 }
 
-TEST_CASE( "AmericanOption_FdShoutGreeks", "[AmericanOption]" ) {
+TEST_CASE("AmericanOption_FdShoutGreeks", "[AmericanOption]") {
     INFO("Testing finite-differences shout option greeks...");
     testFdGreeks<FDShoutEngine<CrankNicolson> >();
 }

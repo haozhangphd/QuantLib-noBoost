@@ -31,7 +31,7 @@ using namespace QuantLib;
 typedef GenericGaussianStatistics<IncrementalStatistics>
     IncrementalGaussianStatistics;
 
-TEST_CASE( "RiskStatistics_Results", "[RiskStatistics]" ) {
+TEST_CASE("RiskStatistics_Results", "[RiskStatistics]") {
 
     INFO("Testing risk measures...");
 

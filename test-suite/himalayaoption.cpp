@@ -27,7 +27,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "HimalayaOption_Cached", "[HimalayaOption]" ) {
+TEST_CASE("HimalayaOption_Cached", "[HimalayaOption]") {
 
     INFO("Testing Himalaya option against cached values...");
 

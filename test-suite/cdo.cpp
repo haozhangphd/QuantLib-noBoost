@@ -367,7 +367,7 @@ void testHW(unsigned dataSet) {
     #endif
 }
 
-TEST_CASE( "Cdo_HW", "[Cdo]") {
+TEST_CASE("Cdo_HW", "[Cdo]") {
     #ifndef QL_PATCH_SOLARIS
     for (unsigned i=0; i < LENGTH(hwData7); ++i)
 	    testHW(i);

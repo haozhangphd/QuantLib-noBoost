@@ -84,7 +84,7 @@ namespace {
 }
 
 
-TEST_CASE( "SquareRootCLVModel_SquareRootCLVVanillaPricing", "[SquareRootCLVModel]" ) {
+TEST_CASE("SquareRootCLVModel_SquareRootCLVVanillaPricing", "[SquareRootCLVModel]") {
     INFO(
         "Testing vanilla option pricing with square root kernel process...");
 
@@ -166,7 +166,7 @@ TEST_CASE( "SquareRootCLVModel_SquareRootCLVVanillaPricing", "[SquareRootCLVMode
 }
 
 #ifdef MULTIPRECISION_NON_CENTRAL_CHI_SQUARED_QUADRATURE
-TEST_CASE( "SquareRootCLVModel_SquareRootCLVMappingFunction", "[.]" ) {
+TEST_CASE("SquareRootCLVModel_SquareRootCLVMappingFunction", "[.]") {
     INFO(
         "Testing mapping function of the square root kernel process...");
 
@@ -455,7 +455,7 @@ namespace {
 }
 
 #ifdef MULTIPRECISION_NON_CENTRAL_CHI_SQUARED_QUADRATURE
-TEST_CASE( "SquareRootCLVModel_ForwardSkew", "[.]" ) {
+TEST_CASE("SquareRootCLVModel_ForwardSkew", "[.]") {
     INFO(
         "Testing forward skew dynamics with square root kernel process...");
 

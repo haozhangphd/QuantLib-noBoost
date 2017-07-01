@@ -33,7 +33,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "CdsOption_Cached", "[CdsOption]" ) {
+TEST_CASE("CdsOption_Cached", "[CdsOption]") {
 
     INFO("Testing CDS-option value against cached values...");
 

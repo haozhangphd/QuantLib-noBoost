@@ -208,7 +208,7 @@ namespace {
 
 }
 
-TEST_CASE( "Distribution_Normal", "[Distribution]" ) {
+TEST_CASE("Distribution_Normal", "[Distribution]") {
 
     INFO("Testing normal distributions...");
 
@@ -299,7 +299,7 @@ TEST_CASE( "Distribution_Normal", "[Distribution]" ) {
     }
 }
 
-TEST_CASE( "Distribution_Bivariate", "[Distribution]" ) {
+TEST_CASE("Distribution_Bivariate", "[Distribution]") {
 
     INFO("Testing bivariate cumulative normal distribution...");
 
@@ -323,7 +323,7 @@ TEST_CASE( "Distribution_Bivariate", "[Distribution]" ) {
 }
 
 
-TEST_CASE( "Distribution_Poisson", "[Distribution]" ) {
+TEST_CASE("Distribution_Poisson", "[Distribution]") {
 
     INFO("Testing Poisson distribution...");
 
@@ -360,7 +360,7 @@ TEST_CASE( "Distribution_Poisson", "[Distribution]" ) {
     }
 }
 
-TEST_CASE( "Distribution_CumulativePoisson", "[Distribution]" ) {
+TEST_CASE("Distribution_CumulativePoisson", "[Distribution]") {
 
     INFO("Testing cumulative Poisson distribution...");
 
@@ -396,7 +396,7 @@ TEST_CASE( "Distribution_CumulativePoisson", "[Distribution]" ) {
     }
 }
 
-TEST_CASE( "Distribution_InverseCumulativePoisson", "[Distribution]" ) {
+TEST_CASE("Distribution_InverseCumulativePoisson", "[Distribution]") {
 
     INFO("Testing inverse cumulative Poisson distribution...");
 
@@ -428,7 +428,7 @@ TEST_CASE( "Distribution_InverseCumulativePoisson", "[Distribution]" ) {
 }
 
 
-TEST_CASE( "Distribution_BivariateCumulativeStudent", "[Distribution]" ) {
+TEST_CASE("Distribution_BivariateCumulativeStudent", "[Distribution]") {
     INFO(
         "Testing bivariate cumulative Student t distribution...");
 
@@ -587,7 +587,7 @@ TEST_CASE( "Distribution_BivariateCumulativeStudent", "[Distribution]" ) {
     }
 }
 
-TEST_CASE( "Distribution_BivariateCumulativeStudentVsBivariate", "[Distribution]" ) {
+TEST_CASE("Distribution_BivariateCumulativeStudentVsBivariate", "[Distribution]") {
     INFO(
         "Testing bivariate cumulative Student t distribution for large N...");
 
@@ -626,7 +626,7 @@ TEST_CASE( "Distribution_BivariateCumulativeStudentVsBivariate", "[Distribution]
     }
 }
     
-TEST_CASE( "Distribution_InvCDFviaStochasticCollocation", "[Distribution]" ) {
+TEST_CASE("Distribution_InvCDFviaStochasticCollocation", "[Distribution]") {
     INFO(
         "Testing inverse CDF based on stochastic collocation...");
 

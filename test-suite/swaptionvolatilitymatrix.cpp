@@ -257,7 +257,7 @@ namespace {
 }
 
 
-TEST_CASE( "SwaptionVolatilityMatrix_SwaptionVolMatrixObservability", "[SwaptionVolatilityMatrix]" ) {
+TEST_CASE("SwaptionVolatilityMatrix_SwaptionVolMatrixObservability", "[SwaptionVolatilityMatrix]") {
 
     INFO("Testing swaption volatility matrix observability...");
 
@@ -321,7 +321,7 @@ TEST_CASE( "SwaptionVolatilityMatrix_SwaptionVolMatrixObservability", "[Swaption
 }
 
 
-TEST_CASE( "SwaptionVolatilityMatrix_SwaptionVolMatrixCoherence", "[SwaptionVolatilityMatrix]" ) {
+TEST_CASE("SwaptionVolatilityMatrix_SwaptionVolMatrixCoherence", "[SwaptionVolatilityMatrix]") {
 
     INFO("Testing swaption volatility matrix...");
 

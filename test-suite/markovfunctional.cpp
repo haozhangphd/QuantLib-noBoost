@@ -55,7 +55,7 @@ using namespace QuantLib;
 
 using std::fabs;
 
-TEST_CASE( "MarkovFunctional_MfStateProcess", "[MarkovFunctional]" ) {
+TEST_CASE("MarkovFunctional_MfStateProcess", "[MarkovFunctional]") {
 
     const Real tolerance = 1E-10;
     INFO("Testing Markov functional state process...");
@@ -661,7 +661,7 @@ namespace {
     }
 }
 
-TEST_CASE( "MarkovFunctional_KahaleSmileSection", "[MarkovFunctional]" ) {
+TEST_CASE("MarkovFunctional_KahaleSmileSection", "[MarkovFunctional]") {
 
     INFO("Testing Kahale smile section...");
 
@@ -867,7 +867,7 @@ TEST_CASE( "MarkovFunctional_KahaleSmileSection", "[MarkovFunctional]" ) {
     }
 }
 
-TEST_CASE( "MarkovFunctional_CalibrationOneInstrumentSet", "[MarkovFunctional]" ) {
+TEST_CASE("MarkovFunctional_CalibrationOneInstrumentSet", "[MarkovFunctional]") {
 
     const Real tol0 = 0.0001; //  1bp tolerance for model zero rates vs. market
                               // zero rates (note that model zero rates are
@@ -1107,7 +1107,7 @@ TEST_CASE( "MarkovFunctional_CalibrationOneInstrumentSet", "[MarkovFunctional]" 
     Settings::instance().evaluationDate() = savedEvalDate;
 }
 
-TEST_CASE( "MarkovFunctional_VanillaEngines", "[MarkovFunctional]" ) {
+TEST_CASE("MarkovFunctional_VanillaEngines", "[MarkovFunctional]") {
 
     const Real tol1 = 0.0001; // 1bp tolerance for model engine call put premia
                               // vs. black premia
@@ -1401,7 +1401,7 @@ TEST_CASE( "MarkovFunctional_VanillaEngines", "[MarkovFunctional]" ) {
     Settings::instance().evaluationDate() = savedEvalDate;
 }
 
-TEST_CASE( "MarkovFunctional_CalibrationTwoInstrumentSets", "[MarkovFunctional]" ) {
+TEST_CASE("MarkovFunctional_CalibrationTwoInstrumentSets", "[MarkovFunctional]") {
 
     const Real tol1 = 0.1; // 0.1 times vega tolerance for model vs. market in
                            // second instrument set
@@ -1662,7 +1662,7 @@ TEST_CASE( "MarkovFunctional_CalibrationTwoInstrumentSets", "[MarkovFunctional]"
     Settings::instance().evaluationDate() = savedEvalDate;
 }
 
-TEST_CASE( "MarkovFunctional_BermudanSwaption", "[MarkovFunctional]" ) {
+TEST_CASE("MarkovFunctional_BermudanSwaption", "[MarkovFunctional]") {
 
     Real tol0 = 0.0001; // 1bp tolerance against cached values
 

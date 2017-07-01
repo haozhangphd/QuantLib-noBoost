@@ -58,7 +58,7 @@ namespace {
 }
 
 
-TEST_CASE( "BrownianBridge_Variates", "[BrownianBridge]" ) {
+TEST_CASE("BrownianBridge_Variates", "[BrownianBridge]") {
     INFO("Testing Brownian-bridge variates...");
 
     std::vector<Time> times;
@@ -172,7 +172,7 @@ TEST_CASE( "BrownianBridge_Variates", "[BrownianBridge]" ) {
 }
 
 
-TEST_CASE( "BrownianBridge_PathGeneration", "[BrownianBridge]" ) {
+TEST_CASE("BrownianBridge_PathGeneration", "[BrownianBridge]") {
     INFO("Testing Brownian-bridge path generation...");
 
     std::vector<Time> times;

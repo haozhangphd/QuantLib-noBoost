@@ -44,7 +44,7 @@ using namespace QuantLib;
 
 using std::fabs;
 
-TEST_CASE( "Gsr_GsrProcess", "[Gsr]" ) {
+TEST_CASE("Gsr_GsrProcess", "[Gsr]") {
 
     INFO("Testing GSR process...");
 
@@ -160,7 +160,7 @@ TEST_CASE( "Gsr_GsrProcess", "[Gsr]" ) {
     // add more test cases here ...
 }
 
-TEST_CASE( "Gsr_GsrModel", "[Gsr]" ) {
+TEST_CASE("Gsr_GsrModel", "[Gsr]") {
 
     INFO("Testing GSR model...");
 

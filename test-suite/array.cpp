@@ -30,7 +30,7 @@ class FSquared {
     Real operator()(Real x) const { return x*x; }
 };
 
-TEST_CASE( "Array_Construction", "[Array]" ) {
+TEST_CASE("Array_Construction", "[Array]") {
 
     INFO("Testing array construction...");
 
@@ -175,7 +175,7 @@ TEST_CASE( "Array_Construction", "[Array]" ) {
     }
 }
 
-TEST_CASE( "Array_ArrayFunctions", "[Array]" ) {
+TEST_CASE("Array_ArrayFunctions", "[Array]") {
 
     INFO("Testing array functions...");
 

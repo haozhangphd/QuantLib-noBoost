@@ -84,38 +84,38 @@ namespace {
 }
 
 
-TEST_CASE( "Integral_Segment", "[Integral]" ) {
+TEST_CASE("Integral_Segment", "[Integral]") {
     INFO("Testing segment integration...");
     testSeveral(SegmentIntegral(10000));
     testDegeneratedDomain(SegmentIntegral(10000));
 }
 
-TEST_CASE( "Integral_Trapezoid", "[Integral]" ) {
+TEST_CASE("Integral_Trapezoid", "[Integral]") {
     INFO("Testing trapezoid integration...");
     testSeveral(TrapezoidIntegral<Default>(tolerance, 10000));
     testDegeneratedDomain(TrapezoidIntegral<Default>(tolerance, 10000));
 }
 
-TEST_CASE( "Integral_MidPointTrapezoid", "[Integral]" ) {
+TEST_CASE("Integral_MidPointTrapezoid", "[Integral]") {
     INFO("Testing mid-point trapezoid integration...");
     testSeveral(TrapezoidIntegral<MidPoint>(tolerance, 10000));
     testDegeneratedDomain(TrapezoidIntegral<MidPoint>(tolerance, 10000));
 }
 
-TEST_CASE( "Integral_Simpson", "[Integral]" ) {
+TEST_CASE("Integral_Simpson", "[Integral]") {
     INFO("Testing Simpson integration...");
     testSeveral(SimpsonIntegral(tolerance, 10000));
     testDegeneratedDomain(SimpsonIntegral(tolerance, 10000));
 }
 
-TEST_CASE( "Integral_GaussKronrodAdaptive", "[Integral]" ) {
+TEST_CASE("Integral_GaussKronrodAdaptive", "[Integral]") {
     INFO("Testing adaptive Gauss-Kronrod integration...");
     Size maxEvaluations = 1000;
     testSeveral(GaussKronrodAdaptive(tolerance, maxEvaluations));
     testDegeneratedDomain(GaussKronrodAdaptive(tolerance, maxEvaluations));
 }
 
-TEST_CASE( "Integral_GaussLobatto", "[Integral]" ) {
+TEST_CASE("Integral_GaussLobatto", "[Integral]") {
     INFO("Testing adaptive Gauss-Lobatto integration...");
     Size maxEvaluations = 1000;
     testSeveral(GaussLobattoIntegral(maxEvaluations, tolerance));
@@ -123,7 +123,7 @@ TEST_CASE( "Integral_GaussLobatto", "[Integral]" ) {
     // which is also ok, but not tested here
 }
 
-TEST_CASE( "Integral_GaussKronrodNonAdaptive", "[Integral]" ) {
+TEST_CASE("Integral_GaussKronrodNonAdaptive", "[Integral]") {
     INFO("Testing non-adaptive Gauss-Kronrod integration...");
     Real precision = tolerance;
     Size maxEvaluations = 100;
@@ -134,7 +134,7 @@ TEST_CASE( "Integral_GaussKronrodNonAdaptive", "[Integral]" ) {
     testDegeneratedDomain(gaussKronrodNonAdaptive);
 }
 
-TEST_CASE( "Integral_TwoDimensionalIntegration", "[Integral]" ) {
+TEST_CASE("Integral_TwoDimensionalIntegration", "[Integral]") {
     INFO("Testing two dimensional adaptive "
                        "Gauss-Lobatto integration...");
 
@@ -174,7 +174,7 @@ namespace {
 
 }
 
-TEST_CASE( "Integral_FolinIntegration", "[Integral]" ) {
+TEST_CASE("Integral_FolinIntegration", "[Integral]") {
     INFO("Testing Folin's integral formulae...");
 
     // Examples taken from
@@ -224,7 +224,7 @@ namespace {
 
 }
 
-TEST_CASE( "Integral_DiscreteIntegrals", "[Integral]" ) {
+TEST_CASE("Integral_DiscreteIntegrals", "[Integral]") {
     INFO("Testing discrete integral formulae...");
 
     Array x(6), f(6);
@@ -261,7 +261,7 @@ TEST_CASE( "Integral_DiscreteIntegrals", "[Integral]" ) {
     }
 }
 
-TEST_CASE( "Integral_DiscreteIntegrator", "[Integral]" ) {
+TEST_CASE("Integral_DiscreteIntegrator", "[Integral]") {
     INFO("Testing discrete integrator formulae...");
 
     testSeveral(DiscreteSimpsonIntegrator(300));
@@ -287,7 +287,7 @@ void pw_check(const Integrator &in, const Real a, const Real b,
 }
 } // empty namespace
 
-TEST_CASE( "Integral_PiecewiseIntegral", "[Integral]" ) {
+TEST_CASE("Integral_PiecewiseIntegral", "[Integral]") {
     INFO("Testing piecewise integral...");
     x = {1.0, 2.0, 3.0, 4.0, 5.0};
     y = {1.0, 2.0, 3.0, 4.0, 5.0, 6.0};

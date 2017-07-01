@@ -38,7 +38,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "DefaultProbabilityCurve_DefaultProbability", "[DefaultProbabilityCurve]" ) {
+TEST_CASE("DefaultProbabilityCurve_DefaultProbability", "[DefaultProbabilityCurve]") {
 
     INFO("Testing default-probability structure...");
 
@@ -102,7 +102,7 @@ TEST_CASE( "DefaultProbabilityCurve_DefaultProbability", "[DefaultProbabilityCur
 }
 
 
-TEST_CASE( "DefaultProbabilityCurve_FlatHazardRate", "[DefaultProbabilityCurve]" ) {
+TEST_CASE("DefaultProbabilityCurve_FlatHazardRate", "[DefaultProbabilityCurve]") {
 
     INFO("Testing flat hazard rate...");
 
@@ -310,31 +310,31 @@ namespace {
 
 }
 
-TEST_CASE( "DefaultProbabilityCurve_FlatHazardConsistency", "[DefaultProbabilityCurve]" ) {
+TEST_CASE("DefaultProbabilityCurve_FlatHazardConsistency", "[DefaultProbabilityCurve]") {
     INFO("Testing piecewise-flat hazard-rate consistency...");
     testBootstrapFromSpread<HazardRate,BackwardFlat>();
     testBootstrapFromUpfront<HazardRate,BackwardFlat>();
 }
 
-TEST_CASE( "DefaultProbabilityCurve_FlatDensityConsistency", "[DefaultProbabilityCurve]" ) {
+TEST_CASE("DefaultProbabilityCurve_FlatDensityConsistency", "[DefaultProbabilityCurve]") {
     INFO("Testing piecewise-flat default-density consistency...");
     testBootstrapFromSpread<DefaultDensity,BackwardFlat>();
     testBootstrapFromUpfront<DefaultDensity,BackwardFlat>();
 }
 
-TEST_CASE( "DefaultProbabilityCurve_LinearDensityConsistency", "[DefaultProbabilityCurve]" ) {
+TEST_CASE("DefaultProbabilityCurve_LinearDensityConsistency", "[DefaultProbabilityCurve]") {
     INFO("Testing piecewise-linear default-density consistency...");
     testBootstrapFromSpread<DefaultDensity,Linear>();
     testBootstrapFromUpfront<DefaultDensity,Linear>();
 }
 
-TEST_CASE( "DefaultProbabilityCurve_LogLinearSurvivalConsistency", "[DefaultProbabilityCurve]" ) {
+TEST_CASE("DefaultProbabilityCurve_LogLinearSurvivalConsistency", "[DefaultProbabilityCurve]") {
     INFO("Testing log-linear survival-probability consistency...");
     testBootstrapFromSpread<SurvivalProbability,LogLinear>();
     testBootstrapFromUpfront<SurvivalProbability,LogLinear>();
 }
 
-TEST_CASE( "DefaultProbabilityCurve_SingleInstrumentBootstrap", "[DefaultProbabilityCurve]" ) {
+TEST_CASE("DefaultProbabilityCurve_SingleInstrumentBootstrap", "[DefaultProbabilityCurve]") {
     INFO("Testing single-instrument curve bootstrap...");
 
     Calendar calendar = TARGET();
@@ -370,7 +370,7 @@ TEST_CASE( "DefaultProbabilityCurve_SingleInstrumentBootstrap", "[DefaultProbabi
     defaultCurve.recalculate();
 }
 
-TEST_CASE( "DefaultProbabilityCurve_UpfrontBootstrap", "[DefaultProbabilityCurve]" ) {
+TEST_CASE("DefaultProbabilityCurve_UpfrontBootstrap", "[DefaultProbabilityCurve]") {
     INFO("Testing bootstrap on upfront quotes...");
 
     SavedSettings backup;

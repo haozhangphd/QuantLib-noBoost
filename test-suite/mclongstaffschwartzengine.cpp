@@ -121,7 +121,7 @@ namespace {
 }
 
 
-TEST_CASE( "MCLongstaffSchwartzEngine_AmericanOption", "[MCLongstaffSchwartzEngine]" ) {
+TEST_CASE("MCLongstaffSchwartzEngine_AmericanOption", "[MCLongstaffSchwartzEngine]") {
     INFO("Testing Monte-Carlo pricing of American options...");
 
     SavedSettings backup;
@@ -227,7 +227,7 @@ TEST_CASE( "MCLongstaffSchwartzEngine_AmericanOption", "[MCLongstaffSchwartzEngi
     }
 }
 
-TEST_CASE( "MCLongstaffSchwartzEngine_AmericanMaxOption", "[MCLongstaffSchwartzEngine]" ) {
+TEST_CASE("MCLongstaffSchwartzEngine_AmericanMaxOption", "[MCLongstaffSchwartzEngine]") {
 
     // reference values taken from
     // "Monte Carlo Methods in Financial Engineering",

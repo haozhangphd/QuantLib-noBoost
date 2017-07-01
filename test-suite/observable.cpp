@@ -37,7 +37,7 @@ namespace {
     };
 }
 
-TEST_CASE( "Observable_ObservableSettings", "[Observable]" ) {
+TEST_CASE("Observable_ObservableSettings", "[Observable]") {
 
     INFO("Testing observable settings...");
 
@@ -160,7 +160,7 @@ namespace {
     };
 }
 
-TEST_CASE( "Observable_AsyncGarbagCollector", "[.]" ) {
+TEST_CASE("Observable_AsyncGarbagCollector", "[.]") {
 
     INFO("Testing observer pattern with an asynchronous "
                        "garbage collector (JVM/.NET use case)...");
@@ -192,7 +192,7 @@ TEST_CASE( "Observable_AsyncGarbagCollector", "[.]" ) {
 }
 
 
-TEST_CASE( "Observable_MultiThreadingGlobalSettings", "[.]" ) {
+TEST_CASE("Observable_MultiThreadingGlobalSettings", "[.]") {
 	INFO("Testing observer global settings in a "
 		               "multithreading environment...");
 	

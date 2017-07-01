@@ -146,7 +146,7 @@ namespace {
 }
 
 
-TEST_CASE( "SwaptionVolatilityCube_AtmVols", "[SwaptionVolatilityCube]" ) {
+TEST_CASE("SwaptionVolatilityCube_AtmVols", "[SwaptionVolatilityCube]") {
 
     INFO("Testing swaption volatility cube (atm vols)...");
 
@@ -165,7 +165,7 @@ TEST_CASE( "SwaptionVolatilityCube_AtmVols", "[SwaptionVolatilityCube]" ) {
     vars.makeAtmVolTest(volCube, tolerance);
 }
 
-TEST_CASE( "SwaptionVolatilityCube_Smile", "[SwaptionVolatilityCube]" ) {
+TEST_CASE("SwaptionVolatilityCube_Smile", "[SwaptionVolatilityCube]") {
 
     INFO("Testing swaption volatility cube (smile)...");
 
@@ -184,7 +184,7 @@ TEST_CASE( "SwaptionVolatilityCube_Smile", "[SwaptionVolatilityCube]" ) {
     vars.makeVolSpreadsTest(volCube, tolerance);
 }
 
-TEST_CASE( "SwaptionVolatilityCube_SabrVols", "[SwaptionVolatilityCube]" ) {
+TEST_CASE("SwaptionVolatilityCube_SabrVols", "[SwaptionVolatilityCube]") {
 
     INFO("Testing swaption volatility cube (sabr interpolation)...");
 
@@ -223,7 +223,7 @@ TEST_CASE( "SwaptionVolatilityCube_SabrVols", "[SwaptionVolatilityCube]" ) {
     vars.makeVolSpreadsTest(volCube, tolerance);
 }
 
-TEST_CASE( "SwaptionVolatilityCube_SpreadedCube", "[SwaptionVolatilityCube]" ) {
+TEST_CASE("SwaptionVolatilityCube_SpreadedCube", "[SwaptionVolatilityCube]") {
 
     INFO("Testing spreaded swaption volatility cube...");
 
@@ -311,7 +311,7 @@ TEST_CASE( "SwaptionVolatilityCube_SpreadedCube", "[SwaptionVolatilityCube]" ) {
 }
 
 
-TEST_CASE( "SwaptionVolatilityCube_Observability", "[SwaptionVolatilityCube]" ) {
+TEST_CASE("SwaptionVolatilityCube_Observability", "[SwaptionVolatilityCube]") {
     INFO("Testing volatility cube observability...");
 
     CommonVars vars;

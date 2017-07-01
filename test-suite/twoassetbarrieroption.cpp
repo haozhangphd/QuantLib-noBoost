@@ -48,7 +48,7 @@ namespace {
 }
 
 
-TEST_CASE( "TwoAssetBarrierOption_HaugValues", "[TwoAssetBarrierOption]" ) {
+TEST_CASE("TwoAssetBarrierOption_HaugValues", "[TwoAssetBarrierOption]") {
 
     INFO("Testing two-asset barrier options against Haug's values...");
 

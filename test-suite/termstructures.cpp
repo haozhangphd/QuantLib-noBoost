@@ -116,7 +116,7 @@ namespace {
 }
 
 
-TEST_CASE( "TermStructure_ReferenceChange", "[TermStructure]" ) {
+TEST_CASE("TermStructure_ReferenceChange", "[TermStructure]") {
 
     INFO("Testing term structure against evaluation date change...");
 
@@ -151,7 +151,7 @@ TEST_CASE( "TermStructure_ReferenceChange", "[TermStructure]" ) {
 }
 
 
-TEST_CASE( "TermStructure_Implied", "[TermStructure]" ) {
+TEST_CASE("TermStructure_Implied", "[TermStructure]") {
 
     INFO("Testing consistency of implied term structure...");
 
@@ -177,7 +177,7 @@ TEST_CASE( "TermStructure_Implied", "[TermStructure]" ) {
             << "    expected:   " << discount);
 }
 
-TEST_CASE( "TermStructure_ImpliedObs", "[TermStructure]" ) {
+TEST_CASE("TermStructure_ImpliedObs", "[TermStructure]") {
 
     INFO("Testing observability of implied term structure...");
 
@@ -197,7 +197,7 @@ TEST_CASE( "TermStructure_ImpliedObs", "[TermStructure]" ) {
         FAIL_CHECK("Observer was not notified of term structure change");
 }
 
-TEST_CASE( "TermStructure_FSpreaded", "[TermStructure]" ) {
+TEST_CASE("TermStructure_FSpreaded", "[TermStructure]") {
 
     INFO("Testing consistency of forward-spreaded term structure...");
 
@@ -225,7 +225,7 @@ TEST_CASE( "TermStructure_FSpreaded", "[TermStructure]" ) {
             << "    expected:   " << io::rate(forward));
 }
 
-TEST_CASE( "TermStructure_FSpreadedObs", "[TermStructure]" ) {
+TEST_CASE("TermStructure_FSpreadedObs", "[TermStructure]") {
 
     INFO("Testing observability of forward-spreaded "
                        "term structure...");
@@ -248,7 +248,7 @@ TEST_CASE( "TermStructure_FSpreadedObs", "[TermStructure]" ) {
         FAIL_CHECK("Observer was not notified of spread change");
 }
 
-TEST_CASE( "TermStructure_ZSpreaded", "[TermStructure]" ) {
+TEST_CASE("TermStructure_ZSpreaded", "[TermStructure]") {
 
     INFO("Testing consistency of zero-spreaded term structure...");
 
@@ -274,7 +274,7 @@ TEST_CASE( "TermStructure_ZSpreaded", "[TermStructure]" ) {
             << "    expected:   " << io::rate(zero));
 }
 
-TEST_CASE( "TermStructure_ZSpreadedObs", "[TermStructure]" ) {
+TEST_CASE("TermStructure_ZSpreadedObs", "[TermStructure]") {
 
     INFO("Testing observability of zero-spreaded term structure...");
 
@@ -297,7 +297,7 @@ TEST_CASE( "TermStructure_ZSpreadedObs", "[TermStructure]" ) {
         FAIL_CHECK("Observer was not notified of spread change");
 }
 
-TEST_CASE( "TermStructure_CreateWithNullUnderlying", "[TermStructure]" ) {
+TEST_CASE("TermStructure_CreateWithNullUnderlying", "[TermStructure]") {
     INFO(
         "Testing that a zero-spreaded curve can be created with "
         "a null underlying curve...");
@@ -315,7 +315,7 @@ TEST_CASE( "TermStructure_CreateWithNullUnderlying", "[TermStructure]" ) {
     spreaded->referenceDate();
 }
 
-TEST_CASE( "TermStructure_LinkToNullUnderlying", "[TermStructure]" ) {
+TEST_CASE("TermStructure_LinkToNullUnderlying", "[TermStructure]") {
     INFO(
         "Testing that an underlying curve can be relinked to "
         "a null underlying curve...");

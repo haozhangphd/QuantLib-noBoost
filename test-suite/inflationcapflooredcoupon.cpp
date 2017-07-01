@@ -371,7 +371,7 @@ namespace {
 
 
 
-TEST_CASE( "InflationCapFlooredCoupon_Decomposition", "[InflationCapFlooredCoupon]" ) {
+TEST_CASE("InflationCapFlooredCoupon_Decomposition", "[InflationCapFlooredCoupon]") {
 
     INFO("Testing collared coupon against its decomposition...");
 
@@ -687,7 +687,7 @@ TEST_CASE( "InflationCapFlooredCoupon_Decomposition", "[InflationCapFlooredCoupo
 }
 
 
-TEST_CASE( "InflationCapFlooredCoupon_InstrumentEquality", "[InflationCapFlooredCoupon]" ) {
+TEST_CASE("InflationCapFlooredCoupon_InstrumentEquality", "[InflationCapFlooredCoupon]") {
 
     INFO("Testing inflation capped/floored coupon against"
                        " inflation capfloor instrument...");

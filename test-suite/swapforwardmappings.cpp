@@ -181,7 +181,7 @@ namespace {
 }
 
 
-TEST_CASE( "SwapForwardMappings_ForwardSwapJacobians", "[SwapForwardMappings]" )
+TEST_CASE("SwapForwardMappings_ForwardSwapJacobians", "[SwapForwardMappings]")
 {
     {
         INFO("Testing forward-rate coinitial-swap Jacobian...");
@@ -293,7 +293,7 @@ TEST_CASE( "SwapForwardMappings_ForwardSwapJacobians", "[SwapForwardMappings]" )
 }
 
 
-TEST_CASE( "SwapForwardMappings_ForwardCoterminalMappings", "[.]" ) {
+TEST_CASE("SwapForwardMappings_ForwardCoterminalMappings", "[.]") {
 
     INFO("Testing forward-rate coterminal-swap mappings...");
     MarketModelData marketData;
@@ -367,7 +367,7 @@ TEST_CASE( "SwapForwardMappings_ForwardCoterminalMappings", "[.]" ) {
     }
 }
 
-TEST_CASE( "SwapForwardMappings_SwaptionImpliedVolatility", "[SwapForwardMappings]" ) 
+TEST_CASE("SwapForwardMappings_SwaptionImpliedVolatility", "[SwapForwardMappings]") 
 {
 
     INFO("Testing implied swaption vol in LMM using HW approximation...");

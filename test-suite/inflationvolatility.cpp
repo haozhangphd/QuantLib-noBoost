@@ -280,7 +280,7 @@ namespace {
 
 
 
-TEST_CASE( "InflationVol_YoYPriceSurfaceToVol", "[InflationVol]" ) {
+TEST_CASE("InflationVol_YoYPriceSurfaceToVol", "[InflationVol]") {
     INFO("Testing conversion from YoY price surface "
                        "to YoY volatility surface...");
 
@@ -370,7 +370,7 @@ TEST_CASE( "InflationVol_YoYPriceSurfaceToVol", "[InflationVol]" ) {
 
 
 
-TEST_CASE( "InflationVol_YoYPriceSurfaceToATM", "[InflationVol]" ) {
+TEST_CASE("InflationVol_YoYPriceSurfaceToATM", "[InflationVol]") {
     INFO("Testing conversion from YoY cap-floor surface "
                        "to YoY inflation term structure...");
 

@@ -111,7 +111,7 @@ namespace {
 }
 
 
-TEST_CASE( "LiborMarketModel_SimpleCovarianceModels", "[LiborMarketModel]" ) {
+TEST_CASE("LiborMarketModel_SimpleCovarianceModels", "[LiborMarketModel]") {
     INFO("Testing simple covariance models...");
 
     SavedSettings backup;
@@ -188,7 +188,7 @@ TEST_CASE( "LiborMarketModel_SimpleCovarianceModels", "[LiborMarketModel]" ) {
 }
 
 
-TEST_CASE( "LiborMarketModel_CapletPricing", "[LiborMarketModel]" ) {
+TEST_CASE("LiborMarketModel_CapletPricing", "[LiborMarketModel]") {
     INFO("Testing caplet pricing...");
 
     SavedSettings backup;
@@ -241,7 +241,7 @@ TEST_CASE( "LiborMarketModel_CapletPricing", "[LiborMarketModel]" ) {
                     << "\n    expected:   " << expected);
 }
 
-TEST_CASE( "LiborMarketModel_Calibration", "[LiborMarketModel]" ) {
+TEST_CASE("LiborMarketModel_Calibration", "[LiborMarketModel]") {
     INFO("Testing calibration of a Libor forward model...");
 
     SavedSettings backup;
@@ -345,7 +345,7 @@ TEST_CASE( "LiborMarketModel_Calibration", "[LiborMarketModel]" ) {
                     << "\n    expected : smaller than  " << tolerance);
 }
 
-TEST_CASE( "LiborMarketModel_SwaptionPricing", "[LiborMarketModel]" ) {
+TEST_CASE("LiborMarketModel_SwaptionPricing", "[LiborMarketModel]") {
     INFO("Testing forward swap and swaption pricing...");
 
     SavedSettings backup;

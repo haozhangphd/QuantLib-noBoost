@@ -614,7 +614,7 @@ namespace {
 }
 
 
-TEST_CASE( "PiecewiseYieldCurve_LogCubicDiscountConsistency", "[.]" ) {
+TEST_CASE("PiecewiseYieldCurve_LogCubicDiscountConsistency", "[.]") {
 
     INFO(
         "Testing consistency of piecewise-log-cubic discount curve...");
@@ -633,7 +633,7 @@ TEST_CASE( "PiecewiseYieldCurve_LogCubicDiscountConsistency", "[.]" ) {
                  CubicInterpolation::SecondDerivative, 0.0));
 }
 
-TEST_CASE( "PiecewiseYieldCurve_LogLinearDiscountConsistency", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_LogLinearDiscountConsistency", "[PiecewiseYieldCurve]") {
 
     INFO(
         "Testing consistency of piecewise-log-linear discount curve...");
@@ -644,7 +644,7 @@ TEST_CASE( "PiecewiseYieldCurve_LogLinearDiscountConsistency", "[PiecewiseYieldC
     testBMACurveConsistency<Discount,LogLinear,IterativeBootstrap>(vars);
 }
 
-TEST_CASE( "PiecewiseYieldCurve_LinearDiscountConsistency", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_LinearDiscountConsistency", "[PiecewiseYieldCurve]") {
 
     INFO(
         "Testing consistency of piecewise-linear discount curve...");
@@ -658,7 +658,7 @@ TEST_CASE( "PiecewiseYieldCurve_LinearDiscountConsistency", "[PiecewiseYieldCurv
 #if !defined(QL_USE_INDEXED_COUPON)
   // if rates can be negative it makes no sense to interpolate loglinearly
   #if !defined(QL_NEGATIVE_RATES)
-TEST_CASE( "PiecewiseYieldCurve_LogLinearZeroConsistency", "[.]" ) {
+TEST_CASE("PiecewiseYieldCurve_LogLinearZeroConsistency", "[.]") {
 
     INFO(
         "Testing consistency of piecewise-log-linear zero-yield curve...");
@@ -671,7 +671,7 @@ TEST_CASE( "PiecewiseYieldCurve_LogLinearZeroConsistency", "[.]" ) {
 #endif
 #endif
 
-TEST_CASE( "PiecewiseYieldCurve_LinearZeroConsistency", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_LinearZeroConsistency", "[PiecewiseYieldCurve]") {
 
     INFO(
         "Testing consistency of piecewise-linear zero-yield curve...");
@@ -682,7 +682,7 @@ TEST_CASE( "PiecewiseYieldCurve_LinearZeroConsistency", "[PiecewiseYieldCurve]" 
     testBMACurveConsistency<ZeroYield,Linear,IterativeBootstrap>(vars);
 }
 
-TEST_CASE( "PiecewiseYieldCurve_SplineZeroConsistency", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_SplineZeroConsistency", "[PiecewiseYieldCurve]") {
 
     INFO(
         "Testing consistency of piecewise-cubic zero-yield curve...");
@@ -701,7 +701,7 @@ TEST_CASE( "PiecewiseYieldCurve_SplineZeroConsistency", "[PiecewiseYieldCurve]" 
                          CubicInterpolation::SecondDerivative, 0.0));
 }
 
-TEST_CASE( "PiecewiseYieldCurve_LinearForwardConsistency", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_LinearForwardConsistency", "[PiecewiseYieldCurve]") {
 
     INFO(
         "Testing consistency of piecewise-linear forward-rate curve...");
@@ -712,7 +712,7 @@ TEST_CASE( "PiecewiseYieldCurve_LinearForwardConsistency", "[PiecewiseYieldCurve
     testBMACurveConsistency<ForwardRate,Linear,IterativeBootstrap>(vars);
 }
 
-TEST_CASE( "PiecewiseYieldCurve_FlatForwardConsistency", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_FlatForwardConsistency", "[PiecewiseYieldCurve]") {
 
     INFO(
         "Testing consistency of piecewise-flat forward-rate curve...");
@@ -723,7 +723,7 @@ TEST_CASE( "PiecewiseYieldCurve_FlatForwardConsistency", "[PiecewiseYieldCurve]"
     testBMACurveConsistency<ForwardRate,BackwardFlat,IterativeBootstrap>(vars);
 }
 
-TEST_CASE( "PiecewiseYieldCurve_SplineForwardConsistency", "[.]" ) {
+TEST_CASE("PiecewiseYieldCurve_SplineForwardConsistency", "[.]") {
 
     INFO(
         "Testing consistency of piecewise-cubic forward-rate curve...");
@@ -742,7 +742,7 @@ TEST_CASE( "PiecewiseYieldCurve_SplineForwardConsistency", "[.]" ) {
                          CubicInterpolation::SecondDerivative, 0.0));
 }
 
-TEST_CASE( "PiecewiseYieldCurve_ConvexMonotoneForwardConsistency", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_ConvexMonotoneForwardConsistency", "[PiecewiseYieldCurve]") {
     INFO(
         "Testing consistency of convex monotone forward-rate curve...");
 
@@ -754,7 +754,7 @@ TEST_CASE( "PiecewiseYieldCurve_ConvexMonotoneForwardConsistency", "[PiecewiseYi
 }
 
 
-TEST_CASE( "PiecewiseYieldCurve_LocalBootstrapConsistency", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_LocalBootstrapConsistency", "[PiecewiseYieldCurve]") {
     INFO(
         "Testing consistency of local-bootstrap algorithm...");
 
@@ -766,7 +766,7 @@ TEST_CASE( "PiecewiseYieldCurve_LocalBootstrapConsistency", "[PiecewiseYieldCurv
 }
 
 
-TEST_CASE( "PiecewiseYieldCurve_Observability", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_Observability", "[PiecewiseYieldCurve]") {
 
     INFO("Testing observability of piecewise yield curve...");
 
@@ -809,7 +809,7 @@ TEST_CASE( "PiecewiseYieldCurve_Observability", "[PiecewiseYieldCurve]" ) {
 }
 
 
-TEST_CASE( "PiecewiseYieldCurve_LiborFixing", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_LiborFixing", "[PiecewiseYieldCurve]") {
 
     INFO(
         "Testing use of today's LIBOR fixings in swap curve...");
@@ -895,7 +895,7 @@ TEST_CASE( "PiecewiseYieldCurve_LiborFixing", "[PiecewiseYieldCurve]" ) {
     }
 }
 
-TEST_CASE( "PiecewiseYieldCurve_JpyLibor", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_JpyLibor", "[PiecewiseYieldCurve]") {
     INFO(
         "Testing bootstrap over JPY LIBOR swaps...");
 
@@ -1012,28 +1012,28 @@ namespace {
 }
 
 
-TEST_CASE( "PiecewiseYieldCurve_DiscountCopy", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_DiscountCopy", "[PiecewiseYieldCurve]") {
     INFO("Testing copying of discount curve...");
 
     CommonVars vars;
     testCurveCopy<Discount,LogLinear>(vars);
 }
 
-TEST_CASE( "PiecewiseYieldCurve_ForwardCopy", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_ForwardCopy", "[PiecewiseYieldCurve]") {
     INFO("Testing copying of forward-rate curve...");
 
     CommonVars vars;
     testCurveCopy<ForwardRate,BackwardFlat>(vars);
 }
 
-TEST_CASE( "PiecewiseYieldCurve_ZeroCopy", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_ZeroCopy", "[PiecewiseYieldCurve]") {
     INFO("Testing copying of zero-rate curve...");
 
     CommonVars vars;
     testCurveCopy<ZeroYield,Linear>(vars);
 }
 
-TEST_CASE( "PiecewiseYieldCurve_SwapRateHelperLastRelevantDate", "[PiecewiseYieldCurve]" ) {
+TEST_CASE("PiecewiseYieldCurve_SwapRateHelperLastRelevantDate", "[PiecewiseYieldCurve]") {
     INFO("Testing SwapRateHelper last relevant date...");
 
     SavedSettings backup;

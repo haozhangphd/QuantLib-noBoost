@@ -59,7 +59,7 @@ namespace {
                     << "\n    expected:   " << results.member); \
     }
 
-TEST_CASE( "GARCH_Calibration", "[GARCH]" ) {
+TEST_CASE("GARCH_Calibration", "[GARCH]") {
 
     INFO("Testing GARCH model calibration...");
 
@@ -169,7 +169,7 @@ namespace {
 
 }
 
-TEST_CASE( "GARCH_Calculation", "[GARCH]" ) {
+TEST_CASE("GARCH_Calculation", "[GARCH]") {
     INFO("Testing GARCH model calculation...");
     Date d(7, July, 1962);
     TimeSeries<Volatility> ts;

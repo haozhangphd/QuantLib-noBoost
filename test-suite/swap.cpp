@@ -100,7 +100,7 @@ namespace {
 }
 
 
-TEST_CASE( "Swap_FairRate", "[Swap]" ) {
+TEST_CASE("Swap_FairRate", "[Swap]") {
 
     INFO("Testing vanilla-swap calculation of fair fixed rate...");
 
@@ -127,7 +127,7 @@ TEST_CASE( "Swap_FairRate", "[Swap]" ) {
     }
 }
 
-TEST_CASE( "Swap_FairSpread", "[Swap]" ) {
+TEST_CASE("Swap_FairSpread", "[Swap]") {
 
     INFO("Testing vanilla-swap calculation of "
                        "fair floating spread...");
@@ -154,7 +154,7 @@ TEST_CASE( "Swap_FairSpread", "[Swap]" ) {
     }
 }
 
-TEST_CASE( "Swap_RateDependency", "[Swap]" ) {
+TEST_CASE("Swap_RateDependency", "[Swap]") {
 
     INFO("Testing vanilla-swap dependency on fixed rate...");
 
@@ -191,7 +191,7 @@ TEST_CASE( "Swap_RateDependency", "[Swap]" ) {
     }
 }
 
-TEST_CASE( "Swap_SpreadDependency", "[Swap]" ) {
+TEST_CASE("Swap_SpreadDependency", "[Swap]") {
 
     INFO("Testing vanilla-swap dependency on floating spread...");
 
@@ -228,7 +228,7 @@ TEST_CASE( "Swap_SpreadDependency", "[Swap]" ) {
     }
 }
 
-TEST_CASE( "Swap_InArrears", "[Swap]" ) {
+TEST_CASE("Swap_InArrears", "[Swap]") {
 
     INFO("Testing in-arrears swap calculation...");
 
@@ -294,7 +294,7 @@ TEST_CASE( "Swap_InArrears", "[Swap]" ) {
                     << "    calculated: " << swap.NPV());
 }
 
-TEST_CASE( "Swap_CachedValue", "[Swap]" ) {
+TEST_CASE("Swap_CachedValue", "[Swap]") {
 
     INFO("Testing vanilla-swap calculation against cached value...");
 

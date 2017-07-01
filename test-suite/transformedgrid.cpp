@@ -30,7 +30,7 @@ public:
     Real operator()(Real x) const { return x+1;};
 };
 
-TEST_CASE( "TransformedGrid_Construction", "[TransformedGrid]" ) {
+TEST_CASE("TransformedGrid_Construction", "[TransformedGrid]") {
 
     INFO("Testing transformed grid construction...");
 

@@ -37,7 +37,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "CreditDefaultSwap_CachedValue", "[CreditDefaultSwap]" ) {
+TEST_CASE("CreditDefaultSwap_CachedValue", "[CreditDefaultSwap]") {
 
     INFO("Testing credit-default swap against cached values...");
 
@@ -151,7 +151,7 @@ TEST_CASE( "CreditDefaultSwap_CachedValue", "[CreditDefaultSwap]" ) {
 }
 
 
-TEST_CASE( "CreditDefaultSwap_CachedMarketValue", "[CreditDefaultSwap]" ) {
+TEST_CASE("CreditDefaultSwap_CachedMarketValue", "[CreditDefaultSwap]") {
 
     INFO(
         "Testing credit-default swap against cached market values...");
@@ -295,7 +295,7 @@ TEST_CASE( "CreditDefaultSwap_CachedMarketValue", "[CreditDefaultSwap]" ) {
 }
 
 
-TEST_CASE( "CreditDefaultSwap_ImpliedHazardRate", "[CreditDefaultSwap]" ) {
+TEST_CASE("CreditDefaultSwap_ImpliedHazardRate", "[CreditDefaultSwap]") {
 
     INFO("Testing implied hazard-rate for credit-default swaps...");
 
@@ -402,7 +402,7 @@ TEST_CASE( "CreditDefaultSwap_ImpliedHazardRate", "[CreditDefaultSwap]" ) {
 }
 
 
-TEST_CASE( "CreditDefaultSwap_FairSpread", "[CreditDefaultSwap]" ) {
+TEST_CASE("CreditDefaultSwap_FairSpread", "[CreditDefaultSwap]") {
 
     INFO(
         "Testing fair-spread calculation for credit-default swaps...");
@@ -467,7 +467,7 @@ TEST_CASE( "CreditDefaultSwap_FairSpread", "[CreditDefaultSwap]" ) {
             << "    calculated NPV:    " << fairNPV);
 }
 
-TEST_CASE( "CreditDefaultSwap_FairUpfront", "[CreditDefaultSwap]" ) {
+TEST_CASE("CreditDefaultSwap_FairUpfront", "[CreditDefaultSwap]") {
 
     INFO(
         "Testing fair-upfront calculation for credit-default swaps...");

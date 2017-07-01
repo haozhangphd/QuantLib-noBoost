@@ -70,7 +70,7 @@ namespace {
 }
 
 
-TEST_CASE( "ForwardOption_Values", "[ForwardOption]" ) {
+TEST_CASE("ForwardOption_Values", "[ForwardOption]") {
 
     INFO("Testing forward option values...");
 
@@ -137,7 +137,7 @@ TEST_CASE( "ForwardOption_Values", "[ForwardOption]" ) {
 }
 
 
-TEST_CASE( "ForwardOption_PerformanceValues", "[ForwardOption]" ) {
+TEST_CASE("ForwardOption_PerformanceValues", "[ForwardOption]") {
 
     INFO("Testing forward performance option values...");
 
@@ -362,7 +362,7 @@ namespace {
 }
 
 
-TEST_CASE( "ForwardOption_Greeks", "[ForwardOption]" ) {
+TEST_CASE("ForwardOption_Greeks", "[ForwardOption]") {
 
     INFO("Testing forward option greeks...");
 
@@ -372,7 +372,7 @@ TEST_CASE( "ForwardOption_Greeks", "[ForwardOption]" ) {
 }
 
 
-TEST_CASE( "ForwardOption_PerformanceGreeks", "[ForwardOption]" ) {
+TEST_CASE("ForwardOption_PerformanceGreeks", "[ForwardOption]") {
 
     INFO("Testing forward performance option greeks...");
 
@@ -393,7 +393,7 @@ public:
 };
 
 // verify than if engine
-TEST_CASE( "ForwardOption_GreeksInitialization", "[ForwardOption]" ) {
+TEST_CASE("ForwardOption_GreeksInitialization", "[ForwardOption]") {
    INFO("Testing forward option greeks initialization...");
 
    DayCounter dc = Actual360();

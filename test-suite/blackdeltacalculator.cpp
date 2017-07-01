@@ -66,7 +66,7 @@ namespace {
 }
 
 
-TEST_CASE( "BlackDeltaCalculator_DeltaValues", "[BlackDeltaCalculator]" ){
+TEST_CASE("BlackDeltaCalculator_DeltaValues", "[BlackDeltaCalculator]"){
 
     INFO("Testing delta calculator values...");
 
@@ -149,7 +149,7 @@ TEST_CASE( "BlackDeltaCalculator_DeltaValues", "[BlackDeltaCalculator]" ){
     }
 }
 
-TEST_CASE( "BlackDeltaCalculator_DeltaPriceConsistency", "[BlackDeltaCalculator]" ) {
+TEST_CASE("BlackDeltaCalculator_DeltaPriceConsistency", "[BlackDeltaCalculator]") {
 
     INFO("Testing premium-adjusted delta price consistency...");
 
@@ -302,7 +302,7 @@ TEST_CASE( "BlackDeltaCalculator_DeltaPriceConsistency", "[BlackDeltaCalculator]
     }
 }
 
-TEST_CASE( "BlackDeltaCalculator_PutCallParity", "[BlackDeltaCalculator]" ){
+TEST_CASE("BlackDeltaCalculator_PutCallParity", "[BlackDeltaCalculator]"){
 
     INFO("Testing put-call parity for deltas...");
 
@@ -499,7 +499,7 @@ TEST_CASE( "BlackDeltaCalculator_PutCallParity", "[BlackDeltaCalculator]" ){
     }
 }
 
-TEST_CASE( "BlackDeltaCalculator_AtmCalcs", "[BlackDeltaCalculator]" ){
+TEST_CASE("BlackDeltaCalculator_AtmCalcs", "[BlackDeltaCalculator]"){
 
     INFO("Testing delta-neutral ATM quotations...");
 

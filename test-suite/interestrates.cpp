@@ -44,7 +44,7 @@ namespace {
 }
 
 
-TEST_CASE( "InterestRate_Conversions", "[InterestRate]" ) {
+TEST_CASE("InterestRate_Conversions", "[InterestRate]") {
     INFO("Testing interest-rate conversions...");
 
     InterestRateData cases[] = {

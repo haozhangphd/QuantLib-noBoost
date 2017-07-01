@@ -60,7 +60,7 @@ struct Case {
     Real result;
 };
 
-TEST_CASE( "SpreadOption_KirkEngine", "[SpreadOption]" ) {
+TEST_CASE("SpreadOption_KirkEngine", "[SpreadOption]") {
     INFO("Testing Kirk approximation for spread options...");
 
     /* The example data below are from "complete guide to option

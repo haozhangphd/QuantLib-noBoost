@@ -94,7 +94,7 @@ namespace {
 }
 
 
-TEST_CASE( "LookbackOption_AnalyticContinuousFloatingLookback", "[LookbackOption]" ) {
+TEST_CASE("LookbackOption_AnalyticContinuousFloatingLookback", "[LookbackOption]") {
 
     INFO(
            "Testing analytic continuous floating-strike lookback options...");
@@ -171,7 +171,7 @@ TEST_CASE( "LookbackOption_AnalyticContinuousFloatingLookback", "[LookbackOption
 }
 
 
-TEST_CASE( "LookbackOption_AnalyticContinuousFixedLookback", "[LookbackOption]" ) {
+TEST_CASE("LookbackOption_AnalyticContinuousFixedLookback", "[LookbackOption]") {
 
     INFO(
               "Testing analytic continuous fixed-strike lookback options...");
@@ -269,7 +269,7 @@ TEST_CASE( "LookbackOption_AnalyticContinuousFixedLookback", "[LookbackOption]" 
     }
 }
 
-TEST_CASE( "LookbackOption_AnalyticContinuousPartialFloatingLookback", "[LookbackOption]" ) {
+TEST_CASE("LookbackOption_AnalyticContinuousPartialFloatingLookback", "[LookbackOption]") {
 
     INFO(
            "Testing analytic continuous partial floating-strike lookback options...");
@@ -383,7 +383,7 @@ TEST_CASE( "LookbackOption_AnalyticContinuousPartialFloatingLookback", "[Lookbac
     }
 }
 
-TEST_CASE( "LookbackOption_AnalyticContinuousPartialFixedLookback", "[LookbackOption]" ) {
+TEST_CASE("LookbackOption_AnalyticContinuousPartialFixedLookback", "[LookbackOption]") {
 
     INFO(
               "Testing analytic continuous fixed-strike lookback options...");

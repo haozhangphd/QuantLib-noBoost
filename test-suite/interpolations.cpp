@@ -190,7 +190,7 @@ namespace {
    SIAM J. of Scientific and Statistical Computing, v. 4, 1983, pp. 645-654.
    http://math.lanl.gov/~mac/papers/numerics/H83.pdf
 */
-TEST_CASE( "Interpolation_SplineErrorOnGaussianValues", "[Interpolation]" ) {
+TEST_CASE("Interpolation_SplineErrorOnGaussianValues", "[Interpolation]") {
 
     INFO("Testing spline approximation on Gaussian data sets...");
 
@@ -255,7 +255,7 @@ TEST_CASE( "Interpolation_SplineErrorOnGaussianValues", "[Interpolation]" ) {
    SIAM J. of Scientific and Statistical Computing, v. 4, 1983, pp. 645-654.
    http://math.lanl.gov/~mac/papers/numerics/H83.pdf
 */
-TEST_CASE( "Interpolation_SplineOnGaussianValues", "[Interpolation]" ) {
+TEST_CASE("Interpolation_SplineOnGaussianValues", "[Interpolation]") {
 
     INFO("Testing spline interpolation on a Gaussian data set...");
 
@@ -324,7 +324,7 @@ TEST_CASE( "Interpolation_SplineOnGaussianValues", "[Interpolation]" ) {
    SIAM J. of Scientific and Statistical Computing, v. 4, 1983, pp. 645-654.
    http://math.lanl.gov/~mac/papers/numerics/H83.pdf
 */
-TEST_CASE( "Interpolation_SplineOnRPN15AValues", "[Interpolation]" ) {
+TEST_CASE("Interpolation_SplineOnRPN15AValues", "[Interpolation]") {
 
     INFO("Testing spline interpolation on RPN15A data set...");
 
@@ -474,7 +474,7 @@ TEST_CASE( "Interpolation_SplineOnRPN15AValues", "[Interpolation]" ) {
    Applied Linear Algebra and Numerical Analysis AMATH 352 Lecture Notes
    http://www.amath.washington.edu/courses/352-winter-2002/spline_note.pdf
 */
-TEST_CASE( "Interpolation_SplineOnGenericValues", "[Interpolation]" ) {
+TEST_CASE("Interpolation_SplineOnGenericValues", "[Interpolation]") {
 
     INFO("Testing spline interpolation on generic values...");
 
@@ -551,7 +551,7 @@ TEST_CASE( "Interpolation_SplineOnGenericValues", "[Interpolation]" ) {
 }
 
 
-TEST_CASE( "Interpolation_SimmetricEndConditions", "[Interpolation]" ) {
+TEST_CASE("Interpolation_SimmetricEndConditions", "[Interpolation]") {
 
     INFO("Testing symmetry of spline interpolation "
                        "end-conditions...");
@@ -586,7 +586,7 @@ TEST_CASE( "Interpolation_SimmetricEndConditions", "[Interpolation]" ) {
 }
 
 
-TEST_CASE( "Interpolation_DerivativeEndConditions", "[Interpolation]" ) {
+TEST_CASE("Interpolation_DerivativeEndConditions", "[Interpolation]") {
 
     INFO("Testing derivative end-conditions "
                        "for spline interpolation...");
@@ -711,7 +711,7 @@ TEST_CASE( "Interpolation_DerivativeEndConditions", "[Interpolation]" ) {
    Hermite Interpolation"
    Mathematics Of Computation, v. 52, n. 186, April 1989, pp. 471-494.
 */
-TEST_CASE( "Interpolation_NonRestrictiveHymanFilter", "[Interpolation]" ) {
+TEST_CASE("Interpolation_NonRestrictiveHymanFilter", "[Interpolation]") {
 
     INFO("Testing non-restrictive Hyman filter...");
 
@@ -774,7 +774,7 @@ TEST_CASE( "Interpolation_NonRestrictiveHymanFilter", "[Interpolation]" ) {
 
 }
 
-TEST_CASE( "Interpolation_MultiSpline", "[Interpolation]" ) {
+TEST_CASE("Interpolation_MultiSpline", "[Interpolation]") {
     INFO("Testing N-dimensional cubic spline...");
 
     std::vector<Size> dim(5);
@@ -880,7 +880,7 @@ namespace {
 
 }
 
-TEST_CASE( "Interpolation_AsFunctor", "[Interpolation]" ) {
+TEST_CASE("Interpolation_AsFunctor", "[Interpolation]") {
 
     INFO("Testing use of interpolations as functors...");
 
@@ -925,7 +925,7 @@ TEST_CASE( "Interpolation_AsFunctor", "[Interpolation]" ) {
 }
 
 
-TEST_CASE( "Interpolation_BackwardFlat", "[Interpolation]" ) {
+TEST_CASE("Interpolation_BackwardFlat", "[Interpolation]") {
 
     INFO("Testing backward-flat interpolation...");
 
@@ -1043,7 +1043,7 @@ TEST_CASE( "Interpolation_BackwardFlat", "[Interpolation]" ) {
 
 }
 
-TEST_CASE( "Interpolation_ForwardFlat", "[Interpolation]" ) {
+TEST_CASE("Interpolation_ForwardFlat", "[Interpolation]") {
 
     INFO("Testing forward-flat interpolation...");
 
@@ -1160,7 +1160,7 @@ TEST_CASE( "Interpolation_ForwardFlat", "[Interpolation]" ) {
     }
 }
 
-TEST_CASE( "Interpolation_SabrInterpolation", "[Interpolation]" ){
+TEST_CASE("Interpolation_SabrInterpolation", "[Interpolation]"){
 
     INFO("Testing Sabr interpolation...");
 
@@ -1323,7 +1323,7 @@ TEST_CASE( "Interpolation_SabrInterpolation", "[Interpolation]" ){
 }
 
 
-TEST_CASE( "Interpolation_KernelInterpolation", "[Interpolation]" ) {
+TEST_CASE("Interpolation_KernelInterpolation", "[Interpolation]") {
 
     INFO("Testing kernel 1D interpolation...");
 
@@ -1445,7 +1445,7 @@ TEST_CASE( "Interpolation_KernelInterpolation", "[Interpolation]" ) {
 }
 
 
-TEST_CASE( "Interpolation_KernelInterpolation2D", "[Interpolation]" ){
+TEST_CASE("Interpolation_KernelInterpolation2D", "[Interpolation]"){
 
     // No test values known from the literature.
     // Testing for consistency of input output data
@@ -1568,7 +1568,7 @@ TEST_CASE( "Interpolation_KernelInterpolation2D", "[Interpolation]" ){
 }
 
 
-TEST_CASE( "Interpolation_BicubicDerivatives", "[Interpolation]" ) {
+TEST_CASE("Interpolation_BicubicDerivatives", "[Interpolation]") {
     INFO("Testing bicubic spline derivatives...");
 
     std::vector<Real> x(100), y(100);
@@ -1612,7 +1612,7 @@ TEST_CASE( "Interpolation_BicubicDerivatives", "[Interpolation]" ) {
 }
 
 
-TEST_CASE( "Interpolation_BicubicUpdate", "[Interpolation]" ) {
+TEST_CASE("Interpolation_BicubicUpdate", "[Interpolation]") {
     INFO("Testing that bicubic splines actually update...");
 
     Size N=6;
@@ -1646,7 +1646,7 @@ namespace {
     }
 }
 
-TEST_CASE( "Interpolation_RichardsonExtrapolation", "[Interpolation]" ) {
+TEST_CASE("Interpolation_RichardsonExtrapolation", "[Interpolation]") {
     INFO("Testing Richardson extrapolation...");
 
     /* example taken from
@@ -1684,7 +1684,7 @@ TEST_CASE( "Interpolation_RichardsonExtrapolation", "[Interpolation]" ) {
     }
 }
 
-TEST_CASE( "Interpolation_NoArbSabrInterpolation", "[Interpolation]" ){
+TEST_CASE("Interpolation_NoArbSabrInterpolation", "[Interpolation]"){
 
     INFO("Testing no-arbitrage Sabr interpolation...");
 
@@ -1862,7 +1862,7 @@ TEST_CASE( "Interpolation_NoArbSabrInterpolation", "[Interpolation]" ){
 }
 
 
-TEST_CASE( "Interpolation_SabrSingleCases", "[Interpolation]" ) {
+TEST_CASE("Interpolation_SabrSingleCases", "[Interpolation]") {
 
     INFO("Testing Sabr calibration single cases...");
 
@@ -1888,7 +1888,7 @@ TEST_CASE( "Interpolation_SabrSingleCases", "[Interpolation]" ) {
 
 }
 
-TEST_CASE( "Interpolation_Transformations", "[Interpolation]" ) {
+TEST_CASE("Interpolation_Transformations", "[Interpolation]") {
 
     INFO("Testing Sabr and no-arbitrage Sabr transformation functions...");
 
@@ -1969,7 +1969,7 @@ namespace {
     }
 }
 
-TEST_CASE( "Interpolation_LagrangeInterpolation", "[Interpolation]" ) {
+TEST_CASE("Interpolation_LagrangeInterpolation", "[Interpolation]") {
 
     INFO("Testing Lagrange interpolation...");
 
@@ -2024,7 +2024,7 @@ TEST_CASE( "Interpolation_LagrangeInterpolation", "[Interpolation]" ) {
     }
 }
 
-TEST_CASE( "Interpolation_LagrangeInterpolationAtSupportPoint", "[Interpolation]" ) {
+TEST_CASE("Interpolation_LagrangeInterpolationAtSupportPoint", "[Interpolation]") {
     INFO(
         "Testing Lagrange interpolation at supporting points...");
 
@@ -2055,7 +2055,7 @@ TEST_CASE( "Interpolation_LagrangeInterpolationAtSupportPoint", "[Interpolation]
     }
 }
 
-TEST_CASE( "Interpolation_LagrangeInterpolationDerivative", "[Interpolation]" ) {
+TEST_CASE("Interpolation_LagrangeInterpolationDerivative", "[Interpolation]") {
     INFO(
         "Testing Lagrange interpolation derivatives...");
 
@@ -2085,7 +2085,7 @@ TEST_CASE( "Interpolation_LagrangeInterpolationDerivative", "[Interpolation]" ) 
     }
 }
 
-TEST_CASE( "Interpolation_LagrangeInterpolationOnChebyshevPoints", "[Interpolation]" ) {
+TEST_CASE("Interpolation_LagrangeInterpolationOnChebyshevPoints", "[Interpolation]") {
     INFO(
         "Testing Lagrange interpolation on Chebyshev points...");
 

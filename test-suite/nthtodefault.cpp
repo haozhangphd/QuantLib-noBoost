@@ -95,7 +95,7 @@ namespace {
 
 #endif
 
-TEST_CASE( "NthToDefault_Gauss", "[NthToDefault]" ) {
+TEST_CASE("NthToDefault_Gauss", "[NthToDefault]") {
     #ifndef QL_PATCH_SOLARIS
     INFO("Testing nth-to-default against Hull-White values "
                        "with Gaussian copula...");
@@ -245,7 +245,7 @@ TEST_CASE( "NthToDefault_Gauss", "[NthToDefault]" ) {
 //https://github.com/lballabio/QuantLib/issues/262
 //the test fails if enabled.
 
-TEST_CASE( "NthToDefault_GaussStudent", "[.]" ) {
+TEST_CASE("NthToDefault_GaussStudent", "[.]") {
     #ifndef QL_PATCH_SOLARIS
     INFO("Testing nth-to-default against Hull-White values "
                        "with Gaussian and Student copula...");

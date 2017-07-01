@@ -32,7 +32,7 @@
 using namespace QuantLib;
 
 
-TEST_CASE( "Date_ecbDates", "[Date]" ) {
+TEST_CASE("Date_ecbDates", "[Date]") {
     INFO("Testing ECB dates...");
 
     std::set<Date> knownDates = ECB::knownDates();
@@ -78,7 +78,7 @@ TEST_CASE( "Date_ecbDates", "[Date]" ) {
 
 }
 
-TEST_CASE( "Date_immDates", "[Date]" ) {
+TEST_CASE("Date_immDates", "[Date]") {
     INFO("Testing IMM dates...");
 
     const std::string IMMcodes[] = {
@@ -150,7 +150,7 @@ TEST_CASE( "Date_immDates", "[Date]" ) {
     }
 }
 
-TEST_CASE( "Date_asxDates", "[Date]" ) {
+TEST_CASE("Date_asxDates", "[Date]") {
     INFO("Testing ASX dates...");
 
     const std::string ASXcodes[] = {
@@ -222,7 +222,7 @@ TEST_CASE( "Date_asxDates", "[Date]" ) {
     }
 }
 
-TEST_CASE( "Date_Consistency", "[Date]" ) {
+TEST_CASE("Date_Consistency", "[Date]") {
 
     INFO("Testing dates...");
 
@@ -324,7 +324,7 @@ TEST_CASE( "Date_Consistency", "[Date]" ) {
 
 }
 
-TEST_CASE( "Date_isoDates", "[Date]" ) {
+TEST_CASE("Date_isoDates", "[Date]") {
     INFO("Testing ISO dates...");
     std::string input_date("2006-01-15");
     Date d = DateParser::parseISO(input_date);
@@ -339,7 +339,7 @@ TEST_CASE( "Date_isoDates", "[Date]" ) {
     }
 }
 
-TEST_CASE( "Date_parseDates", "[Date]" ) {
+TEST_CASE("Date_parseDates", "[Date]") {
     INFO("Testing parsing of dates...");
 
     std::string input_date("2006-01-15");
@@ -373,7 +373,7 @@ TEST_CASE( "Date_parseDates", "[Date]" ) {
     }
 }
 
-TEST_CASE( "Date_intraday", "[Date]" ) {
+TEST_CASE("Date_intraday", "[Date]") {
 #ifdef QL_HIGH_RESOLUTION_DATE
 
     INFO("Testing intraday information of dates...");

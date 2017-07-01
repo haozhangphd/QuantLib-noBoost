@@ -63,7 +63,7 @@ namespace {
 
 }
 
-TEST_CASE( "Ode_AdaptiveRungeKutta", "[Ode]" ) {
+TEST_CASE("Ode_AdaptiveRungeKutta", "[Ode]") {
 
     INFO("Testing adaptive Runge Kutta...");
 
@@ -141,7 +141,7 @@ namespace {
     }
 }
 
-TEST_CASE( "Ode_MatrixExponential", "[Ode]" ) {
+TEST_CASE("Ode_MatrixExponential", "[Ode]") {
     INFO("Testing matrix exponential based on ode...");
 
     // Reference results are taken from
@@ -190,7 +190,7 @@ TEST_CASE( "Ode_MatrixExponential", "[Ode]" ) {
     }
 }
 
-TEST_CASE( "Ode_MatrixExponentialOfZero", "[Ode]" ) {
+TEST_CASE("Ode_MatrixExponentialOfZero", "[Ode]") {
     INFO("Testing matrix exponential of a zero matrix "
                        "based on ode...");
 

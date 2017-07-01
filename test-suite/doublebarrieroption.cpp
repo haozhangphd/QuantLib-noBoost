@@ -135,7 +135,7 @@ namespace {
 }
 
 
-TEST_CASE( "DoubleBarrierOption_EuropeanHaugValues", "[DoubleBarrierOption]" ) {
+TEST_CASE("DoubleBarrierOption_EuropeanHaugValues", "[DoubleBarrierOption]") {
 
     INFO("Testing double barrier european options against Haug's values...");
 
@@ -385,7 +385,7 @@ TEST_CASE( "DoubleBarrierOption_EuropeanHaugValues", "[DoubleBarrierOption]" ) {
     }
 }
 
-TEST_CASE( "DoubleBarrierOption_VannaVolgaDoubleBarrierValues", "[DoubleBarrierOption]" ) {
+TEST_CASE("DoubleBarrierOption_VannaVolgaDoubleBarrierValues", "[DoubleBarrierOption]") {
     INFO(
          "Testing double-barrier FX options against Vanna/Volga values...");
 

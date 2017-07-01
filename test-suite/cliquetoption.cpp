@@ -50,7 +50,7 @@ using namespace QuantLib;
                << "    tolerance:        " << tolerance);
 
 
-TEST_CASE( "CliquetOption_Values", "[CliquetOption]" ) {
+TEST_CASE("CliquetOption_Values", "[CliquetOption]") {
 
     INFO("Testing Cliquet option values...");
 
@@ -260,19 +260,19 @@ namespace {
 }
 
 
-TEST_CASE( "CliquetOption_Greeks", "[CliquetOption]" ) {
+TEST_CASE("CliquetOption_Greeks", "[CliquetOption]") {
     INFO("Testing Cliquet option greeks...");
     testOptionGreeks<AnalyticCliquetEngine>();
 }
 
 
-TEST_CASE( "CliquetOption_PerformanceGreeks", "[CliquetOption]" ) {
+TEST_CASE("CliquetOption_PerformanceGreeks", "[CliquetOption]") {
     INFO("Testing performance option greeks...");
     testOptionGreeks<AnalyticPerformanceEngine>();
 }
 
 
-TEST_CASE( "CliquetOption_McPerformance", "[CliquetOption]" ) {
+TEST_CASE("CliquetOption_McPerformance", "[CliquetOption]") {
     INFO(
         "Testing Monte Carlo performance engine against analytic results...");
 

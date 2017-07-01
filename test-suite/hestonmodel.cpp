@@ -134,7 +134,7 @@ namespace {
 }
 
 
-TEST_CASE( "HestonModel_BlackCalibration", "[HestonModel]" ) {
+TEST_CASE("HestonModel_BlackCalibration", "[HestonModel]") {
     INFO(
             "Testing Heston model calibration using a flat volatility surface...");
 
@@ -232,7 +232,7 @@ TEST_CASE( "HestonModel_BlackCalibration", "[HestonModel]" ) {
 }
 
 
-TEST_CASE( "HestonModel_DAXCalibration", "[HestonModel]" ) {
+TEST_CASE("HestonModel_DAXCalibration", "[HestonModel]") {
 
     INFO(
             "Testing Heston model calibration using DAX volatility data...");
@@ -293,7 +293,7 @@ TEST_CASE( "HestonModel_DAXCalibration", "[HestonModel]" ) {
     }
 }
 
-TEST_CASE( "HestonModel_AnalyticVsBlack", "[HestonModel]" ) {
+TEST_CASE("HestonModel_AnalyticVsBlack", "[HestonModel]") {
     INFO("Testing analytic Heston engine against Black formula...");
 
     SavedSettings backup;
@@ -361,7 +361,7 @@ TEST_CASE( "HestonModel_AnalyticVsBlack", "[HestonModel]" ) {
 }
 
 
-TEST_CASE( "HestonModel_AnalyticVsCached", "[HestonModel]" ) {
+TEST_CASE("HestonModel_AnalyticVsCached", "[HestonModel]") {
     INFO("Testing analytic Heston engine against cached values...");
 
     SavedSettings backup;
@@ -457,7 +457,7 @@ TEST_CASE( "HestonModel_AnalyticVsCached", "[HestonModel]" ) {
 }
 
 
-TEST_CASE( "HestonModel_McVsCached", "[HestonModel]" ) {
+TEST_CASE("HestonModel_McVsCached", "[HestonModel]") {
     INFO(
             "Testing Monte Carlo Heston engine against cached values...");
 
@@ -512,7 +512,7 @@ TEST_CASE( "HestonModel_McVsCached", "[HestonModel]" ) {
     }
 }
 
-TEST_CASE( "HestonModel_FdBarrierVsCached", "[HestonModel]" ) {
+TEST_CASE("HestonModel_FdBarrierVsCached", "[HestonModel]") {
     INFO("Testing FD barrier Heston engine against cached values...");
 
     SavedSettings backup;
@@ -565,7 +565,7 @@ TEST_CASE( "HestonModel_FdBarrierVsCached", "[HestonModel]" ) {
     }
 }
 
-TEST_CASE( "HestonModel_FdVanillaVsCached", "[HestonModel]" ) {
+TEST_CASE("HestonModel_FdVanillaVsCached", "[HestonModel]") {
     INFO("Testing FD vanilla Heston engine against cached values...");
 
     SavedSettings backup;
@@ -695,7 +695,7 @@ namespace {
     };
 }
 
-TEST_CASE( "HestonModel_KahlJaeckelCase", "[HestonModel]" ) {
+TEST_CASE("HestonModel_KahlJaeckelCase", "[HestonModel]") {
     INFO(
             "Testing MC and FD Heston engines for the Kahl-Jaeckel example...");
 
@@ -848,7 +848,7 @@ namespace {
     };
 }
 
-TEST_CASE( "HestonModel_DifferentIntegrals", "[HestonModel]" ) {
+TEST_CASE("HestonModel_DifferentIntegrals", "[HestonModel]") {
     INFO(
             "Testing different numerical Heston integration algorithms...");
 
@@ -973,7 +973,7 @@ TEST_CASE( "HestonModel_DifferentIntegrals", "[HestonModel]" ) {
     }
 }
 
-TEST_CASE( "HestonModel_MultipleStrikesEngine", "[HestonModel]" ) {
+TEST_CASE("HestonModel_MultipleStrikesEngine", "[HestonModel]") {
     INFO("Testing multiple-strikes FD Heston engine...");
 
     SavedSettings backup;
@@ -1055,7 +1055,7 @@ TEST_CASE( "HestonModel_MultipleStrikesEngine", "[HestonModel]" ) {
 }
 
 
-TEST_CASE( "HestonModel_AnalyticPiecewiseTimeDependent", "[HestonModel]" ) {
+TEST_CASE("HestonModel_AnalyticPiecewiseTimeDependent", "[HestonModel]") {
     INFO("Testing analytic piecewise time dependent Heston prices...");
 
     SavedSettings backup;
@@ -1121,7 +1121,7 @@ TEST_CASE( "HestonModel_AnalyticPiecewiseTimeDependent", "[HestonModel]" ) {
     }
 }
 
-TEST_CASE( "HestonModel_DAXCalibrationOfTimeDependentModel", "[HestonModel]" ) {
+TEST_CASE("HestonModel_DAXCalibrationOfTimeDependentModel", "[HestonModel]") {
     INFO(
             "Testing time-dependent Heston model calibration...");
 
@@ -1182,7 +1182,7 @@ TEST_CASE( "HestonModel_DAXCalibrationOfTimeDependentModel", "[HestonModel]" ) {
     }
 }
 
-TEST_CASE( "HestonModel_AlanLewisReferencePrices", "[HestonModel]" ) {
+TEST_CASE("HestonModel_AlanLewisReferencePrices", "[HestonModel]") {
     INFO("Testing Alan Lewis reference prices...");
 
     /*
@@ -1277,7 +1277,7 @@ TEST_CASE( "HestonModel_AlanLewisReferencePrices", "[HestonModel]" ) {
     }
 }
 
-TEST_CASE( "HestonModel_AnalyticPDFHestonEngine", "[HestonModel]" ) {
+TEST_CASE("HestonModel_AnalyticPDFHestonEngine", "[HestonModel]") {
     INFO("Testing analytic PDF Heston engine...");
 
     SavedSettings backup;
@@ -1391,7 +1391,7 @@ TEST_CASE( "HestonModel_AnalyticPDFHestonEngine", "[HestonModel]" ) {
     }
 }
 
-TEST_CASE( "HestonModel_ExpansionOnAlanLewisReference", "[HestonModel]" ) {
+TEST_CASE("HestonModel_ExpansionOnAlanLewisReference", "[HestonModel]") {
     INFO("Testing expansion on Alan Lewis reference prices...");
 
     SavedSettings backup;
@@ -1481,7 +1481,7 @@ TEST_CASE( "HestonModel_ExpansionOnAlanLewisReference", "[HestonModel]" ) {
     }
 }
 
-TEST_CASE( "HestonModel_ExpansionOnFordeReference", "[HestonModel]" ) {
+TEST_CASE("HestonModel_ExpansionOnFordeReference", "[HestonModel]") {
     INFO("Testing expansion on Forde reference prices...");
 
     SavedSettings backup;
@@ -1588,7 +1588,7 @@ namespace {
     }
 }
 
-TEST_CASE( "HestonModel_AllIntegrationMethods", "[HestonModel]" ) {
+TEST_CASE("HestonModel_AllIntegrationMethods", "[HestonModel]") {
     INFO("Testing semi-analytic Heston pricing with all "
                                "integration methods...");
 
@@ -1755,7 +1755,7 @@ namespace {
     };
 }
 
-TEST_CASE( "HestonModel_CosHestonCumulants", "[HestonModel]" ) {
+TEST_CASE("HestonModel_CosHestonCumulants", "[HestonModel]") {
     INFO("Testing Heston COS cumulants...");
 
     SavedSettings backup;
@@ -1848,7 +1848,7 @@ TEST_CASE( "HestonModel_CosHestonCumulants", "[HestonModel]" ) {
 }
 
 
-TEST_CASE( "HestonModel_CosHestonEngine", "[HestonModel]" ) {
+TEST_CASE("HestonModel_CosHestonEngine", "[HestonModel]") {
     INFO("Testing Heston pricing via COS method...");
 
     SavedSettings backup;

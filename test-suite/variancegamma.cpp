@@ -70,7 +70,7 @@ namespace {
 }
 
 
-TEST_CASE( "VarianceGamma_VarianceGamma", "[VarianceGamma]" ) {
+TEST_CASE("VarianceGamma_VarianceGamma", "[VarianceGamma]") {
 
     INFO("Testing variance-gamma model for European options...");
 

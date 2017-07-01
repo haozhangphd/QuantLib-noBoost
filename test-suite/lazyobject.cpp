@@ -25,7 +25,7 @@ using namespace QuantLib;
 
 using std::shared_ptr;
 
-TEST_CASE( "LazyObject_DiscardingNotifications", "[LazyObject]" ) {
+TEST_CASE("LazyObject_DiscardingNotifications", "[LazyObject]") {
 
     INFO(
         "Testing that lazy objects discard notifications after the first...");
@@ -54,7 +54,7 @@ TEST_CASE( "LazyObject_DiscardingNotifications", "[LazyObject]" ) {
 }
 
 
-TEST_CASE( "LazyObject_ForwardingNotifications", "[LazyObject]" ) {
+TEST_CASE("LazyObject_ForwardingNotifications", "[LazyObject]") {
 
     INFO(
         "Testing that lazy objects forward all notifications when told...");

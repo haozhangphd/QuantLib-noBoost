@@ -118,7 +118,7 @@ namespace {
     }
 }
 
-TEST_CASE( "MargrabeOption_EuroExchangeTwoAssets", "[MargrabeOption]" ) {
+TEST_CASE("MargrabeOption_EuroExchangeTwoAssets", "[MargrabeOption]") {
 
     INFO("Testing European one-asset-for-another option...");
 
@@ -310,7 +310,7 @@ TEST_CASE( "MargrabeOption_EuroExchangeTwoAssets", "[MargrabeOption]" ) {
     }
 }
 
-TEST_CASE( "MargrabeOption_Greeks", "[MargrabeOption]" ) {
+TEST_CASE("MargrabeOption_Greeks", "[MargrabeOption]") {
 
     INFO("Testing analytic European exchange option greeks...");
 
@@ -488,7 +488,7 @@ TEST_CASE( "MargrabeOption_Greeks", "[MargrabeOption]" ) {
     }
 }
 
-TEST_CASE( "MargrabeOption_AmericanExchangeTwoAssets", "[MargrabeOption]" ) {
+TEST_CASE("MargrabeOption_AmericanExchangeTwoAssets", "[MargrabeOption]") {
 
     INFO("Testing American one-asset-for-another option...");
 
