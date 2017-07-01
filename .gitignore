@@ -7,3 +7,6 @@ cmake-build-release
 
 # Vim
 .*.swp
+
+# Generated config file
+config.hpp

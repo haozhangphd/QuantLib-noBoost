@@ -71,11 +71,7 @@
     #define QL_DEBUG
 #endif
 
-#if   defined(HAVE_CONFIG_H)    // Dynamically created by configure
-   #include <ql/config.hpp>
-#else                           // We hope that the compiler follows ANSI
-   #include <ql/config.ansi.hpp>
-#endif
+#include <ql/config.hpp>
 
 
 // extra debug checks

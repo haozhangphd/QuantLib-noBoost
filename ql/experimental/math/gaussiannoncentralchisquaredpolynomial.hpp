@@ -26,13 +26,6 @@
 
 #include <ql/math/integrals/gaussianorthogonalpolynomial.hpp>
 
-/* Define this to improve the precision of the non central chi squared
-   gaussian quadrature by using GCC libquadmath.
-*/
-#ifndef MULTIPRECISION_NON_CENTRAL_CHI_SQUARED_QUADRATURE
-// #   define MULTIPRECISION_NON_CENTRAL_CHI_SQUARED_QUADRATURE
-#endif
-
 #ifdef MULTIPRECISION_NON_CENTRAL_CHI_SQUARED_QUADRATURE
     #include <quadmath.h>
 #endif

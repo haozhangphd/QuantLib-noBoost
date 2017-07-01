@@ -13,9 +13,9 @@ set(BENCHMARK_FILES "quantlibbenchmark.cpp" "americanoption.cpp" "asianoptions.c
 list(REMOVE_ITEM TEST_SUITE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/quantlibbenchmark.cpp)
 
 add_executable(quantlib-test-suite ${TEST_SUITE_FILES})
-target_link_libraries(quantlib-test-suite QuantLib)
+target_link_libraries(quantlib-test-suite PRIVATE QuantLib)
 add_executable(quantlib-benchmark ${BENCHMARK_FILES})
-target_link_libraries(quantlib-benchmark QuantLib)
+target_link_libraries(quantlib-benchmark PRIVATE QuantLib)
 
 enable_testing(true)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}")
