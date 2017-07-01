@@ -106,8 +106,7 @@ namespace QuantLib {
                     std::transform(correlations.row_begin(j),
                                    correlations.row_end(j),
                                    pseudoRoot.row_begin(j),
-                                   std::bind2nd(std::multiplies<Real>(),
-                                                            volatility));
+                                   [&volatility](Real x){return x * volatility;});
                 }
                 peudoRoots.emplace_back(pseudoRoot);
             }

@@ -293,7 +293,7 @@ namespace QuantLib {
             }
         }
         std::transform(hitsByDate.begin(), hitsByDate.end(),
-            hitsByDate.begin(), std::bind2nd(std::divides<Real>(), Real(nSims_)));
+            hitsByDate.begin(), [this](Real x){return x/ static_cast<Real>(nSims_);});
         return hitsByDate;
         // \todo Provide confidence interval
     }
@@ -509,7 +509,7 @@ namespace QuantLib {
         /*
         std::vector<Real>::iterator itPastPerc =
             std::find_if(losses.begin() + position, losses.end(),
-                std::bind1st(std::less<Real>(), perctlInf));
+            [&perctlInf](Real x){return perctlInf < x;});
         // notice if the sample is flat at the end this might be zero
         Size pointsOverVal = nSims_ - std::distance(itPastPerc, losses.end());
         return pointsOverVal == 0 ? 0. :
@@ -633,7 +633,7 @@ namespace QuantLib {
         std::vector<Real> varLevels = splitVaRAndError(date, loss, 0.95)[0];
         // turn relative units into absolute:
         std::transform(varLevels.begin(), varLevels.end(), varLevels.begin(),
-            std::bind1st(std::multiplies<Real>(), loss));
+                       [&loss](Real x){return loss * x;});
         return varLevels;
     }
 

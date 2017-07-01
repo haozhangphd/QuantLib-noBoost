@@ -27,8 +27,6 @@
 #include <ql/instruments/payoffs.hpp>
 #include <functional>
 
-using std::bind;
-
 namespace QuantLib {
 
     AmericanPathPricer::AmericanPathPricer(

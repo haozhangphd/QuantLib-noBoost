@@ -79,10 +79,9 @@ TEST_CASE("SwingOption_ExtendedOrnsteinUhlenbeckProcess", "[SwingOption]") {
         ExtendedOrnsteinUhlenbeckProcess::Trapezodial,
         ExtendedOrnsteinUhlenbeckProcess::GaussLobatto};
 
-    std::function<Real (Real)> f[] 
-        = { constant(level),
-            std::bind1st(std::plus<Real>(), 1.0),
-            std::ptr_fun<Real, Real>(std::sin) }; 
+    std::array<std::function<Real (Real)>, 3> f { constant(level),
+            [](Real x){return 1.0 + x;},
+	    [](Real x){return std::sin(x);}};
 
     for (Size n=0; n < LENGTH(f); ++n) {
         ExtendedOrnsteinUhlenbeckProcess refProcess(

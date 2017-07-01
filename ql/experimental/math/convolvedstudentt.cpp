@@ -32,7 +32,6 @@
 #pragma GCC diagnostic pop
 #endif
 
-using namespace std::placeholders;
 namespace QuantLib {
 
     CumulativeBehrensFisher::CumulativeBehrensFisher(
@@ -188,10 +187,9 @@ namespace QuantLib {
         // (q is very close to 1.), in a bad combination fails around 1.-1.e-7
         Real xMax = 1.e6;
         return sign *
-            Brent().solve(std::bind(std::bind2nd(std::minus<Real>(),
-            effectiveq), std::bind(
-                &CumulativeBehrensFisher::operator(),
-                distrib_, _1)), accuracy_, (xMin+xMax)/2., xMin, xMax);
+            Brent().solve(
+                            [&effectiveq, this](Real x){return distrib_(x) - effectiveq;},
+                accuracy_, (xMin+xMax)/2., xMin, xMax);
     }
 
 }

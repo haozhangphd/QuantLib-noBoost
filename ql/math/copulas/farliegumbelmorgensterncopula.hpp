@@ -30,8 +30,7 @@
 namespace QuantLib {
 
     //! Farlie-Gumbel-Morgenstern copula
-    class FarlieGumbelMorgensternCopula
-                                : public std::binary_function<Real,Real,Real> {
+    class FarlieGumbelMorgensternCopula {
       public:
         FarlieGumbelMorgensternCopula(Real theta);
         Real operator()(Real x, Real y) const;

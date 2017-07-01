@@ -28,7 +28,6 @@
 #include <vector>
 #include <random>
 
-using namespace std::placeholders;
 namespace QuantLib {
 
     /*! \brief Student-T Latent Model's copula policy.

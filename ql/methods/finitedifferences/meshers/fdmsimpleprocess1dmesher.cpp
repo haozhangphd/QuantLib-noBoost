@@ -56,7 +56,7 @@ namespace QuantLib {
             locations_.back() += qMax;
         }
         std::transform(locations_.begin(), locations_.end(), locations_.begin(),
-                       std::bind2nd(std::divides<Real>(), Real(tAvgSteps)));
+                       [&tAvgSteps](Real x){return x / static_cast<Real>(tAvgSteps);});
         for (Size i=0; i < size-1; ++i) {
             dminus_[i+1] = dplus_[i] = locations_[i+1] - locations_[i];
         }

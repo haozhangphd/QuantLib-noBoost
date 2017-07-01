@@ -34,7 +34,6 @@
 
 #include <functional>
 
-using namespace std::placeholders;
 namespace QuantLib {
     RiskNeutralDensityCalculator::InvCDFHelper::InvCDFHelper(
         const RiskNeutralDensityCalculator* calculator,

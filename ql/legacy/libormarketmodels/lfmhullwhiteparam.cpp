@@ -50,12 +50,12 @@ namespace QuantLib {
             // "Reconstructing a valid correlation matrix from invalid data"
             // (<http://www.quarchome.org/correlationmatrix.pdf>)
             for (Size i=0; i < size_-1; ++i) {
+                Real temp = std::sqrt(std::inner_product(
+                                     tmpSqrtCorr[i],tmpSqrtCorr[i]+factors_,
+                                     tmpSqrtCorr[i], 0.0));
                 std::transform(
                     tmpSqrtCorr[i], tmpSqrtCorr[i]+factors_, sqrtCorr[i],
-                    std::bind2nd(std::divides<Real>(),
-                                 std::sqrt(std::inner_product(
-                                     tmpSqrtCorr[i],tmpSqrtCorr[i]+factors_,
-                                     tmpSqrtCorr[i], 0.0))));
+                    [&temp](Real x){return x / temp;});
             }
         }
 

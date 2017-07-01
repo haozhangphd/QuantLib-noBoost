@@ -25,12 +25,11 @@
 #define quantlib_math_gaussian_copula_h
 
 #include <ql/math/distributions/bivariatenormaldistribution.hpp>
-#include <functional>
 
 namespace QuantLib {
 
     //! Gaussian copula
-    class GaussianCopula : public std::binary_function<Real,Real,Real> {
+    class GaussianCopula {
       public:
         GaussianCopula(Real rho);
         Real operator()(Real x, Real y) const;

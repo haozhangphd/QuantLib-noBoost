@@ -32,7 +32,6 @@
 #include <ql/math/integrals/gaussianquadratures.hpp>
 #include <functional>
 
-using namespace std::placeholders;
 namespace QuantLib {
 
     namespace detail {

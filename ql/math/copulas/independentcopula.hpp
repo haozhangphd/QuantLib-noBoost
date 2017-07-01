@@ -30,7 +30,7 @@
 namespace QuantLib {
 
     //! independent copula
-    class IndependentCopula : public std::binary_function<Real,Real,Real> {
+    class IndependentCopula {
       public:
         Real operator()(Real x, Real y) const;
     };

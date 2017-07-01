@@ -150,7 +150,7 @@ namespace QuantLib {
             std::sort(breaks_.begin(), breaks_.end());
             std::vector<Real>::iterator end =
                 std::unique(breaks_.begin(),breaks_.end(),
-                            std::ptr_fun(close_enough));
+                            [](Real x, Real y){return close_enough(x, y);});
             breaks_.resize(end - breaks_.begin());
         }
 

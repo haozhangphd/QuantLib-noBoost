@@ -152,9 +152,9 @@ namespace QuantLib {
         const Real chiSq
             = std::inner_product(residuals_.begin(), residuals_.end(),
             residuals_.begin(), 0.0);
+        Real temp = std::sqrt(chiSq/(n-2));
         std::transform(err_.begin(), err_.end(), standardErrors_.begin(),
-            std::bind1st(std::multiplies<Real>(),
-            std::sqrt(chiSq/(n-2))));
+            [&temp](Real x){return temp * x;});
     }
 
     template <class xIterator, class yIterator, class vIterator>

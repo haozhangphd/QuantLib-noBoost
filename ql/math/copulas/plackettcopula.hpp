@@ -31,7 +31,7 @@
 namespace QuantLib {
 
     //! Plackett copula
-    class PlackettCopula : public std::binary_function<Real,Real,Real> {
+    class PlackettCopula {
       public:
         PlackettCopula(Real theta);
         Real operator()(Real x, Real y) const;

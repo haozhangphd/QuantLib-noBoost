@@ -39,7 +39,6 @@
 
 using std::pow;
 
-using namespace std::placeholders;
 namespace QuantLib {
 
 ZabrModel::ZabrModel(const Real expiryTime, const Real forward,
@@ -74,8 +73,7 @@ ZabrModel::lognormalVolatility(const std::vector<Real> &strikes) const {
     std::vector<Real> x_ = x(strikes);
     std::vector<Real> result(strikes.size());
     std::transform(strikes.begin(), strikes.end(), x_.begin(), result.begin(),
-                   std::bind(&ZabrModel::lognormalVolatilityHelper,
-                               this, _1, _2));
+                   [this](Real x, Real y){return lognormalVolatilityHelper(x, y);});
     return result;
 }
 
@@ -95,8 +93,7 @@ ZabrModel::normalVolatility(const std::vector<Real> &strikes) const {
     std::vector<Real> x_ = x(strikes);
     std::vector<Real> result(strikes.size());
     std::transform(strikes.begin(), strikes.end(), x_.begin(), result.begin(),
-                   std::bind(&ZabrModel::normalVolatilityHelper, this,
-                               _1, _2));
+                   [this](Real x, Real y){return normalVolatilityHelper(x, y);});
     return result;
 }
 
@@ -116,8 +113,7 @@ ZabrModel::localVolatility(const std::vector<Real> &f) const {
     std::vector<Real> x_ = x(f);
     std::vector<Real> result(f.size());
     std::transform(f.begin(), f.end(), x_.begin(), result.begin(),
-                   std::bind(&ZabrModel::localVolatilityHelper, this,
-                               _1, _2));
+                   [this](Real x, Real y){return localVolatilityHelper(x, y);});
     return result;
 }
 
@@ -331,7 +327,7 @@ ZabrModel::x(const std::vector<Real> &strikes) const {
                                       // the constructor
     std::vector<Real> y(strikes.size()), result(strikes.size());
     std::transform(strikes.rbegin(), strikes.rend(), y.begin(),
-                   std::bind(&ZabrModel::y, this, _1));
+                   [this](Real x){return this->y(x);});
 
     if (close(gamma_, 1.0)) {
         for (Size m = 0; m < y.size(); m++) {
@@ -352,8 +348,7 @@ ZabrModel::x(const std::vector<Real> &strikes) const {
             Real y0 = 0.0, u0 = 0.0;
             for (int m = ynz + (dir == -1 ? -1 : 0);
                  dir == -1 ? m >= 0 : m < (int)y.size(); m += dir) {
-                Real u = rk(std::bind(&ZabrModel::F, this, _1, _2),
-                            u0, y0, y[m]);
+                Real u = rk([this](Real x, Real y){return F(x, y);}, u0, y0, y[m]);
                 result[y.size() - 1 - m] = u * pow(alpha_, 1.0 - gamma_);
                 u0 = u;
                 y0 = y[m];

@@ -27,7 +27,6 @@
 #include <numeric>
 #include <algorithm>
 
-using namespace std::placeholders;
 namespace QuantLib {
 
     /*! Gaussian Latent Model's copula policy. Its simplicity is a result of 
@@ -89,8 +88,7 @@ namespace QuantLib {
         */
         Probability density(const std::vector<Real>& m) const {
             return std::accumulate(m.begin(), m.end(), Real(1.), 
-                std::bind(std::multiplies<Real>(), _1, 
-                    std::bind(density_, _2)));
+                [this](Real x, Real y){return x * density_(y);});
         }
         /*! Returns the inverse of the cumulative distribution of the (modelled) 
           latent variable (as indexed by iVariable). The normal stability avoids
@@ -117,8 +115,8 @@ namespace QuantLib {
             allFactorCumulInverter(const std::vector<Real>& probs) const {
             std::vector<Real> result;
             result.resize(probs.size());
-            std::transform(probs.begin(), probs.end(), result.begin(), 
-                std::bind(&InverseCumulativeNormal::standard_value, _1));
+            std::transform(probs.begin(), probs.end(), result.begin(),
+                           [](Real x){return InverseCumulativeNormal::standard_value(x);});
             return result;
         }
     private:

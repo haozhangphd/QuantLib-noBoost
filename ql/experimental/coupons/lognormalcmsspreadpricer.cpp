@@ -275,8 +275,7 @@ namespace QuantLib {
             }
             res +=
                 1.0 / M_SQRTPI *
-                integrator_->operator()(std::bind1st(
-                    std::mem_fun(&LognormalCmsSpreadPricer::integrand), this));
+                integrator_->operator()([this](const Real& x){return integrand(x);});
         } else {
             // normal volatility
             k_ = strike;
@@ -285,9 +284,7 @@ namespace QuantLib {
             psi_ = alpha_ >= 0.0 ? 1.0 : -1.0;
             res +=
                 1.0 / M_SQRTPI *
-                integrator_->operator()(std::bind1st(
-                    std::mem_fun(&LognormalCmsSpreadPricer::integrand_normal),
-                    this));
+                integrator_->operator()([this](const Real& x){return integrand_normal(x);});
         }
         return res * couponDiscountCurve_->discount(paymentDate_) *
                coupon_->accrualPeriod();

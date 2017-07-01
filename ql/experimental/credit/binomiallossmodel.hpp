@@ -87,7 +87,7 @@ namespace QuantLib {
                     copula_->inverseCumulativeY(invProbs[iName], iName);
 
             return copula_->integratedExpectedValue(
-			  [this, date, notionals, invProbs] (const std::vector<Real>& v) ->std::vector<Real> {return lossProbability(std::cref(date), std::cref(notionals), std::cref(invProbs), v);}
+			  [this, date, notionals, invProbs] (const std::vector<Real>& v) ->std::vector<Real> {return lossProbability(date, notionals, invProbs, v);}
                 );
         }
         //! attainable loss points this model provides
@@ -277,7 +277,7 @@ namespace QuantLib {
         std::vector<Real> notionals = basket_->remainingNotionals(d);
 
         Real aveLossFrct = copula_->integratedExpectedValue(
-		    [this,d,notionals](const std::vector<Real>& v) {return this->averageLoss(std::cref(d), std::cref(notionals), v);}
+		    [this,d,notionals](const std::vector<Real>& v) {return this->averageLoss(d, notionals, v);}
             );
 
         std::vector<Real> data;

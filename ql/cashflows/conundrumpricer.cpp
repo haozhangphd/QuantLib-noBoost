@@ -44,7 +44,6 @@
 #pragma GCC diagnostic pop
 #endif
 
-using namespace std::placeholders;
 namespace QuantLib {
 
 //===========================================================================//
@@ -295,12 +294,12 @@ namespace QuantLib {
                 upperBoundary = std::max(a,std::min(upperBoundary, hardUpperLimit_));
                 if (upperBoundary > 2*a){
                     Size k = 3;
-                    std::function<Real (Real)> temp = std::ref(integrand);
+                    std::function<Real (Real)> temp = integrand;
                     VariableChange variableChange(temp, a, upperBoundary, k);
-                    f = std::bind(&VariableChange::value, &variableChange, _1);
+                    f = [&variableChange](Real x){return variableChange.value(x);};
                     result = gaussKronrodNonAdaptive(f, .0, 1.0);
                 } else {
-                    f = std::ref(integrand);
+                    f = integrand;
                     result = gaussKronrodNonAdaptive(f, a, upperBoundary);
                 }
 

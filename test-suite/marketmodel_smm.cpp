@@ -215,12 +215,12 @@ namespace {
         std::vector<Rate> usedRates = curveState_lmm.coterminalSwapRates();
         std::transform(usedRates.begin(), usedRates.end(),
                        bumpedRates.begin(),
-                       std::bind1st(std::plus<Rate>(), rateBump));
+		       [&rateBump](Rate x){return rateBump + x;});
 
         std::vector<Volatility> bumpedVols(volatilities.size());
         std::transform(volatilities.begin(), volatilities.end(),
                        bumpedVols.begin(),
-                       std::bind1st(std::plus<Rate>(), volBump));
+		       [&volBump](Rate x){return volBump + x;});
         Matrix correlations = exponentialCorrelations(evolution.rateTimes(),
                                                       longTermCorrelation,
                                                       beta);

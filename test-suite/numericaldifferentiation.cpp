@@ -199,7 +199,7 @@ TEST_CASE("NumericalDifferentiation_DerivativesOfSineFunction", "[NumericalDiffe
     INFO("Testing numerical differentiation"
                        " of sin function...");
 
-    const std::function<Real(Real)> f=std::ptr_fun<Real,Real>(std::sin);
+    const std::function<Real(Real)> f=[](Real x){return std::sin(x);};
 
     const std::function<Real(Real)> df_central
         = NumericalDifferentiation(f, 1, std::sqrt(QL_EPSILON), 3,

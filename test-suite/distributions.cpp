@@ -235,9 +235,9 @@ TEST_CASE("Distribution_Normal", "[Distribution]") {
     Size i;
     for (i=0; i<N; i++)
         x[i] = xMin+h*i;
-    std::transform(x.begin(),x.end(),y.begin(),std::ptr_fun(gaussian));
+    std::transform(x.begin(),x.end(),y.begin(),gaussian);
     std::transform(x.begin(),x.end(),yd.begin(),
-                   std::ptr_fun(gaussianDerivative));
+                   gaussianDerivative);
 
     // check that normal = Gaussian
     std::transform(x.begin(),x.end(),temp.begin(),normal);

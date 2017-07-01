@@ -30,7 +30,7 @@
 namespace QuantLib {
 
     //! Frank copula
-    class FrankCopula : public std::binary_function<Real,Real,Real> {
+    class FrankCopula {
       public:
         FrankCopula(Real theta);
         Real operator()(Real x, Real y) const;

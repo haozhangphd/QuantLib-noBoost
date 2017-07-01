@@ -65,7 +65,7 @@ namespace QuantLib {
             for (InputIterator it = begin; it != end; ++it, ++n)
                 mean = (mean*Real(n-1) + *it)/n;
             std::transform(begin, end, out,
-                           std::bind2nd(std::minus<Real>(), mean));
+                           [&mean](Real x){return x - mean;});
             return mean;
         }
 

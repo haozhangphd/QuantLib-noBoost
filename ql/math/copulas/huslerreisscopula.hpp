@@ -31,7 +31,7 @@
 namespace QuantLib {
 
     //! Husler-Reiss copula
-    class HuslerReissCopula : public std::binary_function<Real,Real,Real> {
+    class HuslerReissCopula {
       public:
         HuslerReissCopula(Real theta_);
         Real operator()(Real x, Real y) const;

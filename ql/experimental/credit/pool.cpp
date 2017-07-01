@@ -21,7 +21,6 @@
 #include <functional>
 #include <iterator>
 
-using namespace std::placeholders;
 namespace QuantLib {
 
     Pool::Pool() {
@@ -78,8 +77,7 @@ namespace QuantLib {
     std::vector<DefaultProbKey>  Pool::defaultKeys() const {
         std::vector<DefaultProbKey> defaultKeys;
         std::transform(defaultKeys_.begin(), defaultKeys_.end(),
-            std::back_inserter(defaultKeys), std::bind(
-              &std::map<std::string, DefaultProbKey>::value_type::second, _1));
+            std::back_inserter(defaultKeys), [](const std::pair<std::string, DefaultProbKey>& x){return x.second;});
         return defaultKeys;
     }
 

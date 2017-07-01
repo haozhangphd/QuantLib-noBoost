@@ -23,8 +23,6 @@
 #include <ql/methods/montecarlo/lsmbasissystem.hpp>
 #include <functional>
 
-using std::bind;
-
 namespace QuantLib {
 
     AmericanBasketPathPricer::AmericanBasketPathPricer(

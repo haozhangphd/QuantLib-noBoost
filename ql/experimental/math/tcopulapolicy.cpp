@@ -84,11 +84,10 @@ namespace QuantLib {
         Size indexSystemic = 0;
         std::transform(probs.begin(), probs.begin() + varianceFactors_.size()-1,
             result.begin(), 
-            bind(&TCopulaPolicy::inverseCumulativeDensity, 
-                                this, _1, indexSystemic++));
+            [this, &indexSystemic](Real x){return inverseCumulativeDensity(x, indexSystemic++);}); 
         std::transform(probs.begin() + varianceFactors_.size()-1, probs.end(),
             result.begin()+ varianceFactors_.size()-1,
-            std::bind(&TCopulaPolicy::inverseCumulativeZ, this, _1));
+            [this](Real x){return inverseCumulativeZ(x);});
         return result;
     }
 

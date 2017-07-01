@@ -27,7 +27,6 @@
 #include <functional>
 #include <vector>
 
-using namespace std::placeholders;
 namespace QuantLib {
 
     /*! \brief Integrates a vector or scalar function of vector domain. 
@@ -129,8 +128,9 @@ namespace QuantLib {
 
     template<>
     void inline MultidimIntegral::spawnFcts<1>() const {
-        integrationLevelEntries_[0] = 
-            std::bind(&MultidimIntegral::integrate<0>, this, _1, _2, _3);
+        integrationLevelEntries_[0] =
+                [this](std::function<Real(const std::vector<Real> &)> f, const std::vector<Real> &a,
+                       const std::vector<Real> &b) { return integrate<0>(f, a, b); };
     }
 
     template<int nT>
@@ -157,10 +157,10 @@ namespace QuantLib {
 
     template<Size depth>
     void MultidimIntegral::spawnFcts() const {
-        integrationLevelEntries_[depth-1] =
-          std::bind(&MultidimIntegral::integrate<depth-1>, this, 
-            _1, _2, _3);
-        spawnFcts<depth-1>();
+        integrationLevelEntries_[depth - 1] =
+                [this](std::function<Real(const std::vector<Real> &)> f, const std::vector<Real> &a,
+                       const std::vector<Real> &b) { return integrate<depth - 1>(f, a, b); };
+        spawnFcts<depth - 1>();
     }
 
 }

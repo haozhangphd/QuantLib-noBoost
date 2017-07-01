@@ -43,7 +43,8 @@ namespace QuantLib {
         static const Size N = 624; // state size
         static const Size M = 397; // shift size
       public:
-        typedef Sample<Real> sample_type;
+        using sample_type = Sample<Real>;
+	using result_type = unsigned long;
         /*! if the given seed is 0, a random seed will be chosen
             based on clock() */
         explicit MersenneTwisterUniformRng(unsigned long seed = 0);
@@ -70,6 +71,16 @@ namespace QuantLib {
             y ^= (y >> 18);
             return y;
         }
+        unsigned long operator()() const {
+	    return nextInt32();
+	}
+	unsigned long max() const {
+		return 0xffffffff;
+	}
+	unsigned long min() const {
+		return 0;
+	}
+
       private:
         void seedInitialization(unsigned long seed);
         void twist() const;

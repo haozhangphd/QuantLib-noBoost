@@ -50,7 +50,7 @@ TEST_CASE("LinearLeastSquaresRegression_Regression", "[LinearLeastSquaresRegress
     v.emplace_back(constant(1.0));
     v.emplace_back(identity);
     v.emplace_back(square);
-    v.emplace_back(std::ptr_fun<Real, Real>(std::sin));
+    v.emplace_back([](Real x){return std::sin(x);});
 
     std::vector<std::function<Real(Real)> > w(v);
     w.emplace_back(square);

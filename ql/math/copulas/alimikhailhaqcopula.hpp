@@ -31,7 +31,7 @@
 namespace QuantLib {
 
     //! Ali-Mikhail-Haq copula
-    class AliMikhailHaqCopula : public std::binary_function<Real,Real,Real> {
+    class AliMikhailHaqCopula {
       public:
         AliMikhailHaqCopula(Real theta);
         Real operator()(Real x, Real y) const;

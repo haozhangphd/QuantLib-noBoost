@@ -39,7 +39,6 @@
 #pragma GCC diagnostic pop
 #endif
 
-using namespace std::placeholders;
 namespace QuantLib {
     FdmVPPStepCondition::FdmVPPStepCondition(
         const FdmVPPStepConditionParams& params,
@@ -70,11 +69,11 @@ namespace QuantLib {
 
             if (j < tMinUp_) {
                 stateEvolveFcts_[i] = std::function<Real (Real)>(
-                    std::bind(&FdmVPPStepCondition::evolveAtPMin,this, _1));
+                        [this](Real x){return evolveAtPMin(x);});
             }
             else if (j < 2*tMinUp_){
                 stateEvolveFcts_[i] = std::function<Real (Real)>(
-                    std::bind(&FdmVPPStepCondition::evolveAtPMax,this, _1));
+                        [this](Real x){return evolveAtPMax(x);});
             }
         }
     }

@@ -60,7 +60,7 @@ namespace QuantLib {
                        "negative times not allowed");
             std::vector<Time>::iterator e =
                 std::unique(mandatoryTimes_.begin(),mandatoryTimes_.end(),
-                            std::ptr_fun(close_enough));
+                            [](Real x, Real y){return close_enough(x, y);});
             mandatoryTimes_.resize(e - mandatoryTimes_.begin());
 
             if (mandatoryTimes_[0] > 0.0)
@@ -90,7 +90,7 @@ namespace QuantLib {
                        "negative times not allowed");
             std::vector<Time>::iterator e =
                 std::unique(mandatoryTimes_.begin(),mandatoryTimes_.end(),
-                            std::ptr_fun(close_enough));
+                            [](Real x, Real y){return close_enough(x, y);});
             mandatoryTimes_.resize(e - mandatoryTimes_.begin());
 
             Time last = mandatoryTimes_.back();

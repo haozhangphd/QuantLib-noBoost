@@ -49,7 +49,6 @@
 #include <memory>
 #include <algorithm>
 
-using namespace std::placeholders;
 namespace QuantLib {
     LocalVolRNDCalculator::LocalVolRNDCalculator(
         const std::shared_ptr<Quote>& spot,
@@ -172,13 +171,13 @@ namespace QuantLib {
         if (x > 0.5*(xr+xl)) {
             while (pdf(xr, t) > 0.01*localVolProbEps_) xr*=1.1;
             return 1.0-GaussLobattoIntegral(maxIter_, 0.1*localVolProbEps_)(
-                std::bind(&LocalVolRNDCalculator::pdf, this, _1, t), x, xr);
+                    [this, &t](Real x){return pdf(x, t);}, x, xr);
         }
         else {
             while (pdf(xl, t) > 0.01*localVolProbEps_) xl*=0.9;
 
             return GaussLobattoIntegral(maxIter_, 0.1*localVolProbEps_)(
-                std::bind(&LocalVolRNDCalculator::pdf, this, _1, t), xl, x);
+                    [this, &t](Real x){return pdf(x,t);}, xl, x);
         }
     }
 

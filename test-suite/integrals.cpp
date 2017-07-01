@@ -65,9 +65,9 @@ namespace {
         testSingle(I, "f(x) = x^2",
                    square,             0.0, 1.0, 1.0/3.0);
         testSingle(I, "f(x) = sin(x)",
-                   std::ptr_fun<Real,Real>(std::sin), 0.0, M_PI, 2.0);
+                   [](Real x){return std::sin(x);}, 0.0, M_PI, 2.0);
         testSingle(I, "f(x) = cos(x)",
-                   std::ptr_fun<Real,Real>(std::cos), 0.0, M_PI, 0.0);
+                   [](Real x){return std::cos(x);}, 0.0, M_PI, 0.0);
         testSingle(I, "f(x) = Gaussian(x)",
                    NormalDistribution(), -10.0, 10.0, 1.0);
         testSingle(I, "f(x) = Abcd2(x)",

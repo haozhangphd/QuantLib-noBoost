@@ -53,7 +53,7 @@ namespace QuantLib {
         for (Size i=0; i<size_; ++i) {
             std::transform(pca.row_begin(i), pca.row_end(i),
                            pca.row_begin(i),
-                           std::bind2nd(std::multiplies<Real>(), vol[i]));
+                           [&vol, &i](Real x){return x * vol[i];});
         }
 
         return pca;

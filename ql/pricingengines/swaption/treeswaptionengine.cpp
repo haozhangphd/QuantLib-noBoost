@@ -94,7 +94,7 @@ namespace QuantLib {
         Time nextExercise =
             *std::find_if(stoppingTimes.begin(),
                           stoppingTimes.end(),
-                          std::bind2nd(std::greater_equal<Time>(), 0.0));
+                          [](Time x){return x >= 0.0;});
         swaption.rollback(nextExercise);
 
         results_.value = swaption.presentValue();

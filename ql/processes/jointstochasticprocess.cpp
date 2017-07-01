@@ -219,8 +219,7 @@ namespace QuantLib {
                     if (vol > 0.0) {
                         std::transform(stdDev.row_begin(i), stdDev.row_end(i),
                                        stdDev.row_begin(i),
-                                       std::bind2nd(std::divides<Real>(),
-                                                    vol));
+                                       [&vol](Real x){return x/vol;});
                     }
                     else {
                         // keep the svd happy

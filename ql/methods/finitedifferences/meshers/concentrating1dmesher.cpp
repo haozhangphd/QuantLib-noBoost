@@ -166,9 +166,7 @@ namespace QuantLib {
 
         OdeIntegrationFct fct(points, betas, tol);
         const Real a = Brent().solve(
-                std::bind(std::minus<Real>(),
-                          std::bind(&OdeIntegrationFct::solve,
-                                    &fct, _1, start, 0.0, 1.0), end),
+                          [&fct, &start, &end](Real x){return fct.solve(x, start, 0.0, 1.0) - end;},
                 tol, aInit, 0.1 * aInit);
 
         // solve ODE for all grid points
@@ -199,9 +197,7 @@ namespace QuantLib {
                                              std::lower_bound(y.begin(), y.end(), points[i]));
 
                 const Real e = Brent().solve(
-                        std::bind(std::minus<Real>(),
-                                  std::bind(&LinearInterpolation::operator(),
-                                            odeSolution, _1, true), points[i]),
+                        [&odeSolution, &points, &i](Real x){return odeSolution(x, true) - points[i];},
                         QL_EPSILON, x[j], 0.5 / size);
 
                 w.emplace_back(std::make_pair(std::min(x[size - 2], x[j]), e));
