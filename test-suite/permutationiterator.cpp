@@ -12,8 +12,8 @@ TEST_CASE("PermutationIterator_Construction", "[.]") {
 
     INFO("Testing permutation iterator constructors...");
 
-    std::vector<int> v(10, 1);
-    std::partial_sum(v.begin(), v.end(), v.begin());
+    std::vector<int> v(10);
+    std::iota(v.begin(), v.end(), 1);
 
     std::vector<int> index{3, 1, 4, 1, 5, 9, 2, 6, 5, 4};
 
@@ -31,8 +31,8 @@ TEST_CASE("PermutationIterator_Construction", "[.]") {
 TEST_CASE("PermutationIterator_Iteration", "[.]") {
     INFO("Testing permutation iterator iteration...");
 
-    std::vector<int> v(10, 1);
-    std::partial_sum(v.begin(), v.end(), v.begin());
+    std::vector<int> v(10);
+    std::iota(v.begin(), v.end(), 1);
 
     std::vector<int> index{3, 1, 4, 1, 5, 9, 2, 6, 5, 4};
 
@@ -76,8 +76,8 @@ TEST_CASE("PermutationIterator_Assignment", "[.]") {
 
     INFO("Testing assigning values to permutation iterators...");
 
-    std::vector<int> v(10, 1);
-    std::partial_sum(v.begin(), v.end(), v.begin());
+    std::vector<int> v(10);
+    std::iota(v.begin(), v.end(), 1);
 
     std::vector<int> index{3, 1, 4, 1, 5, 9, 2, 6, 5, 4};
 

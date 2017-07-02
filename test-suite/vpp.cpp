@@ -922,8 +922,8 @@ TEST_CASE("VPP_KlugeExtOUMatrixDecomposition", "[VPP]") {
     const Array applyExpectedMixed = op->apply_mixed(x);
 
     const std::vector<SparseMatrix> matrixDecomp(op->toMatrixDecomp());
-    const Array applyCalculated = prod(op->toMatrix(), x);
-    const Array applyCalculatedMixed = prod(matrixDecomp.back(), x);
+    const Array applyCalculated = op->toMatrix()* x;
+    const Array applyCalculatedMixed = matrixDecomp.back()* x;
 
     for (Size i=0; i < x.size(); ++i) {
         const Real diffApply = std::fabs(applyExpected[i]-applyCalculated[i]);
@@ -946,7 +946,7 @@ TEST_CASE("VPP_KlugeExtOUMatrixDecomposition", "[VPP]") {
 
     for (Size i=0; i < 3; ++i) {
         const Array applyExpectedDir = op->apply_direction(i, x);
-        const Array applyCalculatedDir = prod(matrixDecomp[i], x);
+        const Array applyCalculatedDir = matrixDecomp[i]* x;
 
         for (Size j=0; j < x.size(); ++j) {
             const Real diff

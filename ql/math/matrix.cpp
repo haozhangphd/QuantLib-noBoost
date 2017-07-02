@@ -24,7 +24,7 @@
 
 #include <ql/math/matrix.hpp>
 #ifdef QL_USE_MKL
-#include <mkl/mkl.h>
+#include <mkl.h>
 #endif
 
 #ifndef QL_USE_MKL
@@ -69,9 +69,8 @@ namespace {
         }
         return std::make_tuple(ret, index, perm);
     }
-
-#endif
 }
+#endif
 namespace QuantLib {
     Matrix inverse(const Matrix &m) {
         const size_t size = m.rows();
@@ -97,7 +96,6 @@ namespace QuantLib {
         std::copy(lu.begin(), lu.end(), retVal.begin());
 
         return retVal;
-
 #else
         auto [lu, index, _] = luDecomposition(m);
         Matrix ret(size, size);
@@ -151,7 +149,7 @@ namespace QuantLib {
 
         for (Size i = 0; i < size; ++i) {
             if (ipiv[i] != i + 1)
-                retVal *= -lu[ i * (size + 1)];
+                retVal *= -lu[i * (size + 1)];
             else
                 retVal *= lu[i * (size + 1)];
         }

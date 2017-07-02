@@ -26,23 +26,21 @@ FOR A PARTICULAR PURPOSE.  See the license for more details.
 
 namespace QuantLib {
 
-    using namespace boost::numeric::ublas;
-
     SparseILUPreconditioner::SparseILUPreconditioner(const SparseMatrix& A,
                                                      Integer lfil)
-    : L_(A.size1(),A.size2()),
-      U_(A.size1(),A.size2()) {
+    : L_(A.row_size(),A.column_size()),
+      U_(A.row_size(),A.column_size()) {
 
-        QL_REQUIRE(A.size1() == A.size2(),
+        QL_REQUIRE(A.row_size() == A.column_size(),
                    "sparse ILU preconditioner works only with square matrices");
 
-        for (SparseMatrix::size_type i=0; i < L_.size1(); ++i)
+        for (SparseMatrix::size_type i=0; i < L_.row_size(); ++i)
             L_(i,i) = 1.0;
 
-        const Integer n = A.size1();
+        const Integer n = A.row_size();
         std::set<Integer> lBandSet, uBandSet;
 
-        compressed_matrix<Integer> levs(n,n);
+        IntegerSparseMatrix levs(n,n);
         Integer lfilp = lfil + 1;
 
         for (Integer ii=0; ii<n; ++ii) {

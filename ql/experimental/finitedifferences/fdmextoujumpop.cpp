@@ -32,28 +32,6 @@
 #include <ql/methods/finitedifferences/operators/secondderivativeop.hpp>
 #include <ql/experimental/finitedifferences/fdmextendedornsteinuhlenbeckop.hpp>
 
-#if defined(QL_PATCH_MSVC)
-#pragma warning(push)
-#pragma warning(disable:4180)
-#endif
-
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#endif
-
-#include <boost/numeric/ublas/vector.hpp>
-#include <boost/numeric/ublas/operation.hpp>
-
-#if defined(QL_PATCH_MSVC)
-#pragma warning(pop)
-#endif
-
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic pop
-#endif
-
-
 namespace QuantLib {
 
     FdmExtOUJumpOp::FdmExtOUJumpOp(
@@ -167,7 +145,7 @@ namespace QuantLib {
     }
 
     Array FdmExtOUJumpOp::integro(const Array& r) const {
-        return prod(integroPart_, r);
+        return integroPart_ * r;
     }
 
     std::vector<SparseMatrix> 

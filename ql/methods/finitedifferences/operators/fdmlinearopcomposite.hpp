@@ -50,7 +50,7 @@ namespace QuantLib {
             preconditioner(const Array& r, Real s) const = 0;
 
         virtual std::vector<SparseMatrix>  toMatrixDecomp() const {
-            QL_FAIL(" ublas representation is not implemented");
+            QL_FAIL("FdmLinearOpComposite::toMatrixDecomp not implemented");
         }
 
         SparseMatrix toMatrix() const {

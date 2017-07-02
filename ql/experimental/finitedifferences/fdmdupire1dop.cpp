@@ -20,8 +20,6 @@
 #include <ql/experimental/finitedifferences/fdmdupire1dop.hpp>
 #include <ql/methods/finitedifferences/operators/secondderivativeop.hpp>
 
-#include <boost/numeric/ublas/matrix.hpp>
-
 namespace QuantLib {
 
 FdmDupire1dOp::FdmDupire1dOp(const std::shared_ptr<FdmMesher> &mesher,

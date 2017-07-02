@@ -312,8 +312,8 @@ namespace QuantLib {
 
         Probability probNEventsOrMore = 0.;
 
-        std::vector<Size> allIndex(poolSize, 1);
-        std::partial_sum(allIndex.begin(), allIndex.end(), allIndex.begin());
+        std::vector<Size> allIndex(poolSize);
+        std::iota(allIndex.begin(), allIndex.end(), 1);
 
         for (Size i = n; i <= poolSize; ++i) {
             Size choices;

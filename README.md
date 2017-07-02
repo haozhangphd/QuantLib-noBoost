@@ -1,209 +1,22 @@
-In this project, I attempt to port [QuantLib 1.10](https://github.com/lballabio/QuantLib) to C++17, and with **all** the Boost dependency removed. To achieve this goal, I replace Boost features with their STL counterparts as much as possible. If there is no STL replacements readily available, I either try to use alternative algorithms that gets around the particular Boost features, or re-implement the Boost feature in terms of the standard library. 
+In this project, I port [QuantLib 1.10](https://github.com/lballabio/QuantLib) to C++17, and with **all** the Boost dependency removed. To achieve this goal, I replace Boost features with their STL counterparts as much as possible. If there is no STL replacements readily available, I either try to use alternative algorithms that gets around the particular Boost features, or re-implement the Boost feature in terms of the standard library. 
 
 Besides removing Boost dependencies, I also try to modernize the codebase as much as I can. Deprecated language features such as `auto_ptr`, `bind1st`, `mem_fun` are removed. C arrays are replaced by std::vectors or other appropriate STL containers. I also use modern features such as lambdas, move semantics, and initializer lists as much as I can.
 
-Both performance and correctness are extremely important. With every Boost feature removed, I make sure there is no single test failure in the test suite, except test cases that also fail in unmodified QuantLib. I also make sure the total running time of the test suite is not longer than unmodified QuantLib. In fact, the performance of QuantLib-noBoost is better than unmodified QuantLib *by more than a factor of 2* as of now. Using the QuantLib Benchmark Suite, Quantlib-noBoost gives 3442 mflops, while unmodified QuantLib gives 1440 mflops on my Dell Inspiron 13 i7348 laptop, both running under identical conditions with identical compiler flags.
-
-Right now this project only compiles with GCC 7 on GNU/Linux, and CMake is the only supported build tool. I will make this project compatible on other platforms once the codebase is completely ported on GCC 7.
+Both performance and correctness are extremely important. With every Boost feature removed, I make sure there is no single test failure in the test suite, except test cases that also fail in unmodified QuantLib. I also make sure the total running time of the test suite is not longer than unmodified QuantLib. In fact, the performance of QuantLib-noBoost is better than unmodified QuantLib as of now. Using the QuantLib Benchmark Suite, Quantlib-noBoost gives 3425 mflops, while unmodified QuantLib gives 1440 mflops on my Dell Inspiron 13 i7348 laptop, both running under identical conditions with identical compiler flags.
 
 There are features in the Boost library that's impractical for me to implement on my own. Fortunately these features are either optional, or can be easily got around.
 
-* Boost.Test in the test suite is replaced with [Catch](https://github.com/philsquared/Catch). Catch is a light-weight yet powerful unit test framework that's entirely contained inside a single header. Catch is also tightly integrated with the CMake build system. With the CTest test driver, which is a part of CMake, parallel testing essentially comes free. I will write my own parallel test runner eventually.
+* Boost.Test in the test suite is replaced with [Catch](https://github.com/philsquared/Catch). Catch is a light-weight yet powerful unit test framework that's entirely contained inside a single header. Catch is also tightly integrated with the CMake build system. With the CTest test driver, which is a part of CMake, parallel testing essentially comes free.
 
-* I will implement my own linear algebra routines to replace Boost uBLAS. However there is no way my naive implementations can compete with any BLAS implementations in term of performance. For increased performance, QuantLib-noBoost can **optionally** link against [Intel® MKL](https://software.intel.com/en-us/mkl), which is freely available and widely regarded as the fastest BLAS implementation there is.
+* I have implemented my own linear algebra routines to replace Boost uBLAS. However there is no way my naive implementations can compete with any BLAS implementations in term of performance. For increased performance, QuantLib-noBoost can **optionally** link against [Intel® MKL](https://software.intel.com/en-us/mkl), which is freely available and widely regarded as the fastest BLAS implementation available.
 
-* For the part of the code optionally uses Boost.Multiprecision, GCC libquadmath is used as a drop-in replacement. GCC libquadmath is a part of GCC and does not require any additional installation.
+* For the part of the code that **optionally** uses Boost.Multiprecision, GCC libquadmath is used as a drop-in replacement. GCC libquadmath is a part of GCC and does not require any additional installation.
 
-**This project is a work-in-progress.** Until now, the following Boost classes/functions have yet not been ported. All the Boost macros have been removed already.
-1.   boost::numeric::ublas
-2.   boost::numeric::ublas::axpy\_prod
-3.   boost::numeric::ublas::compressed\_matrix
-4.   boost::numeric::ublas::identity\_matrix
-5.   boost::numeric::ublas::lu\_substitute
-6.   boost::numeric::ublas::matrix
-7.   boost::numeric::ublas::matrix\_reference
-8.   boost::numeric::ublas::permutation\_matrix
-9.   boost::numeric::ublas::vector
-10.  boost::signals2::signal
-11.  boost::signals2::signal\_type
-12.  ~~boost::accumulators::accumulator\_set~~
-13.  ~~boost::accumulators::extract\_result~~
-14.  ~~boost::accumulators::stats~~
-15.  ~~boost::accumulators::tag::count~~
-16.  ~~boost::accumulators::tag::max~~
-17.  ~~boost::accumulators::tag::min~~
-18.  ~~boost::accumulators::tag::moment~~
-19.  ~~boost::accumulators::tag::sum\_of\_weights~~
-20.  ~~boost::accumulators::tag::weighted\_kurtosis~~
-21.  ~~boost::accumulators::tag::weighted\_mean~~
-22.  ~~boost::accumulators::tag::weighted\_moment~~
-23.  ~~boost::accumulators::tag::weighted\_skewness~~
-24.  ~~boost::accumulators::tag::weighted\_variance~~
-25.  ~~boost::accumulators::weight~~
-26.  ~~boost::accumulators~~
-27.  ~~boost::algorithm::to\_upper\_copy~~
-28.  ~~boost::any\_cast~~
-29.  ~~boost::any~~
-30.  ~~boost::array~~
-31.  ~~boost::assign::list\_of~~
-32.  ~~boost::assign~~
-33.  ~~boost::atomic~~
-34.  ~~boost::bind~~
-35.  ~~boost::cauchy\_distribution~~
-36.  ~~boost::circular\_buffer~~
-37.  ~~boost::cref~~
-38.  ~~boost::date\_time::Apr~~
-39.  ~~boost::date\_time::Aug~~
-40.  ~~boost::date\_time::Dec~~
-41.  ~~boost::date\_time::Feb~~
-42.  ~~boost::date\_time::Friday~~
-43.  ~~boost::date\_time::Jan~~
-44.  ~~boost::date\_time::Jul~~
-45.  ~~boost::date\_time::Jun~~
-46.  ~~boost::date\_time::Mar~~
-47.  ~~boost::date\_time::May~~
-48.  ~~boost::date\_time::Monday~~
-49.  ~~boost::date\_time::Nov~~
-50.  ~~boost::date\_time::Oct~~
-51.  ~~boost::date\_time::Saturday~~
-52.  ~~boost::date\_time::Sep~~
-53.  ~~boost::date\_time::Sunday~~
-54.  ~~boost::date\_time::Thursday~~
-55.  ~~boost::date\_time::Tuesday~~
-56.  ~~boost::date\_time::Wednesday~~
-57.  ~~boost::date\_time~~
-58.  ~~boost::dynamic\_bitset~~
-59.  ~~boost::dynamic\_pointer\_cast~~
-60.  ~~boost::enable\_if\_convertible~~
-61.  ~~boost::enable\_shared\_from\_this~~
-62.  ~~boost::exit\_exception\_failure~~
-63.  ~~boost::exit\_success~~
-64.  ~~boost::exponential\_distribution~~
-65.  ~~boost::extents~~
-66.  ~~boost::false\_type~~
-67.  ~~boost::format~~
-68.  ~~boost::function0~~
-69.  ~~boost::function1~~
-70.  ~~boost::function~~
-71.  ~~boost::gamma\_distribution~~
-72.  ~~boost::gregorian::Dec~~
-73.  ~~boost::gregorian::date\_facet~~
-74.  ~~boost::gregorian::date~~
-75.  ~~boost::gregorian::days~~
-76.  ~~boost::gregorian::greg\_month~~
-77.  ~~boost::gregorian::greg\_weekday~~
-78.  ~~boost::gregorian::gregorian\_calendar::end\_of\_month\_day~~
-79.  ~~boost::gregorian::gregorian\_calendar::is\_leap\_year~~
-80.  ~~boost::gregorian::gregorian\_calendar~~
-81.  ~~boost::gregorian::months~~
-82.  ~~boost::gregorian::weeks~~
-83.  ~~boost::gregorian::years~~
-84.  ~~boost::gregorian~~
-85.  ~~boost::hash\_combine~~
-86.  ~~boost::hash~~
-87.  ~~boost::int\_fast32\_t~~
-88.  ~~boost::interprocess~~
-89.  ~~boost::io::all\_error\_bits~~
-90.  ~~boost::io::too\_many\_args\_bit~~
-91.  ~~boost::is\_any\_of~~
-92.  ~~boost::is\_arithmetic~~
-93.  ~~boost::is\_base\_of~~
-94.  ~~boost::is\_floating\_point~~
-95.  ~~boost::is\_integral~~
-96.  ~~boost::is\_same~~
-97.  ~~boost::iterator\_adaptor~~
-98.  ~~boost::lambda::\_1~~
-99.  ~~boost::lambda::\_2~~
-100. ~~boost::lambda::bind~~
-101. ~~boost::lambda~~
-102. ~~boost::lexical\_cast~~
-103. ~~boost::lognormal\_distribution~~
-104. ~~boost::make\_permutation\_iterator~~
-105. ~~boost::make\_shared~~
-106. ~~boost::make\_tuple~~
-107. ~~boost::math::atanh~~
-108. ~~boost::math::cdf~~
-109. ~~boost::math::erf~~
-110. ~~boost::math::gamma\_p\_inv~~
-111. ~~boost::math::gamma\_p~~
-112. ~~boost::math::gamma\_q\_inv~~
-113. ~~boost::math::gamma\_q~~
-114. ~~boost::math::isinf~~
-115. ~~boost::math::isnan~~
-116. ~~boost::math::lgamma~~
-117. ~~boost::math::non\_central\_chi\_squared\_distribution~~
-118. ~~boost::math::normal\_distribution~~
-119. ~~boost::math::normal~~
-120. ~~boost::math::ntl::RR~~
-121. ~~boost::math::pdf~~
-122. ~~boost::math::quantile~~
-123. ~~boost::math::students\_t\_distribution~~
-124. ~~boost::memory\_order\_consume~~
-125. ~~boost::memory\_order\_release~~
-126. ~~boost::mpl::if\_~~
-127. ~~boost::mpl::or\_~~
-128. ~~boost::mt19937~~
-129. ~~boost::multi\_array~~
-130. ~~boost::multiprecision::cpp\_dec\_float~~
-131. ~~boost::multiprecision::number~~
-132. ~~boost::multiprecision::pow~~
-133. ~~boost::mutex::scoped\_lock~~
-134. ~~boost::mutex~~
-135. ~~boost::noncopyable~~
-136. ~~boost::none~~
-137. ~~boost::normal\_distribution~~
-138. ~~boost::null\_deleter~~
-139. ~~boost::optional~~
-140. ~~boost::posix\_time::hours::hour\_type~~
-141. ~~boost::posix\_time::microsec\_clock::local\_time~~
-142. ~~boost::posix\_time::microsec\_clock::universal\_time~~
-143. ~~boost::posix\_time::milliseconds~~
-144. ~~boost::posix\_time::minutes::min\_type~~
-145. ~~boost::posix\_time::minutes::sec\_type~~
-146. ~~boost::posix\_time::ptime~~
-147. ~~boost::posix\_time::time\_duration::fractional\_seconds\_type~~
-148. ~~boost::posix\_time::time\_duration::tick\_type~~
-149. ~~boost::posix\_time::time\_duration~~
-150. ~~boost::progress\_timer~~
-151. ~~boost::random::cauchy\_distribution~~
-152. ~~boost::random::lognormal\_distribution~~
-153. ~~boost::random::normal\_distribution~~
-154. ~~boost::random::ranlux64\_base\_01~~
-155. ~~boost::random::uniform\_01~~
-156. ~~boost::random::uniform\_int\_distribution~~
-157. ~~boost::random::uniform\_real\_distribution~~
-158. ~~boost::ranlux64\_3\_01~~
-159. ~~boost::ranlux64\_4\_01~~
-160. ~~boost::recursive\_mutex~~
-161. ~~boost::ref~~
-162. ~~boost::reverse\_iterator~~
-163. ~~boost::scoped\_array~~
-164. ~~boost::scoped\_ptr~~
-165. ~~boost::shared\_array~~
-166. ~~boost::shared\_ptr~~
-167. ~~boost::split~~
-168. ~~boost::static\_pointer\_cast~~
-169. ~~boost::test\_tools::check\_is\_close~~
-170. ~~boost::test\_tools::check\_is\_small~~
-171. ~~boost::thread::hardware\_concurrency~~
-172. ~~boost::thread\_group~~
-173. ~~boost::thread~~
-174. ~~boost::timer~~
-175. ~~boost::transform\_iterator~~
-176. ~~boost::true\_type~~
-177. ~~boost::tuples::tuple~~
-178. ~~boost::tuple~~
-179. ~~boost::uniform\_real~~
-180. ~~boost::unit\_test::framework::master\_test\_suite~~
-181. ~~boost::unit\_test::results\_collector~~
-182. ~~boost::unit\_test::s\_rc\_impl~~
-183. ~~boost::unit\_test::test\_results~~
-184. ~~boost::unit\_test::traverse\_test\_tree~~
-185. ~~boost::unit\_test::unit\_test\_main~~
-186. ~~boost::unit\_test\_framework::test\_suite~~
-187. ~~boost::unit\_test\_framework~~
-188. ~~boost::unit\_test~~
-189. ~~boost::unordered\_map~~
-190. ~~boost::unordered\_set~~
-191. ~~boost::variate\_generator~~
-192. ~~boost::weak\_ptr~~
+## Project status:
+* Porting is complete with GCC 7 on GNU/Linux. All Boost dependencies are removed and no QuantLib features are missing.
+
+* Currently CMake is the only supported build tool.
+ 
+* Latest commits in the original QuantLib project are regularly backported here.
+
+* Porting to GNU Autotools and Visual Studio 2017 is planned.

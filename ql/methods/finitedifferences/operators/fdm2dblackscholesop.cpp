@@ -26,8 +26,8 @@
 #include <ql/methods/finitedifferences/operators/fdmlinearoplayout.hpp>
 #include <ql/methods/finitedifferences/operators/fdm2dblackscholesop.hpp>
 #include <ql/methods/finitedifferences/operators/secondordermixedderivativeop.hpp>
+#include <ql/math/matrixutilities/sparsematrix.hpp>
 
-#include <boost/numeric/ublas/matrix.hpp>
 
 namespace QuantLib {
 
@@ -157,7 +157,7 @@ namespace QuantLib {
         retVal[0] = opX_.toMatrix();
         retVal[1] = opY_.toMatrix();
         retVal[2] = corrMapT_.toMatrix() +
-            currentForwardRate_*boost::numeric::ublas::identity_matrix<Real>(
+            currentForwardRate_* identity_matrix<Real>(
                     mesher_->layout()->size());
 
         return retVal;

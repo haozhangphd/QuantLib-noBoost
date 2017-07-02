@@ -130,6 +130,10 @@ namespace QuantLib {
         //! whether the array is empty
         bool empty() const;
 
+        //! get raw pointer from array
+        Real* data() noexcept;
+        const Real* data() const noexcept;
+
         //@}
         typedef Size size_type;
         typedef Real value_type;
@@ -161,8 +165,6 @@ namespace QuantLib {
         //@{
         void swap(Array &) noexcept;  // never throws
         //@}
-        Real* data();
-        const Real* data() const;
 
     private:
         std::vector<Real> data_;
@@ -446,6 +448,13 @@ namespace QuantLib {
         return data_.empty();
     }
 
+    inline Real* Array::data() noexcept {
+        return data_.data();
+    }
+    inline const Real* Array::data() const noexcept {
+        return data_.data();
+    }
+
     inline Array::const_iterator Array::begin() const {
         return data_.begin();
     }
@@ -482,17 +491,6 @@ namespace QuantLib {
         using std::swap;
         data_.swap(from.data_);
     }
-
-
-    inline Real* Array::data() {
-        return data_.data();
-    }
-
-    inline const Real* Array::data() const {
-        return data_.data();
-    }
-
-
 
     // dot product
 
