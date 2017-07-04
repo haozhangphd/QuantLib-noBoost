@@ -21,3 +21,5 @@ enable_testing(true)
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}")
 include(ParseAndAddCatchTests)
 ParseAndAddCatchTests(quantlib-test-suite)
+
+install(TARGETS quantlib-test-suite quantlib-benchmark RUNTIME DESTINATION bin)

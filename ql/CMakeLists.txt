@@ -20,3 +20,6 @@ endif ()
 if (QL_USE_MKL)
     target_link_libraries(QuantLib PRIVATE -Wl,--start-group ${MKLROOT}/lib/intel64/libmkl_gnu_thread.a ${MKLROOT}/lib/intel64/libmkl_intel_lp64.a ${MKLROOT}/lib/intel64/libmkl_core.a -Wl,--end-group gomp)
 endif ()
+
+install(TARGETS QuantLib LIBRARY DESTINATION lib)
+install(DIRECTORY ${CMAKE_SOURCE_DIR}/ql/ DESTINATION include/ql FILES_MATCHING PATTERN "*.hpp")
