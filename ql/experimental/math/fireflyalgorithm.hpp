@@ -40,7 +40,7 @@ http://arxiv.org/pdf/1003.1464.pdf
 
 typedef std::mt19937 base_generator_type;
 
-typedef std::normal_distribution<QuantLib::Real> NormalDistribution;
+typedef std::normal_distribution<QuantLib::Real> NormalDistributionSTL;
 typedef std::uniform_int_distribution<QuantLib::Size> uniform_integer;
 #include <ql/math/distributions/variategenerator.hpp>
 typedef variate_generator<base_generator_type, uniform_integer> variate_integer;
@@ -228,13 +228,13 @@ namespace QuantLib {
     //! Gaussian Walk
     /*  Gaussian random walk
     */
-    class GaussianWalk : public DistributionRandomWalk<NormalDistribution> {
+    class GaussianWalk : public DistributionRandomWalk<NormalDistributionSTL> {
     public:
         GaussianWalk(Real sigma, 
 		             Real delta = 0.9, 
                      unsigned long seed = SeedGenerator::instance().get())
-        : DistributionRandomWalk<NormalDistribution>(
-                           NormalDistribution(0.0, sigma), delta, seed){}
+        : DistributionRandomWalk<NormalDistributionSTL>(
+                           NormalDistributionSTL(0.0, sigma), delta, seed){}
     };
 
     //! Levy Flight Random Walk

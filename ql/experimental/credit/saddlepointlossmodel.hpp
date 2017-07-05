@@ -532,9 +532,7 @@ namespace QuantLib {
             copula_->inverseCumulativeY(invUncondProbs[i], i);
 
         return copula_->integratedExpectedValue(
-            std::function<std::vector<Real> (
-                    [this, &invUncondProbs, &s](const std::vector<Real>& x){return splitLossCond(invUncondProbs, s, x);}
-            );
+            [this, &invUncondProbs, &s](const std::vector<Real>& x){return splitLossCond(invUncondProbs, s, x);});
     }
 
 
