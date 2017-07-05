@@ -22,9 +22,6 @@
 
 #include <ql/math/distributions/normaldistribution.hpp>
 #include <ql/math/comparison.hpp>
-#include <cmath>
-
-#include <random>
 
 namespace QuantLib {
 
@@ -34,7 +31,9 @@ namespace QuantLib {
 
         z = (z - average_) / sigma_;
 
-        long double result = 0.5 * ( 1.0 + std::erf( z * M_SQRT1_2l ));
+        const long double SQRT1_2l = 0.707106781186547524400844362104849039L;
+
+        long double result = 0.5 * ( 1.0 + std::erf( z * SQRT1_2l ));
 
         if (result<=1e-8) { //todo: investigate the threshold level
             // Asymptotic expansion for very negative z following (26.2.12)

@@ -24,6 +24,8 @@
 #include <ql/math/distributions/gammadistribution.hpp>
 #include <ql/math/distributions/normaldistribution.hpp>
 
+const long double PIl = 3.141592653589793238462643383279502884L;
+
 namespace QuantLib {
 
     long double CumulativeChiSquareDistribution::operator()(long double x) const {
@@ -38,9 +40,8 @@ namespace QuantLib {
             long double v = 1 - df_ / 2;
             return 0.5 * std::exp(-0.5 * (x + ncp_)) *
                    std::pow((x / ncp_), df_ / 4 - 0.5) * (
-                           std::cyl_bessel_il(v, std::sqrt(ncp_ * x)) + 2 * std::sin(M_PIl * v) *
-                                                                        std::cyl_bessel_kl(v, std::sqrt(ncp_ * x)) /
-                                                                        M_PIl);
+                           std::cyl_bessel_il(v, std::sqrt(ncp_ * x)) + 2 * std::sin(PIl * v) *
+                           std::cyl_bessel_kl(v, std::sqrt(ncp_ * x)) / PIl);
         } else
             return 0.5 * std::exp(-0.5 * (x + ncp_)) *
                    std::pow((x / ncp_), df_ / 4 - 0.5) *
@@ -65,7 +66,7 @@ namespace QuantLib {
         if (f2 * QL_EPSILON > 0.125 &&
             std::fabs(x2 - f2) < std::sqrt(QL_EPSILON) * f2) {
             t = std::exp((1 - t) *
-                         (2 - t / (f2 + 1))) / std::sqrt(2.0 * M_PIl * (f2 + 1.0));
+                         (2 - t / (f2 + 1))) / std::sqrt(2.0 * PIl * (f2 + 1.0));
         } else {
             t = std::exp(f2 * std::log(x2) - x2 -
                          std::lgamma(f2 + 1));
