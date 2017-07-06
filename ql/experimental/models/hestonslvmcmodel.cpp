@@ -25,17 +25,9 @@
 #include <ql/termstructures/volatility/equityfx/fixedlocalvolsurface.hpp>
 #include <ql/experimental/models/hestonslvmcmodel.hpp>
 #include <ql/experimental/processes/hestonslvprocess.hpp>
-
 #include <memory>
 #include <algorithm>
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#endif
 #include <ql/math/threedimensionalarray.hpp>
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic pop
-#endif
 
 namespace QuantLib {
     HestonSLVMCModel::HestonSLVMCModel(

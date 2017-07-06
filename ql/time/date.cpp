@@ -26,15 +26,6 @@
 #include <ql/utilities/dataformatters.hpp>
 #include <ql/errors.hpp>
 
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#endif
-
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic pop
-#endif
-
 #include <iomanip>
 #include <ctime>
 #include <chrono>
@@ -51,6 +42,9 @@ using std::chrono::system_clock;
 using std::chrono::duration;
 using std::chrono::floor;
 using std::chrono::time_point_cast;
+#ifdef _MSC_VER
+#define timegm _mkgmtime
+#endif
 #endif
 
 

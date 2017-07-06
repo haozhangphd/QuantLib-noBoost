@@ -36,7 +36,7 @@ namespace QuantLib {
     /*! References:
         L.A. Grzelak, J.A.S. Witteveen, M.Suárez-Taboada, C.W. Oosterlee,
         The Stochastic Collocation Monte Carlo Sampler: Highly efficient
-        sampling from “expensive” distributions
+        sampling from "expensive" distributions
         http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2529691
      */
 

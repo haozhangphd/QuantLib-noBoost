@@ -25,7 +25,8 @@
 
 
 namespace {
-	using QuantLib::BigInteger, QuantLib::Size;
+	using QuantLib::BigInteger;
+        using QuantLib::Size;
 
 	template <class Iter>
 	class step_iterator {

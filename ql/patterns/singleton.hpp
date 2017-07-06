@@ -44,12 +44,6 @@
 #include <ql/types.hpp>
 #include <memory>
 #include <algorithm>
-#if defined(QL_PATCH_MSVC)
-    #pragma managed(push, off)
-#endif
-#if defined(QL_PATCH_MSVC)
-    #pragma managed(pop)
-#endif
 #include <map>
 
 
@@ -71,7 +65,7 @@ namespace QuantLib {
     #endif
 
     // this is required on VC++ when CLR support is enabled
-    #if defined(QL_PATCH_MSVC)
+    #ifdef _MSC_VER
         #pragma managed(push, off)
     #endif
 
@@ -168,7 +162,7 @@ namespace QuantLib {
     }
 
     // reverts the change above
-    #if defined(QL_PATCH_MSVC)
+    #ifdef _MSC_VER
         #pragma managed(pop)
     #endif
 

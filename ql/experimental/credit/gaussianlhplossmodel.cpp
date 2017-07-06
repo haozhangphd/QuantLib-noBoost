@@ -20,7 +20,6 @@
 
 #include <ql/experimental/credit/gaussianlhplossmodel.hpp>
 
-#ifndef QL_PATCH_SOLARIS
 #include <memory>
 #include <algorithm>
 
@@ -205,5 +204,3 @@ namespace QuantLib {
         }
 
 }
-
-#endif

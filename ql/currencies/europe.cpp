@@ -1,4 +1,4 @@
-/* -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
+﻿/* -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 
 /*
  Copyright (C) 2004, 2005, 2006 StatPro Italia srl
@@ -72,7 +72,7 @@ namespace QuantLib {
     CYPCurrency::CYPCurrency() {
         static std::shared_ptr<Data> cypData(
                                       new Data("Cyprus pound", "CYP", 196,
-                                               "£" "C", "", 100,
+                                               u8"£" "C", "", 100,
                                                Rounding(),
                                                "%3% %1$.2f"));
         data_ = cypData;
@@ -137,7 +137,7 @@ namespace QuantLib {
     GBPCurrency::GBPCurrency() {
         static std::shared_ptr<Data> gbpData(
                             new Data("British pound sterling", "GBP", 826,
-                                     "£", "p", 100,
+                                     u8"£", "p", 100,
                                      Rounding(),
                                      "%3% %1$.2f"));
         data_ = gbpData;

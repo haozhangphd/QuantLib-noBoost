@@ -412,7 +412,7 @@ namespace QuantLib {
 
     inline Real &Array::operator[](Size i) {
 #if defined(QL_EXTRA_SAFETY_CHECKS)
-        QL_REQUIRE(i < data_.size()_,
+        QL_REQUIRE(i < data_.size(),
             "index (" << i << ") must be less than " << data_.size() <<
             ": array access out of range");
 #endif

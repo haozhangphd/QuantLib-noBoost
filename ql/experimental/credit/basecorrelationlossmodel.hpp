@@ -201,8 +201,6 @@ namespace QuantLib {
     would be possible.
     */
 
-    #ifndef QL_PATCH_SOLARIS
-
     template<>
     inline void BaseCorrelationLossModel<GaussianLHPLossModel, 
         BilinearInterpolation>::setupModels() const 
@@ -295,14 +293,10 @@ namespace QuantLib {
         basketDetach_->setLossModel(scalarCorrelModelDetach_);
     }
 
-    #endif
-
 
     // Vanilla BC model
-    #ifndef QL_PATCH_SOLARIS
     typedef BaseCorrelationLossModel<GaussianLHPLossModel, 
                 BilinearInterpolation> GaussianLHPFlatBCLM;
-    #endif
 
 }
 

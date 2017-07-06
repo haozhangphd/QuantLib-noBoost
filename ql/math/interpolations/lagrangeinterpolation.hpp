@@ -29,7 +29,7 @@
 namespace QuantLib {
     /*! References: J-P. Berrut and L.N. Trefethen,
                     Barycentric Lagrange interpolation,
-                    SIAM Review, 46(3):501–517, 2004.
+                    SIAM Review, 46(3):501-517, 2004.
         https://people.maths.ox.ac.uk/trefethen/barycentric.pdf
     */
 

@@ -30,12 +30,6 @@
 #include <ql/utilities/null.hpp>
 #include <ql/errors.hpp>
 
-#if defined(__clang__)
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wc++11-extensions"
-#pragma clang diagnostic pop
-#endif
-
 namespace QuantLib {
 
     //! Statistics tool based on incremental accumulation

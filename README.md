@@ -15,10 +15,8 @@ There are features in the Boost library that's impractical for me to implement o
 ## Project status:
 * Porting is complete with GCC 7 on GNU/Linux. All Boost dependencies are removed and no QuantLib features are missing.
 
+* Only the default configuration works on Visual Studio 2017. Optional features including high-resolution date, thread-safe observer pattern, and multi-precision noncentral chi-square quadrature are not implemented with Visual Studio.
+
 * SWIG binding for Python is provided [here](https://github.com/haozhangphd/QuantLib-noBoost-SWIG). Binding for other languages are not provided but should be easy to implement.
 
-* Currently CMake is the only supported build tool.
- 
 * Latest commits in the original QuantLib project are regularly backported here.
-
-* Porting to GNU Autotools and Visual Studio 2017 is planned.

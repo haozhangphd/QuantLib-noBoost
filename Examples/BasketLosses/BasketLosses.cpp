@@ -115,7 +115,6 @@ int main(int, char* []) {
             std::vector<Real>(1, std::sqrt(factorValue)));
 
         // --- LHP model --------------------------
-        #ifndef QL_PATCH_SOLARIS
         std::shared_ptr<DefaultLossModel> lmGLHP(
             std::make_shared<GaussianLHPLossModel>(
                 fctrsWeights[0][0] * fctrsWeights[0][0], recoveries));
@@ -136,8 +135,6 @@ int main(int, char* []) {
         std::cout << "Gaussian Binomial Expected 10-Yr Losses: "  << std::endl;
         std::cout << theBskt->expectedTrancheLoss(calcDate) << std::endl;
 
-        #endif
-
         // --- T Binomial model --------------------
         TCopulaPolicy::initTraits initT;
         initT.tOrders = std::vector<Integer>(2, 3);
@@ -156,7 +153,6 @@ int main(int, char* []) {
 
         // --- G Inhomogeneous model ---------------
         Size numSimulations = 100000;
-        #ifndef QL_PATCH_SOLARIS
         std::shared_ptr<GaussianConstantLossLM> gLM(
             std::make_shared<GaussianConstantLossLM>(fctrsWeights, 
             recoveries,
@@ -188,7 +184,6 @@ int main(int, char* []) {
 
         std::cout << "Random G Expected 10-Yr Losses: "  << std::endl;
         std::cout << theBskt->expectedTrancheLoss(calcDate) << std::endl;
-        #endif
 
         // --- StudentT Random model ---------------------
         // Sobol, many cores
@@ -207,7 +202,6 @@ int main(int, char* []) {
 
 
         // Spot Loss latent model: 
-        #ifndef QL_PATCH_SOLARIS
         std::vector<std::vector<Real> > fctrsWeightsRR(2 * hazardRates.size(), 
             std::vector<Real>(1, std::sqrt(factorValue)));
         Real modelA = 2.2;
@@ -291,7 +285,6 @@ int main(int, char* []) {
         std::cout << "Base Correlation GLHP Expected 10-Yr Losses: "  
             << std::endl;
         std::cout << theBskt->expectedTrancheLoss(calcDate) << std::endl;
-        #endif
 
 	std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
         double elapsed = static_cast<double>((endT - startT).count()) / 1.0e9;

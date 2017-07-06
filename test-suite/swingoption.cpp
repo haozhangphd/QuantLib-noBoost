@@ -18,7 +18,7 @@
 */
 
 #include "utilities.hpp"
-
+#include <array>
 #include <ql/math/functional.hpp>
 #include <ql/quotes/simplequote.hpp>
 #include <ql/time/daycounters/actualactual.hpp>

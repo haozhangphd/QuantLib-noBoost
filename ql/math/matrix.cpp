@@ -39,7 +39,7 @@ namespace {
         std::vector<Real> vv(size, 1);
         std::vector<int> index(size);
         Real perm = 1;
-        for (int i; i < size; ++i) {
+        for (int i = 0; i < size; ++i) {
             Real largest_element = *std::max_element(ret.row_begin(i), ret.row_end(i),
                                                      [](Real x, Real y) { return std::abs(x) < std::abs(y); });
             if (largest_element == 0.0)
@@ -51,7 +51,7 @@ namespace {
             std::vector<Real> temp(size-k);
             std::transform(vv.begin()+k, vv.end(), ret.column_begin(k)+k,temp.begin(),[](Real x, Real y){return x * std::abs(y);});
             int largest_element_index = std::distance(temp.begin(), std::max_element(temp.begin(), temp.end())) + k;
-            Real largest_element = temp[largest_element - k];
+            Real largest_element = temp[largest_element_index - k];
             if (largest_element_index != k) {
                 std::swap_ranges(ret.row_begin(largest_element_index), ret.row_end(largest_element_index), ret.row_begin(k));
                 perm = -perm;
@@ -97,7 +97,15 @@ namespace QuantLib {
 
         return retVal;
 #else
+//TODO-HAO: remove this check once Visual Studio 2017.3 is released
+//because structured binding is supported in Visual Studio 2017.3
+#ifndef _MSC_VER
         auto [lu, index, _] = luDecomposition(m);
+#else
+       Matrix lu;
+       std::vector<int> index;
+       std::tie(lu, index, std::ignore) = luDecomposition(m);
+#endif
         Matrix ret(size, size);
 
         for (int k = 0; k < size; ++k) {
@@ -155,7 +163,15 @@ namespace QuantLib {
         }
         return retVal;
 #else
+//TODO-HAO: remove this check once Visual Studio 2017.3 is released
+//because structured binding is supported in Visual Studio 2017.3
+#ifndef _MSC_VER
         auto [lu, _, ret] = luDecomposition(m);
+#else
+       Matrix lu;
+       Real ret;
+       std::tie(lu, std::ignore, ret) = luDecomposition(m);
+#endif
         Array diag = lu.diagonal();
         return std::accumulate(diag.begin(), diag.end(), ret, std::multiplies<Real>());
 #endif

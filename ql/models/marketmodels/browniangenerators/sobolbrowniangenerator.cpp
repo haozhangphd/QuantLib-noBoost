@@ -144,10 +144,10 @@ namespace QuantLib {
         const sample_type& sample = generator_.nextSequence();
         // Brownian-bridge the variates according to the ordered indices
         for (Size i=0; i<factors_; ++i) {
-            bridge_.transform(permutationIterator(
+            bridge_.transform(permutationIterator<std::vector<Real>::const_iterator, std::vector<Size>::iterator>(
                                                   sample.value.begin(),
                                                   orderedIndices_[i].begin()),
-                              permutationIterator(
+                              permutationIterator<std::vector<Real>::const_iterator, std::vector<Size>::iterator>(
                                                   sample.value.begin(),
                                                   orderedIndices_[i].end()),
                               bridgedVariates_[i].begin());
@@ -180,10 +180,10 @@ namespace QuantLib {
                 sample[k] = variates[k][j];
             }
             for (Size i=0; i<factors_; ++i) {
-                bridge_.transform(permutationIterator(
+                bridge_.transform(permutationIterator<std::vector<Real>::iterator, std::vector<Size>::iterator>(
                                                   sample.begin(),
                                                   orderedIndices_[i].begin()),
-                          permutationIterator(
+                          permutationIterator<std::vector<Real>::iterator, std::vector<Size>::iterator>(
                                                   sample.begin(),
                                                   orderedIndices_[i].end()),
                           retVal[i].begin()+j*steps_);

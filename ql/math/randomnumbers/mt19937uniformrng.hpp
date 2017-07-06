@@ -74,10 +74,10 @@ namespace QuantLib {
         unsigned long operator()() const {
 	    return nextInt32();
 	}
-	unsigned long max() const {
+	static constexpr unsigned long max() {
 		return 0xffffffff;
 	}
-	unsigned long min() const {
+	static constexpr unsigned long min() {
 		return 0;
 	}
 

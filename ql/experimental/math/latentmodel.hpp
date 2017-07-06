@@ -107,15 +107,12 @@ namespace QuantLib {
     namespace LatentModelIntegrationType {
         typedef
         enum LatentModelIntegrationType {
-#ifndef QL_PATCH_SOLARIS
             GaussianQuadrature,
-#endif
             Trapezoid
             // etc....
         } LatentModelIntegrationType;
     }
 
-#ifndef QL_PATCH_SOLARIS
 
     /* class template specializations. I havent use CRTP type cast directly
     because the signature of the integrators is different, grid integration
@@ -141,8 +138,6 @@ namespace QuantLib {
 
         virtual ~IntegrationBase() {}
     };
-
-#endif
 
     template<>
     class IntegrationBase<MultidimIntegral> :
@@ -478,20 +473,14 @@ namespace QuantLib {
             static std::shared_ptr<LMIntegration> createLMIntegration(
                     Size dimension,
                     LatentModelIntegrationType::LatentModelIntegrationType type =
-#ifndef QL_PATCH_SOLARIS
                     LatentModelIntegrationType::GaussianQuadrature)
-#else
-            LatentModelIntegrationType::Trapezoid)
-#endif
             {
                 switch (type) {
-#ifndef QL_PATCH_SOLARIS
                     case LatentModelIntegrationType::GaussianQuadrature:
                         return
                                 std::make_shared<
                                         IntegrationBase<GaussianQuadMultidimIntegrator> >(
                                         dimension, 25);
-#endif
                     case LatentModelIntegrationType::Trapezoid: {
                         std::vector<std::shared_ptr<Integrator> > integrals;
                         for (Size i = 0; i < dimension; i++)

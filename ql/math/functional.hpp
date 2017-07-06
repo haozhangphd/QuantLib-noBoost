@@ -30,16 +30,26 @@
 
 namespace QuantLib {
 
-    auto constant = [](auto c){return [c](auto x){return c;};};
-    auto identity = [](auto x) { return x; };
-    auto square = [](auto x) { return x * x; };
-    auto cube = [](auto x) { return x * x * x; };
-    auto fourth_power = [](auto x) { return x * x * x * x; };
-    auto everywhere = [](auto x) { return true; };
-    auto nowhere = [](auto x) { return false; };
-    auto equal_whithin = [](auto eps){return [eps](auto a, auto b){return std::fabs(a-b) <= eps;};};
-
-
+#ifndef _MSC_VER
+    inline auto constant = [](auto c){return [c](auto x){return c;};};
+    inline auto identity = [](auto x) { return x; };
+    inline auto square = [](auto x) { return x * x; };
+    inline auto cube = [](auto x) { return x * x * x; };
+    inline auto fourth_power = [](auto x) { return x * x * x * x; };
+    inline auto everywhere = [](auto x) { return true; };
+    inline auto nowhere = [](auto x) { return false; };
+    inline auto equal_whithin = [](auto eps){return [eps](auto a, auto b){return std::fabs(a-b) <= eps;};};
+#else
+    //Visual Studio does not support inline variable
+    static auto constant = [](auto c){return [c](auto x){return c;};};
+    static auto identity = [](auto x) { return x; };
+    static auto square = [](auto x) { return x * x; };
+    static auto cube = [](auto x) { return x * x * x; };
+    static auto fourth_power = [](auto x) { return x * x * x * x; };
+    static auto everywhere = [](auto x) { return true; };
+    static auto nowhere = [](auto x) { return false; };
+    static auto equal_whithin = [](auto eps){return [eps](auto a, auto b){return std::fabs(a-b) <= eps;};};
+#endif
 
 }
 

@@ -25,19 +25,15 @@
 #include <ql/time/period.hpp>
 #include <ql/errors.hpp>
 
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#endif
-#ifndef QL_PATCH_SOLARIS
-#endif
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic pop
-#endif
-
 #include <locale>
 #include <cctype>
 #include <iomanip>
+
+#ifdef QL_HIGH_RESOLUTION_DATE
+#ifdef _MSC_VER
+#define timegm _mkgmtime
+#endif
+#endif
 
 namespace QuantLib {
 
@@ -111,14 +107,32 @@ namespace QuantLib {
                 std::chrono::system_clock::from_time_t(timegm(&t))));
     }
 #else
+
     Date DateParser::parseFormatted(const std::string &str,
                                     const std::string &fmt) {
         std::istringstream is(str);
         is.imbue(std::locale());
         std::tm t = {};
+#ifndef _MSC_VER
         is >> std::get_time(&t, fmt.c_str());
-        return Date(t.tm_mday, static_cast<Month>(t.tm_mon+1), t.tm_year+1900);
+#else
+        //A UGLY hack for a UGLY bug in Visual Studio
+        //https://stackoverflow.com/questions/21172767/parsing-an-date-time-string-with-stdget-time-needs-separators
+        if (fmt == "%Y%m%d")
+        {
+            std::string y(str, 0, 4);
+            std::string m(str, 4, 2);
+            std::string d(str, 6, 2);
+            t.tm_year = std::stoi(y) - 1900;
+            t.tm_mon = std::stoi(m) - 1;
+            t.tm_mday = std::stoi(d);
+        }
+        else
+            is >> std::get_time(&t, fmt.c_str());
+#endif
+        return Date(t.tm_mday, static_cast<Month>(t.tm_mon + 1), t.tm_year + 1900);
     }
+
 #endif
 
     Date DateParser::parseISO(const std::string &str) {

@@ -19,8 +19,6 @@
 
 #include <ql/experimental/math/multidimquadrature.hpp>
 
-#ifndef QL_PATCH_SOLARIS
-
 namespace QuantLib {
 
     GaussianQuadMultidimIntegrator::GaussianQuadMultidimIntegrator(
@@ -36,5 +34,3 @@ namespace QuantLib {
     }
 
 }
-
-#endif

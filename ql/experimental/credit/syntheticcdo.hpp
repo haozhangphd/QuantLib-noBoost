@@ -25,13 +25,9 @@
 #define quantlib_synthetic_cdo_hpp
 
 #include <ql/qldefines.hpp>
-
-#ifndef QL_PATCH_SOLARIS
-
 #include <ql/instrument.hpp>
 #include <ql/default.hpp>
 #include <ql/time/schedule.hpp>
-
 #include <ql/experimental/credit/basket.hpp>
 #include <ql/cashflows/fixedratecoupon.hpp>
 
@@ -228,7 +224,5 @@ namespace QuantLib {
                              SyntheticCDO::results> { };
 
 }
-
-#endif
 
 #endif

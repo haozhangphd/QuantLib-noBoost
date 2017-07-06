@@ -1,25 +1,25 @@
 /* -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 
 /*
- Copyright (C) 2006 Joseph Wang
- Copyright (C) 2010 Liquidnet Holdings, Inc.
+Copyright (C) 2006 Joseph Wang
+Copyright (C) 2010 Liquidnet Holdings, Inc.
 
- This file is part of QuantLib, a free-software/open-source library
- for financial quantitative analysts and developers - http://quantlib.org/
+This file is part of QuantLib, a free-software/open-source library
+for financial quantitative analysts and developers - http://quantlib.org/
 
- QuantLib is free software: you can redistribute it and/or modify it
- under the terms of the QuantLib license.  You should have received a
- copy of the license along with this program; if not, please email
- <quantlib-dev@lists.sf.net>. The license is also available online at
- <http://quantlib.org/license.shtml>.
+QuantLib is free software: you can redistribute it and/or modify it
+under the terms of the QuantLib license.  You should have received a
+copy of the license along with this program; if not, please email
+<quantlib-dev@lists.sf.net>. The license is also available online at
+<http://quantlib.org/license.shtml>.
 
- This program is distributed in the hope that it will be useful, but WITHOUT
- ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
- FOR A PARTICULAR PURPOSE.  See the license for more details.
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
 /*! \file timeseries.hpp
-    \brief Container for historical data
+\brief Container for historical data
 */
 
 #ifndef quantlib_timeseries_hpp
@@ -34,45 +34,49 @@
 #include <map>
 #include <vector>
 
+#ifdef _MSC_VER
+#include <unordered_map>
+#endif
+
 namespace QuantLib {
 
     //! Container for historical data
     /*! This class acts as a generic repository for a set of
-        historical data.  Any single datum can be accessed through its
-        date, while sets of consecutive data can be accessed through
-        iterators.
+    historical data.  Any single datum can be accessed through its
+    date, while sets of consecutive data can be accessed through
+    iterators.
 
-        \pre The <c>Container</c> type must satisfy the requirements
-             set by the C++ standard for associative containers.
+    \pre The <c>Container</c> type must satisfy the requirements
+    set by the C++ standard for associative containers.
     */
     template <class T, class Container = std::map<Date, T> >
     class TimeSeries {
-      public:
+    public:
         using key_type = Date;
         using value_type = T;
-      private:
+    private:
         mutable Container values_;
-      public:
+    public:
         /*! Default constructor */
         TimeSeries() {}
         /*! This constructor initializes the history with a set of
-            values passed as two sequences, the first containing dates
-            and the second containing corresponding values.
+        values passed as two sequences, the first containing dates
+        and the second containing corresponding values.
         */
         template <class DateIterator, class ValueIterator>
         TimeSeries(DateIterator dBegin, DateIterator dEnd,
-                   ValueIterator vBegin) {
+            ValueIterator vBegin) {
             while (dBegin != dEnd)
                 values_[*(dBegin++)] = *(vBegin++);
         }
         /*! This constructor initializes the history with a set of
-            values. Such values are assigned to a corresponding number
-            of consecutive dates starting from <b><i>firstDate</i></b>
-            included.
+        values. Such values are assigned to a corresponding number
+        of consecutive dates starting from <b><i>firstDate</i></b>
+        included.
         */
         template <class ValueIterator>
         TimeSeries(const Date& firstDate,
-                   ValueIterator begin, ValueIterator end) {
+            ValueIterator begin, ValueIterator end) {
             Date d = firstDate;
             while (begin != end)
                 values_[d++] = *(begin++);
@@ -109,14 +113,17 @@ namespace QuantLib {
         using const_iterator = typename Container::const_iterator;
         using iterator_category = typename const_iterator::iterator_category;
 
+        template <class container, bool bidirectional>
+        struct reverse {};
+
         // Reverse iterators
         // The following class makes compilation fail for the code
         // that calls rbegin or rend with a container that does not
         // support reverse iterators.  All the rest TimeSeries class
         // features should compile and work for this type of
         // containers.
-        template <class container, class iterator_category>
-        struct reverse {
+        template <class container>
+        struct reverse<container, false> {
             using const_reverse_iterator = std::reverse_iterator<typename container::const_iterator>;
             reverse(const container& c) : c_(c) {}
             const_reverse_iterator rbegin() const {
@@ -131,7 +138,7 @@ namespace QuantLib {
         // This class defines reverse iterator features via
         // container's native calls.
         template <class container>
-        struct reverse<container, std::bidirectional_iterator_tag> {
+        struct reverse<container, true> {
             using const_reverse_iterator = typename container::const_reverse_iterator;
             reverse(const container& c) : c_(c) {}
             const_reverse_iterator rbegin() const { return c_.rbegin(); }
@@ -139,16 +146,14 @@ namespace QuantLib {
             const container& c_;
         };
 
-        // The following type aliases enables reverse iterators for
-        // bidirectional_iterator_tag category.
-        using enable_reverse =  typename std::conditional <
-            std::disjunction_v <
-                std::is_same<iterator_category,
-                               std::bidirectional_iterator_tag>,
-                std::is_base_of<std::bidirectional_iterator_tag,
-                                  iterator_category> >,
-            std::bidirectional_iterator_tag, 
-            std::input_iterator_tag>::type;
+
+        //Visual Studio has a bug that counts ALL iterators as bidirectional iterator >_<
+        //With this bug the treatment for Visual Studio is very hackish
+#ifndef _MSC_VER
+        static constexpr bool enable_reverse = std::is_base_of_v<std::bidirectional_iterator_tag, iterator_category>;
+#else
+        static constexpr bool enable_reverse = !std::is_same_v<Container, std::unordered_map<Date, T>>;
+#endif
 
         using const_reverse_iterator = typename reverse<Container, enable_reverse>::const_reverse_iterator;
 
@@ -166,22 +171,22 @@ namespace QuantLib {
         const_reverse_iterator rend() const { return crend(); }
         //@}
 
-      private:
+    private:
         using container_value_type = typename Container::value_type;
         using projection_time = std::function<Date(const container_value_type&)>;
         using projection_value = std::function<T(const container_value_type&)>;
 
 
-      public:
+    public:
         //! \name Projection iterators
         //@{
 
         using const_time_iterator = transformIterator<projection_time, const_iterator>;
         using const_value_iterator = transformIterator<projection_value, const_iterator>;
         using const_reverse_time_iterator = transformIterator<projection_time,
-                                          const_reverse_iterator>;
+            const_reverse_iterator>;
         using const_reverse_value_iterator = transformIterator<projection_value,
-                                          const_reverse_iterator>;
+            const_reverse_iterator>;
 
         const_value_iterator cbegin_values() const {
             return const_value_iterator(cbegin(), get_value);
@@ -218,11 +223,11 @@ namespace QuantLib {
         std::vector<T> values() const;
         //@}
 
-      private:
-        static const Date& get_time (const container_value_type& v) {
+    private:
+        static const Date& get_time(const container_value_type& v) {
             return v.first;
         }
-        static const T& get_value (const container_value_type& v) {
+        static const T& get_value(const container_value_type& v) {
             return v.second;
         }
     };
@@ -231,42 +236,42 @@ namespace QuantLib {
     // inline definitions
 
     template <class T, class C>
-    inline Date TimeSeries<T,C>::firstDate() const {
+    inline Date TimeSeries<T, C>::firstDate() const {
         QL_REQUIRE(!values_.empty(), "empty timeseries");
         return values_.begin()->first;
     }
 
     template <class T, class C>
-    inline Date TimeSeries<T,C>::lastDate() const {
+    inline Date TimeSeries<T, C>::lastDate() const {
         QL_REQUIRE(!values_.empty(), "empty timeseries");
         return rbegin()->first;
     }
 
     template <class T, class C>
-    inline Size TimeSeries<T,C>::size() const {
+    inline Size TimeSeries<T, C>::size() const {
         return values_.size();
     }
 
     template <class T, class C>
-    inline bool TimeSeries<T,C>::empty() const {
+    inline bool TimeSeries<T, C>::empty() const {
         return values_.empty();
     }
 
     template <class T, class C>
-    inline typename TimeSeries<T,C>::const_iterator
-    TimeSeries<T,C>::cbegin() const {
+    inline typename TimeSeries<T, C>::const_iterator
+        TimeSeries<T, C>::cbegin() const {
         return values_.begin();
     }
 
     template <class T, class C>
-    inline typename TimeSeries<T,C>::const_iterator
-    TimeSeries<T,C>::cend() const {
+    inline typename TimeSeries<T, C>::const_iterator
+        TimeSeries<T, C>::cend() const {
         return values_.end();
     }
 
     template <class T, class C>
-    inline typename TimeSeries<T,C>::const_iterator
-    TimeSeries<T,C>::find(const Date& d) {
+    inline typename TimeSeries<T, C>::const_iterator
+        TimeSeries<T, C>::find(const Date& d) {
         const_iterator i = values_.find(d);
         if (i == values_.end()) {
             values_[d] = Null<T>();
@@ -276,20 +281,20 @@ namespace QuantLib {
     }
 
     template <class T, class C>
-    std::vector<Date> TimeSeries<T,C>::dates() const {
+    std::vector<Date> TimeSeries<T, C>::dates() const {
         std::vector<Date> v;
         v.reserve(size());
         std::transform(cbegin(), cend(), std::back_inserter(v),
-                       TimeSeries<T,C>::get_time);
+            TimeSeries<T, C>::get_time);
         return v;
     }
 
     template <class T, class C>
-    std::vector<T> TimeSeries<T,C>::values() const {
+    std::vector<T> TimeSeries<T, C>::values() const {
         std::vector<T> v;
         v.reserve(size());
         std::transform(cbegin(), cend(), std::back_inserter(v),
-                       TimeSeries<T,C>::get_value);
+            TimeSeries<T, C>::get_value);
         return v;
     }
 

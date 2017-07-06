@@ -34,7 +34,7 @@ namespace QuantLib {
     /*! Implemented following the formulas from Dunnett, C.W. and
         Sobel, M. (1954). A bivariate generalization of Student
         t-distribution with tables for certain special
-        cases. Biometrika 41, 153вЂ“169.
+        cases. Biometrika 41, 153-169.
     */
     class BivariateCumulativeStudentDistribution {
       public:

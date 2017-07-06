@@ -67,14 +67,12 @@ int main() {
 
     std::function<Real(const std::vector<Real>& arg)> f = integrand();
 
-    #ifndef QL_PATCH_SOLARIS
     GaussianQuadMultidimIntegrator intg(dimension, 15);
 
     startT = std::chrono::steady_clock::now();
     Real valueQuad = intg(f);
     std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
     Real secondsQuad = static_cast<double>((endT - startT).count()) / 1.0e9;
-    #endif
 
     std::vector<std::shared_ptr<Integrator> > integrals;
     for(Size i=0; i<dimension; i++)
@@ -92,16 +90,12 @@ int main() {
     cout << fixed << setprecision(4);
     cout << endl << "-------------- " << endl
          << "Exact: " << exactSol << endl
-        #ifndef QL_PATCH_SOLARIS
          << "Quad: " << valueQuad << endl
-        #endif
          << "Grid: " << valueGrid << endl
          << endl;
 
     cout
-        #ifndef QL_PATCH_SOLARIS
         << "Seconds for Quad: " << secondsQuad << endl
-        #endif
         << "Seconds for Grid: " << secondsGrid << endl;
     return 0;
 }

@@ -52,5 +52,9 @@ namespace QuantLib {
     std::complex<Real>
     modifiedBesselFunction_k_exponentiallyWeighted(Real nu,
                                                   const std::complex<Real> &z);
+    //Modified Bessel function implemented using algorithm described in `Numerical Recipes` 3rd edition by Press et al.
+    //The implementation above cannot provide enough precision to calculate non-central Chi squared PDF.
+    long double modifiedBesselFunction_i_Press(long double nu, long double x);
+    long double modifiedBesselFunction_k_Press(long double nu, long double x);
 }
 #endif

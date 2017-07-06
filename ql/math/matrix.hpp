@@ -543,11 +543,8 @@ namespace QuantLib {
 
     inline Matrix transpose(const Matrix& m) {
         Matrix result(m.columns(), m.rows());
-#if defined(QL_PATCH_MSVC) && defined(QL_DEBUG)
-        if (!m.empty())
-#endif
-            for (Size i = 0; i < m.rows(); i++)
-                std::copy(m.row_begin(i), m.row_end(i), result.column_begin(i));
+        for (Size i = 0; i < m.rows(); i++)
+            std::copy(m.row_begin(i), m.row_end(i), result.column_begin(i));
         return result;
     }
 

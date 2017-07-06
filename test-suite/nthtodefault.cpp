@@ -37,8 +37,6 @@ using namespace QuantLib;
 using namespace std;
 
 
-#ifndef QL_PATCH_SOLARIS
-
 namespace {
 
     struct hwDatum {
@@ -93,10 +91,7 @@ namespace {
 
 }
 
-#endif
-
 TEST_CASE("NthToDefault_Gauss", "[NthToDefault]") {
-    #ifndef QL_PATCH_SOLARIS
     INFO("Testing nth-to-default against Hull-White values "
                        "with Gaussian copula...");
 
@@ -237,7 +232,6 @@ TEST_CASE("NthToDefault_Gauss", "[NthToDefault]") {
                                << absTolerance << " exceeded");
         }
     }
-    #endif
 }
 
 
@@ -246,7 +240,6 @@ TEST_CASE("NthToDefault_Gauss", "[NthToDefault]") {
 //the test fails if enabled.
 
 TEST_CASE("NthToDefault_GaussStudent", "[.]") {
-    #ifndef QL_PATCH_SOLARIS
     INFO("Testing nth-to-default against Hull-White values "
                        "with Gaussian and Student copula...");
 
@@ -383,5 +376,4 @@ TEST_CASE("NthToDefault_GaussStudent", "[.]") {
 		FAIL_CHECK("tolerance " << relTolerance << "|"
                            << absTolerance << " exceeded");
     }
-    #endif
 }

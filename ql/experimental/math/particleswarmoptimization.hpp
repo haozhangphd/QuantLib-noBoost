@@ -21,7 +21,7 @@ FOR A PARTICULAR PURPOSE.  See the license for more details.
 \brief Implementation based on:
 Clerc, M., Kennedy, J. (2002) The particle swarm-explosion, stability and
 convergence in a multidimensional complex space. IEEE Transactions on Evolutionary
-Computation, 6(2): 58–73.
+Computation, 6(2): 58-73.
 */
 
 #ifndef quantlib_optimization_particleswarmoptimization_hpp

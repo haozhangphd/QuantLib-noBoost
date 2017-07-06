@@ -20,6 +20,7 @@
  FOR A PARTICULAR PURPOSE.  See the license for more details.
 */
 
+#include <array>
 #include <ql/math/distributions/normaldistribution.hpp>
 #include <ql/math/comparison.hpp>
 
@@ -56,9 +57,7 @@ namespace QuantLib {
         return result;
     }
 
-    #if !defined(QL_PATCH_SOLARIS)
     const CumulativeNormalDistribution InverseCumulativeNormal::f_;
-    #endif
 
     // Coefficients for the rational approximation.
     const long double InverseCumulativeNormal::a1_ = -3.969683028665376e+01;

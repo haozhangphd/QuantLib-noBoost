@@ -230,7 +230,11 @@ int main() {
     for (std::list<Benchmark>::const_iterator iter = bm.begin();
          iter != bm.end(); ++iter) {
         session.configData().testsOrTags = std::vector<std::string>{iter->getName()};
+#ifndef _MSC_VER
         session.configData().outputFilename= std::string{"/dev/null"};
+#else
+        session.configData().outputFilename = std::string{ "NUL" };
+#endif
         startTimer();
         session.run();
         stopTimer();

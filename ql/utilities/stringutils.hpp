@@ -2,6 +2,7 @@
 #define quantlib_stringutils_hpp
 
 #include <string>
+#include <cctype>
 #include <algorithm>
 
 namespace {

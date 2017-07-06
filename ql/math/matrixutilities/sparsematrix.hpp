@@ -126,6 +126,7 @@ namespace QuantLib {
     template<typename T>
     SparseMatrixGeneral<T> &SparseMatrixGeneral<T>::operator*=(const T &x) {
         std::for_each(values_.begin(), values_.end(), [x](T& y) {  y *= x; });
+	return *this;
     }
 
     template<typename T>
@@ -286,6 +287,7 @@ namespace QuantLib {
         }
         values_ = std::move(values_ret);
         columns_ = std::move(columns_ret);
+	return *this;
 #endif
     }
 
@@ -523,6 +525,7 @@ namespace QuantLib {
         }
         values_ = std::move(values_ret);
         columns_ = std::move(columns_ret);
+	return *this;
 #endif
     }
 

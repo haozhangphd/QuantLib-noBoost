@@ -23,8 +23,6 @@
 
 #include <ql/qldefines.hpp>
 
-#ifndef QL_PATCH_SOLARIS
-
 #include <ql/math/distributions/bivariatenormaldistribution.hpp>
 #include <ql/experimental/credit/recoveryratequote.hpp>
 #include <ql/quotes/simplequote.hpp>
@@ -213,7 +211,5 @@ namespace QuantLib {
     };
 
 }
-
-#endif
 
 #endif

@@ -214,7 +214,7 @@ namespace QuantLib {
             "table index (" << table << ") must be less than " << tables_ <<
             ": 3d array cannot be accessed out of range");
 #endif
-        return const_table_iterator(step_iterator(data_.begin() + (rows_ * columns_ * table), columns_), const_address_of);
+        return const_table_iterator(step_iterator<std::vector<Real>::const_iterator>(data_.begin() + (rows_ * columns_ * table), columns_), const_address_of);
     }
 
     inline threeDimensionalArray::table_iterator threeDimensionalArray::table_begin(Size table) {
@@ -223,7 +223,7 @@ namespace QuantLib {
             "table index (" << table << ") must be less than " << tables_ <<
             ": 3d array cannot be accessed out of range");
 #endif
-        return table_iterator(step_iterator(data_.begin() + (rows_ * columns_ * table), columns_), address_of);
+        return table_iterator(step_iterator<std::vector<Real>::iterator>(data_.begin() + (rows_ * columns_ * table), columns_), address_of);
     }
 
     inline threeDimensionalArray::const_table_iterator threeDimensionalArray::table_end(Size table) const {
@@ -232,7 +232,7 @@ namespace QuantLib {
             "table index (" << table << ") must be less than " << tables_ <<
             ": 3d array cannot be accessed out of range");
 #endif
-        return const_table_iterator(step_iterator(data_.begin() + (rows_ * columns_ * (table + 1)), columns_), const_address_of);
+        return const_table_iterator(step_iterator<std::vector<Real>::const_iterator>(data_.begin() + (rows_ * columns_ * (table + 1)), columns_), const_address_of);
     }
 
     inline threeDimensionalArray::table_iterator threeDimensionalArray::table_end(Size table) {
@@ -241,7 +241,7 @@ namespace QuantLib {
             "table index (" << table << ") must be less than " << tables_ <<
             ": 3d array cannot be accessed out of range");
 #endif
-        return table_iterator(step_iterator(data_.begin() + rows_ * columns_ * (table + 1), columns_), address_of);
+        return table_iterator(step_iterator<std::vector<Real>::iterator>(data_.begin() + rows_ * columns_ * (table + 1), columns_), address_of);
     }
 
     inline threeDimensionalArray::const_reverse_table_iterator

@@ -157,11 +157,7 @@ namespace QuantLib {
         */
         static long double tail_value(long double x);
 
-#if defined(QL_PATCH_SOLARIS)
-        CumulativeNormalDistribution f_;
-#else
         static const CumulativeNormalDistribution f_;
-#endif
         long double average_, sigma_;
         static const long double a1_;
         static const long double a2_;

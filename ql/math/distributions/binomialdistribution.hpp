@@ -24,7 +24,7 @@
 #ifndef quantlib_binomial_distribution_h
 #define quantlib_binomial_distribution_h
 
-#include <functional>
+#include <vector>
 #include <ql/math/factorial.hpp>
 #include <ql/math/beta.hpp>
 

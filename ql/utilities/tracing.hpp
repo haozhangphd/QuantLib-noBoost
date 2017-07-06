@@ -228,6 +228,7 @@ if (QL_DEFAULT_TRACER.enabled()) \
     } catch (...) {} \
 else
 
+#ifdef __GNUG__
 #define QL_TRACE_ENTER_FUNCTION \
 if (QL_DEFAULT_TRACER.enabled()) \
     try { \
@@ -238,7 +239,31 @@ if (QL_DEFAULT_TRACER.enabled()) \
                                    << std::endl; \
     } catch (...) {} \
 else
+#elif defined _MSC_VER
+#define QL_TRACE_ENTER_FUNCTION \
+if (QL_DEFAULT_TRACER.enabled()) \
+    try { \
+        QL_DEFAULT_TRACER.down(); \
+        QL_DEFAULT_TRACER.stream() << "trace[" << QL_DEFAULT_TRACER.depth() \
+                                   << "]: " \
+                                   << "Entering " << __FUNCSIG__ \
+                                   << std::endl; \
+    } catch (...) {} \
+else
+#else
+#define QL_TRACE_ENTER_FUNCTION \
+if (QL_DEFAULT_TRACER.enabled()) \
+    try { \
+        QL_DEFAULT_TRACER.down(); \
+        QL_DEFAULT_TRACER.stream() << "trace[" << QL_DEFAULT_TRACER.depth() \
+                                   << "]: " \
+                                   << "Entering " << __FUNCTION__ \
+                                   << std::endl; \
+    } catch (...) {} \
+else
+#endif
 
+#ifdef __GNUG__
 #define QL_TRACE_EXIT_FUNCTION \
 if (QL_DEFAULT_TRACER.enabled()) \
     try { \
@@ -249,6 +274,29 @@ if (QL_DEFAULT_TRACER.enabled()) \
         QL_DEFAULT_TRACER.up(); \
     } catch (...) { QL_DEFAULT_TRACER.up(); } \
 else
+#elif defined _MSC_VER
+#define QL_TRACE_EXIT_FUNCTION \
+if (QL_DEFAULT_TRACER.enabled()) \
+    try { \
+        QL_DEFAULT_TRACER.stream() << "trace[" << QL_DEFAULT_TRACER.depth() \
+                                   << "]: " \
+                                   << "Exiting " << __FUNCSIG__ \
+                                   << std::endl; \
+        QL_DEFAULT_TRACER.up(); \
+    } catch (...) { QL_DEFAULT_TRACER.up(); } \
+else
+#else
+#define QL_TRACE_EXIT_FUNCTION \
+if (QL_DEFAULT_TRACER.enabled()) \
+    try { \
+        QL_DEFAULT_TRACER.stream() << "trace[" << QL_DEFAULT_TRACER.depth() \
+                                   << "]: " \
+                                   << "Exiting " << __FUNCTION__ \
+                                   << std::endl; \
+        QL_DEFAULT_TRACER.up(); \
+    } catch (...) { QL_DEFAULT_TRACER.up(); } \
+else
+#endif
 
 #define QL_TRACE_LOCATION \
 QL_TRACE("At line " << __LINE__ << " in " << __FILE__)

@@ -1,4 +1,4 @@
-/* -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
+﻿/* -*- mode: c++; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 
 /*
  Copyright (C) 2004 StatPro Italia srl
@@ -139,19 +139,19 @@ TEST_CASE("Money_Formatting", "[.]") {
     std::ostringstream gbp_str, eur_str, usd_str, cny_str, vnd_str, kwd_str;
 
     gbp_str << gbp;
-    CHECK(gbp_str.str() == "£ 50,000.00");
+    CHECK(gbp_str.str() == u8"£ 50,000.00");
 
     eur_str << eur;
     CHECK(eur_str.str() == "EUR 100,000.00");
 
     usd_str << usd;
-    CHECK(usd_str.str() == "$ 500,000.00");
+    CHECK(usd_str.str() == u8"$ 500,000.00");
 
     cny_str << cny;
-    CHECK(cny_str.str() == "¥ 1,234.57");
+    CHECK(cny_str.str() == u8"¥ 1,234.57");
 
     vnd_str << vnd;
-    CHECK(vnd_str.str() == "9,877 ₫");
+    CHECK(vnd_str.str() == u8"9,877 ₫");
 
     kwd_str << kwd;
     CHECK(kwd_str.str() == "KD 3.142");

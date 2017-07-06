@@ -23,8 +23,6 @@
 
 #include <ql/qldefines.hpp>
 
-#ifndef QL_PATCH_SOLARIS
-
 #include <ql/experimental/credit/syntheticcdo.hpp>
 
 namespace QuantLib {
@@ -53,7 +51,5 @@ namespace QuantLib {
     };
 
 }
-
-#endif
 
 #endif

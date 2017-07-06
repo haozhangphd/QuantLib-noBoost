@@ -40,11 +40,7 @@
  * produced a file PrimitivePolynomialsModuloTwoUpToDegree27.o with 32519920
  * bytes), it is recommended to only compile as many as you may ever need.
  * Worse even than the output file size is the virtual memory requirement
- * for the compilation. For Visual C++ 6 you will need to use the /Zm compiler
- * option to set the compiler's memory allocation limit (/Zm1500 should work)
- * So really only take the maximum of what you think you might ever need.
- * After all, you can always recompile with more, should you need it.
- */
+ * for the compilation. */
 
 /*  PPMT : Primitive Polynomials Modulo Two
  *
@@ -239,15 +235,6 @@
 # undef  PPMT_MAX_DIM
 # define PPMT_MAX_DIM N_PRIMITIVES_UP_TO_DEGREE_27
 # define N_MAX_DEGREE 27
-#endif
-
-/* Microsoft Visual C++ 6.0 */
-#if defined(_MSC_VER)
-    /* disable useless warning C4049
-       compiler limit : terminating line number emission
-       No line number support is available for file with more
-       than 64K source lines. */
-    #pragma warning(disable: 4049)
 #endif
 
 extern

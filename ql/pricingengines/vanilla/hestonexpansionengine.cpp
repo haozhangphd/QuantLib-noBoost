@@ -27,18 +27,6 @@
 #include <ql/instruments/payoffs.hpp>
 #include <ql/pricingengines/vanilla/hestonexpansionengine.hpp>
 
-#if defined(QL_PATCH_MSVC)
-#pragma warning(disable: 4180)
-#endif
-
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wunused-local-typedefs"
-#endif
-#if defined(__GNUC__) && (((__GNUC__ == 4) && (__GNUC_MINOR__ >= 8)) || (__GNUC__ > 4))
-#pragma GCC diagnostic pop
-#endif
-
 using std::exp;
 using std::pow;
 using std::log;

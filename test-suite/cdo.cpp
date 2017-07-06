@@ -42,9 +42,6 @@
 using namespace QuantLib;
 using namespace std;
 
-
-#ifndef QL_PATCH_SOLARIS
-
 namespace {
 
     Real hwAttachment[] = { 0.00, 0.03, 0.06, 0.10 };
@@ -91,12 +88,7 @@ namespace {
 
 }
 
-#endif
-
-
 void testHW(unsigned dataSet) {
-    #ifndef QL_PATCH_SOLARIS
-
     INFO ("Testing CDO premiums against Hull-White values"
                         " for data set " << dataSet << "...");
 
@@ -364,12 +356,9 @@ void testHW(unsigned dataSet) {
                 absoluteTolerance[im], relativeTolerancePeriod[im]);
         }
     }
-    #endif
 }
 
 TEST_CASE("Cdo_HW", "[Cdo]") {
-    #ifndef QL_PATCH_SOLARIS
     for (unsigned i=0; i < LENGTH(hwData7); ++i)
 	    testHW(i);
-    #endif
 }
