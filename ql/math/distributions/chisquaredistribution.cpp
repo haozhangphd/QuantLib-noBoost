@@ -20,6 +20,7 @@
 
 #include <ql/math/solvers1d/brent.hpp>
 #include <ql/math/functional.hpp>
+#include <ql/math/incompletegamma.hpp>
 #include <ql/math/distributions/chisquaredistribution.hpp>
 #include <ql/math/distributions/gammadistribution.hpp>
 #include <ql/math/distributions/normaldistribution.hpp>
@@ -73,11 +74,50 @@ namespace QuantLib {
         const long double errmax = 1e-14;
         const Size itrmax = 10000;
         long double lam = 0.5 * ncp_;
+        long double f2 = 0.5 * df_;
+        long double x2 = 0.5 * x;
+
+        // for large x, algorithm described in `Computing discrete mixtures of continuous distributions:
+        // noncentral chisquare, noncentral t and the distribution of the square of the sample multiple correlation coeficient.`
+        // D. Benton, K. Krishnamoorthy. Computational Statistics & Data Analysis 43 (2003) 249 - 267
+	// code adapted from Boost
+        if (x > ncp_ + df_) {
+            int k = static_cast<int>(std::round(lam));
+            long double poisf = std::exp(std::log(lam) * k - lam - std::lgamma(static_cast<long double>(1 + k)));
+            long double poisb = poisf * k / lam;
+            long double gamf = 1 - incompleteGammaFunction(f2 + k, x2);
+            long double xtermf = std::exp(std::log(x2) * (f2 + k) - x2 - std::lgamma(f2 + 1 + k));
+            long double xtermb = xtermf * (f2 + k) / x2;
+            long double gamb = gamf - xtermb;
+
+            int i;
+            long double sum = -1;
+            for (i = k; i - k < itrmax; ++i) {
+                long double term = poisf * gamf;
+                sum += term;
+                poisf *= lam / (i + 1);
+                gamf += xtermf;
+                xtermf *= x2 / (f2 + i + 1);
+                if (((sum == 0) || (fabs(term / sum) < errmax)) && (term >= poisf * gamf))
+                    break;
+            }
+            QL_REQUIRE(i - k < itrmax, "CumulativeNonCentralChiSquareDistribution does not converge for degree of freedom = "
+            << df_ <<", non-centrality = " << ncp_ <<", x = " << x );
+
+            for (i = k - 1; i >= 0; --i) {
+                long double term = poisb * gamb;
+                sum += term;
+                poisb *= i / lam;
+                xtermb *= (f2 + i) / x2;
+                gamb -= xtermb;
+                if ((sum == 0) || (fabs(term / sum) < errmax))
+                    break;
+            }
+            return -sum;
+        }
 
         long double u = std::exp(-lam);
         long double v = u;
-        long double x2 = 0.5 * x;
-        long double f2 = 0.5 * df_;
         long double f_x_2n = df_ - x + 2.0;
 
         long double t = 0.0;
@@ -104,7 +144,8 @@ namespace QuantLib {
                     return ans;
             }
         }
-        QL_FAIL("didn't converge");
+        QL_FAIL("CumulativeNonCentralChiSquareDistribution does not converge for degree of freedom = "
+                << df_ <<", non-centrality = " << ncp_ <<", x = " << x );
     }
 
     InverseCumulativeNonCentralChiSquare::

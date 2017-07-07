@@ -52,9 +52,9 @@ namespace {
     long double besselik_impl(const long double nu, const long double x, bool compute_i) {
         QL_REQUIRE(x > 0.0 && nu >= 0.0, "bad arguments in modified Bessel function");
 
-        const int MAXIT = 10000;
-        const long double EPS = std::numeric_limits<long double>::epsilon();
-        const long double FPMIN = std::numeric_limits<long double>::min() / EPS;
+        const int itrmax = 10000;
+        const long double errmax = std::numeric_limits<long double>::epsilon();
+        const long double FPMIN = std::numeric_limits<long double>::min() / errmax;
         const long double XMIN = 2.0, PI = 3.141592653589793238462643383279502884L;
         long double a, a1, delh, dels, e, f, fact, fact2, ff,
                 gammi, gampl, p, pimu, q, q1, q2, qnew, ril, ril1, rimu, ripl,
@@ -67,14 +67,14 @@ namespace {
         long double b = 2.0 * nu / x;
         long double d = 0.0;
         long double c = h;
-        for (i = 0; i < MAXIT; i++) {
+        for (i = 0; i < itrmax; i++) {
             b += 2.0 / x;
             d = 1.0 / (b + d);
             c = b + 1.0 / c;
             h = c * d * h;
-            if (std::abs(c * d - 1.0) <= EPS) break;
+            if (std::abs(c * d - 1.0) <= errmax) break;
         }
-        QL_REQUIRE(i < MAXIT, "x too large in modified Bessel function");
+        QL_REQUIRE(i < itrmax, "x too large in modified Bessel function");
         ril = FPMIN;
         ripl = h * ril;
         ril1 = ril;
@@ -89,10 +89,10 @@ namespace {
         if (x < XMIN) {
             x2 = 0.5 * x;
             pimu = PI * xmu;
-            fact = (std::abs(pimu) < EPS ? 1.0 : pimu / std::sin(pimu));
+            fact = (std::abs(pimu) < errmax ? 1.0 : pimu / std::sin(pimu));
             d = -std::log(x2);
             e = xmu * d;
-            fact2 = (std::abs(e) < EPS ? 1.0 : std::sinh(e) / e);
+            fact2 = (std::abs(e) < errmax ? 1.0 : std::sinh(e) / e);
             xx = 8.0 * xmu * xmu - 1.0;
             long double gam1 = chebev(c1, xx);
             long double gam2 = chebev(c2, xx);
@@ -106,16 +106,16 @@ namespace {
             c = 1.0;
             d = x2 * x2;
             sum1 = p;
-            for (i = 1; i <= MAXIT; i++) {
+            for (i = 1; i <= itrmax; i++) {
                 ff = (i * ff + p + q) / (i * i - xmu2);
                 c *= (d / i);
                 p /= (i - xmu);
                 q /= (i + xmu);
                 sum += c * ff;
                 sum1 += c * (p - i * ff);
-                if (std::abs(c * ff) < std::abs(sum) * EPS) break;
+                if (std::abs(c * ff) < std::abs(sum) * errmax) break;
             }
-            QL_REQUIRE(i < MAXIT, "Modified Bessel function fails to converge");
+            QL_REQUIRE(i < itrmax, "Modified Bessel function fails to converge");
             rkmu = sum;
             rk1 = sum1 * 2.0 / x;
         } else {
@@ -128,7 +128,7 @@ namespace {
             q = c = a1;
             a = -a1;
             s = 1.0 + q * delh;
-            for (i = 1; i < MAXIT; ++i) {
+            for (i = 1; i < itrmax; ++i) {
                 a -= 2 * i;
                 c = -a * c / (i + 1.0);
                 qnew = (q1 - b * q2) / a;
@@ -141,9 +141,9 @@ namespace {
                 h += delh;
                 dels = q * delh;
                 s += dels;
-                if (std::abs(dels / s) <= EPS) break;
+                if (std::abs(dels / s) <= errmax) break;
             }
-            QL_REQUIRE(i < MAXIT, "Modified Bessel function fails to converge in cf2");
+            QL_REQUIRE(i < itrmax, "Modified Bessel function fails to converge in cf2");
             h = a1 * h;
             rkmu = std::sqrt(PI / (2.0 * x)) * std::exp(-x) / s;
             rk1 = rkmu * (xmu + x + 0.5 - h) / x;
