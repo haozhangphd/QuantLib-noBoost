@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.8)
 project(QuantLib)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 ################################################################
 # User configuration section:                                  #
 # modify the following definitions to suit your preferences.   #
@@ -20,9 +19,19 @@ option(QL_ENABLE_SINGLETON_THREAD_SAFE_INIT "if singleton initialization shoudl 
 option(QL_USE_MKL "if Intel® MKL should be used for linear algebra routines" OFF)
 option(MULTIPRECISION_NON_CENTRAL_CHI_SQUARED_QUADRATURE "if multiprecision library should be used to improve the precision of the nonr-central chi-squared Gaussian quadrature" OFF)
 
-set(release_flags -s -O3)
-set(debug_flags -g -O0 -fvar-tracking-assignments)
-add_compile_options(-Werror -march=native -pipe -fstack-protector-strong)
+# compiler flags for GCC
+if (CMAKE_CXX_COMPILER_ID STREQUAL GNU)
+    set(release_flags -O3)
+    set(debug_flags -g -O0 -fvar-tracking-assignments)
+    add_compile_options(-Werror -march=native -pipe -fstack-protector-strong)
+
+# compiler flags for Clang
+elseif (CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+    set(release_flags -O3)
+    set(debug_flags -g -O0)
+    add_compile_options(-Werror -march=native -pipe -fstack-protector-strong)
+
+endif()
 
 ################################################################
 # End of user configuration section                            #
@@ -30,8 +39,18 @@ add_compile_options(-Werror -march=native -pipe -fstack-protector-strong)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+    add_compile_options(-stdlib=libc++)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
+endif()
+
 add_compile_options("$<$<CONFIG:Release>:${release_flags}>")
 add_compile_options("$<$<CONFIG:Debug>:${debug_flags}>")
+if (CMAKE_BUILD_TYPE MATCHES Release)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s")
+endif()
 
 if (QL_USE_MKL)
     file(GLOB_RECURSE MKLPATH /opt/intel/*/mkl.h)

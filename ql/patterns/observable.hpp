@@ -263,6 +263,14 @@ namespace QuantLib {
 #include <mutex>
 #include <set>
 
+//TODO-HAO: Remove this define once scoped_lock is implemented
+#if defined(__clang__) || defined(_MSC_VER)
+namespace std {
+template<typename Mutex>
+using scoped_lock = lock_guard<Mutex>;
+}
+#endif
+
 namespace QuantLib {
 
     class Observable;

@@ -10,12 +10,12 @@ There are features in the Boost library that's impractical for me to implement o
 
 * I have implemented my own linear algebra routines to replace Boost uBLAS. However there is no way my naive implementations can compete with any BLAS implementations in term of performance. For increased performance, QuantLib-noBoost can **optionally** link against [Intel® MKL](https://software.intel.com/en-us/mkl), which is freely available and widely regarded as the fastest BLAS implementation available.
 
-* For the part of the code that **optionally** uses Boost.Multiprecision, GCC libquadmath is used as a drop-in replacement. GCC libquadmath is a part of GCC and does not require any additional installation.
+* For the part of the code that **optionally** uses Boost.Multiprecision, GCC libquadmath is used as a drop-in replacement. GCC libquadmath is a part of GCC and does not require any additional installation on GNU/Linux. On other platforms, the optional multi-precision noncentral chi-square quadrature is not supported.
 
 ## Project status:
-* Porting is complete with GCC 7 on GNU/Linux. All Boost dependencies are removed and no QuantLib features are missing.
+* Porting is complete with GCC 7 and Clang 4. All Boost dependencies are removed and no QuantLib features are missing.
 
-* Only the default configuration works on Visual Studio 2017. Optional features including high-resolution date, thread-safe observer pattern, and multi-precision noncentral chi-square quadrature are not implemented with Visual Studio.
+* Only the default configuration works on Visual Studio 2017. Optional features including high-resolution date and thread-safe observer pattern are not implemented with Visual Studio.
 
 * SWIG binding for Python is provided [here](https://github.com/haozhangphd/QuantLib-noBoost-SWIG). Binding for other languages are not provided but should be easy to implement.
 

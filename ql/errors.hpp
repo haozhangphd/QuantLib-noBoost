@@ -64,7 +64,7 @@ namespace QuantLib {
 /*! \def QL_FAIL
     \brief throw an error (possibly with file and line information)
 */
-#ifdef __GNUG__
+#ifndef _MSC_VER
 #define QL_FAIL(message) \
 MULTILINE_MACRO_BEGIN \
     std::ostringstream _ql_msg_stream; \
@@ -72,7 +72,7 @@ MULTILINE_MACRO_BEGIN \
     throw QuantLib::Error(__FILE__,__LINE__, \
                           __PRETTY_FUNCTION__,_ql_msg_stream.str()); \
 MULTILINE_MACRO_END
-#elif defined _MSC_VER
+#else
 #define QL_FAIL(message) \
 MULTILINE_MACRO_BEGIN \
     std::ostringstream _ql_msg_stream; \
@@ -80,20 +80,12 @@ MULTILINE_MACRO_BEGIN \
     throw QuantLib::Error(__FILE__,__LINE__, \
                           __FUNCSIG__,_ql_msg_stream.str()); \
 MULTILINE_MACRO_END
-#else
-#define QL_FAIL(message) \
-MULTILINE_MACRO_BEGIN \
-    std::ostringstream _ql_msg_stream; \
-    _ql_msg_stream << message; \
-    throw QuantLib::Error(__FILE__,__LINE__, \
-                          __FUNCTION__,_ql_msg_stream.str()); \
-MULTILINE_MACRO_END
 #endif
 
 /*! \def QL_ASSERT
     \brief throw an error if the given condition is not verified
 */
-#ifdef __GNUG__ 
+#ifndef _MSC_VER 
 #define QL_ASSERT(condition,message) \
 if (!(condition)) { \
     std::ostringstream _ql_msg_stream; \
@@ -101,21 +93,13 @@ if (!(condition)) { \
     throw QuantLib::Error(__FILE__,__LINE__, \
                           __PRETTY_FUNCTION__,_ql_msg_stream.str()); \
  } else
-#elif defined _MSC_VER
-#define QL_ASSERT(condition,message) \
-if (!(condition)) { \
-    std::ostringstream _ql_msg_stream; \
-    _ql_msg_stream << message; \
-    throw QuantLib::Error(__FILE__,__LINE__, \
-                          __FUNCSIG__,_ql_msg_stream.str()); \
- } else 
 #else
 #define QL_ASSERT(condition,message) \
 if (!(condition)) { \
     std::ostringstream _ql_msg_stream; \
     _ql_msg_stream << message; \
     throw QuantLib::Error(__FILE__,__LINE__, \
-                          __FUNCTION__,_ql_msg_stream.str()); \
+                          __FUNCSIG__,_ql_msg_stream.str()); \
  } else 
 #endif
 
@@ -124,7 +108,7 @@ if (!(condition)) { \
 /*! \def QL_REQUIRE
     \brief throw an error if the given pre-condition is not verified
 */
-#ifdef __GNUG__
+#ifndef _MSC_VER
 #define QL_REQUIRE(condition,message) \
 if (!(condition)) { \
     std::ostringstream _ql_msg_stream; \
@@ -132,21 +116,13 @@ if (!(condition)) { \
     throw QuantLib::Error(__FILE__,__LINE__, \
                           __PRETTY_FUNCTION__,_ql_msg_stream.str()); \
  } else
-#elif defined _MSC_VER
-#define QL_REQUIRE(condition,message) \
-if (!(condition)) { \
-    std::ostringstream _ql_msg_stream; \
-    _ql_msg_stream << message; \
-    throw QuantLib::Error(__FILE__,__LINE__, \
-                          __FUNCSIG__,_ql_msg_stream.str()); \
- } else
 #else
 #define QL_REQUIRE(condition,message) \
 if (!(condition)) { \
     std::ostringstream _ql_msg_stream; \
     _ql_msg_stream << message; \
     throw QuantLib::Error(__FILE__,__LINE__, \
-                          __FUNCTION__,_ql_msg_stream.str()); \
+                          __FUNCSIG__,_ql_msg_stream.str()); \
  } else
 #endif
 
@@ -154,7 +130,7 @@ if (!(condition)) { \
 /*! \def QL_ENSURE
     \brief throw an error if the given post-condition is not verified
 */
-#ifdef __GNUG__
+#ifndef _MSC_VER
 #define QL_ENSURE(condition,message) \
 if (!(condition)) { \
     std::ostringstream _ql_msg_stream; \
@@ -162,21 +138,13 @@ if (!(condition)) { \
     throw QuantLib::Error(__FILE__,__LINE__, \
                           __PRETTY_FUNCTION__,_ql_msg_stream.str()); \
  } else
-#elif defined _MSC_VER
-#define QL_ENSURE(condition,message) \
-if (!(condition)) { \
-    std::ostringstream _ql_msg_stream; \
-    _ql_msg_stream << message; \
-    throw QuantLib::Error(__FILE__,__LINE__, \
-                          __FUNCSIG__,_ql_msg_stream.str()); \
- } else
 #else
 #define QL_ENSURE(condition,message) \
 if (!(condition)) { \
     std::ostringstream _ql_msg_stream; \
     _ql_msg_stream << message; \
     throw QuantLib::Error(__FILE__,__LINE__, \
-                          __FUNCTION__,_ql_msg_stream.str()); \
+                          __FUNCSIG__,_ql_msg_stream.str()); \
  } else
 #endif
 

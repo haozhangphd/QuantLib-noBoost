@@ -380,59 +380,67 @@ TEST_CASE("Date_intraday", "[Date]") {
 
     const Date d1 = Date(12, February, 2015, 10, 45, 12, 1234, 76253);
     if (d1.year() != 2015)
-	    FAIL_CHECK("failed to reproduce year");
+        FAIL_CHECK("failed to reproduce year");
     if (d1.month() != February)
-	    FAIL_CHECK("failed to reproduce month");
+        FAIL_CHECK("failed to reproduce month");
     if (d1.dayOfMonth() != 12)
-	    FAIL_CHECK("failed to reproduce day");
+        FAIL_CHECK("failed to reproduce day");
     if (d1.hours() != 10)
-	    FAIL_CHECK("failed to reproduce hour of day");
+        FAIL_CHECK("failed to reproduce hour of day");
     if (d1.minutes() != 45)
-	    FAIL_CHECK("failed to reproduce minute of hour");
+        FAIL_CHECK("failed to reproduce minute of hour");
     if (d1.seconds() != 13)
-	    FAIL_CHECK("failed to reproduce second of minute");
+        FAIL_CHECK("failed to reproduce second of minute");
 
     if (Date::ticksPerSecond() == 1000)
-	    if (d1.fractionOfSecond() != 0.234)
-		    FAIL_CHECK("failed to reproduce fraction of second");
+    {
+        if (d1.fractionOfSecond() != 0.234)
+            FAIL_CHECK("failed to reproduce fraction of second");
+    }
     else if (Date::ticksPerSecond() >= 1000000)
-	    if (d1.fractionOfSecond() != (234000 + 76253)/1000000.0)
-		    FAIL_CHECK("failed to reproduce fraction of second");
-
+    {
+        if (d1.fractionOfSecond() != (234000 + 76253)/1000000.0)
+            FAIL_CHECK("failed to reproduce fraction of second");
+    }
     if (Date::ticksPerSecond() >= 1000)
-	    if (d1.milliseconds() != 234 + 76)
-		    FAIL_CHECK("failed to reproduce number of milliseconds");
-
+    {
+        if (d1.milliseconds() != 234 + 76)
+            FAIL_CHECK("failed to reproduce number of milliseconds");
+    }
     if (Date::ticksPerSecond() >= 1000000)
-	    if (d1.microseconds() != 253)
-		    FAIL_CHECK("failed to reproduce number of microseconds");
-
+    {
+        if (d1.microseconds() != 253)
+            FAIL_CHECK("failed to reproduce number of microseconds");
+    }
     const Date d2 = Date(28, February, 2015, 50, 165, 476, 1234, 253);
     if (d2.year() != 2015)
-	   FAIL_CHECK("failed to reproduce year");
+       FAIL_CHECK("failed to reproduce year");
     if (d2.month() != March)
-	   FAIL_CHECK("failed to reproduce month");
+       FAIL_CHECK("failed to reproduce month");
     if (d2.dayOfMonth() != 2)
-	   FAIL_CHECK("failed to reproduce day");
+       FAIL_CHECK("failed to reproduce day");
     if (d2.hours() != 4)
-	   FAIL_CHECK("failed to reproduce hour of day");
+       FAIL_CHECK("failed to reproduce hour of day");
     if (d2.minutes() != 52)
-	    FAIL_CHECK("failed to reproduce minute of hour");
+        FAIL_CHECK("failed to reproduce minute of hour");
     if (d2.seconds() != 57)
-	    FAIL_CHECK("failed to reproduce second of minute");
+        FAIL_CHECK("failed to reproduce second of minute");
 
     if (Date::ticksPerSecond() >= 1000)
+    {
         if (d2.milliseconds() != 234)
-		FAIL_CHECK("failed to reproduce number of milliseconds");
+            FAIL_CHECK("failed to reproduce number of milliseconds");
+    }
     if (Date::ticksPerSecond() >= 1000000)
+    {
         if (d2.microseconds() != 253)
-		FAIL_CHECK("failed to reproduce number of microseconds");
-
+            FAIL_CHECK("failed to reproduce number of microseconds");
+    }
     std::ostringstream s;
     s << io::iso_datetime(Date(7, February, 2015, 1, 4, 2, 3, 4));
 
     if (s.str() != std::string("2015-02-07T01:04:02,003004"))
-	    FAIL_CHECK("datetime to string failed to reproduce expected result");
+        FAIL_CHECK("datetime to string failed to reproduce expected result");
 
 #endif
 }

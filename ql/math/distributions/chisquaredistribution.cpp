@@ -60,7 +60,7 @@ namespace QuantLib {
                    std::pow((x / ncp_), df_ / 4 - 0.5) * (
                    std::cyl_bessel_il(v, std::sqrt(ncp_ * x)) + 2 * std::sin(PIl * v) *
                    std::cyl_bessel_kl(v, std::sqrt(ncp_ * x)) / PIl);
-        } 
+        }
         return 0.5 * std::exp(-0.5 * (x + ncp_)) *
                std::pow((x / ncp_), df_ / 4 - 0.5) *
                std::cyl_bessel_il(df_ / 2 - 1, std::sqrt(ncp_ * x));
@@ -80,7 +80,7 @@ namespace QuantLib {
         // for large x, algorithm described in `Computing discrete mixtures of continuous distributions:
         // noncentral chisquare, noncentral t and the distribution of the square of the sample multiple correlation coeficient.`
         // D. Benton, K. Krishnamoorthy. Computational Statistics & Data Analysis 43 (2003) 249 - 267
-	// code adapted from Boost
+        // code adapted from Boost
         if (x > ncp_ + df_) {
             int k = static_cast<int>(std::round(lam));
             long double poisf = std::exp(std::log(lam) * k - lam - std::lgamma(static_cast<long double>(1 + k)));

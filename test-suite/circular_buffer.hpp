@@ -34,7 +34,7 @@ namespace {
         circular_buffer(InputIterator first, InputIterator last): data_(first, last),
                                                                   size_(std::distance(first, last)) {}
 
-        circular_buffer(std::initializer_list<Real> init) : data_(init), size_(data_.size()) {}
+        circular_buffer(std::initializer_list<Real> init) : data_(init), size_(init.size()) {}
 
         reference operator[](size_t n) { return data_[n]; }
 
