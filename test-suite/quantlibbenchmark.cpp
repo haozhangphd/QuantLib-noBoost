@@ -226,10 +226,12 @@ int main() {
 
 
     Catch::Session session; // There must be exactly one instance
+    Catch::ConfigData configData;
 
     for (std::list<Benchmark>::const_iterator iter = bm.begin();
          iter != bm.end(); ++iter) {
-        session.configData().testsOrTags = std::vector<std::string>{iter->getName()};
+        configData.testsOrTags = std::vector<std::string>{iter->getName()};
+        session.useConfigData(configData);
 #ifndef _MSC_VER
         session.configData().outputFilename= std::string{"/dev/null"};
 #else
