@@ -230,7 +230,7 @@ int main() {
 #ifndef _MSC_VER
     configData.outputFilename = std::string{"/dev/null"};
 #else
-    configData..outputFilename = std::string{"NUL"};
+    configData.outputFilename = std::string{"NUL"};
 #endif
 
     for (std::list<Benchmark>::const_iterator iter = bm.begin();

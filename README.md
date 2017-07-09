@@ -2,7 +2,7 @@ In this project, I port [QuantLib 1.10](https://github.com/lballabio/QuantLib) t
 
 Besides removing Boost dependencies, I also try to modernize the codebase as much as I can. Deprecated language features such as `auto_ptr`, `bind1st`, `mem_fun` are removed. C arrays are replaced by std::vectors or other appropriate STL containers. I also use modern features such as lambdas, move semantics, and initializer lists as much as I can.
 
-Both performance and correctness are extremely important. With every Boost feature removed, I make sure there is no single test failure in the test suite, except test cases that also fail in unmodified QuantLib. I also make sure the total running time of the test suite is not longer than unmodified QuantLib. In fact, the performance of QuantLib-noBoost is better than unmodified QuantLib as of now. Using the QuantLib Benchmark Suite, Quantlib-noBoost gives 3425 mflops, while unmodified QuantLib gives 1440 mflops on my Dell Inspiron 13 i7348 laptop, both running under identical conditions with identical compiler flags.
+Both performance and correctness are extremely important. With every Boost feature removed, I make sure there is no single test failure in the test suite, except test cases that also fail in unmodified QuantLib. I also make sure the total running time of the test suite is not longer than unmodified QuantLib.
 
 There are features in the Boost library that's impractical for me to implement on my own. Fortunately these features are either optional, or can be easily got around.
 
