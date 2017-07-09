@@ -150,8 +150,8 @@ namespace {
 
     // a simple structure to store some data which will be used during tests
     struct SubProductExpectedValues {
-        SubProductExpectedValues(const std::string &descr) :
-                description(descr), testBias(false) {}
+        explicit SubProductExpectedValues(const std::string& descr)
+        : description(descr), testBias(false) {}
 
         std::string description;
         std::vector<Real> values;
@@ -4758,5 +4758,4 @@ TEST_CASE("MarketModel_Covariance", "[MarketModel]") {
         }
     }
 }
-
 

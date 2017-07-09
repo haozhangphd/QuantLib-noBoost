@@ -24,7 +24,6 @@
 
 namespace QuantLib {
 
-
     bool operator==(const DefaultProbKey& lhs, const DefaultProbKey& rhs) {
         if(lhs.seniority() != rhs.seniority()) return false;
         if(lhs.currency() != rhs.currency()) return false;

@@ -34,10 +34,8 @@ namespace QuantLib {
     //! Base class for path-dependent options on multiple assets
     class PathMultiAssetOption : public Instrument {
       public:
-        PathMultiAssetOption(const std::shared_ptr<PricingEngine>& engine
+        explicit PathMultiAssetOption(const std::shared_ptr<PricingEngine>& engine
                                         = std::shared_ptr<PricingEngine>());
-
-        virtual ~PathMultiAssetOption() {}
 
         //! \name Instrument interface
         //@{

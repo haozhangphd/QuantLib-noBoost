@@ -38,7 +38,8 @@ namespace QuantLib {
         : public CostFunction {
         friend class FittedBondDiscountCurve::FittingMethod;
       public:
-        FittingCost(FittedBondDiscountCurve::FittingMethod* fittingMethod);
+        explicit FittingCost(
+                       FittedBondDiscountCurve::FittingMethod* fittingMethod);
         Real value(const Array& x) const;
         Array values(const Array& x) const;
       private:

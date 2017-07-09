@@ -1440,7 +1440,7 @@ namespace QuantLib {
 
         struct integr_adapter {
             std::shared_ptr<YieldTermStructure> r;
-            integr_adapter(
+            explicit integr_adapter(
                     std::shared_ptr<GeneralizedBlackScholesProcess> process)
             : r(*(process->riskFreeRate())) {}
             Real operator()(Real t1,Real t2) const {
@@ -1451,7 +1451,7 @@ namespace QuantLib {
         struct integalpha_adapter {
             std::shared_ptr<YieldTermStructure> r;
             std::shared_ptr<YieldTermStructure> q;
-            integalpha_adapter(
+            explicit integalpha_adapter(
                     std::shared_ptr<GeneralizedBlackScholesProcess> process)
             : r(*(process->riskFreeRate())),
               q(*(process->dividendYield())) {}
@@ -1465,7 +1465,7 @@ namespace QuantLib {
         struct alpha_adapter {
             std::shared_ptr<YieldTermStructure> r;
             std::shared_ptr<YieldTermStructure> q;
-            alpha_adapter(
+            explicit alpha_adapter(
                     std::shared_ptr<GeneralizedBlackScholesProcess> process)
             : r(*(process->riskFreeRate())),
               q(*(process->dividendYield())) {}
@@ -1478,7 +1478,7 @@ namespace QuantLib {
         struct sigmaq_adapter {
             std::shared_ptr<BlackVolTermStructure> v;
             Real s;
-            sigmaq_adapter(
+            explicit sigmaq_adapter(
                     std::shared_ptr<GeneralizedBlackScholesProcess> process)
             : v(*(process->blackVolatility())),
               s(process->x0()) {}
@@ -1491,7 +1491,7 @@ namespace QuantLib {
         struct integs_adapter {
             std::shared_ptr<BlackVolTermStructure> v;
             Real s;
-            integs_adapter(
+            explicit integs_adapter(
                     std::shared_ptr<GeneralizedBlackScholesProcess> process)
             : v(*(process->blackVolatility())),
               s(process->x0()) {}

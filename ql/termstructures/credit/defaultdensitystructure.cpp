@@ -29,10 +29,10 @@ namespace QuantLib {
     namespace {
 
         template <class F>
-        struct remapper {
+        struct t_remapper {
             F f;
             Time T;
-            remapper(const F& f, Time T) : f(f), T(T) {}
+            t_remapper(const F& f, Time T) : f(f), T(T) {}
             // This remaps [-1,1] to [0,T]. No differential included.
             Real operator()(Real x) const {
                 const Real arg = (x+1.0)*T/2.0;
@@ -41,8 +41,8 @@ namespace QuantLib {
         };
 
         template <class F>
-        remapper<F> remap(const F& f, Time T) {
-            return remapper<F>(f,T);
+        t_remapper<F> remap_t(const F& f, Time T) {
+            return t_remapper<F>(f,T);
         }
 
     }
@@ -76,7 +76,7 @@ namespace QuantLib {
         // integral below--it's long enough already)
         // the Gauss-Chebyshev quadratures integrate over [-1,1],
         // hence the remapping (and the Jacobian term t/2)
-        Probability P = 1.0 - integral(remap([this](Time tt){return this->defaultDensityImpl(tt);}, t )) * t/2.0;
+        Probability P = 1.0 - integral(remap_t([this](Time tt){return defaultDensityImpl(tt);}, t )) * t/2.0;
         //QL_ENSURE(P >= 0.0, "negative survival probability");
         return std::max<Real>(P, 0.0);
     }

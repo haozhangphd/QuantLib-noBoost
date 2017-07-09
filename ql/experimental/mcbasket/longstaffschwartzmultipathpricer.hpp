@@ -58,7 +58,7 @@ namespace QuantLib {
 
       protected:
         struct PathInfo {
-            PathInfo(Size numberOfTimes);
+            explicit PathInfo(Size numberOfTimes);
 
             Size pathLength() const;
 

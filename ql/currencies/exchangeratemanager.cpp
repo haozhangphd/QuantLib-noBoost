@@ -29,7 +29,7 @@ namespace QuantLib {
 
         struct valid_at {
             Date d;
-            valid_at(const Date& d) : d(d) {}
+            explicit valid_at(const Date& d) : d(d) {}
             bool operator()(const ExchangeRateManager::Entry& e) {
                 return d >= e.startDate && d <= e.endDate;
             }

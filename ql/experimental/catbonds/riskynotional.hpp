@@ -62,7 +62,7 @@ namespace QuantLib {
 
     class NotionalRisk {
     public:
-        NotionalRisk(std::shared_ptr<EventPaymentOffset> paymentOffset)
+        explicit NotionalRisk(std::shared_ptr<EventPaymentOffset> paymentOffset)
         : paymentOffset_(paymentOffset) {}
         virtual ~NotionalRisk() {}
 

@@ -62,7 +62,7 @@ namespace QuantLib {
     /*! \ingroup instruments */
     class Commodity : public Instrument {
       public:
-        Commodity(const std::shared_ptr<SecondaryCosts>& secondaryCosts);
+        explicit Commodity(const std::shared_ptr<SecondaryCosts>& secondaryCosts);
         const std::shared_ptr<SecondaryCosts>& secondaryCosts() const;
         const SecondaryCostAmounts& secondaryCostAmounts() const;
         const PricingErrors& pricingErrors() const;

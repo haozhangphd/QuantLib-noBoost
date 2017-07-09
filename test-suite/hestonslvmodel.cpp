@@ -535,10 +535,6 @@ TEST_CASE("HestonSLVModel_SquareRootLogEvolveWithStationaryDensity", "[HestonSLV
         const Real expected = 1-eps-lowEps;
         const Real vMax = rnd.stationary_invcdf(1-eps);
 
-        std::vector<Real> critialPoints;
-        std::vector<std::tuple<Real, Real, bool> > critPoints;
-        critPoints.emplace_back(std::tuple<Real, Real, bool>(log(vMin), 0.001, false));
-
         const std::shared_ptr<FdmMesherComposite> mesher(
             new FdmMesherComposite(std::shared_ptr<Fdm1dMesher>(
                 new Uniform1dMesher(log(vMin), log(vMax), vGrid))));

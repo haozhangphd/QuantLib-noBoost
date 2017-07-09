@@ -33,7 +33,7 @@ namespace QuantLib {
     class AnalyticWriterExtensibleOptionEngine
         : public WriterExtensibleOption::engine {
       public:
-        AnalyticWriterExtensibleOptionEngine(
+        explicit AnalyticWriterExtensibleOptionEngine(
             const std::shared_ptr<GeneralizedBlackScholesProcess>& process);
         void calculate() const;
       private:

@@ -386,13 +386,13 @@ class TestBinomialEngine : public BinomialVanillaEngine<CoxRossRubinstein>
 {
 private:
 public:
-   TestBinomialEngine(const std::shared_ptr<GeneralizedBlackScholesProcess > &process):
-   BinomialVanillaEngine<CoxRossRubinstein>(process, 300) // fixed steps
-   {
-   }
+   explicit TestBinomialEngine(
+           const std::shared_ptr<GeneralizedBlackScholesProcess > &process)
+   : BinomialVanillaEngine<CoxRossRubinstein>(process, 300) // fixed steps
+    {}
 };
 
-// verify than if engine
+
 TEST_CASE("ForwardOption_GreeksInitialization", "[ForwardOption]") {
    INFO("Testing forward option greeks initialization...");
 
