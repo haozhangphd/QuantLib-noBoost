@@ -61,12 +61,11 @@ namespace {
         std::vector<std::shared_ptr<Helper> > instruments;
         for (Size i=0; i<N; i++) {
             Date maturity = iiData[i].date;
-            Handle<Quote> quote(std::shared_ptr<Quote>(
-                                new SimpleQuote(iiData[i].rate/100.0)));
-            std::shared_ptr<Helper> h(
-                      new ZeroCouponInflationSwapHelper(quote, observationLag,
+            Handle<Quote> quote(std::make_shared<SimpleQuote>(iiData[i].rate/100.0));
+            std::shared_ptr<Helper> h =
+                      std::make_shared<ZeroCouponInflationSwapHelper>(quote, observationLag,
                                                         maturity, calendar,
-                                                        bdc, dc, ii));
+                                                        bdc, dc, ii);
             instruments.emplace_back(h);
         }
         return instruments;
@@ -110,7 +109,7 @@ namespace {
                 .withConvention(ModifiedFollowing);
 
             bool interp = false;
-            ii = std::shared_ptr<UKRPI>(new UKRPI(interp, cpiTS));
+            ii = std::make_shared<UKRPI>(interp, cpiTS);
 
             Real fixData[] = {
                 206.1, 207.3, 208.0, 208.9, 209.7, 210.9,
@@ -123,8 +122,7 @@ namespace {
                 ii->addFixing(rpiSchedule[i], fixData[i]);
             }
 
-            yTS.linkTo(std::shared_ptr<YieldTermStructure>(
-                          new FlatForward(evaluationDate, 0.05, dayCounter)));
+            yTS.linkTo(std::make_shared<FlatForward>(evaluationDate, 0.05, dayCounter));
 
             // now build the zero inflation curve
             observationLag = Period(2,Months);
@@ -154,11 +152,10 @@ namespace {
                             observationLag, calendar, convention, dayCounter);
 
             Rate baseZeroRate = zciisData[0].rate/100.0;
-            cpiTS.linkTo(std::shared_ptr<ZeroInflationTermStructure>(
-                  new PiecewiseZeroInflationCurve<Linear>(
+            cpiTS.linkTo(std::make_shared<PiecewiseZeroInflationCurve<Linear>>(
                          evaluationDate, calendar, dayCounter, observationLag,
                          ii->frequency(),ii->interpolated(), baseZeroRate,
-                         Handle<YieldTermStructure>(yTS), helpers)));
+                         Handle<YieldTermStructure>(yTS), helpers));
         }
 
         // teardown
@@ -203,8 +200,8 @@ TEST_CASE("InflationCPIBond_CleanPrice", "[InflationCPIBond]") {
                  observationInterpolation, fixedSchedule,
                  fixedRates, fixedDayCount, fixedPaymentConvention);
 
-    std::shared_ptr<DiscountingBondEngine> engine(
-                                 new DiscountingBondEngine(common.yTS));
+    std::shared_ptr<DiscountingBondEngine> engine =
+                                 std::make_shared<DiscountingBondEngine>(common.yTS);
     bond.setPricingEngine(engine);
 
     Real storedPrice = 383.01816406;

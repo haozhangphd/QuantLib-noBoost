@@ -129,8 +129,8 @@ namespace QuantLib {
         // calculate sabr fit
         std::array<Real, 4> sabrParameters1 = sabrGuesses(d);
 
-        std::shared_ptr<SabrInterpolatedSmileSection> tmp(new
-            SabrInterpolatedSmileSection(d,
+        std::shared_ptr<SabrInterpolatedSmileSection> tmp =
+            std::make_shared<SabrInterpolatedSmileSection>(d,
                                          index_->fixing(d,true), atmRateSpreads_, true,
                                             atmCurve_->atmVol(d), volSpreads,
                                             sabrParameters1[0], sabrParameters1[1],
@@ -140,7 +140,7 @@ namespace QuantLib {
                                             vegaWeighted_/*,
                                             const std::shared_ptr<EndCriteria>& endCriteria,
                                             const std::shared_ptr<OptimizationMethod>& method,
-                                            const DayCounter& dc*/));
+                                            const DayCounter& dc*/);
 
         // update guess
 

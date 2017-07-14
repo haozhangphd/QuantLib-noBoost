@@ -163,26 +163,26 @@ TEST_CASE("MargrabeOption_EuroExchangeTwoAssets", "[MargrabeOption]") {
     DayCounter dc = Actual360();
     Date today = Settings::instance().evaluationDate();
 
-    std::shared_ptr<SimpleQuote> spot1(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> spot2(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot1 = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> spot2 = std::make_shared<SimpleQuote>(0.0);
 
-    std::shared_ptr<SimpleQuote> qRate1(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> qRate1 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS1 = flatRate(today, qRate1, dc);
-    std::shared_ptr<SimpleQuote> qRate2(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> qRate2 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS2 = flatRate(today, qRate2, dc);
 
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
 
-    std::shared_ptr<SimpleQuote> vol1(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol1 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS1 = flatVol(today, vol1, dc);
-    std::shared_ptr<SimpleQuote> vol2(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol2 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS2 = flatVol(today, vol2, dc);
 
     for (Size i=0; i<LENGTH(values); i++) {
 
         Date exDate = today + Integer(values[i].t*360+0.5);
-        std::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
+        std::shared_ptr<Exercise> exercise = std::make_shared<EuropeanExercise>(exDate);
 
         spot1 ->setValue(values[i].s1);
         spot2 ->setValue(values[i].s2);
@@ -192,17 +192,17 @@ TEST_CASE("MargrabeOption_EuroExchangeTwoAssets", "[MargrabeOption]") {
         vol1  ->setValue(values[i].v1);
         vol2  ->setValue(values[i].v2);
 
-        std::shared_ptr<BlackScholesMertonProcess> stochProcess1(new
-            BlackScholesMertonProcess(Handle<Quote>(spot1),
+        std::shared_ptr<BlackScholesMertonProcess> stochProcess1 =
+            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot1),
                                       Handle<YieldTermStructure>(qTS1),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS1)));
+                                      Handle<BlackVolTermStructure>(volTS1));
 
-        std::shared_ptr<BlackScholesMertonProcess> stochProcess2(new
-            BlackScholesMertonProcess(Handle<Quote>(spot2),
+        std::shared_ptr<BlackScholesMertonProcess> stochProcess2 =
+            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot2),
                                       Handle<YieldTermStructure>(qTS2),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS2)));
+                                      Handle<BlackVolTermStructure>(volTS2));
 
         std::vector<std::shared_ptr<StochasticProcess1D> > procs;
         procs.emplace_back(stochProcess1);
@@ -213,10 +213,10 @@ TEST_CASE("MargrabeOption_EuroExchangeTwoAssets", "[MargrabeOption]") {
             correlationMatrix[j][j] = 1.0;
         }
 
-        std::shared_ptr<PricingEngine> engine(
-                             new AnalyticEuropeanMargrabeEngine(stochProcess1,
+        std::shared_ptr<PricingEngine> engine =
+                             std::make_shared<AnalyticEuropeanMargrabeEngine>(stochProcess1,
                                                                 stochProcess2,
-                                                                values[i].rho));
+                                                                values[i].rho);
 
         MargrabeOption margrabeOption(values[i].Q1, values[i].Q2, exercise);
 
@@ -337,38 +337,38 @@ TEST_CASE("MargrabeOption_Greeks", "[MargrabeOption]") {
     Date today = Date::todaysDate();
     Settings::instance().evaluationDate() = today;
 
-    std::shared_ptr<SimpleQuote> spot1(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> spot2(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot1 = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> spot2 = std::make_shared<SimpleQuote>(0.0);
 
-    std::shared_ptr<SimpleQuote> qRate1(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> qRate1 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS1 = flatRate(qRate1, dc);
-    std::shared_ptr<SimpleQuote> qRate2(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> qRate2 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS2 = flatRate(qRate2, dc);
 
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(rRate, dc);
 
-    std::shared_ptr<SimpleQuote> vol1(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol1 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS1 = flatVol(vol1, dc);
-    std::shared_ptr<SimpleQuote> vol2(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol2 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS2 = flatVol(vol2, dc);
 
     for (Size k=0; k<LENGTH(residualTimes); k++) {
           Date exDate = today + timeToDays(residualTimes[k]);
-          std::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
+          std::shared_ptr<Exercise> exercise = std::make_shared<EuropeanExercise>(exDate);
 
           // option to check
-          std::shared_ptr<BlackScholesMertonProcess> stochProcess1(new
-              BlackScholesMertonProcess(Handle<Quote>(spot1),
+          std::shared_ptr<BlackScholesMertonProcess> stochProcess1 =
+              std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot1),
                                       Handle<YieldTermStructure>(qTS1),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS1)));
+                                      Handle<BlackVolTermStructure>(volTS1));
 
-          std::shared_ptr<BlackScholesMertonProcess> stochProcess2(new
-              BlackScholesMertonProcess(Handle<Quote>(spot2),
+          std::shared_ptr<BlackScholesMertonProcess> stochProcess2 =
+              std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot2),
                                       Handle<YieldTermStructure>(qTS2),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS2)));
+                                      Handle<BlackVolTermStructure>(volTS2));
 
           std::vector<std::shared_ptr<StochasticProcess1D> > procs;
           procs.emplace_back(stochProcess1);
@@ -380,10 +380,10 @@ TEST_CASE("MargrabeOption_Greeks", "[MargrabeOption]") {
           for (Integer j=0; j < 2; j++) {
               correlationMatrix[j][j] = 1.0;
 
-          std::shared_ptr<PricingEngine> engine(
-                             new AnalyticEuropeanMargrabeEngine(stochProcess1,
+          std::shared_ptr<PricingEngine> engine =
+                             std::make_shared<AnalyticEuropeanMargrabeEngine>(stochProcess1,
                                                                 stochProcess2,
-                                                                correlation));
+                                                                correlation);
 
           //The quantities of S1 and S2 can be different from 1 & 1 for more tests
           MargrabeOption margrabeOption(1, 1, exercise);
@@ -524,26 +524,26 @@ TEST_CASE("MargrabeOption_AmericanExchangeTwoAssets", "[MargrabeOption]") {
 
     Date today = Settings::instance().evaluationDate();
     DayCounter dc = Actual360();
-    std::shared_ptr<SimpleQuote> spot1(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> spot2(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot1 = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> spot2 = std::make_shared<SimpleQuote>(0.0);
 
-    std::shared_ptr<SimpleQuote> qRate1(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> qRate1 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS1 = flatRate(today, qRate1, dc);
-    std::shared_ptr<SimpleQuote> qRate2(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> qRate2 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS2 = flatRate(today, qRate2, dc);
 
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
 
-    std::shared_ptr<SimpleQuote> vol1(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol1 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS1 = flatVol(today, vol1, dc);
-    std::shared_ptr<SimpleQuote> vol2(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol2 = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS2 = flatVol(today, vol2, dc);
 
     for (Size i=0; i<LENGTH(values); i++) {
 
         Date exDate = today + Integer(values[i].t*360+0.5);
-        std::shared_ptr<Exercise> exercise(new AmericanExercise(today, exDate));
+        std::shared_ptr<Exercise> exercise = std::make_shared<AmericanExercise>(today, exDate);
 
         spot1 ->setValue(values[i].s1);
         spot2 ->setValue(values[i].s2);
@@ -553,17 +553,17 @@ TEST_CASE("MargrabeOption_AmericanExchangeTwoAssets", "[MargrabeOption]") {
         vol1  ->setValue(values[i].v1);
         vol2  ->setValue(values[i].v2);
 
-        std::shared_ptr<BlackScholesMertonProcess> stochProcess1(new
-            BlackScholesMertonProcess(Handle<Quote>(spot1),
+        std::shared_ptr<BlackScholesMertonProcess> stochProcess1 =
+            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot1),
                                       Handle<YieldTermStructure>(qTS1),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS1)));
+                                      Handle<BlackVolTermStructure>(volTS1));
 
-        std::shared_ptr<BlackScholesMertonProcess> stochProcess2(new
-            BlackScholesMertonProcess(Handle<Quote>(spot2),
+        std::shared_ptr<BlackScholesMertonProcess> stochProcess2 =
+            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot2),
                                       Handle<YieldTermStructure>(qTS2),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS2)));
+                                      Handle<BlackVolTermStructure>(volTS2));
 
         std::vector<std::shared_ptr<StochasticProcess1D> > procs;
         procs.emplace_back(stochProcess1);
@@ -574,10 +574,10 @@ TEST_CASE("MargrabeOption_AmericanExchangeTwoAssets", "[MargrabeOption]") {
             correlationMatrix[j][j] = 1.0;
         }
 
-        std::shared_ptr<PricingEngine> engine(
-                             new AnalyticAmericanMargrabeEngine(stochProcess1,
+        std::shared_ptr<PricingEngine> engine =
+                             std::make_shared<AnalyticAmericanMargrabeEngine>(stochProcess1,
                                                                 stochProcess2,
-                                                                values[i].rho));
+                                                                values[i].rho);
 
         MargrabeOption margrabeOption(values[i].Q1, values[i].Q2, exercise);
 

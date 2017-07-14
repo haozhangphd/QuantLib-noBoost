@@ -81,7 +81,7 @@ namespace QuantLib {
         ConstantParameter(const Constraint& constraint)
         : Parameter(
               1,
-              std::shared_ptr<Parameter::Impl>(new ConstantParameter::Impl),
+              std::make_shared<ConstantParameter::Impl>(),
               constraint)
         {}
 
@@ -89,7 +89,7 @@ namespace QuantLib {
                           const Constraint& constraint)
         : Parameter(
               1,
-              std::shared_ptr<Parameter::Impl>(new ConstantParameter::Impl),
+              std::make_shared<ConstantParameter::Impl>(),
               constraint) {
             params_[0] = value;
             QL_REQUIRE(testParams(params_),
@@ -111,7 +111,7 @@ namespace QuantLib {
         NullParameter()
         : Parameter(
                   0,
-                  std::shared_ptr<Parameter::Impl>(new NullParameter::Impl),
+                  std::make_shared<NullParameter::Impl>(),
                   NoConstraint())
         {}
     };
@@ -144,8 +144,7 @@ namespace QuantLib {
                                    const Constraint& constraint =
                                                              NoConstraint())
         : Parameter(times.size()+1,
-                    std::shared_ptr<Parameter::Impl>(
-                                 new PiecewiseConstantParameter::Impl(times)),
+                    std::make_shared<PiecewiseConstantParameter::Impl>(times),
                     constraint)
         {}
     };
@@ -192,7 +191,7 @@ namespace QuantLib {
         TermStructureFittingParameter(const Handle<YieldTermStructure>& term)
         : Parameter(
                   0,
-                  std::shared_ptr<Parameter::Impl>(new NumericalImpl(term)),
+                  std::make_shared<NumericalImpl>(term),
                   NoConstraint())
         {}
     };

@@ -82,8 +82,7 @@ namespace QuantLib {
 
     std::unique_ptr<MarketModelMultiProduct>
         MultiProductComposite::clone() const {
-            return std::unique_ptr<MarketModelMultiProduct>(
-                new MultiProductComposite(*this));
+            return std::make_unique<MultiProductComposite>(*this);
     }
 
 }

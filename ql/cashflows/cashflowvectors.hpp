@@ -111,17 +111,15 @@ namespace QuantLib {
                 refEnd = calendar.adjust(start + schedule.tenor(), bdc);
             }
             if (detail::get(gearings, i, 1.0) == 0.0) { // fixed coupon
-                leg.emplace_back(std::shared_ptr<CashFlow>(new
-                    FixedRateCoupon(paymentDate,
+                leg.emplace_back(std::make_shared<FixedRateCoupon>(paymentDate,
                                     detail::get(nominals, i, 1.0),
                                     detail::effectiveFixedRate(spreads,caps,
                                                                floors,i),
                                     paymentDayCounter,
-                                    start, end, refStart, refEnd)));
+                                    start, end, refStart, refEnd));
             } else { // floating coupon
                 if (detail::noOption(caps, floors, i))
-                    leg.emplace_back(std::shared_ptr<CashFlow>(new
-                        FloatingCouponType(
+                    leg.emplace_back(std::make_shared<FloatingCouponType>(
                             paymentDate,
                             detail::get(nominals, i, 1.0),
                             start, end,
@@ -130,10 +128,9 @@ namespace QuantLib {
                             detail::get(gearings, i, 1.0),
                             detail::get(spreads, i, 0.0),
                             refStart, refEnd,
-                            paymentDayCounter, isInArrears)));
+                            paymentDayCounter, isInArrears));
                 else {
-                    leg.emplace_back(std::shared_ptr<CashFlow>(new
-                        CappedFlooredCouponType(
+                    leg.emplace_back(std::make_shared<CappedFlooredCouponType>(
                                paymentDate,
                                detail::get(nominals, i, 1.0),
                                start, end,
@@ -145,7 +142,7 @@ namespace QuantLib {
                                detail::get(floors, i, Null<Rate>()),
                                refStart, refEnd,
                                paymentDayCounter,
-                               isInArrears)));
+                               isInArrears));
                 }
             }
         }
@@ -215,15 +212,14 @@ namespace QuantLib {
                 refEnd = calendar.adjust(start + schedule.tenor(), bdc);
             }
             if (detail::get(gearings, i, 1.0) == 0.0) { // fixed coupon
-                leg.emplace_back(std::shared_ptr<CashFlow>(new
-                    FixedRateCoupon(paymentDate,
+                leg.emplace_back(std::make_shared<FixedRateCoupon>(paymentDate,
                                     detail::get(nominals, i, 1.0),
                                     detail::get(spreads, i, 1.0),
                                     paymentDayCounter,
-                                    start, end, refStart, refEnd)));
+                                    start, end, refStart, refEnd));
             } else { // floating digital coupon
-                std::shared_ptr<FloatingCouponType> underlying(new
-                    FloatingCouponType(paymentDate,
+                std::shared_ptr<FloatingCouponType> underlying =
+                    std::make_shared<FloatingCouponType>(paymentDate,
                                        detail::get(nominals, i, 1.0),
                                        start, end,
                                        detail::get(fixingDays, i, index->fixingDays()),
@@ -231,9 +227,8 @@ namespace QuantLib {
                                        detail::get(gearings, i, 1.0),
                                        detail::get(spreads, i, 0.0),
                                        refStart, refEnd,
-                                       paymentDayCounter, isInArrears));
-                leg.emplace_back(std::shared_ptr<CashFlow>(new
-                    DigitalCouponType(
+                                       paymentDayCounter, isInArrears);
+                leg.emplace_back(std::make_shared<DigitalCouponType>(
                              underlying,
                              detail::get(callStrikes, i, Null<Real>()),
                              callPosition,
@@ -243,7 +238,7 @@ namespace QuantLib {
                              putPosition,
                              isPutATMIncluded,
                              detail::get(putDigitalPayoffs, i, Null<Real>()),
-                             replication)));
+                             replication));
             }
         }
         return leg;

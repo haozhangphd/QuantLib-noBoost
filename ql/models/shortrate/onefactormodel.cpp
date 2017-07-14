@@ -94,10 +94,9 @@ namespace QuantLib {
 
     std::shared_ptr<Lattice>
     OneFactorModel::tree(const TimeGrid& grid) const {
-        std::shared_ptr<TrinomialTree> trinomial(
-                              new TrinomialTree(dynamics()->process(), grid));
-        return std::shared_ptr<Lattice>(
-                              new ShortRateTree(trinomial, dynamics(), grid));
+        std::shared_ptr<TrinomialTree> trinomial =
+                              std::make_shared<TrinomialTree>(dynamics()->process(), grid);
+        return std::make_shared<ShortRateTree>(trinomial, dynamics(), grid);
     }
 
     DiscountFactor OneFactorAffineModel::discount(Time t) const {

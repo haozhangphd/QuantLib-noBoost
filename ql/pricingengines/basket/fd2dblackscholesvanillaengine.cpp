@@ -56,24 +56,24 @@ namespace QuantLib {
 
         // 2. Mesher
         const Time maturity = p1_->time(arguments_.exercise->lastDate());
-        const std::shared_ptr<Fdm1dMesher> em1(
-            new FdmBlackScholesMesher(
+        const std::shared_ptr<Fdm1dMesher> em1 =
+            std::make_shared<FdmBlackScholesMesher>(
                     xGrid_, p1_, maturity, p1_->x0(), 
                     Null<Real>(), Null<Real>(), 0.0001, 1.5, 
-                    std::pair<Real, Real>(p1_->x0(), 0.1)));
+                    std::pair<Real, Real>(p1_->x0(), 0.1));
 
-        const std::shared_ptr<Fdm1dMesher> em2(
-            new FdmBlackScholesMesher(
+        const std::shared_ptr<Fdm1dMesher> em2 =
+            std::make_shared<FdmBlackScholesMesher>(
                     yGrid_, p2_, maturity, p2_->x0(),
                     Null<Real>(), Null<Real>(), 0.0001, 1.5, 
-                    std::pair<Real, Real>(p2_->x0(), 0.1)));
+                    std::pair<Real, Real>(p2_->x0(), 0.1));
 
-        const std::shared_ptr<FdmMesher> mesher (
-            new FdmMesherComposite(em1, em2));
+        const std::shared_ptr<FdmMesher> mesher =
+            std::make_shared<FdmMesherComposite>(em1, em2);
 
         // 3. Calculator
-        const std::shared_ptr<FdmInnerValueCalculator> calculator(
-                                new FdmLogBasketInnerValue(payoff, mesher));
+        const std::shared_ptr<FdmInnerValueCalculator> calculator =
+                                std::make_shared<FdmLogBasketInnerValue>(payoff, mesher);
 
         // 4. Step conditions
         const std::shared_ptr<FdmStepConditionComposite> conditions =
@@ -91,12 +91,12 @@ namespace QuantLib {
                                            conditions, calculator,
                                            maturity, tGrid_, dampingSteps_ };
 
-        std::shared_ptr<Fdm2dBlackScholesSolver> solver(
-                new Fdm2dBlackScholesSolver(
+        std::shared_ptr<Fdm2dBlackScholesSolver> solver =
+                std::make_shared<Fdm2dBlackScholesSolver>(
                              Handle<GeneralizedBlackScholesProcess>(p1_),
                              Handle<GeneralizedBlackScholesProcess>(p2_),
                              correlation_, solverDesc, schemeDesc_,
-                             localVol_, illegalLocalVolOverwrite_));
+                             localVol_, illegalLocalVolOverwrite_);
 
         const Real x = p1_->x0();
         const Real y = p2_->x0();

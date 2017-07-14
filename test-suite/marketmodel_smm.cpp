@@ -169,8 +169,8 @@ namespace {
         Real initialNumeraireValue = todaysDiscounts[initialNumeraire];
 
         AccountingEngine engine(evolver, product, initialNumeraireValue);
-        std::shared_ptr<SequenceStatisticsInc> stats(
-                          new SequenceStatisticsInc(product.numberOfProducts()));
+        std::shared_ptr<SequenceStatisticsInc> stats =
+                          std::make_shared<SequenceStatisticsInc>(product.numberOfProducts());
         engine.multiplePathValues(*stats, paths_);
         return stats;
     }
@@ -204,11 +204,11 @@ namespace {
 
         std::vector<Time> fixingTimes(evolution.rateTimes());
         fixingTimes.pop_back();
-        std::shared_ptr<LmVolatilityModel> volModel(new
-            LmExtLinearExponentialVolModel(fixingTimes, 0.5, 0.6, 0.1, 0.1));
-        std::shared_ptr<LmCorrelationModel> corrModel(new
-            LmLinearExponentialCorrelationModel(evolution.numberOfRates(),
-                                                longTermCorrelation, beta));
+        std::shared_ptr<LmVolatilityModel> volModel =
+            std::make_shared<LmExtLinearExponentialVolModel>(fixingTimes, 0.5, 0.6, 0.1, 0.1);
+        std::shared_ptr<LmCorrelationModel> corrModel =
+            std::make_shared<LmLinearExponentialCorrelationModel>(evolution.numberOfRates(),
+                                                longTermCorrelation, beta);
         std::vector<Rate> bumpedRates(todaysForwards.size());
         LMMCurveState curveState_lmm(rateTimes);
         curveState_lmm.setOnForwardRates(todaysForwards);
@@ -224,34 +224,31 @@ namespace {
         Matrix correlations = exponentialCorrelations(evolution.rateTimes(),
                                                       longTermCorrelation,
                                                       beta);
-        std::shared_ptr<PiecewiseConstantCorrelation> corr(new
-            TimeHomogeneousForwardCorrelation(correlations,
-                                              evolution.rateTimes()));
+        std::shared_ptr<PiecewiseConstantCorrelation> corr =
+            std::make_shared<TimeHomogeneousForwardCorrelation>(correlations,
+                                              evolution.rateTimes());
         switch (marketModelType) {
           case ExponentialCorrelationFlatVolatility:
-            return std::shared_ptr<MarketModel>(new
-                FlatVol(bumpedVols,
+            return std::make_shared<FlatVol>(bumpedVols,
                                corr,
                                evolution,
                                numberOfFactors,
                                bumpedRates,
-                               std::vector<Spread>(bumpedRates.size(), displacement)));
+                               std::vector<Spread>(bumpedRates.size(), displacement));
           case ExponentialCorrelationAbcdVolatility:
-            return std::shared_ptr<MarketModel>(new
-                AbcdVol(0.0,0.0,1.0,1.0,
+            return std::make_shared<AbcdVol>(0.0,0.0,1.0,1.0,
                                bumpedVols,
                                corr,
                                evolution,
                                numberOfFactors,
                                bumpedRates,
-                               std::vector<Spread>(bumpedRates.size(), displacement)));
+                               std::vector<Spread>(bumpedRates.size(), displacement));
             //case CalibratedMM:
-            //    return std::shared_ptr<MarketModel>(new
-            //        CalibratedMarketModel(volModel, corrModel,
+            //    return std::make_shared<CalibratedMarketModel>(volModel, corrModel,
             //                              evolution,
             //                              numberOfFactors,
             //                              bumpedForwards,
-            //                              displacement));
+            //                              displacement);
           default:
             QL_FAIL("unknown MarketModel type");
         }
@@ -338,10 +335,9 @@ namespace {
                             Size initialStep = 0) {
         switch (evolverType) {
           case Pc:
-            return std::shared_ptr<MarketModelEvolver>(new
-                LogNormalCotSwapRatePc(marketModel, generatorFactory,
+            return std::make_shared<LogNormalCotSwapRatePc>(marketModel, generatorFactory,
                                             numeraires,
-                                            initialStep));
+                                            initialStep);
           default:
             QL_FAIL("unknown CoterminalSwapMarketModelEvolver type");
         }
@@ -443,11 +439,9 @@ TEST_CASE("MarketModelSmm_MultiStepCoterminalSwapsAndSwaptions", "[MarketModelSm
     std::vector<std::shared_ptr<StrikedTypePayoff> >
         displacedPayoff(todaysForwards.size()), undisplacedPayoff(todaysForwards.size());
     for (Size i=0; i<undisplacedPayoff.size(); ++i) {
-        displacedPayoff[i] = std::shared_ptr<StrikedTypePayoff>(new
-            PlainVanillaPayoff(Option::Call, fixedRate+displacement));
+        displacedPayoff[i] = std::make_shared<PlainVanillaPayoff>(Option::Call, fixedRate+displacement);
 
-        undisplacedPayoff[i] = std::shared_ptr<StrikedTypePayoff>(new
-            PlainVanillaPayoff(Option::Call, fixedRate));
+        undisplacedPayoff[i] = std::make_shared<PlainVanillaPayoff>(Option::Call, fixedRate);
     }
 
     MultiStepCoterminalSwaptions swaptions(rateTimes,

@@ -172,9 +172,8 @@ namespace QuantLib {
         const Handle<YieldTermStructure> &discountCurve, Volatility vol,
         const DayCounter &dc, Real displacement, CashAnnuityModel model)
         : discountCurve_(discountCurve),
-          vol_(std::shared_ptr<SwaptionVolatilityStructure>(
-              new ConstantSwaptionVolatility(0, NullCalendar(), Following, vol,
-                                             dc, Spec().type, displacement))),
+          vol_(std::make_shared<ConstantSwaptionVolatility>(0, NullCalendar(), Following, vol,
+                                             dc, Spec().type, displacement)),
           model_(model) {
         registerWith(discountCurve_);
     }
@@ -185,9 +184,8 @@ namespace QuantLib {
         const Handle<Quote> &vol, const DayCounter &dc, Real displacement,
         CashAnnuityModel model)
         : discountCurve_(discountCurve),
-          vol_(std::shared_ptr<SwaptionVolatilityStructure>(
-              new ConstantSwaptionVolatility(0, NullCalendar(), Following, vol,
-                                             dc, Spec().type, displacement))),
+          vol_(std::make_shared<ConstantSwaptionVolatility>(0, NullCalendar(), Following, vol,
+                                             dc, Spec().type, displacement)),
           model_(model) {
         registerWith(discountCurve_);
         registerWith(vol_);
@@ -225,8 +223,7 @@ namespace QuantLib {
 
         // using the discounting curve
         // swap.iborIndex() might be using a different forwarding curve
-        swap.setPricingEngine(std::shared_ptr<PricingEngine>(new
-            DiscountingSwapEngine(discountCurve_, false)));
+        swap.setPricingEngine(std::make_shared<DiscountingSwapEngine>(discountCurve_, false));
         Rate atmForward = swap.fairRate();
 
         // Volatilities are quoted for zero-spreaded swaps.
@@ -245,8 +242,7 @@ namespace QuantLib {
         results_.additionalResults["atmForward"] = atmForward;
 
         // using the discounting curve
-        swap.setPricingEngine(std::shared_ptr<PricingEngine>(
-                           new DiscountingSwapEngine(discountCurve_, false)));
+        swap.setPricingEngine(std::make_shared<DiscountingSwapEngine>(discountCurve_, false));
         Real annuity;
         switch(arguments_.settlementType) {
           case Settlement::Physical: {

@@ -48,17 +48,16 @@ namespace QuantLib {
         
     void Fdm2dBlackScholesSolver::performCalculations() const {
         
-        std::shared_ptr<Fdm2dBlackScholesOp> op(
-                new Fdm2dBlackScholesOp(solverDesc_.mesher,
+        std::shared_ptr<Fdm2dBlackScholesOp> op =
+                std::make_shared<Fdm2dBlackScholesOp>(solverDesc_.mesher,
                                         p1_.currentLink(), 
                                         p2_.currentLink(), 
                                         correlation_,
                                         solverDesc_.maturity,
                                         localVol_,
-                                        illegalLocalVolOverwrite_));
+                                        illegalLocalVolOverwrite_);
 
-        solver_ = std::shared_ptr<Fdm2DimSolver>(
-                            new Fdm2DimSolver(solverDesc_, schemeDesc_, op));
+        solver_ = std::make_shared<Fdm2DimSolver>(solverDesc_, schemeDesc_, op);
     }
 
     Real Fdm2dBlackScholesSolver::valueAt(Real u, Real v) const {

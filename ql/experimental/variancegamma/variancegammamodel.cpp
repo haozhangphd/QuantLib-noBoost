@@ -40,10 +40,10 @@ namespace QuantLib {
     }
 
     void VarianceGammaModel::generateArguments() {
-        process_.reset(new VarianceGammaProcess(process_->s0(),
+        process_ = std::make_shared<VarianceGammaProcess>(process_->s0(),
             process_->dividendYield(),
             process_->riskFreeRate(),
-            sigma(), nu(), theta()));
+            sigma(), nu(), theta());
     }
 
 }

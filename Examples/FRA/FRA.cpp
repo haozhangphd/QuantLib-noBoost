@@ -44,20 +44,20 @@ namespace QuantLib {
 }
 #endif
 
-int main(int, char* []) {
+int main(int, char *[]) {
 
     try {
 
-        std::chrono::time_point<std::chrono::steady_clock> startT =  std::chrono::steady_clock::now();
-	std::cout << std::endl;
+        std::chrono::time_point<std::chrono::steady_clock> startT = std::chrono::steady_clock::now();
+        std::cout << std::endl;
 
         /*********************
          ***  MARKET DATA  ***
          *********************/
 
         RelinkableHandle<YieldTermStructure> euriborTermStructure;
-        std::shared_ptr<IborIndex> euribor3m(
-                                       new Euribor3M(euriborTermStructure));
+        std::shared_ptr < IborIndex > euribor3m =
+                std::make_shared<Euribor3M>(euriborTermStructure);
 
         Date todaysDate = Date(23, May, 2006);
         Settings::instance().evaluationDate() = todaysDate;
@@ -76,11 +76,11 @@ int main(int, char* []) {
         // 3 month term FRA quotes (index refers to monthsToStart)
         Rate threeMonthFraQuote[10];
 
-        threeMonthFraQuote[1]=0.030;
-        threeMonthFraQuote[2]=0.031;
-        threeMonthFraQuote[3]=0.032;
-        threeMonthFraQuote[6]=0.033;
-        threeMonthFraQuote[9]=0.034;
+        threeMonthFraQuote[1] = 0.030;
+        threeMonthFraQuote[2] = 0.031;
+        threeMonthFraQuote[3] = 0.032;
+        threeMonthFraQuote[6] = 0.033;
+        threeMonthFraQuote[9] = 0.034;
 
         /********************
          ***    QUOTES    ***
@@ -92,22 +92,27 @@ int main(int, char* []) {
 
 
         // FRAs
-        std::shared_ptr<SimpleQuote> fra1x4Rate(
-                                      new SimpleQuote(threeMonthFraQuote[1]));
-        std::shared_ptr<SimpleQuote> fra2x5Rate(
-                                      new SimpleQuote(threeMonthFraQuote[2]));
-        std::shared_ptr<SimpleQuote> fra3x6Rate(
-                                      new SimpleQuote(threeMonthFraQuote[3]));
-        std::shared_ptr<SimpleQuote> fra6x9Rate(
-                                      new SimpleQuote(threeMonthFraQuote[6]));
-        std::shared_ptr<SimpleQuote> fra9x12Rate(
-                                      new SimpleQuote(threeMonthFraQuote[9]));
+        std::shared_ptr < SimpleQuote > fra1x4Rate =
+                std::make_shared<SimpleQuote>(threeMonthFraQuote[1]);
+        std::shared_ptr < SimpleQuote > fra2x5Rate =
+                std::make_shared<SimpleQuote>(threeMonthFraQuote[2]);
+        std::shared_ptr < SimpleQuote > fra3x6Rate =
+                std::make_shared<SimpleQuote>(threeMonthFraQuote[3]);
+        std::shared_ptr < SimpleQuote > fra6x9Rate =
+                std::make_shared<SimpleQuote>(threeMonthFraQuote[6]);
+        std::shared_ptr < SimpleQuote > fra9x12Rate =
+                std::make_shared<SimpleQuote>(threeMonthFraQuote[9]);
 
-        RelinkableHandle<Quote> h1x4;  h1x4.linkTo(fra1x4Rate);
-        RelinkableHandle<Quote> h2x5;  h2x5.linkTo(fra2x5Rate);
-        RelinkableHandle<Quote> h3x6;  h3x6.linkTo(fra3x6Rate);
-        RelinkableHandle<Quote> h6x9;  h6x9.linkTo(fra6x9Rate);
-        RelinkableHandle<Quote> h9x12; h9x12.linkTo(fra9x12Rate);
+        RelinkableHandle<Quote> h1x4;
+        h1x4.linkTo(fra1x4Rate);
+        RelinkableHandle<Quote> h2x5;
+        h2x5.linkTo(fra2x5Rate);
+        RelinkableHandle<Quote> h3x6;
+        h3x6.linkTo(fra3x6Rate);
+        RelinkableHandle<Quote> h6x9;
+        h6x9.linkTo(fra6x9Rate);
+        RelinkableHandle<Quote> h9x12;
+        h9x12.linkTo(fra9x12Rate);
 
         /*********************
          ***  RATE HELPERS ***
@@ -122,30 +127,30 @@ int main(int, char* []) {
         BusinessDayConvention convention = euribor3m->businessDayConvention();
         bool endOfMonth = euribor3m->endOfMonth();
 
-        std::shared_ptr<RateHelper> fra1x4(
-                           new FraRateHelper(h1x4, 1, 4,
-                                             fixingDays, calendar, convention,
-                                             endOfMonth, fraDayCounter));
+        std::shared_ptr < RateHelper > fra1x4 =
+                std::make_shared<FraRateHelper>(h1x4, 1, 4,
+                                                fixingDays, calendar, convention,
+                                                endOfMonth, fraDayCounter);
 
-        std::shared_ptr<RateHelper> fra2x5(
-                           new FraRateHelper(h2x5, 2, 5,
-                                             fixingDays, calendar, convention,
-                                             endOfMonth, fraDayCounter));
+        std::shared_ptr < RateHelper > fra2x5 =
+                std::make_shared<FraRateHelper>(h2x5, 2, 5,
+                                                fixingDays, calendar, convention,
+                                                endOfMonth, fraDayCounter);
 
-        std::shared_ptr<RateHelper> fra3x6(
-                           new FraRateHelper(h3x6, 3, 6,
-                                             fixingDays, calendar, convention,
-                                             endOfMonth, fraDayCounter));
+        std::shared_ptr < RateHelper > fra3x6 =
+                std::make_shared<FraRateHelper>(h3x6, 3, 6,
+                                                fixingDays, calendar, convention,
+                                                endOfMonth, fraDayCounter);
 
-        std::shared_ptr<RateHelper> fra6x9(
-                           new FraRateHelper(h6x9, 6, 9,
-                                             fixingDays, calendar, convention,
-                                             endOfMonth, fraDayCounter));
+        std::shared_ptr < RateHelper > fra6x9 =
+                std::make_shared<FraRateHelper>(h6x9, 6, 9,
+                                                fixingDays, calendar, convention,
+                                                endOfMonth, fraDayCounter);
 
-        std::shared_ptr<RateHelper> fra9x12(
-                           new FraRateHelper(h9x12, 9, 12,
-                                             fixingDays, calendar, convention,
-                                             endOfMonth, fraDayCounter));
+        std::shared_ptr < RateHelper > fra9x12 =
+                std::make_shared<FraRateHelper>(h9x12, 9, 12,
+                                                fixingDays, calendar, convention,
+                                                endOfMonth, fraDayCounter);
 
 
         /*********************
@@ -155,7 +160,7 @@ int main(int, char* []) {
         // Any DayCounter would be fine.
         // ActualActual::ISDA ensures that 30 years is 30.0
         DayCounter termStructureDayCounter =
-            ActualActual(ActualActual::ISDA);
+                ActualActual(ActualActual::ISDA);
 
         double tolerance = 1.0e-15;
 
@@ -168,11 +173,11 @@ int main(int, char* []) {
         fraInstruments.emplace_back(fra6x9);
         fraInstruments.emplace_back(fra9x12);
 
-        std::shared_ptr<YieldTermStructure> fraTermStructure(
-                     new PiecewiseYieldCurve<Discount,LogLinear>(
-                                         settlementDate, fraInstruments,
-                                         termStructureDayCounter,
-                                         tolerance));
+        std::shared_ptr < YieldTermStructure > fraTermStructure =
+                std::make_shared<PiecewiseYieldCurve<Discount, LogLinear>>(
+                        settlementDate, fraInstruments,
+                        termStructureDayCounter,
+                        tolerance);
 
 
         // Term structures used for pricing/discounting
@@ -187,11 +192,11 @@ int main(int, char* []) {
 
         Calendar fraCalendar = euribor3m->fixingCalendar();
         BusinessDayConvention fraBusinessDayConvention =
-            euribor3m->businessDayConvention();
+                euribor3m->businessDayConvention();
         Position::Type fraFwdType = Position::Long;
         Real fraNotional = 100.0;
         const Integer FraTermMonths = 3;
-        Integer monthsToStart[] = { 1, 2, 3, 6, 9 };
+        Integer monthsToStart[] = {1, 2, 3, 6, 9};
 
         euriborTermStructure.linkTo(fraTermStructure);
 
@@ -201,20 +206,20 @@ int main(int, char* []) {
              << endl;
 
         Size i;
-        for (i=0; i<LENGTH(monthsToStart); i++) {
+        for (i = 0; i < LENGTH(monthsToStart); i++) {
 
             Date fraValueDate = fraCalendar.advance(
-                                       settlementDate,monthsToStart[i],Months,
-                                       fraBusinessDayConvention);
+                    settlementDate, monthsToStart[i], Months,
+                    fraBusinessDayConvention);
 
             Date fraMaturityDate = fraCalendar.advance(
-                                            fraValueDate,FraTermMonths,Months,
-                                            fraBusinessDayConvention);
+                    fraValueDate, FraTermMonths, Months,
+                    fraBusinessDayConvention);
 
             Rate fraStrikeRate = threeMonthFraQuote[monthsToStart[i]];
 
             ForwardRateAgreement myFRA(fraValueDate, fraMaturityDate,
-                                       fraFwdType,fraStrikeRate,
+                                       fraFwdType, fraStrikeRate,
                                        fraNotional, euribor3m,
                                        discountingTermStructure);
 
@@ -256,8 +261,6 @@ int main(int, char* []) {
         }
 
 
-
-
         cout << endl << endl;
         cout << "Now take a 100 basis-point upward shift in FRA quotes "
              << "and examine NPV"
@@ -266,11 +269,11 @@ int main(int, char* []) {
 
         const Real BpsShift = 0.01;
 
-        threeMonthFraQuote[1]=0.030+BpsShift;
-        threeMonthFraQuote[2]=0.031+BpsShift;
-        threeMonthFraQuote[3]=0.032+BpsShift;
-        threeMonthFraQuote[6]=0.033+BpsShift;
-        threeMonthFraQuote[9]=0.034+BpsShift;
+        threeMonthFraQuote[1] = 0.030 + BpsShift;
+        threeMonthFraQuote[2] = 0.031 + BpsShift;
+        threeMonthFraQuote[3] = 0.032 + BpsShift;
+        threeMonthFraQuote[6] = 0.033 + BpsShift;
+        threeMonthFraQuote[9] = 0.034 + BpsShift;
 
         fra1x4Rate->setValue(threeMonthFraQuote[1]);
         fra2x5Rate->setValue(threeMonthFraQuote[2]);
@@ -279,18 +282,18 @@ int main(int, char* []) {
         fra9x12Rate->setValue(threeMonthFraQuote[9]);
 
 
-        for (i=0; i<LENGTH(monthsToStart); i++) {
+        for (i = 0; i < LENGTH(monthsToStart); i++) {
 
             Date fraValueDate = fraCalendar.advance(
-                                       settlementDate,monthsToStart[i],Months,
-                                       fraBusinessDayConvention);
+                    settlementDate, monthsToStart[i], Months,
+                    fraBusinessDayConvention);
 
             Date fraMaturityDate = fraCalendar.advance(
-                                            fraValueDate,FraTermMonths,Months,
-                                            fraBusinessDayConvention);
+                    fraValueDate, FraTermMonths, Months,
+                    fraBusinessDayConvention);
 
             Rate fraStrikeRate =
-                threeMonthFraQuote[monthsToStart[i]] - BpsShift;
+                    threeMonthFraQuote[monthsToStart[i]] - BpsShift;
 
             ForwardRateAgreement myFRA(fraValueDate, fraMaturityDate,
                                        fraFwdType, fraStrikeRate,
@@ -333,11 +336,11 @@ int main(int, char* []) {
                  << endl;
         }
 
-	std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
+        std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
         double seconds = static_cast<double>((endT - startT).count()) / 1.0e9;
-        Integer hours = int(seconds/3600);
+        Integer hours = int(seconds / 3600);
         seconds -= hours * 3600;
-        Integer minutes = int(seconds/60);
+        Integer minutes = int(seconds / 60);
         seconds -= minutes * 60;
         cout << " \nRun completed in ";
         if (hours > 0)
@@ -349,7 +352,7 @@ int main(int, char* []) {
 
         return 0;
 
-    } catch (exception& e) {
+    } catch (exception &e) {
         cerr << e.what() << endl;
         return 1;
     } catch (...) {

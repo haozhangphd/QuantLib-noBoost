@@ -28,8 +28,7 @@ namespace QuantLib {
                                                           double initialValue,
                                                           double mue,
                                                           double sigma)
-    : StochasticProcess1D(std::shared_ptr<discretization>(
-                                                    new EulerDiscretization)),
+    : StochasticProcess1D(std::make_shared<EulerDiscretization>()),
       initialValue_(initialValue), mue_(mue), sigma_(sigma) {}
 
     Real GeometricBrownianMotionProcess::x0() const {

@@ -87,12 +87,11 @@ namespace QuantLib {
                                     bool exCouponEndOfMonth,
                                     const bool useCleanPrice)
     : BondHelper(price,
-                 std::shared_ptr<Bond>(
-                     new FixedRateBond(settlementDays, faceAmount, schedule,
+                 std::make_shared<FixedRateBond>(settlementDays, faceAmount, schedule,
                                        coupons, dayCounter, paymentConvention,
                                        redemption, issueDate, paymentCalendar,
                                        exCouponPeriod, exCouponCalendar,
-                                       exCouponConvention, exCouponEndOfMonth)),
+                                       exCouponConvention, exCouponEndOfMonth),
                  useCleanPrice) {
         fixedRateBond_ = std::dynamic_pointer_cast<FixedRateBond>(bond_);
     }
@@ -127,12 +126,11 @@ namespace QuantLib {
                             bool exCouponEndOfMonth,
                             const bool useCleanPrice)
     : BondHelper(price,
-                 std::shared_ptr<Bond>(
-                     new CPIBond(settlementDays, faceAmount, growthOnly, baseCPI, 
+                 std::make_shared<CPIBond>(settlementDays, faceAmount, growthOnly, baseCPI, 
                                        observationLag, cpiIndex, observationInterpolation,
                                        schedule, fixedRate, accrualDayCounter, paymentConvention,
                                        issueDate, paymentCalendar, exCouponPeriod, exCouponCalendar,
-                                       exCouponConvention, exCouponEndOfMonth)),
+                                       exCouponConvention, exCouponEndOfMonth),
                  useCleanPrice) {
         cpiBond_ = std::dynamic_pointer_cast<CPIBond>(bond_);
     }

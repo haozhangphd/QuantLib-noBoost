@@ -69,7 +69,7 @@ namespace QuantLib {
             Real attachmentRatio = 0.0,
             Real detachmentRatio = 1.0,
             const std::shared_ptr<Claim>& claim =
-                std::shared_ptr<Claim>(new FaceValueClaim()));
+                std::make_shared<FaceValueClaim>());
         void update() {
             computeBasket();
             LazyObject::update();

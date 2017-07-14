@@ -42,14 +42,13 @@ namespace QuantLib {
       pricer_(pricer) {
 
         // build the instrument to reprice (only need do this once)
-        yoyCapFloor_ = std::shared_ptr<YoYInflationCapFloor>(
-                 new YoYInflationCapFloor(
+        yoyCapFloor_ = std::make_shared<YoYInflationCapFloor>(
                      MakeYoYInflationCapFloor(capFloorType_, n_, calendar_,
                                               index_, lag_, strike_)
                     .withNominal(notional)
                     .withFixingDays(fixingDays_)
                     .withPaymentDayCounter(yoyDayCounter_)
-                                          ));
+                                          );
         // dates already build in lag of index/instrument
         // these are the dates of the values of the index
         // that fix the capfloor

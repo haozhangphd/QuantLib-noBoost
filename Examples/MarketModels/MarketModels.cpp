@@ -52,24 +52,21 @@ namespace QuantLib {
 
 std::vector<std::vector<Matrix> > theVegaBumps(bool factorwiseBumping,
                                                std::shared_ptr<MarketModel> marketModel,
-                                               bool doCaps)
-{
+                                               bool doCaps) {
     Real multiplierCutOff = 50.0;
     Real projectionTolerance = 1E-4;
-    Size numberRates= marketModel->numberOfRates();
+    Size numberRates = marketModel->numberOfRates();
 
     std::vector<VolatilityBumpInstrumentJacobian::Cap> caps;
 
-    if (doCaps)
-    {
+    if (doCaps) {
 
         Rate capStrike = marketModel->initialRates()[0];
 
-        for (Size i=0; i< numberRates-1; i=i+1)
-        {
+        for (Size i = 0; i < numberRates - 1; i = i + 1) {
             VolatilityBumpInstrumentJacobian::Cap nextCap;
             nextCap.startIndex_ = i;
-            nextCap.endIndex_ = i+1;
+            nextCap.endIndex_ = i + 1;
             nextCap.strike_ = capStrike;
             caps.emplace_back(nextCap);
         }
@@ -78,24 +75,22 @@ std::vector<std::vector<Matrix> > theVegaBumps(bool factorwiseBumping,
     }
 
 
-
     std::vector<VolatilityBumpInstrumentJacobian::Swaption> swaptions(numberRates);
 
-    for (Size i=0; i < numberRates; ++i)
-    {
+    for (Size i = 0; i < numberRates; ++i) {
         swaptions[i].startIndex_ = i;
         swaptions[i].endIndex_ = numberRates;
 
     }
 
     VegaBumpCollection possibleBumps(marketModel,
-        factorwiseBumping);
+                                     factorwiseBumping);
 
-    OrthogonalizedBumpFinder  bumpFinder(possibleBumps,
-        swaptions,
-        caps,
-        multiplierCutOff, // if vector length grows by more than this discard
-        projectionTolerance);      // if vector projection before scaling less than this discard
+    OrthogonalizedBumpFinder bumpFinder(possibleBumps,
+                                        swaptions,
+                                        caps,
+                                        multiplierCutOff, // if vector length grows by more than this discard
+                                        projectionTolerance);      // if vector projection before scaling less than this discard
 
     std::vector<std::vector<Matrix> > theBumps;
 
@@ -106,38 +101,34 @@ std::vector<std::vector<Matrix> > theVegaBumps(bool factorwiseBumping,
 }
 
 
+int Bermudan() {
 
-int Bermudan()
-{
-
-    Size numberRates =20;
+    Size numberRates = 20;
     Real accrual = 0.5;
     Real firstTime = 0.5;
 
 
-    std::vector<Real> rateTimes(numberRates+1);
-    for (Size i=0; i < rateTimes.size(); ++i)
-        rateTimes[i] = firstTime + i*accrual;
+    std::vector<Real> rateTimes(numberRates + 1);
+    for (Size i = 0; i < rateTimes.size(); ++i)
+        rateTimes[i] = firstTime + i * accrual;
 
     std::vector<Real> paymentTimes(numberRates);
-    std::vector<Real> accruals(numberRates,accrual);
-    for (Size i=0; i < paymentTimes.size(); ++i)
-        paymentTimes[i] = firstTime + (i+1)*accrual;
-
-
+    std::vector<Real> accruals(numberRates, accrual);
+    for (Size i = 0; i < paymentTimes.size(); ++i)
+        paymentTimes[i] = firstTime + (i + 1) * accrual;
 
 
     Real fixedRate = 0.05;
-    std::vector<Real> strikes(numberRates,fixedRate);
+    std::vector<Real> strikes(numberRates, fixedRate);
     Real receive = -1.0;
 
     // 0. a payer swap
     MultiStepSwap payerSwap(rateTimes, accruals, accruals, paymentTimes,
-        fixedRate, true);
+                            fixedRate, true);
 
     // 1. the equivalent receiver swap
     MultiStepSwap receiverSwap(rateTimes, accruals, accruals, paymentTimes,
-        fixedRate, false);
+                               fixedRate, false);
 
     //exercise schedule, we can exercise on any rate time except the last one
     std::vector<Rate> exerciseTimes(rateTimes);
@@ -155,7 +146,7 @@ int Bermudan()
     NothingExerciseValue control(rateTimes);
 
 //    SwapForwardBasisSystem basisSystem(rateTimes,exerciseTimes);
-    SwapBasisSystem basisSystem(rateTimes,exerciseTimes);
+    SwapBasisSystem basisSystem(rateTimes, exerciseTimes);
 
 
 
@@ -164,8 +155,8 @@ int Bermudan()
     NothingExerciseValue nullRebate(rateTimes);
 
     CallSpecifiedMultiProduct dummyProduct =
-        CallSpecifiedMultiProduct(receiverSwap, naifStrategy,
-        ExerciseAdapter(nullRebate));
+            CallSpecifiedMultiProduct(receiverSwap, naifStrategy,
+                                      ExerciseAdapter(nullRebate));
 
     EvolutionDescription evolution = dummyProduct.evolution();
 
@@ -176,15 +167,15 @@ int Bermudan()
     Size seed = 12332; // for Sobol generator
     Size trainingPaths = 65536;
     Size paths = 16384;
-    Size vegaPaths = 16384*64;
+    Size vegaPaths = 16384 * 64;
 
     std::cout << "training paths, " << trainingPaths << "\n";
     std::cout << "paths, " << paths << "\n";
     std::cout << "vega Paths, " << vegaPaths << "\n";
 #ifdef _DEBUG
-   trainingPaths = 512;
-  paths = 1024;
-  vegaPaths = 1024;
+    trainingPaths = 512;
+   paths = 1024;
+   vegaPaths = 1024;
 #endif
 
 
@@ -192,7 +183,7 @@ int Bermudan()
 
 
 
-    Real rateLevel =0.05;
+    Real rateLevel = 0.05;
 
 
     Real initialNumeraireValue = 0.95;
@@ -200,81 +191,79 @@ int Bermudan()
     Real volLevel = 0.11;
     Real beta = 0.2;
     Real gamma = 1.0;
-    Size numberOfFactors = std::min<Size>(5,numberRates);
+    Size numberOfFactors = std::min<Size>(5, numberRates);
 
-    Spread displacementLevel =0.02;
+    Spread displacementLevel = 0.02;
 
     // set up vectors
-    std::vector<Rate> initialRates(numberRates,rateLevel);
+    std::vector<Rate> initialRates(numberRates, rateLevel);
     std::vector<Volatility> volatilities(numberRates, volLevel);
     std::vector<Spread> displacements(numberRates, displacementLevel);
 
     ExponentialForwardCorrelation correlations(
-        rateTimes,volLevel, beta,gamma);
+            rateTimes, volLevel, beta, gamma);
 
 
+    FlatVol calibration(
+            volatilities,
+            std::make_shared<ExponentialForwardCorrelation>(correlations),
+            evolution,
+            numberOfFactors,
+            initialRates,
+            displacements);
 
-
-    FlatVol  calibration(
-        volatilities,
-        std::shared_ptr<PiecewiseConstantCorrelation>(new  ExponentialForwardCorrelation(correlations)),
-        evolution,
-        numberOfFactors,
-        initialRates,
-        displacements);
-
-    std::shared_ptr<MarketModel> marketModel(new FlatVol(calibration));
+    std::shared_ptr < MarketModel > marketModel = std::make_shared<FlatVol>(calibration);
 
     // we use a factory since there is data that will only be known later
     SobolBrownianGeneratorFactory generatorFactory(
-        SobolBrownianGenerator::Diagonal, seed);
+            SobolBrownianGenerator::Diagonal, seed);
 
-    std::vector<Size> numeraires( moneyMarketMeasure(evolution));
+    std::vector<Size> numeraires(moneyMarketMeasure(evolution));
 
     // the evolver will actually evolve the rates
-    LogNormalFwdRatePc  evolver(marketModel,
-        generatorFactory,
-        numeraires   // numeraires for each step
-        );
+    LogNormalFwdRatePc evolver(marketModel,
+                               generatorFactory,
+                               numeraires   // numeraires for each step
+    );
 
-    std::shared_ptr<MarketModelEvolver> evolverPtr(new LogNormalFwdRatePc(evolver));
+    std::shared_ptr < MarketModelEvolver > evolverPtr = std::make_shared<LogNormalFwdRatePc>(evolver);
 
-    int t1= clock();
+    int t1 = clock();
 
     // gather data before computing exercise strategy
     collectNodeData(evolver,
-        receiverSwap,
-        basisSystem,
-        nullRebate,
-        control,
-        trainingPaths,
-        collectedData);
+                    receiverSwap,
+                    basisSystem,
+                    nullRebate,
+                    control,
+                    trainingPaths,
+                    collectedData);
 
     int t2 = clock();
 
 
     // calculate the exercise strategy's coefficients
     genericLongstaffSchwartzRegression(collectedData,
-        basisCoefficients);
+                                       basisCoefficients);
 
 
     // turn the coefficients into an exercise strategy
     LongstaffSchwartzExerciseStrategy exerciseStrategy(
-        basisSystem, basisCoefficients,
-        evolution, numeraires,
-        nullRebate, control);
+            basisSystem, basisCoefficients,
+            evolution, numeraires,
+            nullRebate, control);
 
     //  bermudan swaption to enter into the payer swap
     CallSpecifiedMultiProduct bermudanProduct =
-        CallSpecifiedMultiProduct(
-        MultiStepNothing(evolution),
-        exerciseStrategy, payerSwap);
+            CallSpecifiedMultiProduct(
+                    MultiStepNothing(evolution),
+                    exerciseStrategy, payerSwap);
 
     //  callable receiver swap
     CallSpecifiedMultiProduct callableProduct =
-        CallSpecifiedMultiProduct(
-        receiverSwap, exerciseStrategy,
-        ExerciseAdapter(nullRebate));
+            CallSpecifiedMultiProduct(
+                    receiverSwap, exerciseStrategy,
+                    ExerciseAdapter(nullRebate));
 
     // lower bound: evolve all 4 products togheter
     MultiProductComposite allProducts;
@@ -285,71 +274,67 @@ int Bermudan()
     allProducts.finalize();
 
     AccountingEngine accounter(evolverPtr,
-        Clone<MarketModelMultiProduct>(allProducts),
-        initialNumeraireValue);
+                               Clone<MarketModelMultiProduct>(allProducts),
+                               initialNumeraireValue);
 
     SequenceStatisticsInc stats;
 
-    accounter.multiplePathValues (stats,paths);
+    accounter.multiplePathValues(stats, paths);
 
     int t3 = clock();
 
     std::vector<Real> means(stats.mean());
 
-    for (Size i=0; i < means.size(); ++i)
+    for (Size i = 0; i < means.size(); ++i)
         std::cout << means[i] << "\n";
 
-    std::cout << " time to build strategy, " << (t2-t1)/static_cast<Real>(CLOCKS_PER_SEC)<< ", seconds.\n";
-    std::cout << " time to price, " << (t3-t2)/static_cast<Real>(CLOCKS_PER_SEC)<< ", seconds.\n";
+    std::cout << " time to build strategy, " << (t2 - t1) / static_cast<Real>(CLOCKS_PER_SEC) << ", seconds.\n";
+    std::cout << " time to price, " << (t3 - t2) / static_cast<Real>(CLOCKS_PER_SEC) << ", seconds.\n";
 
     // vegas
 
     // do it twice once with factorwise bumping, once without
     Size pathsToDoVegas = vegaPaths;
 
-    for (Size i=0; i < 4; ++i)
-    {
+    for (Size i = 0; i < 4; ++i) {
 
-        bool allowFactorwiseBumping = i % 2 > 0 ;
+        bool allowFactorwiseBumping = i % 2 > 0;
 
-        bool doCaps = i / 2 > 0 ;
-
-
-
+        bool doCaps = i / 2 > 0;
 
 
         LogNormalFwdRateEuler evolverEuler(marketModel,
-            generatorFactory,
-            numeraires
-            ) ;
+                                           generatorFactory,
+                                           numeraires
+        );
 
-        MarketModelPathwiseSwap receiverPathwiseSwap(  rateTimes,
-            accruals,
-            strikes,
-            receive);
+        MarketModelPathwiseSwap receiverPathwiseSwap(rateTimes,
+                                                     accruals,
+                                                     strikes,
+                                                     receive);
         Clone<MarketModelPathwiseMultiProduct> receiverPathwiseSwapPtr(receiverPathwiseSwap.clone());
 
         //  callable receiver swap
         CallSpecifiedPathwiseMultiProduct callableProductPathwise(receiverPathwiseSwapPtr,
-            exerciseStrategy);
+                                                                  exerciseStrategy);
 
         Clone<MarketModelPathwiseMultiProduct> callableProductPathwisePtr(callableProductPathwise.clone());
 
 
         std::vector<std::vector<Matrix> > theBumps(theVegaBumps(allowFactorwiseBumping,
-            marketModel,
-            doCaps));
+                                                                marketModel,
+                                                                doCaps));
 
         PathwiseVegasOuterAccountingEngine
-            accountingEngineVegas(std::shared_ptr<LogNormalFwdRateEuler>(new LogNormalFwdRateEuler(evolverEuler)),
-            callableProductPathwisePtr,
-            marketModel,
-            theBumps,
-            initialNumeraireValue);
+                accountingEngineVegas(std::make_shared<LogNormalFwdRateEuler>(evolverEuler),
+                                      callableProductPathwisePtr,
+                                      marketModel,
+                                      theBumps,
+                                      initialNumeraireValue);
 
-        std::vector<Real> values,errors;
+        std::vector<Real> values, errors;
 
-        accountingEngineVegas.multiplePathValues(values,errors,pathsToDoVegas);
+        accountingEngineVegas.multiplePathValues(values, errors, pathsToDoVegas);
 
 
         std::cout << "vega output \n";
@@ -357,20 +342,18 @@ int Bermudan()
         std::cout << " doCaps " << doCaps << "\n";
 
 
-
-        Size r=0;
+        Size r = 0;
 
         std::cout << " price estimate, " << values[r++] << "\n";
 
-        for (Size i=0; i < numberRates; ++i, ++r)
+        for (Size i = 0; i < numberRates; ++i, ++r)
             std::cout << " Delta, " << i << ", " << values[r] << ", " << errors[r] << "\n";
 
         Real totalVega = 0.0;
 
-        for (; r < values.size(); ++r)
-        {
-            std::cout << " vega, " << r - 1 -  numberRates<< ", " << values[r] << " ," << errors[r] << "\n";
-            totalVega +=  values[r];
+        for (; r < values.size(); ++r) {
+            std::cout << " vega, " << r - 1 - numberRates << ", " << values[r] << " ," << errors[r] << "\n";
+            totalVega += values[r];
         }
 
         std::cout << " total Vega, " << totalVega << "\n";
@@ -378,103 +361,99 @@ int Bermudan()
 
     bool doUpperBound = true;
 
-    if (doUpperBound)
-    {
+    if (doUpperBound) {
 
         // upper bound
 
-        MTBrownianGeneratorFactory uFactory(seed+142);
+        MTBrownianGeneratorFactory uFactory(seed + 142);
 
 
-        std::shared_ptr<MarketModelEvolver> upperEvolver(new LogNormalFwdRatePc( std::shared_ptr<MarketModel>(new FlatVol(calibration)),
-            uFactory,
-            numeraires   // numeraires for each step
-            ));
+        std::shared_ptr < MarketModelEvolver > upperEvolver = std::make_shared<LogNormalFwdRatePc>(
+                std::make_shared<FlatVol>(calibration),
+                uFactory,
+                numeraires);   // numeraires for each step
 
         std::vector<std::shared_ptr<MarketModelEvolver> > innerEvolvers;
 
-        std::valarray<bool> isExerciseTime =   isInSubset(evolution.evolutionTimes(),    exerciseStrategy.exerciseTimes());
+        std::valarray<bool> isExerciseTime = isInSubset(evolution.evolutionTimes(), exerciseStrategy.exerciseTimes());
 
-        for (Size s=0; s < isExerciseTime.size(); ++s)
-        {
-            if (isExerciseTime[s])
-            {
-                MTBrownianGeneratorFactory iFactory(seed+s);
-                std::shared_ptr<MarketModelEvolver> e =std::shared_ptr<MarketModelEvolver> (static_cast<MarketModelEvolver*>(new   LogNormalFwdRatePc(std::shared_ptr<MarketModel>(new FlatVol(calibration)),
-                    uFactory,
-                    numeraires ,  // numeraires for each step
-                    s)));
+        for (Size s = 0; s < isExerciseTime.size(); ++s) {
+            if (isExerciseTime[s]) {
+                MTBrownianGeneratorFactory iFactory(seed + s);
+                std::shared_ptr < MarketModelEvolver > e = std::make_shared<LogNormalFwdRatePc>(
+                        std::make_shared<FlatVol>(calibration),
+                        uFactory,
+                        numeraires, s);  // numeraires for each step
 
                 innerEvolvers.emplace_back(e);
             }
         }
 
 
-
         UpperBoundEngine uEngine(upperEvolver,  // does outer paths
-            innerEvolvers, // for sub-simulations that do continuation values
-            receiverSwap,
-            nullRebate,
-            receiverSwap,
-            nullRebate,
-            exerciseStrategy,
-            initialNumeraireValue);
+                                 innerEvolvers, // for sub-simulations that do continuation values
+                                 receiverSwap,
+                                 nullRebate,
+                                 receiverSwap,
+                                 nullRebate,
+                                 exerciseStrategy,
+                                 initialNumeraireValue);
 
         Statistics uStats;
         Size innerPaths = 255;
-        Size outerPaths =256;
+        Size outerPaths = 256;
 
         int t4 = clock();
 
-        uEngine.multiplePathValues(uStats,outerPaths,innerPaths);
+        uEngine.multiplePathValues(uStats, outerPaths, innerPaths);
         Real upperBound = uStats.mean();
         Real upperSE = uStats.errorEstimate();
 
-        int t5=clock();
+        int t5 = clock();
 
         std::cout << " Upper - lower is, " << upperBound << ", with standard error " << upperSE << "\n";
-        std::cout << " time to compute upper bound is,  " << (t5-t4)/static_cast<Real>(CLOCKS_PER_SEC) << ", seconds.\n";
+        std::cout << " time to compute upper bound is,  " << (t5 - t4) / static_cast<Real>(CLOCKS_PER_SEC)
+                  << ", seconds.\n";
 
     }
 
     return 0;
 }
 
-int InverseFloater(Real rateLevel)
-{
+int InverseFloater(Real rateLevel) {
 
-    Size numberRates =20;
+    Size numberRates = 20;
     Real accrual = 0.5;
     Real firstTime = 0.5;
 
-    Real strike =0.15;
+    Real strike = 0.15;
     Real fixedMultiplier = 2.0;
-    Real floatingSpread =0.0;
+    Real floatingSpread = 0.0;
     bool payer = true;
 
 
-    std::vector<Real> rateTimes(numberRates+1);
-    for (Size i=0; i < rateTimes.size(); ++i)
-        rateTimes[i] = firstTime + i*accrual;
+    std::vector<Real> rateTimes(numberRates + 1);
+    for (Size i = 0; i < rateTimes.size(); ++i)
+        rateTimes[i] = firstTime + i * accrual;
 
     std::vector<Real> paymentTimes(numberRates);
-    std::vector<Real> accruals(numberRates,accrual);
-    std::vector<Real> fixedStrikes(numberRates,strike);
-    std::vector<Real> floatingSpreads(numberRates,floatingSpread);
-    std::vector<Real> fixedMultipliers(numberRates,fixedMultiplier);
+    std::vector<Real> accruals(numberRates, accrual);
+    std::vector<Real> fixedStrikes(numberRates, strike);
+    std::vector<Real> floatingSpreads(numberRates, floatingSpread);
+    std::vector<Real> fixedMultipliers(numberRates, fixedMultiplier);
 
-    for (Size i=0; i < paymentTimes.size(); ++i)
-        paymentTimes[i] = firstTime + (i+1)*accrual;
+    for (Size i = 0; i < paymentTimes.size(); ++i)
+        paymentTimes[i] = firstTime + (i + 1) * accrual;
 
-  MultiStepInverseFloater inverseFloater(
-                                                        rateTimes,
-                                                        accruals,
-                                                         accruals,
-                                                        fixedStrikes,
-                                                        fixedMultipliers,
-                                                        floatingSpreads,
-                                                         paymentTimes,
-                                                         payer);
+    MultiStepInverseFloater inverseFloater(
+            rateTimes,
+            accruals,
+            accruals,
+            fixedStrikes,
+            fixedMultipliers,
+            floatingSpreads,
+            paymentTimes,
+            payer);
 
 
 
@@ -484,7 +463,7 @@ int InverseFloater(Real rateLevel)
     exerciseTimes.pop_back();
 
     // naive exercise strategy, exercise above a trigger level
-    Real trigger =0.05;
+    Real trigger = 0.05;
     std::vector<Rate> swapTriggers(exerciseTimes.size(), trigger);
     SwapRateTrigger naifStrategy(rateTimes, swapTriggers, exerciseTimes);
 
@@ -495,7 +474,7 @@ int InverseFloater(Real rateLevel)
     // control that does nothing, need it because some control is expected
     NothingExerciseValue control(rateTimes);
 
-   SwapForwardBasisSystem basisSystem(rateTimes,exerciseTimes);
+    SwapForwardBasisSystem basisSystem(rateTimes, exerciseTimes);
 //    SwapBasisSystem basisSystem(rateTimes,exerciseTimes);
 
 
@@ -505,8 +484,8 @@ int InverseFloater(Real rateLevel)
     NothingExerciseValue nullRebate(rateTimes);
 
     CallSpecifiedMultiProduct dummyProduct =
-        CallSpecifiedMultiProduct(inverseFloater, naifStrategy,
-        ExerciseAdapter(nullRebate));
+            CallSpecifiedMultiProduct(inverseFloater, naifStrategy,
+                                      ExerciseAdapter(nullRebate));
 
     EvolutionDescription evolution = dummyProduct.evolution();
 
@@ -517,17 +496,17 @@ int InverseFloater(Real rateLevel)
     Size seed = 12332; // for Sobol generator
     Size trainingPaths = 65536;
     Size paths = 65536;
-    Size vegaPaths =16384;
+    Size vegaPaths = 16384;
 
 #ifdef _DEBUG
-   trainingPaths = 8192;
-  paths = 8192;
-  vegaPaths = 1024;
+    trainingPaths = 8192;
+   paths = 8192;
+   vegaPaths = 1024;
 #endif
 
 
-    std::cout <<  " inverse floater \n";
-    std::cout << " fixed strikes :  "  << strike << "\n";
+    std::cout << " inverse floater \n";
+    std::cout << " fixed strikes :  " << strike << "\n";
     std::cout << " number rates :  " << numberRates << "\n";
 
     std::cout << "training paths, " << trainingPaths << "\n";
@@ -541,160 +520,157 @@ int InverseFloater(Real rateLevel)
 
     //Real rateLevel =0.08;
 
-    std::cout << " rate level " <<  rateLevel << "\n";
+    std::cout << " rate level " << rateLevel << "\n";
 
     Real initialNumeraireValue = 0.95;
 
     Real volLevel = 0.11;
     Real beta = 0.2;
     Real gamma = 1.0;
-    Size numberOfFactors = std::min<Size>(5,numberRates);
+    Size numberOfFactors = std::min<Size>(5, numberRates);
 
-    Spread displacementLevel =0.02;
+    Spread displacementLevel = 0.02;
 
     // set up vectors
-    std::vector<Rate> initialRates(numberRates,rateLevel);
+    std::vector<Rate> initialRates(numberRates, rateLevel);
     std::vector<Volatility> volatilities(numberRates, volLevel);
     std::vector<Spread> displacements(numberRates, displacementLevel);
 
     ExponentialForwardCorrelation correlations(
-        rateTimes,volLevel, beta,gamma);
+            rateTimes, volLevel, beta, gamma);
 
 
+    FlatVol calibration(
+            volatilities,
+            std::make_shared<ExponentialForwardCorrelation>(correlations),
+            evolution,
+            numberOfFactors,
+            initialRates,
+            displacements);
 
-
-    FlatVol  calibration(
-        volatilities,
-        std::shared_ptr<PiecewiseConstantCorrelation>(new  ExponentialForwardCorrelation(correlations)),
-        evolution,
-        numberOfFactors,
-        initialRates,
-        displacements);
-
-    std::shared_ptr<MarketModel> marketModel(new FlatVol(calibration));
+    std::shared_ptr < MarketModel > marketModel = std::make_shared<FlatVol>(calibration);
 
     // we use a factory since there is data that will only be known later
     SobolBrownianGeneratorFactory generatorFactory(
-        SobolBrownianGenerator::Diagonal, seed);
+            SobolBrownianGenerator::Diagonal, seed);
 
-    std::vector<Size> numeraires( moneyMarketMeasure(evolution));
+    std::vector<Size> numeraires(moneyMarketMeasure(evolution));
 
     // the evolver will actually evolve the rates
-    LogNormalFwdRatePc  evolver(marketModel,
-        generatorFactory,
-        numeraires   // numeraires for each step
-        );
+    LogNormalFwdRatePc evolver(marketModel,
+                               generatorFactory,
+                               numeraires   // numeraires for each step
+    );
 
-    std::shared_ptr<MarketModelEvolver> evolverPtr(new LogNormalFwdRatePc(evolver));
+    std::shared_ptr < MarketModelEvolver > evolverPtr = std::make_shared<LogNormalFwdRatePc>(evolver);
 
-    int t1= clock();
+    int t1 = clock();
 
     // gather data before computing exercise strategy
     collectNodeData(evolver,
-        inverseFloater,
-        basisSystem,
-        nullRebate,
-        control,
-        trainingPaths,
-        collectedData);
+                    inverseFloater,
+                    basisSystem,
+                    nullRebate,
+                    control,
+                    trainingPaths,
+                    collectedData);
 
     int t2 = clock();
 
 
     // calculate the exercise strategy's coefficients
     genericLongstaffSchwartzRegression(collectedData,
-        basisCoefficients);
+                                       basisCoefficients);
 
 
     // turn the coefficients into an exercise strategy
     LongstaffSchwartzExerciseStrategy exerciseStrategy(
-        basisSystem, basisCoefficients,
-        evolution, numeraires,
-        nullRebate, control);
+            basisSystem, basisCoefficients,
+            evolution, numeraires,
+            nullRebate, control);
 
 
     //  callable receiver swap
     CallSpecifiedMultiProduct callableProduct =
-        CallSpecifiedMultiProduct(
-        inverseFloater, exerciseStrategy,
-        ExerciseAdapter(nullRebate));
+            CallSpecifiedMultiProduct(
+                    inverseFloater, exerciseStrategy,
+                    ExerciseAdapter(nullRebate));
 
-     MultiProductComposite allProducts;
+    MultiProductComposite allProducts;
     allProducts.add(inverseFloater);
     allProducts.add(callableProduct);
     allProducts.finalize();
 
 
     AccountingEngine accounter(evolverPtr,
-        Clone<MarketModelMultiProduct>(allProducts),
-        initialNumeraireValue);
+                               Clone<MarketModelMultiProduct>(allProducts),
+                               initialNumeraireValue);
 
     SequenceStatisticsInc stats;
 
-    accounter.multiplePathValues (stats,paths);
+    accounter.multiplePathValues(stats, paths);
 
     int t3 = clock();
 
     std::vector<Real> means(stats.mean());
 
-    for (Size i=0; i < means.size(); ++i)
+    for (Size i = 0; i < means.size(); ++i)
         std::cout << means[i] << "\n";
 
-    std::cout << " time to build strategy, " << (t2-t1)/static_cast<Real>(CLOCKS_PER_SEC)<< ", seconds.\n";
-    std::cout << " time to price, " << (t3-t2)/static_cast<Real>(CLOCKS_PER_SEC)<< ", seconds.\n";
+    std::cout << " time to build strategy, " << (t2 - t1) / static_cast<Real>(CLOCKS_PER_SEC) << ", seconds.\n";
+    std::cout << " time to price, " << (t3 - t2) / static_cast<Real>(CLOCKS_PER_SEC) << ", seconds.\n";
 
     // vegas
 
     // do it twice once with factorwise bumping, once without
     Size pathsToDoVegas = vegaPaths;
 
-    for (Size i=0; i < 4; ++i)
-    {
+    for (Size i = 0; i < 4; ++i) {
 
-        bool allowFactorwiseBumping = i % 2 > 0 ;
+        bool allowFactorwiseBumping = i % 2 > 0;
 
-        bool doCaps = i / 2 > 0 ;
+        bool doCaps = i / 2 > 0;
 
 
         LogNormalFwdRateEuler evolverEuler(marketModel,
-            generatorFactory,
-            numeraires
-            ) ;
+                                           generatorFactory,
+                                           numeraires
+        );
 
         MarketModelPathwiseInverseFloater pathwiseInverseFloater(
-                                                         rateTimes,
-                                                         accruals,
-                                                         accruals,
-                                                         fixedStrikes,
-                                                         fixedMultipliers,
-                                                         floatingSpreads,
-                                                         paymentTimes,
-                                                         payer);
+                rateTimes,
+                accruals,
+                accruals,
+                fixedStrikes,
+                fixedMultipliers,
+                floatingSpreads,
+                paymentTimes,
+                payer);
 
         Clone<MarketModelPathwiseMultiProduct> pathwiseInverseFloaterPtr(pathwiseInverseFloater.clone());
 
         //  callable inverse floater
         CallSpecifiedPathwiseMultiProduct callableProductPathwise(pathwiseInverseFloaterPtr,
-                                                                                                                                               exerciseStrategy);
+                                                                  exerciseStrategy);
 
         Clone<MarketModelPathwiseMultiProduct> callableProductPathwisePtr(callableProductPathwise.clone());
 
 
         std::vector<std::vector<Matrix> > theBumps(theVegaBumps(allowFactorwiseBumping,
-            marketModel,
-            doCaps));
+                                                                marketModel,
+                                                                doCaps));
 
         PathwiseVegasOuterAccountingEngine
-            accountingEngineVegas(std::shared_ptr<LogNormalFwdRateEuler>(new LogNormalFwdRateEuler(evolverEuler)),
-   //         pathwiseInverseFloaterPtr,
-            callableProductPathwisePtr,
-            marketModel,
-            theBumps,
-            initialNumeraireValue);
+                accountingEngineVegas(std::make_shared<LogNormalFwdRateEuler>(evolverEuler),
+                //         pathwiseInverseFloaterPtr,
+                                      callableProductPathwisePtr,
+                                      marketModel,
+                                      theBumps,
+                                      initialNumeraireValue);
 
-        std::vector<Real> values,errors;
+        std::vector<Real> values, errors;
 
-        accountingEngineVegas.multiplePathValues(values,errors,pathsToDoVegas);
+        accountingEngineVegas.multiplePathValues(values, errors, pathsToDoVegas);
 
 
         std::cout << "vega output \n";
@@ -702,20 +678,18 @@ int InverseFloater(Real rateLevel)
         std::cout << " doCaps " << doCaps << "\n";
 
 
-
-        Size r=0;
+        Size r = 0;
 
         std::cout << " price estimate, " << values[r++] << "\n";
 
-        for (Size i=0; i < numberRates; ++i, ++r)
+        for (Size i = 0; i < numberRates; ++i, ++r)
             std::cout << " Delta, " << i << ", " << values[r] << ", " << errors[r] << "\n";
 
         Real totalVega = 0.0;
 
-        for (; r < values.size(); ++r)
-        {
-            std::cout << " vega, " << r - 1 -  numberRates<< ", " << values[r] << " ," << errors[r] << "\n";
-            totalVega +=  values[r];
+        for (; r < values.size(); ++r) {
+            std::cout << " vega, " << r - 1 - numberRates << ", " << values[r] << " ," << errors[r] << "\n";
+            totalVega += values[r];
         }
 
         std::cout << " total Vega, " << totalVega << "\n";
@@ -723,79 +697,72 @@ int InverseFloater(Real rateLevel)
 
     bool doUpperBound = true;
 
-    if (doUpperBound)
-    {
+    if (doUpperBound) {
 
         // upper bound
 
-        MTBrownianGeneratorFactory uFactory(seed+142);
+        MTBrownianGeneratorFactory uFactory(seed + 142);
 
 
-        std::shared_ptr<MarketModelEvolver> upperEvolver(new LogNormalFwdRatePc( std::shared_ptr<MarketModel>(new FlatVol(calibration)),
-            uFactory,
-            numeraires   // numeraires for each step
-            ));
+        std::shared_ptr < MarketModelEvolver > upperEvolver = std::make_shared<LogNormalFwdRatePc>(
+                std::make_shared<FlatVol>(calibration),
+                uFactory, numeraires);   // numeraires for each step
 
         std::vector<std::shared_ptr<MarketModelEvolver> > innerEvolvers;
 
-        std::valarray<bool> isExerciseTime =   isInSubset(evolution.evolutionTimes(),    exerciseStrategy.exerciseTimes());
+        std::valarray<bool> isExerciseTime = isInSubset(evolution.evolutionTimes(), exerciseStrategy.exerciseTimes());
 
-        for (Size s=0; s < isExerciseTime.size(); ++s)
-        {
-            if (isExerciseTime[s])
-            {
-                MTBrownianGeneratorFactory iFactory(seed+s);
-                std::shared_ptr<MarketModelEvolver> e =std::shared_ptr<MarketModelEvolver> (static_cast<MarketModelEvolver*>(new   LogNormalFwdRatePc(std::shared_ptr<MarketModel>(new FlatVol(calibration)),
-                    uFactory,
-                    numeraires ,  // numeraires for each step
-                    s)));
+        for (Size s = 0; s < isExerciseTime.size(); ++s) {
+            if (isExerciseTime[s]) {
+                MTBrownianGeneratorFactory iFactory(seed + s);
+                std::shared_ptr < MarketModelEvolver > e = std::make_shared<LogNormalFwdRatePc>(
+                        std::make_shared<FlatVol>(calibration),
+                        uFactory, numeraires, s);  // numeraires for each step
 
                 innerEvolvers.emplace_back(e);
             }
         }
 
 
-
         UpperBoundEngine uEngine(upperEvolver,  // does outer paths
-            innerEvolvers, // for sub-simulations that do continuation values
-            inverseFloater,
-            nullRebate,
-            inverseFloater,
-            nullRebate,
-            exerciseStrategy,
-            initialNumeraireValue);
+                                 innerEvolvers, // for sub-simulations that do continuation values
+                                 inverseFloater,
+                                 nullRebate,
+                                 inverseFloater,
+                                 nullRebate,
+                                 exerciseStrategy,
+                                 initialNumeraireValue);
 
         Statistics uStats;
         Size innerPaths = 255;
-        Size outerPaths =256;
+        Size outerPaths = 256;
 
         int t4 = clock();
 
-        uEngine.multiplePathValues(uStats,outerPaths,innerPaths);
+        uEngine.multiplePathValues(uStats, outerPaths, innerPaths);
         Real upperBound = uStats.mean();
         Real upperSE = uStats.errorEstimate();
 
-        int t5=clock();
+        int t5 = clock();
 
         std::cout << " Upper - lower is, " << upperBound << ", with standard error " << upperSE << "\n";
-        std::cout << " time to compute upper bound is,  " << (t5-t4)/static_cast<Real>(CLOCKS_PER_SEC) << ", seconds.\n";
+        std::cout << " time to compute upper bound is,  " << (t5 - t4) / static_cast<Real>(CLOCKS_PER_SEC)
+                  << ", seconds.\n";
 
     }
-
 
 
     return 0;
 
 }
 
-int main()
-{
+int main() {
     try {
-        for (Size i=5; i < 10; ++i)
-            InverseFloater(i/100.0);
+        for (Size i = 5; i < 10; ++i)
+            InverseFloater(i / 100.0);
 
         return 0;
-    } catch (std::exception& e) {
+    } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 1;
     } catch (...) {

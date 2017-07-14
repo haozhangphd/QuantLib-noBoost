@@ -55,8 +55,8 @@ namespace QuantLib {
         Array weigths(2);
         weigths[0] = 1.0; weigths[1] = -heatRate;
 
-        payoff_ = std::shared_ptr<Payoff>(new AverageBasketPayoff(
-            std::shared_ptr<Payoff>(new IdenticalPayoff()), weigths));
+        payoff_ = std::make_shared<AverageBasketPayoff>(
+            std::make_shared<IdenticalPayoff>(), weigths);
     }
 
     void VanillaVPPOption::arguments::validate() const {

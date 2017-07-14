@@ -109,14 +109,12 @@ namespace QuantLib {
                 this->arguments_.exercise);
         QL_REQUIRE(exercise, "wrong exercise given");
 
-        return std::shared_ptr<typename
-            MCDiscreteArithmeticASEngine<RNG,S>::path_pricer_type>(
-                new ArithmeticASOPathPricer(
+        return std::make_shared<ArithmeticASOPathPricer>(
                     payoff->optionType(),
                     this->process_->riskFreeRate()->discount(
                                                      this->timeGrid().back()),
                     this->arguments_.runningAccumulator,
-                    this->arguments_.pastFixings));
+                    this->arguments_.pastFixings);
     }
 
 
@@ -206,13 +204,12 @@ namespace QuantLib {
     inline
     MakeMCDiscreteArithmeticASEngine<RNG,S>::
     operator std::shared_ptr<PricingEngine>() const {
-        return std::shared_ptr<PricingEngine>(
-            new MCDiscreteArithmeticASEngine<RNG,S>(process_,
+        return std::make_shared<MCDiscreteArithmeticASEngine<RNG,S>>(process_,
                                                     brownianBridge_,
                                                     antithetic_,
                                                     samples_, tolerance_,
                                                     maxSamples_,
-                                                    seed_));
+                                                    seed_);
     }
 
 }

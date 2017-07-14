@@ -77,8 +77,7 @@ namespace QuantLib {
         };
       public:
         FellerConstraint()
-        : Constraint(std::shared_ptr<Constraint::Impl>(
-                                           new FellerConstraint::Impl)) {}
+        : Constraint(std::make_shared<FellerConstraint::Impl>()) {}
     };
 }
 

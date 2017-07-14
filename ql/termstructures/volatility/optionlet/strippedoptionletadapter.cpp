@@ -73,9 +73,9 @@ namespace QuantLib {
 
         const std::vector<Time>& optionletTimes =
                                     optionletStripper_->optionletFixingTimes();
-        std::shared_ptr<LinearInterpolation> timeInterpolator(new
-            LinearInterpolation(optionletTimes.begin(), optionletTimes.end(),
-                                vol.begin()));
+        std::shared_ptr<LinearInterpolation> timeInterpolator =
+            std::make_shared<LinearInterpolation>(optionletTimes.begin(), optionletTimes.end(),
+                                vol.begin());
         return timeInterpolator->operator()(length, true);
     }
 
@@ -89,8 +89,8 @@ namespace QuantLib {
                 optionletStripper_->optionletStrikes(i);
             const std::vector<Volatility>& optionletVolatilities =
                 optionletStripper_->optionletVolatilities(i);
-            //strikeInterpolations_[i] = std::shared_ptr<SABRInterpolation>(new
-            //            SABRInterpolation(optionletStrikes.begin(), optionletStrikes.end(),
+            //strikeInterpolations_[i] = std::make_shared<SABRInterpolation>(
+	    //                              optionletStrikes.begin(), optionletStrikes.end(),
             //                              optionletVolatilities.begin(),
             //                              optionletTimes[i], atmForward[i],
             //                              0.02,0.5,0.2,0.,
@@ -104,12 +104,10 @@ namespace QuantLib {
             //                              ////,
             //                              //vegaWeightedSmileFit_,
             //                              //endCriteria_,
-            //                              //optMethod_
-            //                              ));
-            strikeInterpolations_[i] = std::shared_ptr<LinearInterpolation>(new
-                LinearInterpolation(optionletStrikes.begin(),
+            //                              //optMethod_ );
+            strikeInterpolations_[i] = std::make_shared<LinearInterpolation>(optionletStrikes.begin(),
                                     optionletStrikes.end(),
-                                    optionletVolatilities.begin()));
+                                    optionletVolatilities.begin());
 
             //QL_ENSURE(strikeInterpolations_[i]->endCriteria()!=EndCriteria::MaxIterations,
             //          "section calibration failed: "

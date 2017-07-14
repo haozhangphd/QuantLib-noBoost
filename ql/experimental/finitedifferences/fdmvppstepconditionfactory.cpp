@@ -60,8 +60,7 @@ namespace QuantLib {
             QL_FAIL("vpp type is not supported");
         }
 
-        return std::shared_ptr<Fdm1dMesher>(
-            new Uniform1dMesher(0.0, 1.0, nStates));
+        return std::make_shared<Uniform1dMesher>(0.0, 1.0, nStates);
     }
 
     std::shared_ptr<FdmVPPStepCondition> FdmVPPStepConditionFactory::build(
@@ -80,9 +79,8 @@ namespace QuantLib {
         switch (type_) {
           case Vanilla:
           case StartLimit:
-              return std::shared_ptr<FdmVPPStepCondition>(
-                  new FdmVPPStartLimitStepCondition(params, args_.nStarts,
-                          mesh, fuel, spark));
+              return std::make_shared<FdmVPPStartLimitStepCondition>(params, args_.nStarts,
+                          mesh, fuel, spark);
               break;
           default:
             QL_FAIL("vpp type is not supported");

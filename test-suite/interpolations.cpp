@@ -1283,11 +1283,10 @@ TEST_CASE("Interpolation_SabrInterpolation", "[Interpolation]") {
     Real calibrationTolerance = 5.0e-8;
     // initialize optimization methods
     std::vector<std::shared_ptr<OptimizationMethod> > methods_;
-    methods_.emplace_back(std::shared_ptr < OptimizationMethod > (new Simplex(0.01)));
-    methods_.emplace_back(std::shared_ptr < OptimizationMethod > (new LevenbergMarquardt(1e-8, 1e-8, 1e-8)));
+    methods_.emplace_back(std::make_shared<Simplex>(0.01));
+    methods_.emplace_back(std::make_shared<LevenbergMarquardt>(1e-8, 1e-8, 1e-8));
     // Initialize end criteria
-    std::shared_ptr < EndCriteria > endCriteria(new
-                                                        EndCriteria(100000, 100, 1e-8, 1e-8, 1e-8));
+    std::shared_ptr < EndCriteria > endCriteria = std::make_shared<EndCriteria>(100000, 100, 1e-8, 1e-8, 1e-8);
     // Test looping over all possibilities
     for (Size j = 0; j < methods_.size(); ++j) {
         for (Size i = 0; i < LENGTH(vegaWeighted); ++i) {
@@ -1964,11 +1963,10 @@ TEST_CASE("Interpolation_NoArbSabrInterpolation", "[Interpolation]") {
     Real calibrationTolerance = 5.0e-6;
     // initialize optimization methods
     std::vector<std::shared_ptr<OptimizationMethod> > methods_;
-    methods_.emplace_back(std::shared_ptr < OptimizationMethod > (new Simplex(0.01)));
-    methods_.emplace_back(std::shared_ptr < OptimizationMethod > (new LevenbergMarquardt(1e-8, 1e-8, 1e-8)));
+    methods_.emplace_back(std::make_shared<Simplex>(0.01));
+    methods_.emplace_back(std::make_shared<LevenbergMarquardt>(1e-8, 1e-8, 1e-8));
     // Initialize end criteria
-    std::shared_ptr < EndCriteria > endCriteria(new
-                                                        EndCriteria(100000, 100, 1e-8, 1e-8, 1e-8));
+    std::shared_ptr < EndCriteria > endCriteria = std::make_shared<EndCriteria>(100000, 100, 1e-8, 1e-8, 1e-8);
     // Test looping over all possibilities
     for (Size j = 1; j < methods_.size(); ++j) { // skip simplex (gets caught in some cases)
         for (Size i = 0; i < LENGTH(vegaWeighted); ++i) {

@@ -53,9 +53,9 @@ namespace QuantLib {
 
         // 1.1 The variance mesher
         const Size tGridMin = 5;
-        const std::shared_ptr<FdmHestonVarianceMesher> varianceMesher(
-            new FdmHestonVarianceMesher(vGrid_, process, maturity,
-                                        std::max(tGridMin, tGrid_/50)));
+        const std::shared_ptr<FdmHestonVarianceMesher> varianceMesher =
+            std::make_shared<FdmHestonVarianceMesher>(vGrid_, process, maturity,
+                                        std::max(tGridMin, tGrid_/50));
 
         // 1.2 The equity mesher
         const std::shared_ptr<StrikedTypePayoff> payoff =
@@ -72,22 +72,22 @@ namespace QuantLib {
             xMax = std::log(arguments_.barrier);
         }
 
-        const std::shared_ptr<Fdm1dMesher> equityMesher(
-            new FdmBlackScholesMesher(
+        const std::shared_ptr<Fdm1dMesher> equityMesher =
+            std::make_shared<FdmBlackScholesMesher>(
                 xGrid_,
                 FdmBlackScholesMesher::processHelper(
                     process->s0(), process->dividendYield(), 
                     process->riskFreeRate(), varianceMesher->volaEstimate()),
-                maturity, payoff->strike(), xMin, xMax));
+                maturity, payoff->strike(), xMin, xMax);
         
-        const std::shared_ptr<FdmMesher> mesher (
-            new FdmMesherComposite(equityMesher, varianceMesher));
+        const std::shared_ptr<FdmMesher> mesher =
+            std::make_shared<FdmMesherComposite>(equityMesher, varianceMesher);
 
         // 2. Calculator
-        const std::shared_ptr<StrikedTypePayoff> rebatePayoff(
-                new CashOrNothingPayoff(Option::Call, 0.0, arguments_.rebate));
-        const std::shared_ptr<FdmInnerValueCalculator> calculator(
-                                new FdmLogInnerValue(rebatePayoff, mesher, 0));
+        const std::shared_ptr<StrikedTypePayoff> rebatePayoff =
+                std::make_shared<CashOrNothingPayoff>(Option::Call, 0.0, arguments_.rebate);
+        const std::shared_ptr<FdmInnerValueCalculator> calculator =
+                                std::make_shared<FdmLogInnerValue>(rebatePayoff, mesher, 0);
 
         // 3. Step conditions
         QL_REQUIRE(arguments_.exercise->type() == Exercise::European,
@@ -104,16 +104,14 @@ namespace QuantLib {
         FdmBoundaryConditionSet boundaries;
         if (   arguments_.barrierType == Barrier::DownIn
             || arguments_.barrierType == Barrier::DownOut) {
-            boundaries.emplace_back(FdmBoundaryConditionSet::value_type(
-                new FdmDirichletBoundary(mesher, arguments_.rebate, 0,
-                                         FdmDirichletBoundary::Lower)));
+            boundaries.emplace_back(std::make_shared<FdmDirichletBoundary>(mesher, arguments_.rebate, 0,
+                                         FdmDirichletBoundary::Lower));
 
         }
         if (   arguments_.barrierType == Barrier::UpIn
             || arguments_.barrierType == Barrier::UpOut) {
-            boundaries.emplace_back(FdmBoundaryConditionSet::value_type(
-                new FdmDirichletBoundary(mesher, arguments_.rebate, 0,
-                                         FdmDirichletBoundary::Upper)));
+            boundaries.emplace_back(std::make_shared<FdmDirichletBoundary>(mesher, arguments_.rebate, 0,
+                                         FdmDirichletBoundary::Upper));
         }
 
         // 5. Solver
@@ -121,9 +119,9 @@ namespace QuantLib {
                                      calculator, maturity,
                                      tGrid_, dampingSteps_ };
 
-        std::shared_ptr<FdmHestonSolver> solver(new FdmHestonSolver(
+        std::shared_ptr<FdmHestonSolver> solver = std::make_shared<FdmHestonSolver>(
                     Handle<HestonProcess>(process), solverDesc, schemeDesc_,
-                    Handle<FdmQuantoHelper>(), leverageFct_));
+                    Handle<FdmQuantoHelper>(), leverageFct_);
 
         const Real spot = process->s0()->value();
         results_.value = solver->valueAt(spot, process->v0());

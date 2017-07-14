@@ -162,15 +162,14 @@ namespace QuantLib {
         QL_REQUIRE(!exercise->payoffAtExpiry(),
                    "payoff at expiry not handled");
 
-        std::shared_ptr<AmericanBasketPathPricer> earlyExercisePathPricer(
-            new AmericanBasketPathPricer(processArray->size(),
-                                         this->arguments_.payoff));
+        std::shared_ptr<AmericanBasketPathPricer> earlyExercisePathPricer =
+            std::make_shared<AmericanBasketPathPricer>(processArray->size(),
+                                         this->arguments_.payoff);
 
-        return std::shared_ptr<LongstaffSchwartzPathPricer<MultiPath> > (
-             new LongstaffSchwartzPathPricer<MultiPath>(
+        return std::make_shared<LongstaffSchwartzPathPricer<MultiPath>>(
                      this->timeGrid(),
                      earlyExercisePathPricer,
-                     *(process->riskFreeRate())));
+                     *(process->riskFreeRate()));
     }
 
 
@@ -261,8 +260,7 @@ namespace QuantLib {
                    "number of steps not given");
         QL_REQUIRE(steps_ == Null<Size>() || stepsPerYear_ == Null<Size>(),
                    "number of steps overspecified");
-        return std::shared_ptr<PricingEngine>(new
-            MCAmericanBasketEngine<RNG>(process_,
+        return std::make_shared<MCAmericanBasketEngine<RNG>>(process_,
                                         steps_,
                                         stepsPerYear_,
                                         brownianBridge_,
@@ -271,7 +269,7 @@ namespace QuantLib {
                                         tolerance_,
                                         maxSamples_,
                                         seed_,
-                                        calibrationSamples_));
+                                        calibrationSamples_);
     }
 
 }

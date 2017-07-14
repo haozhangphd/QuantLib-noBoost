@@ -31,8 +31,7 @@ namespace QuantLib {
         if (i != commodityTypes_.end())
             data_ = i->second;
         else {
-            data_ = std::shared_ptr<CommodityType::Data>(
-                                         new CommodityType::Data(name, code));
+            data_ = std::make_shared<CommodityType::Data>(name, code);
             commodityTypes_[code] = data_;
         }
     }

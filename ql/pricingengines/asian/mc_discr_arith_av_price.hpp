@@ -69,9 +69,8 @@ namespace QuantLib {
         std::shared_ptr<path_pricer_type> pathPricer() const;
         std::shared_ptr<path_pricer_type> controlPathPricer() const;
         std::shared_ptr<PricingEngine> controlPricingEngine() const {
-            return std::shared_ptr<PricingEngine>(
-                new AnalyticDiscreteGeometricAveragePriceAsianEngine(
-                                                             this->process_));
+            return std::make_shared<AnalyticDiscreteGeometricAveragePriceAsianEngine>(
+                                                             this->process_);
         }
     };
 
@@ -130,15 +129,13 @@ namespace QuantLib {
                 this->arguments_.exercise);
         QL_REQUIRE(exercise, "wrong exercise given");
 
-        return std::shared_ptr<typename
-            MCDiscreteArithmeticAPEngine<RNG,S>::path_pricer_type>(
-                new ArithmeticAPOPathPricer(
+        return std::make_shared<ArithmeticAPOPathPricer>(
                     payoff->optionType(),
                     payoff->strike(),
                     this->process_->riskFreeRate()->discount(
                                                      this->timeGrid().back()),
                     this->arguments_.runningAccumulator,
-                    this->arguments_.pastFixings));
+                    this->arguments_.pastFixings);
     }
 
     template <class RNG, class S>
@@ -160,13 +157,11 @@ namespace QuantLib {
         // for seasoned option the geometric strike might be rescaled
         // to obtain an equivalent arithmetic strike.
         // Any change applied here MUST be applied to the analytic engine too
-        return std::shared_ptr<typename
-            MCDiscreteArithmeticAPEngine<RNG,S>::path_pricer_type>(
-            new GeometricAPOPathPricer(
+        return std::make_shared<GeometricAPOPathPricer>(
               payoff->optionType(),
               payoff->strike(),
               this->process_->riskFreeRate()->discount(
-                                                   this->timeGrid().back())));
+                                                   this->timeGrid().back()));
     }
 
     template <class RNG = PseudoRandom, class S = Statistics>
@@ -262,13 +257,12 @@ namespace QuantLib {
     inline
     MakeMCDiscreteArithmeticAPEngine<RNG,S>::operator std::shared_ptr<PricingEngine>()
                                                                       const {
-        return std::shared_ptr<PricingEngine>(new
-            MCDiscreteArithmeticAPEngine<RNG,S>(process_,
+        return std::make_shared<MCDiscreteArithmeticAPEngine<RNG,S>>(process_,
                                                 brownianBridge_,
                                                 antithetic_, controlVariate_,
                                                 samples_, tolerance_,
                                                 maxSamples_,
-                                                seed_));
+                                                seed_);
     }
 
 

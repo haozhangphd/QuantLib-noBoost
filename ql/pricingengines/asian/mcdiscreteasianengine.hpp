@@ -83,9 +83,8 @@ namespace QuantLib {
             TimeGrid grid = this->timeGrid();
             typename RNG::rsg_type gen =
                 RNG::make_sequence_generator(grid.size()-1,seed_);
-            return std::shared_ptr<path_generator_type>(
-                         new path_generator_type(process_, grid,
-                                                 gen, brownianBridge_));
+            return std::make_shared<path_generator_type>(process_, grid,
+                                                 gen, brownianBridge_);
         }
         Real controlVariateValue() const;
         // data members

@@ -41,7 +41,7 @@ TEST_CASE("Observable_ObservableSettings", "[Observable]") {
 
     INFO("Testing observable settings...");
 
-    const std::shared_ptr<SimpleQuote> quote(new SimpleQuote(100.0));
+    const std::shared_ptr<SimpleQuote> quote = std::make_shared<SimpleQuote>(100.0);
     UpdateCounter updateCounter;
 
     updateCounter.registerWith(quote);
@@ -169,13 +169,13 @@ TEST_CASE("Observable_AsyncGarbagCollector", "[.]") {
     // of the observer pattern (comparable situation
     // in JVM or .NET eco systems).
 
-    const std::shared_ptr<SimpleQuote> quote(new SimpleQuote(-1.0));
+    const std::shared_ptr<SimpleQuote> quote = std::make_shared<SimpleQuote>(-1.0);
 
     GarbageCollector gc;
     std::thread workerThread(&GarbageCollector::run, &gc);
 
     for (Size i=0; i < 10000; ++i) {
-        const std::shared_ptr<MTUpdateCounter> observer(new MTUpdateCounter);
+        const std::shared_ptr<MTUpdateCounter> observer = std::make_shared<MTUpdateCounter>();
         observer->registerWith(quote);
         gc.addObj(observer);
 
@@ -196,7 +196,7 @@ TEST_CASE("Observable_MultiThreadingGlobalSettings", "[.]") {
 	INFO("Testing observer global settings in a "
 		               "multithreading environment...");
 	
-	const std::shared_ptr<SimpleQuote> quote(new SimpleQuote(-1.0));
+	const std::shared_ptr<SimpleQuote> quote = std::make_shared<SimpleQuote>(-1.0);
 
     ObservableSettings::instance().disableUpdates(true);
 
@@ -207,7 +207,7 @@ TEST_CASE("Observable_MultiThreadingGlobalSettings", "[.]") {
     local_list_type localList;
 
     for (Size i=0; i < 4000; ++i) {
-        const std::shared_ptr<MTUpdateCounter> observer(new MTUpdateCounter);
+        const std::shared_ptr<MTUpdateCounter> observer = std::make_shared<MTUpdateCounter>();
         observer->registerWith(quote);
 
         if ((i%4) == 0) {

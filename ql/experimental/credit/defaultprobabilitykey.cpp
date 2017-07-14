@@ -67,16 +67,13 @@ namespace QuantLib {
         Restructuring::Type resType)
     : DefaultProbKey(std::vector<std::shared_ptr<DefaultType> >(),
                      currency, sen) {
-        eventTypes_.emplace_back( std::shared_ptr<DefaultType>(
-            new FailureToPay(graceFailureToPay,
-            amountFailure)));
+        eventTypes_.emplace_back(std::make_shared<FailureToPay>(graceFailureToPay,
+            amountFailure));
         // no specifics for Bankruptcy
-        eventTypes_.emplace_back( std::shared_ptr<DefaultType>(
-            new DefaultType(AtomicDefault::Bankruptcy,
-                            Restructuring::XR)));
+        eventTypes_.emplace_back(std::make_shared<DefaultType>(AtomicDefault::Bankruptcy,
+                            Restructuring::XR));
         if(resType != Restructuring::NoRestructuring)
-            eventTypes_.emplace_back( std::shared_ptr<DefaultType>(
-                new DefaultType(AtomicDefault::Restructuring, resType)));
+            eventTypes_.emplace_back(std::make_shared<DefaultType>(AtomicDefault::Restructuring, resType));
     }
 
 }

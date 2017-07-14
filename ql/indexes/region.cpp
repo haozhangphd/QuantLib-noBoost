@@ -24,37 +24,37 @@ namespace QuantLib {
 
     CustomRegion::CustomRegion(const std::string& name,
                                const std::string& code) {
-        data_ = std::shared_ptr<Data>(new Data(name,code));
+        data_ = std::make_shared<Data>(name,code);
     }
 
 
     AustraliaRegion::AustraliaRegion() {
-        static std::shared_ptr<Data> AUdata(new Data("Australia","AU"));
+        static std::shared_ptr<Data> AUdata = std::make_shared<Data>("Australia","AU");
         data_ = AUdata;
     }
 
     EURegion::EURegion() {
-        static std::shared_ptr<Data> EUdata(new Data("EU","EU"));
+        static std::shared_ptr<Data> EUdata = std::make_shared<Data>("EU","EU");
         data_ = EUdata;
     }
 
     FranceRegion::FranceRegion() {
-        static std::shared_ptr<Data> FRdata(new Data("France","FR"));
+        static std::shared_ptr<Data> FRdata = std::make_shared<Data>("France","FR");
         data_ = FRdata;
     }
 
     UKRegion::UKRegion() {
-        static std::shared_ptr<Data> UKdata(new Data("UK","UK"));
+        static std::shared_ptr<Data> UKdata = std::make_shared<Data>("UK","UK");
         data_ = UKdata;
     }
 
     USRegion::USRegion() {
-        static std::shared_ptr<Data> USdata(new Data("USA","US"));
+        static std::shared_ptr<Data> USdata = std::make_shared<Data>("USA","US");
         data_ = USdata;
     }
 
     ZARegion::ZARegion() {
-        static std::shared_ptr<Data> ZAdata(new Data("South Africa","ZA"));
+        static std::shared_ptr<Data> ZAdata = std::make_shared<Data>("South Africa","ZA");
         data_ = ZAdata;
     }
 

@@ -97,8 +97,8 @@ TEST_CASE("SpreadOption_KirkEngine", "[SpreadOption]") {
         Date exerciseDate = today  + cases[i].length;
 
         // Futures values
-        std::shared_ptr<SimpleQuote> F1(new SimpleQuote(cases[i].F1));
-        std::shared_ptr<SimpleQuote> F2(new SimpleQuote(cases[i].F2));
+        std::shared_ptr<SimpleQuote> F1 = std::make_shared<SimpleQuote>(cases[i].F1);
+        std::shared_ptr<SimpleQuote> F2 = std::make_shared<SimpleQuote>(cases[i].F2);
 
         // Risk-free interest rate
         Rate riskFreeRate = cases[i].r;
@@ -106,7 +106,7 @@ TEST_CASE("SpreadOption_KirkEngine", "[SpreadOption]") {
             flatRate(today,riskFreeRate,dc);
 
         // Correlation
-        std::shared_ptr<Quote> rho(new SimpleQuote(cases[i].rho));
+        std::shared_ptr<Quote> rho = std::make_shared<SimpleQuote>(cases[i].rho);
 
         // Volatilities
         Volatility vol1 = cases[i].sigma1;
@@ -118,28 +118,28 @@ TEST_CASE("SpreadOption_KirkEngine", "[SpreadOption]") {
 
         // Black-Scholes Processes
         // The BlackProcess is the relevant class for futures contracts
-        std::shared_ptr<BlackProcess> stochProcess1(
-                     new BlackProcess(Handle<Quote>(F1),
+        std::shared_ptr<BlackProcess> stochProcess1 =
+                     std::make_shared<BlackProcess>(Handle<Quote>(F1),
                                       Handle<YieldTermStructure>(forwardRate),
-                                      Handle<BlackVolTermStructure>(volTS1)));
+                                      Handle<BlackVolTermStructure>(volTS1));
 
-        std::shared_ptr<BlackProcess> stochProcess2(
-                     new BlackProcess(Handle<Quote>(F2),
+        std::shared_ptr<BlackProcess> stochProcess2 =
+                     std::make_shared<BlackProcess>(Handle<Quote>(F2),
                                       Handle<YieldTermStructure>(forwardRate),
-                                      Handle<BlackVolTermStructure>(volTS2)));
+                                      Handle<BlackVolTermStructure>(volTS2));
 
         // Creating the pricing engine
-        std::shared_ptr<PricingEngine> engine(
-                      new KirkSpreadOptionEngine(stochProcess1, stochProcess2,
-                                                 Handle<Quote>(rho)));
+        std::shared_ptr<PricingEngine> engine =
+                      std::make_shared<KirkSpreadOptionEngine>(stochProcess1, stochProcess2,
+                                                 Handle<Quote>(rho));
 
         // Finally, create the option:
         Option::Type type = Option::Call;
         Real strike = cases[i].X;
-        std::shared_ptr<PlainVanillaPayoff> payoff(
-                                        new PlainVanillaPayoff(type, strike));
-        std::shared_ptr<Exercise> exercise(
-                                          new EuropeanExercise(exerciseDate));
+        std::shared_ptr<PlainVanillaPayoff> payoff =
+                                        std::make_shared<PlainVanillaPayoff>(type, strike);
+        std::shared_ptr<Exercise> exercise =
+                                          std::make_shared<EuropeanExercise>(exerciseDate);
 
         SpreadOption option(payoff, exercise);
         option.setPricingEngine(engine);

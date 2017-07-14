@@ -104,8 +104,8 @@ namespace QuantLib {
                            "null term structure set to this instance of " <<
                            overnightIndex_->name());
                 bool includeSettlementDateFlows = false;
-                shared_ptr<PricingEngine> engine(new
-                    DiscountingSwapEngine(disc, includeSettlementDateFlows));
+                shared_ptr<PricingEngine> engine =
+                    std::make_shared<DiscountingSwapEngine>(disc, includeSettlementDateFlows);
                 temp.setPricingEngine(engine);
             } else
                 temp.setPricingEngine(engine_);
@@ -113,18 +113,18 @@ namespace QuantLib {
             usedFixedRate = temp.fairRate();
         }
 
-        shared_ptr<OvernightIndexedSwap> ois(new
-            OvernightIndexedSwap(type_, nominal_,
+        shared_ptr<OvernightIndexedSwap> ois =
+            std::make_shared<OvernightIndexedSwap>(type_, nominal_,
                                  schedule,
                                  usedFixedRate, fixedDayCount_,
-                                 overnightIndex_, overnightSpread_));
+                                 overnightIndex_, overnightSpread_);
 
         if (engine_ == 0) {
             Handle<YieldTermStructure> disc =
                                 overnightIndex_->forwardingTermStructure();
             bool includeSettlementDateFlows = false;
-            shared_ptr<PricingEngine> engine(new
-                DiscountingSwapEngine(disc, includeSettlementDateFlows));
+            shared_ptr<PricingEngine> engine =
+                std::make_shared<DiscountingSwapEngine>(disc, includeSettlementDateFlows);
             ois->setPricingEngine(engine);
         } else
             ois->setPricingEngine(engine_);
@@ -181,8 +181,7 @@ namespace QuantLib {
     MakeOIS& MakeOIS::withDiscountingTermStructure(
                                         const Handle<YieldTermStructure>& d) {
         bool includeSettlementDateFlows = false;
-        engine_ = shared_ptr<PricingEngine>(new
-            DiscountingSwapEngine(d, includeSettlementDateFlows));
+        engine_ = std::make_shared<DiscountingSwapEngine>(d, includeSettlementDateFlows);
         return *this;
     }
 

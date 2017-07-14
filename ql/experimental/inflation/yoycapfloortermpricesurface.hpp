@@ -515,14 +515,12 @@ namespace QuantLib {
         std::vector<std::shared_ptr<BootstrapHelper<YoYInflationTermStructure> > > YYhelpers;
         for (Size i=1; i<=nYears; i++) {
             Date maturity = nominalTermStructure()->referenceDate() + Period(i,Years);
-            Handle<Quote> quote(std::shared_ptr<Quote>(
-                               new SimpleQuote( atmYoYSwapRate( maturity ) )));//!
-            std::shared_ptr<BootstrapHelper<YoYInflationTermStructure> >
-            anInstrument(
-                new YearOnYearInflationSwapHelper(
+            Handle<Quote> quote(std::make_shared<SimpleQuote>(atmYoYSwapRate( maturity ) ));//!
+            std::shared_ptr<BootstrapHelper<YoYInflationTermStructure>> anInstrument =
+                std::make_shared<YearOnYearInflationSwapHelper>(
                                 quote, observationLag(), maturity,
                                 calendar(), bdc_, dayCounter(),
-                                yoyIndex()));
+                                yoyIndex());
             YYhelpers.emplace_back (anInstrument);
         }
 
@@ -533,12 +531,12 @@ namespace QuantLib {
 
         Handle<YieldTermStructure> nominalH( nominalTermStructure() );
         // Linear is OK because we have every year
-        std::shared_ptr<PiecewiseYoYInflationCurve<Linear> >   pYITS(
-              new PiecewiseYoYInflationCurve<Linear>(
+        std::shared_ptr<PiecewiseYoYInflationCurve<Linear>> pYITS =
+              std::make_shared<PiecewiseYoYInflationCurve<Linear>>(
                       nominalTermStructure()->referenceDate(),
                       calendar(), dayCounter(), observationLag(), yoyIndex()->frequency(),
                       yoyIndex()->interpolated(), baseYoYRate,
-                      nominalH, YYhelpers));
+                      nominalH, YYhelpers);
         pYITS->recalculate();
         yoy_ = pYITS;   // store
 

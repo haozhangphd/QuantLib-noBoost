@@ -62,20 +62,20 @@ namespace QuantLib {
         const Time maturity = dc.yearFraction(referenceDate,
                                               arguments_.exercise->lastDate());
 
-        const std::shared_ptr<OrnsteinUhlenbeckProcess> process1(
-            new OrnsteinUhlenbeckProcess(model_->a(), model_->sigma()));
+        const std::shared_ptr<OrnsteinUhlenbeckProcess> process1 =
+            std::make_shared<OrnsteinUhlenbeckProcess>(model_->a(), model_->sigma());
 
-        const std::shared_ptr<OrnsteinUhlenbeckProcess> process2(
-            new OrnsteinUhlenbeckProcess(model_->b(), model_->eta()));
+        const std::shared_ptr<OrnsteinUhlenbeckProcess> process2 =
+            std::make_shared<OrnsteinUhlenbeckProcess>(model_->b(), model_->eta());
 
-        const std::shared_ptr<Fdm1dMesher> xMesher(
-            new FdmSimpleProcess1dMesher(xGrid_,process1,maturity,1,invEps_));
+        const std::shared_ptr<Fdm1dMesher> xMesher =
+            std::make_shared<FdmSimpleProcess1dMesher>(xGrid_,process1,maturity,1,invEps_);
 
-        const std::shared_ptr<Fdm1dMesher> yMesher(
-            new FdmSimpleProcess1dMesher(yGrid_,process2,maturity,1,invEps_));
+        const std::shared_ptr<Fdm1dMesher> yMesher =
+            std::make_shared<FdmSimpleProcess1dMesher>(yGrid_,process2,maturity,1,invEps_);
 
-        const std::shared_ptr<FdmMesher> mesher(
-            new FdmMesherComposite(xMesher, yMesher));
+        const std::shared_ptr<FdmMesher> mesher =
+            std::make_shared<FdmMesherComposite>(xMesher, yMesher);
 
         // 3. Inner Value Calculator
         const std::vector<Date>& exerciseDates = arguments_.exercise->dates();
@@ -97,14 +97,14 @@ namespace QuantLib {
         QL_REQUIRE(fwdTs->referenceDate() == disTs->referenceDate(),
                 "reference date of forward and discount curve must match");
 
-        const std::shared_ptr<G2> fwdModel(
-            new G2(fwdTs, model_->a(), model_->sigma(),
-                   model_->b(), model_->eta(), model_->rho()));
+        const std::shared_ptr<G2> fwdModel =
+            std::make_shared<G2>(fwdTs, model_->a(), model_->sigma(),
+                   model_->b(), model_->eta(), model_->rho());
 
-        const std::shared_ptr<FdmInnerValueCalculator> calculator(
-             new FdmAffineModelSwapInnerValue<G2>(
+        const std::shared_ptr<FdmInnerValueCalculator> calculator =
+             std::make_shared<FdmAffineModelSwapInnerValue<G2>>(
                  model_.currentLink(), fwdModel,
-                 arguments_.swap, t2d, mesher, 0));
+                 arguments_.swap, t2d, mesher, 0);
 
         // 4. Step conditions
         const std::shared_ptr<FdmStepConditionComposite> conditions =
@@ -120,8 +120,8 @@ namespace QuantLib {
                                      calculator, maturity,
                                      tGrid_, dampingSteps_ };
 
-        const std::unique_ptr<FdmG2Solver> solver(
-            new FdmG2Solver(model_, solverDesc, schemeDesc_));
+        const std::unique_ptr<FdmG2Solver> solver =
+            std::make_unique<FdmG2Solver>(model_, solverDesc, schemeDesc_);
 
         results_.value = solver->valueAt(0.0, 0.0);
     }

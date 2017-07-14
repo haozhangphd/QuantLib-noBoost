@@ -154,7 +154,7 @@ namespace QuantLib {
 
     template <class TS>
     BootstrapHelper<TS>::BootstrapHelper(Real quote)
-    : quote_(Handle<Quote>(std::shared_ptr<Quote>(new SimpleQuote(quote)))),
+    : quote_(Handle<Quote>(std::make_shared<SimpleQuote>(quote))),
       termStructure_(0) {}
 
     template <class TS>

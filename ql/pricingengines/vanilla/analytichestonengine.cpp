@@ -322,7 +322,7 @@ namespace QuantLib {
             VanillaOption::results>(model),
               evaluations_(0),
               cpxLog_(Gatheral),
-              integration_(new Integration(
+              integration_(std::make_shared<Integration>(
                       Integration::gaussLaguerre(integrationOrder))) {
     }
 
@@ -334,7 +334,7 @@ namespace QuantLib {
             VanillaOption::results>(model),
               evaluations_(0),
               cpxLog_(Gatheral),
-              integration_(new Integration(Integration::gaussLobatto(
+              integration_(std::make_shared<Integration>(Integration::gaussLobatto(
                       relTolerance, Null<Real>(), maxEvaluations))) {
     }
 
@@ -347,7 +347,7 @@ namespace QuantLib {
             VanillaOption::results>(model),
               evaluations_(0),
               cpxLog_(cpxLog),
-              integration_(new Integration(integration)) {
+              integration_(std::make_shared<Integration>(integration)) {
         QL_REQUIRE(cpxLog_ != BranchCorrection
                    || !integration.isAdaptiveIntegration(),
                    "Branch correction does not work in conjunction "
@@ -461,81 +461,71 @@ namespace QuantLib {
                                                     Real absTolerance,
                                                     Size maxEvaluations) {
         return Integration(GaussLobatto,
-                           std::shared_ptr < Integrator > (
-                                   new GaussLobattoIntegral(maxEvaluations,
+                           std::make_shared<GaussLobattoIntegral>(maxEvaluations,
                                                             absTolerance,
                                                             relTolerance,
-                                                            false)));
+                                                            false));
     }
 
     AnalyticHestonEngine::Integration
     AnalyticHestonEngine::Integration::gaussKronrod(Real absTolerance,
                                                     Size maxEvaluations) {
         return Integration(GaussKronrod,
-                           std::shared_ptr < Integrator > (
-                                   new GaussKronrodAdaptive(absTolerance,
-                                                            maxEvaluations)));
+                           std::make_shared<GaussKronrodAdaptive>(absTolerance,
+                                                            maxEvaluations));
     }
 
     AnalyticHestonEngine::Integration
     AnalyticHestonEngine::Integration::simpson(Real absTolerance,
                                                Size maxEvaluations) {
         return Integration(Simpson,
-                           std::shared_ptr < Integrator > (
-                                   new SimpsonIntegral(absTolerance,
-                                                       maxEvaluations)));
+                           std::make_shared<SimpsonIntegral>(absTolerance,
+                                                       maxEvaluations));
     }
 
     AnalyticHestonEngine::Integration
     AnalyticHestonEngine::Integration::trapezoid(Real absTolerance,
                                                  Size maxEvaluations) {
         return Integration(Trapezoid,
-                           std::shared_ptr < Integrator > (
-                                   new TrapezoidIntegral<Default>(absTolerance,
-                                                                  maxEvaluations)));
+                           std::make_shared<TrapezoidIntegral<Default>>(absTolerance,
+                                                                  maxEvaluations));
     }
 
     AnalyticHestonEngine::Integration
     AnalyticHestonEngine::Integration::gaussLaguerre(Size intOrder) {
         QL_REQUIRE(intOrder <= 192, "maximum integraton order (192) exceeded");
         return Integration(GaussLaguerre,
-                           std::shared_ptr < GaussianQuadrature > (
-                                   new GaussLaguerreIntegration(intOrder)));
+                           std::make_shared<GaussLaguerreIntegration>(intOrder));
     }
 
     AnalyticHestonEngine::Integration
     AnalyticHestonEngine::Integration::gaussLegendre(Size intOrder) {
         return Integration(GaussLegendre,
-                           std::shared_ptr < GaussianQuadrature > (
-                                   new GaussLegendreIntegration(intOrder)));
+                           std::make_shared<GaussLegendreIntegration>(intOrder));
     }
 
     AnalyticHestonEngine::Integration
     AnalyticHestonEngine::Integration::gaussChebyshev(Size intOrder) {
         return Integration(GaussChebyshev,
-                           std::shared_ptr < GaussianQuadrature > (
-                                   new GaussChebyshevIntegration(intOrder)));
+                           std::make_shared<GaussChebyshevIntegration>(intOrder));
     }
 
     AnalyticHestonEngine::Integration
     AnalyticHestonEngine::Integration::gaussChebyshev2nd(Size intOrder) {
         return Integration(GaussChebyshev2nd,
-                           std::shared_ptr < GaussianQuadrature > (
-                                   new GaussChebyshev2ndIntegration(intOrder)));
+                           std::make_shared<GaussChebyshev2ndIntegration>(intOrder));
     }
 
     AnalyticHestonEngine::Integration
     AnalyticHestonEngine::Integration::discreteSimpson(Size evaluations) {
         return Integration(
-                DiscreteSimpson, std::shared_ptr < Integrator > (
-                        new DiscreteSimpsonIntegrator(evaluations)));
+                DiscreteSimpson, std::make_shared<DiscreteSimpsonIntegrator>(evaluations));
     }
 
     AnalyticHestonEngine::Integration
     AnalyticHestonEngine::Integration::discreteTrapezoid(Size evaluations) {
         return Integration(
-                DiscreteTrapezoid, std::shared_ptr < Integrator > (
-                        new DiscreteTrapezoidIntegrator(evaluations)));
+                DiscreteTrapezoid, std::make_shared<DiscreteTrapezoidIntegrator>(evaluations));
     }
 
     Size AnalyticHestonEngine::Integration::numberOfEvaluations() const {

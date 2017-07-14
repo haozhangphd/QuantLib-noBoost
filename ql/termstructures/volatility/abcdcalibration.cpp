@@ -80,8 +80,7 @@ namespace QuantLib {
             Real xtol = 1.0e-8;
             Real gtol = 1.0e-8;
             bool useCostFunctionsJacobian = false;
-            optMethod_ = std::shared_ptr<OptimizationMethod>(new
-                LevenbergMarquardt(epsfcn, xtol, gtol, useCostFunctionsJacobian));
+            optMethod_ = std::make_shared<LevenbergMarquardt>(epsfcn, xtol, gtol, useCostFunctionsJacobian);
         }
         if (!endCriteria_) {
             Size maxIterations = 10000;
@@ -89,9 +88,8 @@ namespace QuantLib {
             Real rootEpsilon = 1.0e-8;
             Real functionEpsilon = 0.3e-4;     // Why 0.3e-4 ?
             Real gradientNormEpsilon = 0.3e-4; // Why 0.3e-4 ?
-            endCriteria_ = std::shared_ptr<EndCriteria>(new
-                EndCriteria(maxIterations, maxStationaryStateIterations,
-                            rootEpsilon, functionEpsilon, gradientNormEpsilon));
+            endCriteria_ = std::make_shared<EndCriteria>(maxIterations, maxStationaryStateIterations,
+                            rootEpsilon, functionEpsilon, gradientNormEpsilon);
         }
     }
 
@@ -119,8 +117,7 @@ namespace QuantLib {
         } else {
 
             AbcdError costFunction(this);
-            transformation_ = std::shared_ptr<ParametersTransformation>(new
-                AbcdParametersTransformation);
+            transformation_ = std::make_shared<AbcdParametersTransformation>();
 
             Array guess(4);
             guess[0] = a_;

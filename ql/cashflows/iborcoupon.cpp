@@ -222,7 +222,7 @@ namespace QuantLib {
                          caps_, floors_, inArrears_, zeroPayments_);
 
         if (caps_.empty() && floors_.empty() && !inArrears_) {
-            shared_ptr<IborCouponPricer> pricer(new BlackIborCouponPricer);
+            shared_ptr<IborCouponPricer> pricer = std::make_shared<BlackIborCouponPricer>();
             setCouponPricer(leg, pricer);
         }
 

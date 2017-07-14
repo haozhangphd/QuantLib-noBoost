@@ -62,18 +62,18 @@ namespace QuantLib {
             xMax = std::log(arguments_.barrier);
         }
 
-        const std::shared_ptr<Fdm1dMesher> equityMesher(
-            new FdmBlackScholesMesher(xGrid_, process_, maturity,
-                                      payoff->strike(), xMin, xMax));
+        const std::shared_ptr<Fdm1dMesher> equityMesher =
+            std::make_shared<FdmBlackScholesMesher>(xGrid_, process_, maturity,
+                                      payoff->strike(), xMin, xMax);
         
-        const std::shared_ptr<FdmMesher> mesher (
-            new FdmMesherComposite(equityMesher));
+        const std::shared_ptr<FdmMesher> mesher =
+            std::make_shared<FdmMesherComposite>(equityMesher);
         
         // 2. Calculator
-        const std::shared_ptr<StrikedTypePayoff> rebatePayoff(
-                new CashOrNothingPayoff(Option::Call, 0.0, arguments_.rebate));
-        const std::shared_ptr<FdmInnerValueCalculator> calculator(
-                                new FdmLogInnerValue(rebatePayoff, mesher, 0));
+        const std::shared_ptr<StrikedTypePayoff> rebatePayoff =
+                std::make_shared<CashOrNothingPayoff>(Option::Call, 0.0, arguments_.rebate);
+        const std::shared_ptr<FdmInnerValueCalculator> calculator =
+                                std::make_shared<FdmLogInnerValue>(rebatePayoff, mesher, 0);
 
         // 3. Step conditions
         QL_REQUIRE(arguments_.exercise->type() == Exercise::European,
@@ -90,27 +90,25 @@ namespace QuantLib {
         FdmBoundaryConditionSet  boundaries;
         if (   arguments_.barrierType == Barrier::DownIn
             || arguments_.barrierType == Barrier::DownOut) {
-            boundaries.emplace_back(FdmBoundaryConditionSet::value_type(
-                new FdmDirichletBoundary(mesher, arguments_.rebate, 0,
-                                         FdmDirichletBoundary::Lower)));
+            boundaries.emplace_back(std::make_shared<FdmDirichletBoundary>(mesher, arguments_.rebate, 0,
+                                         FdmDirichletBoundary::Lower));
 
         }
         if (   arguments_.barrierType == Barrier::UpIn
             || arguments_.barrierType == Barrier::UpOut) {
-            boundaries.emplace_back(FdmBoundaryConditionSet::value_type(
-                new FdmDirichletBoundary(mesher, arguments_.rebate, 0,
-                                         FdmDirichletBoundary::Upper)));
+            boundaries.emplace_back(std::make_shared<FdmDirichletBoundary>(mesher, arguments_.rebate, 0,
+                                         FdmDirichletBoundary::Upper));
         }
 
         // 5. Solver
         FdmSolverDesc solverDesc = { mesher, boundaries, conditions, calculator,
                                      maturity, tGrid_, dampingSteps_ };
 
-        const std::shared_ptr<FdmBlackScholesSolver> solver(
-                new FdmBlackScholesSolver(
+        const std::shared_ptr<FdmBlackScholesSolver> solver =
+                std::make_shared<FdmBlackScholesSolver>(
                                 Handle<GeneralizedBlackScholesProcess>(process_),
                                 payoff->strike(), solverDesc, schemeDesc_,
-                                localVol_, illegalLocalVolOverwrite_));
+                                localVol_, illegalLocalVolOverwrite_);
 
         const Real spot = process_->x0();
         results_.value = solver->valueAt(spot);

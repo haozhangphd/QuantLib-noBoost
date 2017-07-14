@@ -138,22 +138,22 @@ ZabrModel::fdPrice(const std::vector<Real> &strikes) const {
 
     // Layout
     std::vector<Size> dim(1, size);
-    const std::shared_ptr<FdmLinearOpLayout> layout(
-        new FdmLinearOpLayout(dim));
+    const std::shared_ptr<FdmLinearOpLayout> layout =
+        std::make_shared<FdmLinearOpLayout>(dim);
 
     // Mesher
-    const std::shared_ptr<Fdm1dMesher> m1(new Concentrating1dMesher(
-        start, end, size, std::pair<Real, Real>(forward_, density), true));
-    // const std::shared_ptr<Fdm1dMesher> m1(new
-    // Uniform1dMesher(start,end,size));
-    // const std::shared_ptr<Fdm1dMesher> m1a(new
-    // Uniform1dMesher(start,0.03,101));
-    // const std::shared_ptr<Fdm1dMesher> m1b(new
-    // Uniform1dMesher(0.03,end,100));
-    // const std::shared_ptr<Fdm1dMesher> m1(new Glued1dMesher(*m1a,*m1b));
+    const std::shared_ptr<Fdm1dMesher> m1 = std::make_shared<Concentrating1dMesher>(
+        start, end, size, std::pair<Real, Real>(forward_, density), true);
+    // const std::shared_ptr<Fdm1dMesher> m1 =
+    // std::make_shared<Uniform1dMesher>(start,end,size);
+    // const std::shared_ptr<Fdm1dMesher> m1a =
+    // std::make_shared<Uniform1dMesher>(start,0.03,101);
+    // const std::shared_ptr<Fdm1dMesher> m1b =
+    // std::make_shared<Uniform1dMesher>(0.03,end,100);
+    // const std::shared_ptr<Fdm1dMesher> m1 = std::make_shared<Glued1dMesher>(*m1a,*m1b);
     const std::vector<std::shared_ptr<Fdm1dMesher> > meshers(1, m1);
-    const std::shared_ptr<FdmMesher> mesher(
-        new FdmMesherComposite(layout, meshers));
+    const std::shared_ptr<FdmMesher> mesher =
+        std::make_shared<FdmMesherComposite>(layout, meshers);
 
     // Boundary conditions
     FdmBoundaryConditionSet boundaries;
@@ -175,19 +175,19 @@ ZabrModel::fdPrice(const std::vector<Real> &strikes) const {
     std::copy(locVolv.begin(), locVolv.end(), locVol.begin());
 
     // solver
-    std::shared_ptr<FdmDupire1dOp> map(new FdmDupire1dOp(mesher, locVol));
+    std::shared_ptr<FdmDupire1dOp> map = std::make_shared<FdmDupire1dOp>(mesher, locVol);
     FdmBackwardSolver solver(map, boundaries,
                              std::shared_ptr<FdmStepConditionComposite>(),
                              FdmSchemeDesc::Douglas());
     solver.rollback(rhs, expiryTime_, 0.0, steps, dampingSteps);
 
     // interpolate solution
-    std::shared_ptr<Interpolation> solution(new CubicInterpolation(
+    std::shared_ptr<Interpolation> solution = std::make_shared<CubicInterpolation>(
         k.begin(), k.end(), rhs.begin(), CubicInterpolation::Spline, true,
         CubicInterpolation::SecondDerivative, 0.0,
-        CubicInterpolation::SecondDerivative, 0.0));
-    // std::shared_ptr<Interpolation> solution(new
-    // LinearInterpolation(k.begin(),k.end(),rhs.begin()));
+        CubicInterpolation::SecondDerivative, 0.0);
+    // std::shared_ptr<Interpolation> solution =
+    // std::make_shared<LinearInterpolation>(k.begin(),k.end(),rhs.begin());
     solution->disableExtrapolation();
     std::vector<Real> result(strikes.size());
     std::transform(strikes.begin(), strikes.end(), result.begin(), *solution);
@@ -229,8 +229,8 @@ Real ZabrModel::fullFdPrice(const Real strike) const {
     std::vector<Size> dim;
     dim.emplace_back(sizef);
     dim.emplace_back(sizev);
-    const std::shared_ptr<FdmLinearOpLayout> layout(
-        new FdmLinearOpLayout(dim));
+    const std::shared_ptr<FdmLinearOpLayout> layout =
+        std::make_shared<FdmLinearOpLayout>(dim);
 
     // Mesher
     // two concentrating mesher around f and k to get the mesher for f
@@ -240,33 +240,33 @@ Real ZabrModel::fullFdPrice(const Real strike) const {
         4, (Size)std::ceil(((x0 + x1) / 2.0 - f0) / (f1 - f0) * (Real)sizef));
     const Size sizefb = sizef - sizefa + 1; // common point, so we can spend
     // one more here
-    const std::shared_ptr<Fdm1dMesher> mfa(
-        new Concentrating1dMesher(f0, (x0 + x1) / 2.0, sizefa,
-                                  std::pair<Real, Real>(x0, densityf), true));
-    const std::shared_ptr<Fdm1dMesher> mfb(
-        new Concentrating1dMesher((x0 + x1) / 2.0, f1, sizefb,
-                                  std::pair<Real, Real>(x1, densityf), true));
-    const std::shared_ptr<Fdm1dMesher> mf(new Glued1dMesher(*mfa, *mfb));
+    const std::shared_ptr<Fdm1dMesher> mfa =
+        std::make_shared<Concentrating1dMesher>(f0, (x0 + x1) / 2.0, sizefa,
+                                  std::pair<Real, Real>(x0, densityf), true);
+    const std::shared_ptr<Fdm1dMesher> mfb =
+        std::make_shared<Concentrating1dMesher>((x0 + x1) / 2.0, f1, sizefb,
+                                  std::pair<Real, Real>(x1, densityf), true);
+    const std::shared_ptr<Fdm1dMesher> mf = std::make_shared<Glued1dMesher>(*mfa, *mfb);
 
     // concentraing mesher around f to get the forward mesher
-    // const std::shared_ptr<Fdm1dMesher> mf(new Concentrating1dMesher(
-    //     f0, f1, sizef, std::pair<Real, Real>(forward_, densityf), true));
+    // const std::shared_ptr<Fdm1dMesher> mf = std::make_shared<Concentrating1dMesher>(
+    //     f0, f1, sizef, std::pair<Real, Real>(forward_, densityf), true);
 
     // Volatility mesher
-    const std::shared_ptr<Fdm1dMesher> mv(new Concentrating1dMesher(
-        v0, v1, sizev, std::pair<Real, Real>(alpha_, densityv), true));
+    const std::shared_ptr<Fdm1dMesher> mv = std::make_shared<Concentrating1dMesher>(
+        v0, v1, sizev, std::pair<Real, Real>(alpha_, densityv), true);
 
     // uniform meshers
-    // const std::shared_ptr<Fdm1dMesher> mf(new
-    // Uniform1dMesher(f0,f1,sizef));
-    // const std::shared_ptr<Fdm1dMesher> mv(new
-    // Uniform1dMesher(v0,v1,sizev));
+    // const std::shared_ptr<Fdm1dMesher> mf =
+    // std::make_shared<Uniform1dMesher>(f0,f1,sizef);
+    // const std::shared_ptr<Fdm1dMesher> mv =
+    // std::make_shared<Uniform1dMesher>(v0,v1,sizev);
 
     std::vector<std::shared_ptr<Fdm1dMesher> > meshers;
     meshers.emplace_back(mf);
     meshers.emplace_back(mv);
-    const std::shared_ptr<FdmMesher> mesher(
-        new FdmMesherComposite(layout, meshers));
+    const std::shared_ptr<FdmMesher> mesher =
+        std::make_shared<FdmMesherComposite>(layout, meshers);
 
     // initial values
     Array rhs(mesher->layout()->size());
@@ -286,8 +286,8 @@ Real ZabrModel::fullFdPrice(const Real strike) const {
     // Boundary conditions
     FdmBoundaryConditionSet boundaries;
 
-    std::shared_ptr<FdmZabrOp> map(
-        new FdmZabrOp(mesher, beta_, nu_, rho_, gamma_));
+    std::shared_ptr<FdmZabrOp> map =
+        std::make_shared<FdmZabrOp>(mesher, beta_, nu_, rho_, gamma_);
     FdmBackwardSolver solver(map, boundaries,
                              std::shared_ptr<FdmStepConditionComposite>(),
                              FdmSchemeDesc::/*CraigSneyd()*/ Hundsdorfer());
@@ -301,8 +301,8 @@ Real ZabrModel::fullFdPrice(const Real strike) const {
         std::copy(rhs.begin() + j * f_.size(),
                   rhs.begin() + (j + 1) * f_.size(), result.row_begin(j));
     std::shared_ptr<BicubicSpline> interpolation =
-        std::shared_ptr<BicubicSpline>(new BicubicSpline(
-            f_.begin(), f_.end(), v_.begin(), v_.end(), result));
+        std::make_shared<BicubicSpline>(
+            f_.begin(), f_.end(), v_.begin(), v_.end(), result);
     interpolation->disableExtrapolation();
     return (*interpolation)(forward_, alpha_);
 }

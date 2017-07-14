@@ -202,17 +202,14 @@ TEST_CASE("BrownianBridge_PathGeneration", "[BrownianBridge]") {
     InverseCumulativeRsg<SobolRsg,InverseCumulativeNormal> gsg(sobol);
 
     Date today = Settings::instance().evaluationDate();
-    Handle<Quote> x0(std::shared_ptr<Quote>(new SimpleQuote(100.0)));
-    Handle<YieldTermStructure> r(std::shared_ptr<YieldTermStructure>(
-                               new FlatForward(today,0.06,Actual365Fixed())));
-    Handle<YieldTermStructure> q(std::shared_ptr<YieldTermStructure>(
-                               new FlatForward(today,0.03,Actual365Fixed())));
+    Handle<Quote> x0(std::make_shared<SimpleQuote>(100.0));
+    Handle<YieldTermStructure> r(std::make_shared<FlatForward>(today,0.06,Actual365Fixed()));
+    Handle<YieldTermStructure> q(std::make_shared<FlatForward>(today,0.03,Actual365Fixed()));
     Handle<BlackVolTermStructure> sigma(
-                   std::shared_ptr<BlackVolTermStructure>(
-                          new BlackConstantVol(today, NullCalendar(), 0.20,Actual365Fixed())));
+                   std::make_shared<BlackConstantVol>(today, NullCalendar(), 0.20,Actual365Fixed()));
 
-    std::shared_ptr<StochasticProcess1D> process(
-                              new BlackScholesMertonProcess(x0, q, r, sigma));
+    std::shared_ptr<StochasticProcess1D> process =
+                              std::make_shared<BlackScholesMertonProcess>(x0, q, r, sigma);
 
 
     PathGenerator<InverseCumulativeRsg<SobolRsg,InverseCumulativeNormal> >

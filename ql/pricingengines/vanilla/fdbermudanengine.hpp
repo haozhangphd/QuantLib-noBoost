@@ -54,8 +54,7 @@ namespace QuantLib {
         Real extraTermInBermudan ;
         void initializeStepCondition() const {
             this->stepCondition_ =
-                std::shared_ptr<StandardStepCondition>(
-                                                  new NullCondition<Array>());
+                std::make_shared<NullCondition<Array>>();
         };
         void executeIntermediateStep(Size ) const {
             Size size = this->intrinsicValues_.size();

@@ -47,14 +47,13 @@ namespace QuantLib {
             index->forwardingTermStructure();
         const Date& referenceDate = rateCurve->referenceDate();
 
-        observationsSchedule_ = std::shared_ptr<Schedule>(new
-            Schedule(startDate, endDate,
+        observationsSchedule_ = std::make_shared<Schedule>(startDate, endDate,
                      index->tenor(),
                      NullCalendar(),
                      Unadjusted,
                      Unadjusted,
                      DateGeneration::Forward,
-                     false));
+                     false);
 
         observationDates_ = observationsSchedule_->dates();
         observationDates_.pop_back();                       //remove end date

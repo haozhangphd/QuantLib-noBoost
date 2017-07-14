@@ -159,8 +159,8 @@ namespace {
         Real initialNumeraireValue = todaysDiscounts[initialNumeraire];
 
         AccountingEngine engine(evolver, product, initialNumeraireValue);
-        std::shared_ptr<SequenceStatisticsInc> stats(new
-            SequenceStatisticsInc(product.numberOfProducts()));
+        std::shared_ptr<SequenceStatisticsInc> stats =
+            std::make_shared<SequenceStatisticsInc>(product.numberOfProducts());
         engine.multiplePathValues(*stats, paths_);
         return stats;
     }
@@ -170,8 +170,7 @@ namespace {
             std::vector<Time> paymentTimes(rateTimes.begin(), rateTimes.end()-1);
             std::vector<std::shared_ptr<StrikedTypePayoff> > payoffs(paymentTimes.size());
             for (Size i = 0; i < payoffs.size(); ++i){
-                payoffs[i] = std::shared_ptr<StrikedTypePayoff>(new
-                    PlainVanillaPayoff(Option::Call, strike));
+                payoffs[i] = std::make_shared<PlainVanillaPayoff>(Option::Call, strike);
             }
             return MultiStepCoterminalSwaptions (rateTimes,
                 paymentTimes, payoffs);
@@ -319,25 +318,25 @@ TEST_CASE("SwapForwardMappings_ForwardCoterminalMappings", "[.]") {
     Matrix correlations = exponentialCorrelations(evolution.rateTimes(),
         longTermCorr,
         beta);
-    std::shared_ptr<PiecewiseConstantCorrelation> corr(new
-        TimeHomogeneousForwardCorrelation(correlations,
-        rateTimes));
-    std::shared_ptr<MarketModel> smmMarketModel(new
-        FlatVol(marketData.volatilities(),
+    std::shared_ptr<PiecewiseConstantCorrelation> corr =
+        std::make_shared<TimeHomogeneousForwardCorrelation>(correlations,
+        rateTimes);
+    std::shared_ptr<MarketModel> smmMarketModel =
+        std::make_shared<FlatVol>(marketData.volatilities(),
         corr,
         evolution,
         numberOfFactors,
         lmmCurveState.coterminalSwapRates(),
-        marketData.displacements()));
+        marketData.displacements());
 
-    std::shared_ptr<MarketModel>
-        lmmMarketModel(new CotSwapToFwdAdapter(smmMarketModel));
+    std::shared_ptr<MarketModel> lmmMarketModel =
+            std::make_shared<CotSwapToFwdAdapter>(smmMarketModel);
 
     SobolBrownianGeneratorFactory generatorFactory(SobolBrownianGenerator::Diagonal);
     std::vector<Size> numeraires(nbRates,
         nbRates);
-    std::shared_ptr<MarketModelEvolver> evolver(new LogNormalFwdRatePc
-        (lmmMarketModel, generatorFactory, numeraires));
+    std::shared_ptr<MarketModelEvolver> evolver =
+        std::make_shared<LogNormalFwdRatePc>(lmmMarketModel, generatorFactory, numeraires);
 
     std::shared_ptr<SequenceStatisticsInc> stats =
         simulate(marketData.discountFactors(), evolver, product);
@@ -350,8 +349,8 @@ TEST_CASE("SwapForwardMappings_ForwardCoterminalMappings", "[.]") {
         const Matrix& cotSwapsCovariance = smmMarketModel->totalCovariance(i);
         //Matrix cotSwapsCovariance= jacobian * forwardsCovariance * transpose(jacobian);
         //Time expiry = rateTimes[i];
-        std::shared_ptr<PlainVanillaPayoff> payoff(
-            new PlainVanillaPayoff(Option::Call, strike+displacement));
+        std::shared_ptr<PlainVanillaPayoff> payoff =
+            std::make_shared<PlainVanillaPayoff>(Option::Call, strike+displacement);
         //const std::vector<Time>&  taus = lmmCurveState.rateTaus();
         Real expectedSwaption = BlackCalculator(payoff,
             todaysCoterminalSwapRates[i]+displacement,
@@ -387,8 +386,8 @@ TEST_CASE("SwapForwardMappings_SwaptionImpliedVolatility", "[SwapForwardMappings
         
         Size endIndex = nbRates-2;
 
-        std::shared_ptr<StrikedTypePayoff> payoff(new
-            PlainVanillaPayoff(Option::Call, strike));
+        std::shared_ptr<StrikedTypePayoff> payoff =
+            std::make_shared<PlainVanillaPayoff>(Option::Call, strike);
         MultiStepSwaption product(rateTimes, startIndex, endIndex,payoff );
 
         const EvolutionDescription evolution = product.evolution();
@@ -401,23 +400,23 @@ TEST_CASE("SwapForwardMappings_SwaptionImpliedVolatility", "[SwapForwardMappings
         Matrix correlations = exponentialCorrelations(evolution.rateTimes(),
             longTermCorr,
             beta);
-        std::shared_ptr<PiecewiseConstantCorrelation> corr(new
-            TimeHomogeneousForwardCorrelation(correlations,
-            rateTimes));
-        std::shared_ptr<MarketModel> lmmMarketModel(new
-            FlatVol(marketData.volatilities(),
+        std::shared_ptr<PiecewiseConstantCorrelation> corr =
+            std::make_shared<TimeHomogeneousForwardCorrelation>(correlations,
+            rateTimes);
+        std::shared_ptr<MarketModel> lmmMarketModel =
+            std::make_shared<FlatVol>(marketData.volatilities(),
             corr,
             evolution,
             numberOfFactors,
             lmmCurveState.forwardRates(),
-            marketData.displacements()));
+            marketData.displacements());
 
 
         SobolBrownianGeneratorFactory generatorFactory(SobolBrownianGenerator::Diagonal);
         std::vector<Size> numeraires(nbRates,
             nbRates);
-        std::shared_ptr<MarketModelEvolver> evolver(new LogNormalFwdRatePc
-            (lmmMarketModel, generatorFactory, numeraires));
+        std::shared_ptr<MarketModelEvolver> evolver =
+            std::make_shared<LogNormalFwdRatePc>(lmmMarketModel, generatorFactory, numeraires);
 
         std::shared_ptr<SequenceStatisticsInc> stats =
             simulate(marketData.discountFactors(), evolver, product);
@@ -430,7 +429,7 @@ TEST_CASE("SwapForwardMappings_SwaptionImpliedVolatility", "[SwapForwardMappings
         Real swapRate = lmmCurveState.cmSwapRate(startIndex,endIndex-startIndex);
         Real swapAnnuity = lmmCurveState.cmSwapAnnuity(startIndex,startIndex,endIndex-startIndex)*marketData.discountFactors()[startIndex];
 
-        std::shared_ptr<PlainVanillaPayoff> payoffDis( new PlainVanillaPayoff(Option::Call, strike+displacement));
+        std::shared_ptr<PlainVanillaPayoff> payoffDis = std::make_shared<PlainVanillaPayoff>(Option::Call, strike+displacement);
 
         Real expectedSwaption = BlackCalculator(payoffDis,
             swapRate+displacement, estimatedImpliedVol *sqrt(rateTimes[startIndex]),

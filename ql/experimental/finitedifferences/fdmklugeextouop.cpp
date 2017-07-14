@@ -48,15 +48,13 @@ namespace QuantLib {
       extOU_  (klugeOUProcess->getExtOUProcess()),
       rTS_    (rTS),
       bcSet_  (bcSet),
-      klugeOp_(new FdmExtOUJumpOp(mesher, kluge_, rTS, bcSet,
+      klugeOp_(std::make_shared<FdmExtOUJumpOp>(mesher, kluge_, rTS, bcSet,
                                   integroIntegrationOrder)),
-      ouOp_   (new FdmExtendedOrnsteinUhlenbackOp(
+      ouOp_   (std::make_shared<FdmExtendedOrnsteinUhlenbackOp>(
                   mesher, extOU_,
-                  std::shared_ptr<YieldTermStructure>(
-                      new FlatForward(rTS->referenceDate(),
-                              Handle<Quote>(std::shared_ptr<Quote>(
-                                      new SimpleQuote(0.0))),
-                                      rTS->dayCounter())),
+                  std::make_shared<FlatForward>(rTS->referenceDate(),
+                              Handle<Quote>(std::make_shared<SimpleQuote>(0.0)),
+                                      rTS->dayCounter()),
                   bcSet, 2)),
       corrMap_(SecondOrderMixedDerivativeOp(0, 2, mesher).mult(
           Array(mesher->layout()->size(),

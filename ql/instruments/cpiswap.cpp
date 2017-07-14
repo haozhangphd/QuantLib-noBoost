@@ -96,7 +96,7 @@ namespace QuantLib {
             }
 
             Real floatAmount = subtractInflationNominal_ ? nominal_ - inflationNominal_ : nominal_;
-            std::shared_ptr<CashFlow> nf(new SimpleCashFlow(floatAmount, payNotional));
+            std::shared_ptr<CashFlow> nf = std::make_shared<SimpleCashFlow>(floatAmount, payNotional);
             floatingLeg.emplace_back(nf);
         }
 

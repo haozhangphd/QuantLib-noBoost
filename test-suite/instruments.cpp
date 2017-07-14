@@ -33,9 +33,9 @@ TEST_CASE("Instrument_Observable", "[Instrument]") {
 
     INFO("Testing observability of instruments...");
 
-    std::shared_ptr<SimpleQuote> me1(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> me1 = std::make_shared<SimpleQuote>(0.0);
     RelinkableHandle<Quote> h(me1);
-    std::shared_ptr<Instrument> s(new Stock(h));
+    std::shared_ptr<Instrument> s = std::make_shared<Stock>(h);
 
     Flag f;
     f.registerWith(s);
@@ -47,7 +47,7 @@ TEST_CASE("Instrument_Observable", "[Instrument]") {
     
     s->NPV();
     f.lower();
-    std::shared_ptr<SimpleQuote> me2(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> me2 = std::make_shared<SimpleQuote>(0.0);
     h.linkTo(me2);
     if (!f.isUp())
         FAIL("Observer was not notified of instrument change");
@@ -75,23 +75,23 @@ TEST_CASE("Instrument_CompositeWhenShiftingDates", "[Instrument]") {
     Date today = Date::todaysDate();
     DayCounter dc = Actual360();
 
-    shared_ptr<StrikedTypePayoff> payoff(
-                                 new PlainVanillaPayoff(Option::Call, 100.0));
-    shared_ptr<Exercise> exercise(new EuropeanExercise(today+30));
+    shared_ptr<StrikedTypePayoff> payoff =
+                                 std::make_shared<PlainVanillaPayoff>(Option::Call, 100.0);
+    shared_ptr<Exercise> exercise = std::make_shared<EuropeanExercise>(today+30);
 
-    shared_ptr<Instrument> option(new EuropeanOption(payoff, exercise));
+    shared_ptr<Instrument> option = std::make_shared<EuropeanOption>(payoff, exercise);
 
-    shared_ptr<SimpleQuote> spot(new SimpleQuote(100.0));
+    shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(100.0);
     shared_ptr<YieldTermStructure> qTS = flatRate(0.0, dc);
     shared_ptr<YieldTermStructure> rTS = flatRate(0.01, dc);
     shared_ptr<BlackVolTermStructure> volTS = flatVol(0.1, dc);
 
-    shared_ptr<BlackScholesMertonProcess> process(
-        new BlackScholesMertonProcess(Handle<Quote>(spot),
+    shared_ptr<BlackScholesMertonProcess> process =
+        std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
                                       Handle<YieldTermStructure>(qTS),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS)));
-    shared_ptr<PricingEngine> engine(new AnalyticEuropeanEngine(process));
+                                      Handle<BlackVolTermStructure>(volTS));
+    shared_ptr<PricingEngine> engine = std::make_shared<AnalyticEuropeanEngine>(process);
 
     option->setPricingEngine(engine);
 

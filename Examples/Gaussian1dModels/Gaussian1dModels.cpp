@@ -381,10 +381,10 @@ int main(int argc, char *argv[]) {
         }
         std::vector<Real> strikes(nominalFixed.size(), strike);
 
-        std::shared_ptr < NonstandardSwap > underlying2(new NonstandardSwap(
+        std::shared_ptr < NonstandardSwap > underlying2 = std::make_shared<NonstandardSwap>(
                 VanillaSwap::Payer, nominalFixed, nominalFloating, fixedSchedule,
                 strikes, Thirty360(), floatingSchedule, euribor6m, 1.0, 0.0,
-                Actual360()));
+                Actual360());
         std::shared_ptr < NonstandardSwaption > swaption2 =
                 std::make_shared<NonstandardSwaption>(underlying2, exercise);
 
@@ -417,11 +417,11 @@ int main(int argc, char *argv[]) {
         std::vector<Real> nominalFloating2(nominalFloating.size(),
                                            0.0); // null the second leg
 
-        std::shared_ptr < NonstandardSwap > underlying3(new NonstandardSwap(
+        std::shared_ptr < NonstandardSwap > underlying3 = std::make_shared<NonstandardSwap>(
                 VanillaSwap::Receiver, nominalFixed2, nominalFloating2,
                 fixedSchedule, strikes, Thirty360(), floatingSchedule, euribor6m,
                 1.0, 0.0, Actual360(), false,
-                true)); // final capital exchange
+                true); // final capital exchange
 
         std::shared_ptr < RebatedExercise > exercise2 =
                 std::make_shared<RebatedExercise>(*exercise, -1.0, 2, TARGET());
@@ -512,17 +512,17 @@ int main(int argc, char *argv[]) {
                         "\n6M swaption. The maturity is again 10 years and the option"
                         "\nis exercisable on a yearly basis" << std::endl;
 
-        std::shared_ptr < FloatFloatSwap > underlying4(new FloatFloatSwap(
+        std::shared_ptr < FloatFloatSwap > underlying4 = std::make_shared<FloatFloatSwap>(
                 VanillaSwap::Payer, 1.0, 1.0, fixedSchedule, swapBase,
                 Thirty360(), floatingSchedule, euribor6m, Actual360(), false,
-                false, 1.0, 0.0, Null<Real>(), Null<Real>(), 1.0, 0.0010));
+                false, 1.0, 0.0, Null<Real>(), Null<Real>(), 1.0, 0.0010);
 
         std::shared_ptr < FloatFloatSwaption > swaption4 =
                 std::make_shared<FloatFloatSwaption>(underlying4, exercise);
 
-        std::shared_ptr < Gaussian1dFloatFloatSwaptionEngine >
-        floatSwaptionEngine(new Gaussian1dFloatFloatSwaptionEngine(
-                gsr, 64, 7.0, true, false, Handle<Quote>(), ytsOis, true));
+        std::shared_ptr < Gaussian1dFloatFloatSwaptionEngine > floatSwaptionEngine =
+                std::make_shared<Gaussian1dFloatFloatSwaptionEngine>(
+                        gsr, 64, 7.0, true, false, Handle<Quote>(), ytsOis, true);
 
         swaption4->setPricingEngine(floatSwaptionEngine);
 
@@ -538,7 +538,7 @@ int main(int argc, char *argv[]) {
         const Leg &leg1 = underlying4->leg(1);
         std::shared_ptr < CmsCouponPricer > cmsPricer =
                 std::make_shared<LinearTsrPricer>(swaptionVol, reversionQuote);
-        std::shared_ptr < IborCouponPricer > iborPricer(new BlackIborCouponPricer);
+        std::shared_ptr < IborCouponPricer > iborPricer = std::make_shared<BlackIborCouponPricer>();
 
         setCouponPricer(leg0, cmsPricer);
         setCouponPricer(leg1, iborPricer);

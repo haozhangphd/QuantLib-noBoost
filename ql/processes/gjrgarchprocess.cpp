@@ -31,8 +31,7 @@ namespace QuantLib {
                               const Handle<Quote>& s0, Real v0, 
                               Real omega, Real alpha, Real beta, 
                               Real gamma, Real lambda, Real daysPerYear, Discretization d)
-    : StochasticProcess(std::shared_ptr<discretization>(
-                                                    new EulerDiscretization)),
+    : StochasticProcess(std::make_shared<EulerDiscretization>()),
       riskFreeRate_(riskFreeRate), dividendYield_(dividendYield), s0_(s0),
       v0_(v0), omega_(omega), alpha_(alpha), 
       beta_(beta), gamma_(gamma), lambda_(lambda), daysPerYear_(daysPerYear),

@@ -44,7 +44,7 @@ namespace QuantLib {
             const Handle<Quote>& logJMean,
             const Handle<Quote>& logJVol,
             const std::shared_ptr<discretization>& d =
-                  std::shared_ptr<discretization>(new EulerDiscretization));
+                  std::make_shared<EulerDiscretization>());
         //! \name StochasticProcess1D interface
         //@{
         Real x0() const;

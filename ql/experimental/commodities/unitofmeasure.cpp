@@ -42,8 +42,7 @@ namespace QuantLib {
         if (i != unitsOfMeasure_.end()) {
             data_ = i->second;
         } else {
-            data_ = std::shared_ptr<UnitOfMeasure::Data>(
-                               new UnitOfMeasure::Data(name, code, unitType));
+            data_ = std::make_shared<UnitOfMeasure::Data>(name, code, unitType);
             unitsOfMeasure_[name] = data_;
         }
     }

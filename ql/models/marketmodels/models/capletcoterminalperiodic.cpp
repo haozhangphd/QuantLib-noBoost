@@ -127,21 +127,21 @@ namespace QuantLib
 
             swapCovariancePseudoRoots = unperiodicCalibrator.swapPseudoRoots();
 
-            std::shared_ptr<MarketModel> smm(new
-                PseudoRootFacade(swapCovariancePseudoRoots,
+            std::shared_ptr<MarketModel> smm =
+                std::make_shared<PseudoRootFacade>(swapCovariancePseudoRoots,
                 evolution.rateTimes(),
                 cs->coterminalSwapRates(),
-                std::vector<Spread>(evolution.numberOfRates(), displacement)));
+                std::vector<Spread>(evolution.numberOfRates(), displacement));
 
-            std::shared_ptr<MarketModel> flmm(new CotSwapToFwdAdapter(smm));
+            std::shared_ptr<MarketModel> flmm = std::make_shared<CotSwapToFwdAdapter>(smm);
 
             Matrix capletTotCovariance = flmm->totalCovariance(numberSmallRates-1);
 
-            std::shared_ptr<MarketModel> periodflmm( new FwdPeriodAdapter(flmm, period,
+            std::shared_ptr<MarketModel> periodflmm = std::make_shared<FwdPeriodAdapter>(flmm, period,
                 offset,
-                newDisplacements));
+                newDisplacements);
 
-            std::shared_ptr<MarketModel> periodsmm(new FwdToCotSwapAdapter(periodflmm));
+            std::shared_ptr<MarketModel> periodsmm = std::make_shared<FwdToCotSwapAdapter>(periodflmm);
 
 
             Matrix swaptionTotCovariance(periodsmm->totalCovariance(periodsmm->numberOfSteps()-1));

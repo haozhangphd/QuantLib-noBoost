@@ -34,7 +34,7 @@ namespace QuantLib {
         HybridHestonHullWhiteProcess::Discretization discretization)
     : hestonProcess_(hestonProcess),
       hullWhiteProcess_(hullWhiteProcess),
-      hullWhiteModel_(new HullWhite(hestonProcess->riskFreeRate(),
+      hullWhiteModel_(std::make_shared<HullWhite>(hestonProcess->riskFreeRate(),
                                     hullWhiteProcess->a(),
                                     hullWhiteProcess->sigma())),
       corrEquityShortRate_(corrEquityShortRate),

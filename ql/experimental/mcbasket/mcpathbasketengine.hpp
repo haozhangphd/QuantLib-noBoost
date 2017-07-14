@@ -154,9 +154,8 @@ namespace QuantLib {
         typename RNG::rsg_type gen =
             RNG::make_sequence_generator(numAssets * (grid.size() - 1), seed_);
 
-        return std::shared_ptr<path_generator_type>(
-                         new path_generator_type(process_,
-                                                 grid, gen, brownianBridge_));
+        return std::make_shared<path_generator_type>(
+                         process_, grid, gen, brownianBridge_);
     }
 
     template <class RNG, class S>
@@ -211,11 +210,9 @@ namespace QuantLib {
                                                          fixings[i]));
         }
 
-        return std::shared_ptr<
-            typename MCPathBasketEngine<RNG,S>::path_pricer_type>(
-                        new EuropeanPathMultiPathPricer(payoff, timePositions,
+        return std::make_shared<EuropeanPathMultiPathPricer>(payoff, timePositions,
                                                         forwardTermStructures,
-                                                        discountFactors));
+                                                        discountFactors);
     }
 
 
@@ -328,8 +325,7 @@ namespace QuantLib {
     inline
     MakeMCPathBasketEngine<RNG,S>::operator std::shared_ptr<PricingEngine>()
                                                                        const {
-        return std::shared_ptr<PricingEngine>(new
-            MCPathBasketEngine<RNG,S>(process_,
+        return std::make_shared<MCPathBasketEngine<RNG,S>>(process_,
                                       steps_,
                                       stepsPerYear_,
                                       brownianBridge_,
@@ -338,7 +334,7 @@ namespace QuantLib {
                                       samples_,
                                       tolerance_,
                                       maxSamples_,
-                                      seed_));
+                                      seed_);
     }
 
 }

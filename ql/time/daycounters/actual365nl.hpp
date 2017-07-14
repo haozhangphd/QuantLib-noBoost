@@ -75,8 +75,7 @@ namespace QuantLib {
         };
     public:
         Actual365NoLeap()
-        : DayCounter(std::shared_ptr<DayCounter::Impl>(
-                                                new Actual365NoLeap::Impl)) {}
+        : DayCounter(std::make_shared<Actual365NoLeap::Impl>()) {}
     };
 
 }

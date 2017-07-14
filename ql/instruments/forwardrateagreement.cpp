@@ -52,8 +52,7 @@ namespace QuantLib {
         Real strike = notionalAmount_ *
                       strikeForwardRate_.compoundFactor(valueDate_,
                                                         maturityDate_);
-        payoff_ = std::shared_ptr<Payoff>(new ForwardTypePayoff(fraType_,
-                                                                  strike));
+        payoff_ = std::make_shared<ForwardTypePayoff>(fraType_, strike);
         // incomeDiscountCurve_ is irrelevant to an FRA
         incomeDiscountCurve_ = discountCurve_;
         // income is irrelevant to FRA - set it to zero

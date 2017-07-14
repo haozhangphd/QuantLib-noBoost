@@ -47,7 +47,7 @@ namespace QuantLib {
       vol_      (vol),
       b_        (b),
       intEps_   (intEps),
-      ouProcess_(new OrnsteinUhlenbeckProcess(speed, vol, x0)),
+      ouProcess_(std::make_shared<OrnsteinUhlenbeckProcess>(speed, vol, x0)),
       discretization_(discretization) {
         QL_REQUIRE(speed_ >= 0.0, "negative a given");
         QL_REQUIRE(vol_ >= 0.0, "negative volatility given");

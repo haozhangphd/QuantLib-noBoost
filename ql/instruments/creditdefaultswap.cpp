@@ -53,10 +53,10 @@ namespace QuantLib {
             .withNotionals(notional)
             .withCouponRates(spread, dayCounter)
             .withPaymentAdjustment(convention);
-        upfrontPayment_.reset(new SimpleCashFlow(0.0, schedule[0]));
+        upfrontPayment_ = std::make_shared<SimpleCashFlow>(0.0, schedule[0]);
 
         if (!claim_)
-            claim_ = std::shared_ptr<Claim>(new FaceValueClaim);
+            claim_ = std::make_shared<FaceValueClaim>();
         registerWith(claim_);
     }
 
@@ -84,12 +84,12 @@ namespace QuantLib {
             .withCouponRates(runningSpread, dayCounter)
             .withPaymentAdjustment(convention);
         Date d = upfrontDate == Null<Date>() ? schedule[0] : upfrontDate;
-        upfrontPayment_.reset(new SimpleCashFlow(notional*upfront, d));
+        upfrontPayment_ = std::make_shared<SimpleCashFlow>(notional*upfront, d);
         QL_REQUIRE(upfrontPayment_->date() >= protectionStart_,
                    "upfront can not be due before contract start");
 
         if (!claim_)
-            claim_ = std::shared_ptr<Claim>(new FaceValueClaim);
+            claim_ = std::make_shared<FaceValueClaim>();
         registerWith(claim_);
     }
 
@@ -256,12 +256,11 @@ namespace QuantLib {
                                Real recoveryRate,
                                Real accuracy) const {
 
-        std::shared_ptr<SimpleQuote> flatRate(new SimpleQuote(0.0));
+        std::shared_ptr<SimpleQuote> flatRate = std::make_shared<SimpleQuote>(0.0);
 
         Handle<DefaultProbabilityTermStructure> probability(
-            std::shared_ptr<DefaultProbabilityTermStructure>(new
-                FlatHazardRate(0, WeekendsOnly(),
-                               Handle<Quote>(flatRate), dayCounter)));
+            std::make_shared<FlatHazardRate>(0, WeekendsOnly(),
+                               Handle<Quote>(flatRate), dayCounter));
 
         MidPointCdsEngine engine(probability, recoveryRate, discountCurve);
         setupArguments(engine.getArguments());
@@ -287,9 +286,8 @@ namespace QuantLib {
                                                 conventionalRecovery);
 
         Handle<DefaultProbabilityTermStructure> probability(
-            std::shared_ptr<DefaultProbabilityTermStructure>(
-                             new FlatHazardRate(0, WeekendsOnly(),
-                                                flatHazardRate, dayCounter)));
+            std::make_shared<FlatHazardRate>(0, WeekendsOnly(),
+                                                flatHazardRate, dayCounter));
 
         MidPointCdsEngine engine(probability, conventionalRecovery,
                                  discountCurve, true);

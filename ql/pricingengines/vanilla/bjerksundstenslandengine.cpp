@@ -113,8 +113,7 @@ namespace QuantLib {
             // use put-call simmetry
             std::swap(spot, strike);
             std::swap(riskFreeDiscount, dividendDiscount);
-            payoff = std::shared_ptr<PlainVanillaPayoff>(
-                                new PlainVanillaPayoff(Option::Call, strike));
+            payoff = std::make_shared<PlainVanillaPayoff>(Option::Call, strike);
         }
 
         if (dividendDiscount>=1.0) {

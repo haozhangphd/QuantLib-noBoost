@@ -71,11 +71,9 @@ namespace {
         std::vector<std::shared_ptr<BootstrapHelper<T> > > instruments;
         for (Size i=0; i<N; i++) {
             Date maturity = iiData[i].date;
-            Handle<Quote> quote(std::shared_ptr<Quote>(
-                    new SimpleQuote(iiData[i].rate/100.0)));
-            std::shared_ptr<BootstrapHelper<T> > anInstrument(new U(
-                    quote, observationLag, maturity,
-                    calendar, bdc, dc, ii));
+            Handle<Quote> quote(std::make_shared<SimpleQuote>(iiData[i].rate/100.0));
+            std::shared_ptr<BootstrapHelper<T> > anInstrument = std::make_shared<U>(
+                quote, observationLag, maturity, calendar, bdc, dc, ii);
             instruments.emplace_back(anInstrument);
         }
 
@@ -138,13 +136,13 @@ namespace {
                 207.3, -999.0, -999 };
             // link from yoy index to yoy TS
             bool interp = false;
-            iir = std::shared_ptr<YYUKRPIr>(new YYUKRPIr(interp, hy));
+            iir = std::make_shared<YYUKRPIr>(interp, hy);
             for (Size i=0; i<rpiSchedule.size();i++) {
                 iir->addFixing(rpiSchedule[i], fixData[i]);
             }
 
-            std::shared_ptr<YieldTermStructure> nominalFF(
-                new FlatForward(evaluationDate, 0.05, ActualActual()));
+            std::shared_ptr<YieldTermStructure> nominalFF =
+                std::make_shared<FlatForward>(evaluationDate, 0.05, ActualActual());
             nominalTS.linkTo(nominalFF);
 
             // now build the YoY inflation curve
@@ -176,11 +174,11 @@ namespace {
                                calendar, convention, dc);
 
             Rate baseYYRate = yyData[0].rate/100.0;
-            std::shared_ptr<PiecewiseYoYInflationCurve<Linear> > pYYTS(
-                new PiecewiseYoYInflationCurve<Linear>(
+            std::shared_ptr<PiecewiseYoYInflationCurve<Linear> > pYYTS =
+                std::make_shared<PiecewiseYoYInflationCurve<Linear>>(
                         evaluationDate, calendar, dc, observationLag,
                         iir->frequency(),iir->interpolated(), baseYYRate,
-                        Handle<YieldTermStructure>(nominalTS), helpers));
+                        Handle<YieldTermStructure>(nominalTS), helpers);
             pYYTS->recalculate();
             yoyTS = std::dynamic_pointer_cast<YoYInflationTermStructure>(pYYTS);
 
@@ -211,29 +209,25 @@ namespace {
             yyii = std::dynamic_pointer_cast<YoYInflationIndex>(iir);
 
             Handle<YoYOptionletVolatilitySurface>
-                vol(std::shared_ptr<ConstantYoYOptionletVolatility>(
-                    new ConstantYoYOptionletVolatility(volatility,
+                vol(std::make_shared<ConstantYoYOptionletVolatility>(volatility,
                                                        settlementDays,
                                                        calendar,
                                                        convention,
                                                        dc,
                                                        observationLag,
                                                        frequency,
-                                                       iir->interpolated())));
+                                                       iir->interpolated()));
 
 
             switch (which) {
                 case 0:
-                    return std::shared_ptr<PricingEngine>(
-                            new YoYInflationBlackCapFloorEngine(iir, vol));
+                    return std::make_shared<YoYInflationBlackCapFloorEngine>(iir, vol);
                     break;
                 case 1:
-                    return std::shared_ptr<PricingEngine>(
-                            new YoYInflationUnitDisplacedBlackCapFloorEngine(iir, vol));
+                    return std::make_shared<YoYInflationUnitDisplacedBlackCapFloorEngine>(iir, vol);
                     break;
                 case 2:
-                    return std::shared_ptr<PricingEngine>(
-                            new YoYInflationBachelierCapFloorEngine(iir, vol));
+                    return std::make_shared<YoYInflationBachelierCapFloorEngine>(iir, vol);
                     break;
                 default:
                     FAIL("unknown engine request: which = "<<which
@@ -253,12 +247,10 @@ namespace {
             std::shared_ptr<YoYInflationCapFloor> result;
             switch (type) {
                 case YoYInflationCapFloor::Cap:
-                    result = std::shared_ptr<YoYInflationCapFloor>(
-                        new YoYInflationCap(leg, std::vector<Rate>(1, strike)));
+                    result = std::make_shared<YoYInflationCap>(leg, std::vector<Rate>(1, strike));
                     break;
                 case YoYInflationCapFloor::Floor:
-                    result = std::shared_ptr<YoYInflationCapFloor>(
-                        new YoYInflationFloor(leg, std::vector<Rate>(1, strike)));
+                    result = std::make_shared<YoYInflationFloor>(leg, std::vector<Rate>(1, strike));
                     break;
                 default:
                     QL_FAIL("unknown YoYInflation cap/floor type");
@@ -451,7 +443,7 @@ TEST_CASE("InflationCapFloor_Parity", "[InflationCapFloor]") {
                                                 UnitedKingdom());
 
                     Handle<YieldTermStructure> hTS(vars.nominalTS);
-                    std::shared_ptr<PricingEngine> sppe(new DiscountingSwapEngine(hTS));
+                    std::shared_ptr<PricingEngine> sppe = std::make_shared<DiscountingSwapEngine>(hTS);
                     swap.setPricingEngine(sppe);
 
                     // N.B. nominals are 10e6
@@ -500,11 +492,11 @@ TEST_CASE("InflationCapFloor_CachedValue", "[InflationCapFloor]") {
     Real cachedFloorNPVblack =  314.641;
     // N.B. notionals are 10e6.
     if (fabs(cap->NPV()-cachedCapNPVblack)>=0.02)
-	    FAIL_CHECK("yoy cap cached NPV wrong "
+        FAIL_CHECK("yoy cap cached NPV wrong "
                        <<cap->NPV()<<" should be "<<cachedCapNPVblack<<" Black pricer"
                        <<" diff was "<<(fabs(cap->NPV()-cachedCapNPVblack)));
     if (fabs(floor->NPV()-cachedFloorNPVblack)>=0.02)
-	    FAIL_CHECK("yoy floor cached NPV wrong "
+        FAIL_CHECK("yoy floor cached NPV wrong "
                        <<floor->NPV()<<" should be "<<cachedFloorNPVblack<<" Black pricer"
                        <<" diff was "<<(fabs(floor->NPV()-cachedFloorNPVblack)));
 
@@ -521,11 +513,11 @@ TEST_CASE("InflationCapFloor_CachedValue", "[InflationCapFloor]") {
     Real cachedFloorNPVdd =  9209.8;
     // N.B. notionals are 10e6.
     if (fabs(cap->NPV()-cachedCapNPVdd)>=0.22)
-	    FAIL_CHECK("yoy cap cached NPV wrong "
+        FAIL_CHECK("yoy cap cached NPV wrong "
                        <<cap->NPV()<<" should be "<<cachedCapNPVdd<<" dd Black pricer"
                        <<" diff was "<<(fabs(cap->NPV()-cachedCapNPVdd)));
     if (fabs(floor->NPV()-cachedFloorNPVdd)>=0.22)
-	    FAIL_CHECK("yoy floor cached NPV wrong "
+        FAIL_CHECK("yoy floor cached NPV wrong "
                        <<floor->NPV()<<" should be "<<cachedFloorNPVdd<<" dd Black pricer"
                        <<" diff was "<<(fabs(floor->NPV()-cachedFloorNPVdd)));
 
@@ -542,11 +534,11 @@ TEST_CASE("InflationCapFloor_CachedValue", "[InflationCapFloor]") {
     Real cachedFloorNPVbac =  8947.59;
     // N.B. notionals are 10e6.
     if (fabs(cap->NPV()-cachedCapNPVbac)>=0.22)
-	    FAIL_CHECK("yoy cap cached NPV wrong "
+        FAIL_CHECK("yoy cap cached NPV wrong "
                       <<cap->NPV()<<" should be "<<cachedCapNPVbac<<" bac Black pricer"
                       <<" diff was "<<(fabs(cap->NPV()-cachedCapNPVbac)));
     if (fabs(floor->NPV()-cachedFloorNPVbac)>=0.22)
-	    FAIL_CHECK("yoy floor cached NPV wrong "
+        FAIL_CHECK("yoy floor cached NPV wrong "
                        <<floor->NPV()<<" should be "<<cachedFloorNPVbac<<" bac Black pricer"
                        <<" diff was "<<(fabs(floor->NPV()-cachedFloorNPVbac)));
 

@@ -133,8 +133,7 @@ namespace QuantLib {
             volHandles_[i].resize(vols.columns());
             shiftValues_[i].resize(vols.columns());
             for (Size j=0; j<vols.columns(); ++j) {
-                volHandles_[i][j] = Handle<Quote>(std::shared_ptr<Quote>(new
-                    SimpleQuote(vols[i][j])));
+                volHandles_[i][j] = Handle<Quote>(std::make_shared<SimpleQuote>(vols[i][j]));
                 shiftValues_[i][j] = shifts.rows() > 0 ? shifts[i][j] : 0.0;
             }
         }
@@ -182,8 +181,7 @@ namespace QuantLib {
             volHandles_[i].resize(vols.columns());
             shiftValues_[i].resize(vols.columns());
             for (Size j=0; j<vols.columns(); ++j) {
-                volHandles_[i][j] = Handle<Quote>(std::shared_ptr<Quote>(new
-                    SimpleQuote(vols[i][j])));
+                volHandles_[i][j] = Handle<Quote>(std::make_shared<SimpleQuote>(vols[i][j]));
                 shiftValues_[i][j] = shifts.rows() > 0 ? shifts[i][j] : 0.0;
             }
         }
@@ -229,8 +227,7 @@ namespace QuantLib {
             volHandles_[i].resize(vols.columns());
             shiftValues_[i].resize(vols.columns());
             for (Size j=0; j<vols.columns(); ++j) {
-                volHandles_[i][j] = Handle<Quote>(std::shared_ptr<Quote>(new
-                    SimpleQuote(vols[i][j])));
+                volHandles_[i][j] = Handle<Quote>(std::make_shared<SimpleQuote>(vols[i][j]));
                 shiftValues_[i][j] = shifts.rows() > 0 ? shifts[i][j] : 0.0;
             }
         }
@@ -312,8 +309,7 @@ namespace QuantLib {
     //    Time swapLength = convertSwapTenor(swapTenor);
     //    // dummy strike
     //    Volatility atmVol = volatilityImpl(optionTime, swapLength, 0.05);
-    //    return std::shared_ptr<SmileSection>(new
-    //        FlatSmileSection(d, atmVol, dayCounter(), referenceDate()));
+    //    return std::make_shared<FlatSmileSection>(d, atmVol, dayCounter(), referenceDate());
     //}
 
     std::shared_ptr<SmileSection>
@@ -322,9 +318,8 @@ namespace QuantLib {
         // dummy strike
         Volatility atmVol = volatilityImpl(optionTime, swapLength, 0.05);
         Real shift = interpolationShifts_(optionTime, swapLength,true);
-        return std::shared_ptr<SmileSection>(
-            new FlatSmileSection(optionTime, atmVol, dayCounter(), Null<Real>(),
-                                 volatilityType(), shift));
+        return std::make_shared<FlatSmileSection>(optionTime, atmVol, dayCounter(), Null<Real>(),
+                                 volatilityType(), shift);
     }
 
 }

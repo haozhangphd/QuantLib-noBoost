@@ -31,10 +31,9 @@ namespace QuantLib {
     BlackCallableFixedRateBondEngine::BlackCallableFixedRateBondEngine(
                               const Handle<Quote>& fwdYieldVol,
                               const Handle<YieldTermStructure>& discountCurve)
-    : volatility_(std::shared_ptr<CallableBondVolatilityStructure>(
-                      new CallableBondConstantVolatility(0, NullCalendar(),
+    : volatility_(std::make_shared<CallableBondConstantVolatility>(0, NullCalendar(),
                                                          fwdYieldVol,
-                                                         Actual365Fixed()))),
+                                                         Actual365Fixed())),
       discountCurve_(discountCurve) {
         registerWith(volatility_);
         registerWith(discountCurve_);

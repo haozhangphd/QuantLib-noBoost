@@ -49,11 +49,11 @@ namespace QuantLib {
 #endif
 
 
-int main(int, char* []) {
+int main(int, char *[]) {
 
     try {
 
-        std::chrono::time_point<std::chrono::steady_clock> startT =  std::chrono::steady_clock::now();
+        std::chrono::time_point<std::chrono::steady_clock> startT = std::chrono::steady_clock::now();
         std::cout << std::endl;
 
         /*********************
@@ -79,31 +79,31 @@ int main(int, char* []) {
                   << ", " << settlementDate << std::endl;
 
         // deposits
-        Rate d1wQuote=0.0382;
-        Rate d1mQuote=0.0372;
-        Rate d3mQuote=0.0363;
-        Rate d6mQuote=0.0353;
-        Rate d9mQuote=0.0348;
-        Rate d1yQuote=0.0345;
+        Rate d1wQuote = 0.0382;
+        Rate d1mQuote = 0.0372;
+        Rate d3mQuote = 0.0363;
+        Rate d6mQuote = 0.0353;
+        Rate d9mQuote = 0.0348;
+        Rate d1yQuote = 0.0345;
         // FRAs
-        Rate fra3x6Quote=0.037125;
-        Rate fra6x9Quote=0.037125;
-        Rate fra6x12Quote=0.037125;
+        Rate fra3x6Quote = 0.037125;
+        Rate fra6x9Quote = 0.037125;
+        Rate fra6x12Quote = 0.037125;
         // futures
-        Real fut1Quote=96.2875;
-        Real fut2Quote=96.7875;
-        Real fut3Quote=96.9875;
-        Real fut4Quote=96.6875;
-        Real fut5Quote=96.4875;
-        Real fut6Quote=96.3875;
-        Real fut7Quote=96.2875;
-        Real fut8Quote=96.0875;
+        Real fut1Quote = 96.2875;
+        Real fut2Quote = 96.7875;
+        Real fut3Quote = 96.9875;
+        Real fut4Quote = 96.6875;
+        Real fut5Quote = 96.4875;
+        Real fut6Quote = 96.3875;
+        Real fut7Quote = 96.2875;
+        Real fut8Quote = 96.0875;
         // swaps
-        Rate s2yQuote=0.037125;
-        Rate s3yQuote=0.0398;
-        Rate s5yQuote=0.0443;
-        Rate s10yQuote=0.05165;
-        Rate s15yQuote=0.055175;
+        Rate s2yQuote = 0.037125;
+        Rate s3yQuote = 0.0398;
+        Rate s5yQuote = 0.0443;
+        Rate s10yQuote = 0.05165;
+        Rate s15yQuote = 0.055175;
 
 
         /********************
@@ -115,31 +115,31 @@ int main(int, char* []) {
         // or some kind of data feed.
 
         // deposits
-        std::shared_ptr<Quote> d1wRate(new SimpleQuote(d1wQuote));
-        std::shared_ptr<Quote> d1mRate(new SimpleQuote(d1mQuote));
-        std::shared_ptr<Quote> d3mRate(new SimpleQuote(d3mQuote));
-        std::shared_ptr<Quote> d6mRate(new SimpleQuote(d6mQuote));
-        std::shared_ptr<Quote> d9mRate(new SimpleQuote(d9mQuote));
-        std::shared_ptr<Quote> d1yRate(new SimpleQuote(d1yQuote));
+        std::shared_ptr < Quote > d1wRate = std::make_shared<SimpleQuote>(d1wQuote);
+        std::shared_ptr < Quote > d1mRate = std::make_shared<SimpleQuote>(d1mQuote);
+        std::shared_ptr < Quote > d3mRate = std::make_shared<SimpleQuote>(d3mQuote);
+        std::shared_ptr < Quote > d6mRate = std::make_shared<SimpleQuote>(d6mQuote);
+        std::shared_ptr < Quote > d9mRate = std::make_shared<SimpleQuote>(d9mQuote);
+        std::shared_ptr < Quote > d1yRate = std::make_shared<SimpleQuote>(d1yQuote);
         // FRAs
-        std::shared_ptr<Quote> fra3x6Rate(new SimpleQuote(fra3x6Quote));
-        std::shared_ptr<Quote> fra6x9Rate(new SimpleQuote(fra6x9Quote));
-        std::shared_ptr<Quote> fra6x12Rate(new SimpleQuote(fra6x12Quote));
+        std::shared_ptr < Quote > fra3x6Rate = std::make_shared<SimpleQuote>(fra3x6Quote);
+        std::shared_ptr < Quote > fra6x9Rate = std::make_shared<SimpleQuote>(fra6x9Quote);
+        std::shared_ptr < Quote > fra6x12Rate = std::make_shared<SimpleQuote>(fra6x12Quote);
         // futures
-        std::shared_ptr<Quote> fut1Price(new SimpleQuote(fut1Quote));
-        std::shared_ptr<Quote> fut2Price(new SimpleQuote(fut2Quote));
-        std::shared_ptr<Quote> fut3Price(new SimpleQuote(fut3Quote));
-        std::shared_ptr<Quote> fut4Price(new SimpleQuote(fut4Quote));
-        std::shared_ptr<Quote> fut5Price(new SimpleQuote(fut5Quote));
-        std::shared_ptr<Quote> fut6Price(new SimpleQuote(fut6Quote));
-        std::shared_ptr<Quote> fut7Price(new SimpleQuote(fut7Quote));
-        std::shared_ptr<Quote> fut8Price(new SimpleQuote(fut8Quote));
+        std::shared_ptr < Quote > fut1Price = std::make_shared<SimpleQuote>(fut1Quote);
+        std::shared_ptr < Quote > fut2Price = std::make_shared<SimpleQuote>(fut2Quote);
+        std::shared_ptr < Quote > fut3Price = std::make_shared<SimpleQuote>(fut3Quote);
+        std::shared_ptr < Quote > fut4Price = std::make_shared<SimpleQuote>(fut4Quote);
+        std::shared_ptr < Quote > fut5Price = std::make_shared<SimpleQuote>(fut5Quote);
+        std::shared_ptr < Quote > fut6Price = std::make_shared<SimpleQuote>(fut6Quote);
+        std::shared_ptr < Quote > fut7Price = std::make_shared<SimpleQuote>(fut7Quote);
+        std::shared_ptr < Quote > fut8Price = std::make_shared<SimpleQuote>(fut8Quote);
         // swaps
-        std::shared_ptr<Quote> s2yRate(new SimpleQuote(s2yQuote));
-        std::shared_ptr<Quote> s3yRate(new SimpleQuote(s3yQuote));
-        std::shared_ptr<Quote> s5yRate(new SimpleQuote(s5yQuote));
-        std::shared_ptr<Quote> s10yRate(new SimpleQuote(s10yQuote));
-        std::shared_ptr<Quote> s15yRate(new SimpleQuote(s15yQuote));
+        std::shared_ptr < Quote > s2yRate = std::make_shared<SimpleQuote>(s2yQuote);
+        std::shared_ptr < Quote > s3yRate = std::make_shared<SimpleQuote>(s3yQuote);
+        std::shared_ptr < Quote > s5yRate = std::make_shared<SimpleQuote>(s5yQuote);
+        std::shared_ptr < Quote > s10yRate = std::make_shared<SimpleQuote>(s10yQuote);
+        std::shared_ptr < Quote > s15yRate = std::make_shared<SimpleQuote>(s15yQuote);
 
 
         /*********************
@@ -154,137 +154,137 @@ int main(int, char* []) {
         // deposits
         DayCounter depositDayCounter = Actual360();
 
-        std::shared_ptr<RateHelper> d1w(new DepositRateHelper(
-            Handle<Quote>(d1wRate),
-            1*Weeks, fixingDays,
-            calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        std::shared_ptr<RateHelper> d1m(new DepositRateHelper(
-            Handle<Quote>(d1mRate),
-            1*Months, fixingDays,
-            calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        std::shared_ptr<RateHelper> d3m(new DepositRateHelper(
-            Handle<Quote>(d3mRate),
-            3*Months, fixingDays,
-            calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        std::shared_ptr<RateHelper> d6m(new DepositRateHelper(
-            Handle<Quote>(d6mRate),
-            6*Months, fixingDays,
-            calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        std::shared_ptr<RateHelper> d9m(new DepositRateHelper(
-            Handle<Quote>(d9mRate),
-            9*Months, fixingDays,
-            calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        std::shared_ptr<RateHelper> d1y(new DepositRateHelper(
-            Handle<Quote>(d1yRate),
-            1*Years, fixingDays,
-            calendar, ModifiedFollowing,
-            true, depositDayCounter));
+        std::shared_ptr < RateHelper > d1w = std::make_shared<DepositRateHelper>
+                (Handle<Quote>(d1wRate),
+                 1 * Weeks, fixingDays,
+                 calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        std::shared_ptr < RateHelper > d1m = std::make_shared<DepositRateHelper>
+                (Handle<Quote>(d1mRate),
+                 1 * Months, fixingDays,
+                 calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        std::shared_ptr < RateHelper > d3m = std::make_shared<DepositRateHelper>
+                (Handle<Quote>(d3mRate),
+                 3 * Months, fixingDays,
+                 calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        std::shared_ptr < RateHelper > d6m = std::make_shared<DepositRateHelper>
+                (Handle<Quote>(d6mRate),
+                 6 * Months, fixingDays,
+                 calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        std::shared_ptr < RateHelper > d9m = std::make_shared<DepositRateHelper>
+                (Handle<Quote>(d9mRate),
+                 9 * Months, fixingDays,
+                 calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        std::shared_ptr < RateHelper > d1y = std::make_shared<DepositRateHelper>
+                (Handle<Quote>(d1yRate),
+                 1 * Years, fixingDays,
+                 calendar, ModifiedFollowing,
+                 true, depositDayCounter);
 
 
         // setup FRAs
-        std::shared_ptr<RateHelper> fra3x6(new FraRateHelper(
-            Handle<Quote>(fra3x6Rate),
-            3, 6, fixingDays, calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        std::shared_ptr<RateHelper> fra6x9(new FraRateHelper(
-            Handle<Quote>(fra6x9Rate),
-            6, 9, fixingDays, calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        std::shared_ptr<RateHelper> fra6x12(new FraRateHelper(
-            Handle<Quote>(fra6x12Rate),
-            6, 12, fixingDays, calendar, ModifiedFollowing,
-            true, depositDayCounter));
+        std::shared_ptr < RateHelper > fra3x6 = std::make_shared<FraRateHelper>
+                (Handle<Quote>(fra3x6Rate),
+                 3, 6, fixingDays, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        std::shared_ptr < RateHelper > fra6x9 = std::make_shared<FraRateHelper>
+                (Handle<Quote>(fra6x9Rate),
+                 6, 9, fixingDays, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        std::shared_ptr < RateHelper > fra6x12 = std::make_shared<FraRateHelper>
+                (Handle<Quote>(fra6x12Rate),
+                 6, 12, fixingDays, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
 
 
         // setup futures
         // Rate convexityAdjustment = 0.0;
         Integer futMonths = 3;
         Date imm = IMM::nextDate(settlementDate);
-        std::shared_ptr<RateHelper> fut1(new FuturesRateHelper(
-            Handle<Quote>(fut1Price),
-            imm,
-            futMonths, calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        imm = IMM::nextDate(imm+1);
-        std::shared_ptr<RateHelper> fut2(new FuturesRateHelper(
-            Handle<Quote>(fut2Price),
-            imm,
-            futMonths, calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        imm = IMM::nextDate(imm+1);
-        std::shared_ptr<RateHelper> fut3(new FuturesRateHelper(
-            Handle<Quote>(fut3Price),
-            imm,
-            futMonths, calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        imm = IMM::nextDate(imm+1);
-        std::shared_ptr<RateHelper> fut4(new FuturesRateHelper(
-            Handle<Quote>(fut4Price),
-            imm,
-            futMonths, calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        imm = IMM::nextDate(imm+1);
-        std::shared_ptr<RateHelper> fut5(new FuturesRateHelper(
-            Handle<Quote>(fut5Price),
-            imm,
-            futMonths, calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        imm = IMM::nextDate(imm+1);
-        std::shared_ptr<RateHelper> fut6(new FuturesRateHelper(
-            Handle<Quote>(fut6Price),
-            imm,
-            futMonths, calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        imm = IMM::nextDate(imm+1);
-        std::shared_ptr<RateHelper> fut7(new FuturesRateHelper(
-            Handle<Quote>(fut7Price),
-            imm,
-            futMonths, calendar, ModifiedFollowing,
-            true, depositDayCounter));
-        imm = IMM::nextDate(imm+1);
-        std::shared_ptr<RateHelper> fut8(new FuturesRateHelper(
-            Handle<Quote>(fut8Price),
-            imm,
-            futMonths, calendar, ModifiedFollowing,
-            true, depositDayCounter));
+        std::shared_ptr < RateHelper > fut1 = std::make_shared<FuturesRateHelper>
+                (Handle<Quote>(fut1Price),
+                 imm,
+                 futMonths, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        imm = IMM::nextDate(imm + 1);
+        std::shared_ptr < RateHelper > fut2 = std::make_shared<FuturesRateHelper>
+                (Handle<Quote>(fut2Price),
+                 imm,
+                 futMonths, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        imm = IMM::nextDate(imm + 1);
+        std::shared_ptr < RateHelper > fut3 = std::make_shared<FuturesRateHelper>
+                (Handle<Quote>(fut3Price),
+                 imm,
+                 futMonths, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        imm = IMM::nextDate(imm + 1);
+        std::shared_ptr < RateHelper > fut4 = std::make_shared<FuturesRateHelper>
+                (Handle<Quote>(fut4Price),
+                 imm,
+                 futMonths, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        imm = IMM::nextDate(imm + 1);
+        std::shared_ptr < RateHelper > fut5 = std::make_shared<FuturesRateHelper>
+                (Handle<Quote>(fut5Price),
+                 imm,
+                 futMonths, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        imm = IMM::nextDate(imm + 1);
+        std::shared_ptr < RateHelper > fut6 = std::make_shared<FuturesRateHelper>
+                (Handle<Quote>(fut6Price),
+                 imm,
+                 futMonths, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        imm = IMM::nextDate(imm + 1);
+        std::shared_ptr < RateHelper > fut7 = std::make_shared<FuturesRateHelper>
+                (Handle<Quote>(fut7Price),
+                 imm,
+                 futMonths, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
+        imm = IMM::nextDate(imm + 1);
+        std::shared_ptr < RateHelper > fut8 = std::make_shared<FuturesRateHelper>
+                (Handle<Quote>(fut8Price),
+                 imm,
+                 futMonths, calendar, ModifiedFollowing,
+                 true, depositDayCounter);
 
 
         // setup swaps
         Frequency swFixedLegFrequency = Annual;
         BusinessDayConvention swFixedLegConvention = Unadjusted;
         DayCounter swFixedLegDayCounter = Thirty360(Thirty360::European);
-        std::shared_ptr<IborIndex> swFloatingLegIndex(new Euribor6M);
+        std::shared_ptr < IborIndex > swFloatingLegIndex = std::make_shared<Euribor6M>();
 
-        std::shared_ptr<RateHelper> s2y(new SwapRateHelper(
-            Handle<Quote>(s2yRate), 2*Years,
-            calendar, swFixedLegFrequency,
-            swFixedLegConvention, swFixedLegDayCounter,
-            swFloatingLegIndex));
-        std::shared_ptr<RateHelper> s3y(new SwapRateHelper(
-            Handle<Quote>(s3yRate), 3*Years,
-            calendar, swFixedLegFrequency,
-            swFixedLegConvention, swFixedLegDayCounter,
-            swFloatingLegIndex));
-        std::shared_ptr<RateHelper> s5y(new SwapRateHelper(
-            Handle<Quote>(s5yRate), 5*Years,
-            calendar, swFixedLegFrequency,
-            swFixedLegConvention, swFixedLegDayCounter,
-            swFloatingLegIndex));
-        std::shared_ptr<RateHelper> s10y(new SwapRateHelper(
-            Handle<Quote>(s10yRate), 10*Years,
-            calendar, swFixedLegFrequency,
-            swFixedLegConvention, swFixedLegDayCounter,
-            swFloatingLegIndex));
-        std::shared_ptr<RateHelper> s15y(new SwapRateHelper(
-            Handle<Quote>(s15yRate), 15*Years,
-            calendar, swFixedLegFrequency,
-            swFixedLegConvention, swFixedLegDayCounter,
-            swFloatingLegIndex));
+        std::shared_ptr < RateHelper > s2y = std::make_shared<SwapRateHelper>
+                (Handle<Quote>(s2yRate), 2 * Years,
+                 calendar, swFixedLegFrequency,
+                 swFixedLegConvention, swFixedLegDayCounter,
+                 swFloatingLegIndex);
+        std::shared_ptr < RateHelper > s3y = std::make_shared<SwapRateHelper>
+                (Handle<Quote>(s3yRate), 3 * Years,
+                 calendar, swFixedLegFrequency,
+                 swFixedLegConvention, swFixedLegDayCounter,
+                 swFloatingLegIndex);
+        std::shared_ptr < RateHelper > s5y = std::make_shared<SwapRateHelper>
+                (Handle<Quote>(s5yRate), 5 * Years,
+                 calendar, swFixedLegFrequency,
+                 swFixedLegConvention, swFixedLegDayCounter,
+                 swFloatingLegIndex);
+        std::shared_ptr < RateHelper > s10y = std::make_shared<SwapRateHelper>
+                (Handle<Quote>(s10yRate), 10 * Years,
+                 calendar, swFixedLegFrequency,
+                 swFixedLegConvention, swFixedLegDayCounter,
+                 swFloatingLegIndex);
+        std::shared_ptr < RateHelper > s15y = std::make_shared<SwapRateHelper>
+                (Handle<Quote>(s15yRate), 15 * Years,
+                 calendar, swFixedLegFrequency,
+                 swFixedLegConvention, swFixedLegDayCounter,
+                 swFloatingLegIndex);
 
 
         /*********************
@@ -294,7 +294,7 @@ int main(int, char* []) {
         // Any DayCounter would be fine.
         // ActualActual::ISDA ensures that 30 years is 30.0
         DayCounter termStructureDayCounter =
-            ActualActual(ActualActual::ISDA);
+                ActualActual(ActualActual::ISDA);
 
 
         double tolerance = 1.0e-15;
@@ -312,11 +312,11 @@ int main(int, char* []) {
         depoSwapInstruments.emplace_back(s5y);
         depoSwapInstruments.emplace_back(s10y);
         depoSwapInstruments.emplace_back(s15y);
-        std::shared_ptr<YieldTermStructure> depoSwapTermStructure(
-            new PiecewiseYieldCurve<Discount,LogLinear>(
-                                          settlementDate, depoSwapInstruments,
-                                          termStructureDayCounter,
-                                          tolerance));
+        std::shared_ptr < YieldTermStructure > depoSwapTermStructure =
+                std::make_shared<PiecewiseYieldCurve<Discount, LogLinear>>(
+                        settlementDate, depoSwapInstruments,
+                        termStructureDayCounter,
+                        tolerance);
 
 
         // A depo-futures-swap curve
@@ -335,11 +335,11 @@ int main(int, char* []) {
         depoFutSwapInstruments.emplace_back(s5y);
         depoFutSwapInstruments.emplace_back(s10y);
         depoFutSwapInstruments.emplace_back(s15y);
-        std::shared_ptr<YieldTermStructure> depoFutSwapTermStructure(
-            new PiecewiseYieldCurve<Discount,LogLinear>(
-                                       settlementDate, depoFutSwapInstruments,
-                                       termStructureDayCounter,
-                                       tolerance));
+        std::shared_ptr < YieldTermStructure > depoFutSwapTermStructure =
+                std::make_shared<PiecewiseYieldCurve<Discount, LogLinear>>(
+                        settlementDate, depoFutSwapInstruments,
+                        termStructureDayCounter,
+                        tolerance);
 
 
         // A depo-FRA-swap curve
@@ -355,11 +355,11 @@ int main(int, char* []) {
         depoFRASwapInstruments.emplace_back(s5y);
         depoFRASwapInstruments.emplace_back(s10y);
         depoFRASwapInstruments.emplace_back(s15y);
-        std::shared_ptr<YieldTermStructure> depoFRASwapTermStructure(
-            new PiecewiseYieldCurve<Discount,LogLinear>(
-                                       settlementDate, depoFRASwapInstruments,
-                                       termStructureDayCounter,
-                                       tolerance));
+        std::shared_ptr < YieldTermStructure > depoFRASwapTermStructure =
+                std::make_shared<PiecewiseYieldCurve<Discount, LogLinear>>(
+                        settlementDate, depoFRASwapInstruments,
+                        termStructureDayCounter,
+                        tolerance);
 
 
         // Term structures that will be used for pricing:
@@ -385,14 +385,14 @@ int main(int, char* []) {
 
         // floating leg
         Frequency floatingLegFrequency = Semiannual;
-        std::shared_ptr<IborIndex> euriborIndex(
-                                     new Euribor6M(forecastingTermStructure));
+        std::shared_ptr < IborIndex > euriborIndex =
+                std::make_shared<Euribor6M>(forecastingTermStructure);
         Spread spread = 0.0;
 
         Integer lenghtInYears = 5;
         VanillaSwap::Type swapType = VanillaSwap::Payer;
 
-        Date maturity = settlementDate + lenghtInYears*Years;
+        Date maturity = settlementDate + lenghtInYears * Years;
         Schedule fixedSchedule(settlementDate, maturity,
                                Period(fixedLegFrequency),
                                calendar, fixedLegConvention,
@@ -404,12 +404,12 @@ int main(int, char* []) {
                                floatingLegConvention,
                                DateGeneration::Forward, false);
         VanillaSwap spot5YearSwap(swapType, nominal,
-            fixedSchedule, fixedRate, fixedLegDayCounter,
-            floatSchedule, euriborIndex, spread,
-            floatingLegDayCounter);
+                                  fixedSchedule, fixedRate, fixedLegDayCounter,
+                                  floatSchedule, euriborIndex, spread,
+                                  floatingLegDayCounter);
 
         Date fwdStart = calendar.advance(settlementDate, 1, Years);
-        Date fwdMaturity = fwdStart + lenghtInYears*Years;
+        Date fwdMaturity = fwdStart + lenghtInYears * Years;
         Schedule fwdFixedSchedule(fwdStart, fwdMaturity,
                                   Period(fixedLegFrequency),
                                   calendar, fixedLegConvention,
@@ -421,9 +421,9 @@ int main(int, char* []) {
                                   floatingLegConvention,
                                   DateGeneration::Forward, false);
         VanillaSwap oneYearForward5YearSwap(swapType, nominal,
-            fwdFixedSchedule, fixedRate, fixedLegDayCounter,
-            fwdFloatSchedule, euriborIndex, spread,
-            floatingLegDayCounter);
+                                            fwdFixedSchedule, fixedRate, fixedLegDayCounter,
+                                            fwdFloatSchedule, euriborIndex, spread,
+                                            floatingLegDayCounter);
 
 
         /***************
@@ -438,15 +438,15 @@ int main(int, char* []) {
         headers[3] = "fair fixed rate";
         std::string separator = " | ";
         Size width = headers[0].size() + separator.size()
-                   + headers[1].size() + separator.size()
-                   + headers[2].size() + separator.size()
-                   + headers[3].size() + separator.size() - 1;
+                     + headers[1].size() + separator.size()
+                     + headers[2].size() + separator.size()
+                     + headers[3].size() + separator.size() - 1;
         std::string rule(width, '-'), dblrule(width, '=');
         std::string tab(8, ' ');
 
         // calculations
         std::cout << dblrule << std::endl;
-        std::cout <<  "5-year market swap-rate = "
+        std::cout << "5-year market swap-rate = "
                   << std::setprecision(2) << io::rate(s5yRate->value())
                   << std::endl;
         std::cout << dblrule << std::endl;
@@ -463,8 +463,8 @@ int main(int, char* []) {
         Rate fairRate;
         Spread fairSpread;
 
-        std::shared_ptr<PricingEngine> swapEngine(
-                         new DiscountingSwapEngine(discountingTermStructure));
+        std::shared_ptr < PricingEngine > swapEngine =
+                std::make_shared<DiscountingSwapEngine>(discountingTermStructure);
 
         spot5YearSwap.setPricingEngine(swapEngine);
         oneYearForward5YearSwap.setPricingEngine(swapEngine);
@@ -489,9 +489,9 @@ int main(int, char* []) {
 
 
         // let's check that the 5 years swap has been correctly re-priced
-        QL_REQUIRE(std::fabs(fairRate-s5yQuote)<1e-8,
+        QL_REQUIRE(std::fabs(fairRate - s5yQuote) < 1e-8,
                    "5-years swap mispriced by "
-                   << io::rate(std::fabs(fairRate-s5yQuote)));
+                           << io::rate(std::fabs(fairRate - s5yQuote)));
 
 
         forecastingTermStructure.linkTo(depoFutSwapTermStructure);
@@ -511,7 +511,7 @@ int main(int, char* []) {
                   << io::rate(fairRate) << separator;
         std::cout << std::endl;
 
-        QL_REQUIRE(std::fabs(fairRate-s5yQuote)<1e-8,
+        QL_REQUIRE(std::fabs(fairRate - s5yQuote) < 1e-8,
                    "5-years swap mispriced!");
 
 
@@ -532,7 +532,7 @@ int main(int, char* []) {
                   << io::rate(fairRate) << separator;
         std::cout << std::endl;
 
-        QL_REQUIRE(std::fabs(fairRate-s5yQuote)<1e-8,
+        QL_REQUIRE(std::fabs(fairRate - s5yQuote) < 1e-8,
                    "5-years swap mispriced!");
 
 
@@ -612,12 +612,12 @@ int main(int, char* []) {
         // value contained in the Quote triggers a new bootstrapping
         // of the curve and a repricing of the swap.
 
-        std::shared_ptr<SimpleQuote> fiveYearsRate =
-            std::dynamic_pointer_cast<SimpleQuote>(s5yRate);
+        std::shared_ptr < SimpleQuote > fiveYearsRate =
+                std::dynamic_pointer_cast<SimpleQuote>(s5yRate);
         fiveYearsRate->setValue(0.0460);
 
         std::cout << dblrule << std::endl;
-        std::cout <<  "5-year market swap-rate = "
+        std::cout << "5-year market swap-rate = "
                   << io::rate(s5yRate->value()) << std::endl;
         std::cout << dblrule << std::endl;
 
@@ -647,7 +647,7 @@ int main(int, char* []) {
                   << io::rate(fairRate) << separator;
         std::cout << std::endl;
 
-        QL_REQUIRE(std::fabs(fairRate-s5yRate->value())<1e-8,
+        QL_REQUIRE(std::fabs(fairRate - s5yRate->value()) < 1e-8,
                    "5-years swap mispriced!");
 
 
@@ -668,7 +668,7 @@ int main(int, char* []) {
                   << io::rate(fairRate) << separator;
         std::cout << std::endl;
 
-        QL_REQUIRE(std::fabs(fairRate-s5yRate->value())<1e-8,
+        QL_REQUIRE(std::fabs(fairRate - s5yRate->value()) < 1e-8,
                    "5-years swap mispriced!");
 
 
@@ -689,7 +689,7 @@ int main(int, char* []) {
                   << io::rate(fairRate) << separator;
         std::cout << std::endl;
 
-        QL_REQUIRE(std::fabs(fairRate-s5yRate->value())<1e-8,
+        QL_REQUIRE(std::fabs(fairRate - s5yRate->value()) < 1e-8,
                    "5-years swap mispriced!");
 
         std::cout << rule << std::endl;
@@ -760,9 +760,9 @@ int main(int, char* []) {
 
         std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
         double seconds = static_cast<double>((endT - startT).count()) / 1.0e9;
-	Integer hours = int(seconds/3600);
+        Integer hours = int(seconds / 3600);
         seconds -= hours * 3600;
-        Integer minutes = int(seconds/60);
+        Integer minutes = int(seconds / 60);
         seconds -= minutes * 60;
         std::cout << " \nRun completed in ";
         if (hours > 0)
@@ -774,7 +774,7 @@ int main(int, char* []) {
 
         return 0;
 
-    } catch (std::exception& e) {
+    } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 1;
     } catch (...) {

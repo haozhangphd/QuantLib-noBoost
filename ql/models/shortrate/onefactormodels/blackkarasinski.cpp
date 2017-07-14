@@ -70,13 +70,13 @@ namespace QuantLib {
 
         TermStructureFittingParameter phi(termStructure());
 
-        std::shared_ptr<ShortRateDynamics> numericDynamics(
-                                             new Dynamics(phi, a(), sigma()));
+        std::shared_ptr<ShortRateDynamics> numericDynamics =
+                                             std::make_shared<Dynamics>(phi, a(), sigma());
 
-        std::shared_ptr<TrinomialTree> trinomial(
-                         new TrinomialTree(numericDynamics->process(), grid));
-        std::shared_ptr<ShortRateTree> numericTree(
-                         new ShortRateTree(trinomial, numericDynamics, grid));
+        std::shared_ptr<TrinomialTree> trinomial =
+                         std::make_shared<TrinomialTree>(numericDynamics->process(), grid);
+        std::shared_ptr<ShortRateTree> numericTree =
+                         std::make_shared<ShortRateTree>(trinomial, numericDynamics, grid);
 
         typedef TermStructureFittingParameter::NumericalImpl NumericalImpl;
         std::shared_ptr<NumericalImpl> impl =

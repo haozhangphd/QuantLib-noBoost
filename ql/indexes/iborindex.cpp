@@ -60,16 +60,15 @@ namespace QuantLib {
 
     std::shared_ptr<IborIndex> IborIndex::clone(
                                const Handle<YieldTermStructure>& h) const {
-        return std::shared_ptr<IborIndex>(
-                                        new IborIndex(familyName(),
-                                                      tenor(),
-                                                      fixingDays(),
-                                                      currency(),
-                                                      fixingCalendar(),
-                                                      businessDayConvention(),
-                                                      endOfMonth(),
-                                                      dayCounter(),
-                                                      h));
+        return std::make_shared<IborIndex>(familyName(),
+                                           tenor(),
+                                           fixingDays(),
+                                           currency(),
+                                           fixingCalendar(),
+                                           businessDayConvention(),
+                                           endOfMonth(),
+                                           dayCounter(),
+                                           h);
     }
 
 
@@ -84,13 +83,12 @@ namespace QuantLib {
 
     std::shared_ptr<IborIndex> OvernightIndex::clone(
                                const Handle<YieldTermStructure>& h) const {
-        return std::shared_ptr<IborIndex>(
-                                        new OvernightIndex(familyName(),
-                                                           fixingDays(),
-                                                           currency(),
-                                                           fixingCalendar(),
-                                                           dayCounter(),
-                                                           h));
+        return std::make_shared<OvernightIndex>(familyName(),
+                                                fixingDays(),
+                                                currency(),
+                                                fixingCalendar(),
+                                                dayCounter(),
+                                                h);
     }
 
 }

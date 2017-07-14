@@ -24,7 +24,7 @@ namespace QuantLib {
     HullWhiteProcess::HullWhiteProcess(const Handle<YieldTermStructure>& h,
                                        Real a,
                                        Real sigma)
-    : process_(new OrnsteinUhlenbeckProcess(
+    : process_(std::make_shared<OrnsteinUhlenbeckProcess>(
                    a, sigma, h->forwardRate(0.0,0.0,Continuous,NoFrequency))),
       h_(h), a_(a), sigma_(sigma) {
         QL_REQUIRE(a_ >= 0.0, "negative a given");
@@ -83,7 +83,7 @@ namespace QuantLib {
                                           const Handle<YieldTermStructure>& h,
                                           Real a,
                                           Real sigma)
-    : process_(new OrnsteinUhlenbeckProcess(
+    : process_(std::make_shared<OrnsteinUhlenbeckProcess>(
                    a, sigma, h->forwardRate(0.0,0.0,Continuous,NoFrequency))),
       h_(h), a_(a), sigma_(sigma) {}
 

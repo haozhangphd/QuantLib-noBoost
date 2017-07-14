@@ -81,10 +81,9 @@ namespace QuantLib {
                                     arguments_.floatingPayDates.back());
         lastPayment_ = std::max(lastFixedPayment,lastFloatingPayment);
 
-        underlying_ = std::shared_ptr<DiscretizedAsset>(
-                                            new DiscretizedSwap(arguments_,
+        underlying_ = std::make_shared<DiscretizedSwap>(arguments_,
                                                                 referenceDate,
-                                                                dayCounter));
+                                                                dayCounter);
     }
 
     void DiscretizedSwaption::reset(Size size) {

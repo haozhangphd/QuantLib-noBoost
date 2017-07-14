@@ -91,8 +91,7 @@ namespace QuantLib {
                                         Size numberOfFactors) const {
         std::shared_ptr<MarketModel> coterminalModel =
             coterminalFactory_->create(evolution,numberOfFactors);
-        return std::shared_ptr<MarketModel>(
-                             new CotSwapToFwdAdapter(coterminalModel));
+        return std::make_shared<CotSwapToFwdAdapter>(coterminalModel);
     }
 
     void CotSwapToFwdAdapterFactory::update() {

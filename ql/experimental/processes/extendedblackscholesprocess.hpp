@@ -43,7 +43,7 @@ namespace QuantLib {
             const Handle<YieldTermStructure>& riskFreeTS,
             const Handle<BlackVolTermStructure>& blackVolTS,
             const std::shared_ptr<discretization>& d =
-                  std::shared_ptr<discretization>(new EulerDiscretization),
+                  std::make_shared<EulerDiscretization>(),
             Discretization evolDisc = Milstein);
         Real drift(Time t, Real x) const;
         Real diffusion(Time t, Real x) const;

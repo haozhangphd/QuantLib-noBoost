@@ -74,8 +74,7 @@ namespace QuantLib {
             }
 
             std::unique_ptr<MarketModelMultiProduct> clone() const {
-                return std::unique_ptr<MarketModelMultiProduct>(
-                                                   new DecoratedHedge(*this));
+                return std::make_unique<DecoratedHedge>(*this);
             }
 
             void save() {

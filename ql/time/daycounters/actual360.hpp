@@ -48,8 +48,7 @@ namespace QuantLib {
         };
       public:
         Actual360()
-        : DayCounter(std::shared_ptr<DayCounter::Impl>(
-                                                      new Actual360::Impl)) {}
+        : DayCounter(std::make_shared<Actual360::Impl>()) {}
     };
 
 }

@@ -65,14 +65,12 @@ namespace QuantLib {
             fixingDate_ = fixingCalendar.advance(refDate, optionTenor_,
                                                  optionConvention_);
         if (exerciseDate_ == Null<Date>()) {
-            exercise_ = std::shared_ptr<Exercise>(new
-                EuropeanExercise(fixingDate_));
+            exercise_ = std::make_shared<EuropeanExercise>(fixingDate_);
         } else {
             QL_REQUIRE(exerciseDate_ <= fixingDate_,
                        "exercise date (" << exerciseDate_ << ") must be less "
                        "than or equal to fixing date (" << fixingDate_ << ")");
-            exercise_ = std::shared_ptr<Exercise>(new
-                EuropeanExercise(exerciseDate_));
+            exercise_ = std::make_shared<EuropeanExercise>(exerciseDate_);
         }
 
         Rate usedStrike = strike_;
@@ -84,11 +82,11 @@ namespace QuantLib {
             std::shared_ptr<VanillaSwap> temp =
                 swapIndex_->underlyingSwap(fixingDate_);
             temp->setPricingEngine(
-                std::shared_ptr<PricingEngine>(new DiscountingSwapEngine(
+                std::make_shared<DiscountingSwapEngine>(
                     swapIndex_->exogenousDiscount()
                         ? swapIndex_->discountingTermStructure()
                         : swapIndex_->forwardingTermStructure(),
-                    false)));
+                    false));
             usedStrike = temp->fairRate();
         }
 
@@ -104,8 +102,8 @@ namespace QuantLib {
             .withFixedLegTerminationDateConvention(bdc)
             .withType(underlyingType_);
 
-        std::shared_ptr<Swaption> swaption(new
-            Swaption(underlyingSwap_, exercise_, delivery_));
+        std::shared_ptr<Swaption> swaption =
+            std::make_shared<Swaption>(underlyingSwap_, exercise_, delivery_);
         swaption->setPricingEngine(engine_);
         return swaption;
     }

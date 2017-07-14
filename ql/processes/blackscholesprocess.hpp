@@ -59,7 +59,7 @@ namespace QuantLib {
             const Handle<YieldTermStructure>& riskFreeTS,
             const Handle<BlackVolTermStructure>& blackVolTS,
             const std::shared_ptr<discretization>& d =
-                  std::shared_ptr<discretization>(new EulerDiscretization),
+                  std::make_shared<EulerDiscretization>(),
             bool forceDiscretization = false);
         //! \name StochasticProcess1D interface
         //@{
@@ -119,7 +119,7 @@ namespace QuantLib {
             const Handle<YieldTermStructure>& riskFreeTS,
             const Handle<BlackVolTermStructure>& blackVolTS,
             const std::shared_ptr<discretization>& d =
-                  std::shared_ptr<discretization>(new EulerDiscretization),
+                  std::make_shared<EulerDiscretization>(),
             bool forceDiscretization = false);
     };
 
@@ -141,7 +141,7 @@ namespace QuantLib {
             const Handle<YieldTermStructure>& riskFreeTS,
             const Handle<BlackVolTermStructure>& blackVolTS,
             const std::shared_ptr<discretization>& d =
-                  std::shared_ptr<discretization>(new EulerDiscretization),
+                  std::make_shared<EulerDiscretization>(),
             bool forceDiscretization = false);
     };
 
@@ -164,7 +164,7 @@ namespace QuantLib {
             const Handle<YieldTermStructure>& riskFreeTS,
             const Handle<BlackVolTermStructure>& blackVolTS,
             const std::shared_ptr<discretization>& d =
-                  std::shared_ptr<discretization>(new EulerDiscretization),
+                  std::make_shared<EulerDiscretization>(),
             bool forceDiscretization = false);
     };
 
@@ -189,7 +189,7 @@ namespace QuantLib {
             const Handle<YieldTermStructure>& domesticRiskFreeTS,
             const Handle<BlackVolTermStructure>& blackVolTS,
             const std::shared_ptr<discretization>& d =
-                  std::shared_ptr<discretization>(new EulerDiscretization),
+                  std::make_shared<EulerDiscretization>(),
             bool forceDiscretization = false);
     };
 

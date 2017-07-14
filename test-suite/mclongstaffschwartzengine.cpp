@@ -35,86 +35,87 @@ using namespace QuantLib;
 
 namespace {
 
-    class AmericanMaxPathPricer : public EarlyExercisePathPricer<MultiPath>  {
-      public:
-        explicit AmericanMaxPathPricer(const std::shared_ptr<Payoff>& payoff)
-        : payoff_(payoff) {
+    class AmericanMaxPathPricer : public EarlyExercisePathPricer<MultiPath> {
+    public:
+        explicit AmericanMaxPathPricer(const std::shared_ptr<Payoff> &payoff)
+                : payoff_(payoff) {
         }
 
-        StateType state(const MultiPath& path, Size t) const {
+        StateType state(const MultiPath &path, Size t) const {
             Array tmp(path.assetNumber());
-            for (Size i=0; i<path.assetNumber(); ++i) {
-                tmp[i]=path[i][t];
+            for (Size i = 0; i < path.assetNumber(); ++i) {
+                tmp[i] = path[i][t];
             }
 
             return tmp;
         }
 
-        Real operator()(const MultiPath& path, Size t) const {
+        Real operator()(const MultiPath &path, Size t) const {
             const Array tmp = state(path, t);
             return (*payoff_)(*std::max_element(tmp.begin(), tmp.end()));
         }
 
-        std::vector<std::function<Real(const StateType&)>> basisSystem() const {
+        std::vector<std::function < Real( const StateType
+        &)>>
+
+        basisSystem() const {
             return LsmBasisSystem::multiPathBasisSystem(2, 2,
                                                         LsmBasisSystem::Monomial);
         }
 
-      protected:
+    protected:
         const std::shared_ptr<Payoff> payoff_;
     };
 
-    template <class RNG>
+    template<class RNG>
     class MCAmericanMaxEngine
-        : public MCLongstaffSchwartzEngine<VanillaOption::engine,
-                                           MultiVariate,RNG>{
-      public:
+            : public MCLongstaffSchwartzEngine<VanillaOption::engine,
+                    MultiVariate, RNG> {
+    public:
         MCAmericanMaxEngine(
-                            const std::shared_ptr<StochasticProcessArray>& processes,
-                            Size timeSteps,
-                            Size timeStepsPerYear,
-                            bool brownianbridge,
-                            bool antitheticVariate,
-                            bool controlVariate,
-                            Size requiredSamples,
-                            Real requiredTolerance,
-                            Size maxSamples,
-                            BigNatural seed,
-                            Size nCalibrationSamples = Null<Size>())
-        : MCLongstaffSchwartzEngine<VanillaOption::engine,
-                                    MultiVariate,RNG>(processes,
-                                                      timeSteps,
-                                                      timeStepsPerYear,
-                                                      brownianbridge,
-                                                      antitheticVariate,
-                                                      controlVariate,
-                                                      requiredSamples,
-                                                      requiredTolerance,
-                                                      maxSamples,
-                                                      seed, nCalibrationSamples)
-        { }
+                const std::shared_ptr<StochasticProcessArray> &processes,
+                Size timeSteps,
+                Size timeStepsPerYear,
+                bool brownianbridge,
+                bool antitheticVariate,
+                bool controlVariate,
+                Size requiredSamples,
+                Real requiredTolerance,
+                Size maxSamples,
+                BigNatural seed,
+                Size nCalibrationSamples = Null<Size>())
+                : MCLongstaffSchwartzEngine<VanillaOption::engine,
+                MultiVariate, RNG>(processes,
+                                   timeSteps,
+                                   timeStepsPerYear,
+                                   brownianbridge,
+                                   antitheticVariate,
+                                   controlVariate,
+                                   requiredSamples,
+                                   requiredTolerance,
+                                   maxSamples,
+                                   seed, nCalibrationSamples) {}
 
-      protected:
+    protected:
         std::shared_ptr<LongstaffSchwartzPathPricer<MultiPath> >
         lsmPathPricer() const {
-            std::shared_ptr<StochasticProcessArray> processArray =
-            std::dynamic_pointer_cast<StochasticProcessArray>(this->process_);
+            std::shared_ptr < StochasticProcessArray > processArray =
+                    std::dynamic_pointer_cast<StochasticProcessArray>(this->process_);
             QL_REQUIRE(processArray && processArray->size() > 0,
                        "Stochastic process array required");
 
-            std::shared_ptr<GeneralizedBlackScholesProcess> process =
-                std::dynamic_pointer_cast<GeneralizedBlackScholesProcess>(
-                                                    processArray->process(0));
+            std::shared_ptr < GeneralizedBlackScholesProcess > process =
+                    std::dynamic_pointer_cast<GeneralizedBlackScholesProcess>(
+                            processArray->process(0));
             QL_REQUIRE(process, "generalized Black-Scholes proces required");
 
-            std::shared_ptr<AmericanMaxPathPricer> earlyExercisePathPricer(
-                          new AmericanMaxPathPricer(this->arguments_.payoff));
+            std::shared_ptr < AmericanMaxPathPricer > earlyExercisePathPricer =
+                    std::make_shared<AmericanMaxPathPricer>(this->arguments_.payoff);
 
-            return std::shared_ptr<LongstaffSchwartzPathPricer<MultiPath> > (
-                new LongstaffSchwartzPathPricer<MultiPath>(
+            return std::make_shared<LongstaffSchwartzPathPricer<MultiPath>>(
                     this->timeGrid(),
                     earlyExercisePathPricer,
-                    process->riskFreeRate().currentLink()));
+                    process->riskFreeRate().currentLink());
         }
     };
 
@@ -140,16 +141,14 @@ TEST_CASE("MCLongstaffSchwartzEngine_AmericanOption", "[MCLongstaffSchwartzEngin
     const Date maturity(17, May, 1999);
     const DayCounter dayCounter = Actual365Fixed();
 
-    std::shared_ptr<Exercise> americanExercise(
-        new AmericanExercise(settlementDate, maturity));
+    std::shared_ptr < Exercise > americanExercise =
+            std::make_shared<AmericanExercise>(settlementDate, maturity);
 
     // bootstrap the yield/dividend/vol curves
     Handle<YieldTermStructure> flatTermStructure(
-            std::shared_ptr<YieldTermStructure>(
-                new FlatForward(settlementDate, riskFreeRate, dayCounter)));
+            std::make_shared<FlatForward>(settlementDate, riskFreeRate, dayCounter));
     Handle<YieldTermStructure> flatDividendTS(
-            std::shared_ptr<YieldTermStructure>(
-                new FlatForward(settlementDate, dividendYield, dayCounter)));
+            std::make_shared<FlatForward>(settlementDate, dividendYield, dayCounter));
 
     // expected results for exercise probability, evaluated with third-party
     // product (using Cox-Rubinstein binomial tree)
@@ -162,66 +161,64 @@ TEST_CASE("MCLongstaffSchwartzEngine_AmericanOption", "[MCLongstaffSchwartzEngin
     expectedExProb[1][2] = 0.65562; // (price: 7.138)
 
     LsmBasisSystem::PolynomType polynomTypes[]
-        = { LsmBasisSystem::Monomial, LsmBasisSystem::Laguerre,
-            LsmBasisSystem::Hermite, LsmBasisSystem::Hyperbolic,
-            LsmBasisSystem::Chebyshev2nd };
+            = {LsmBasisSystem::Monomial, LsmBasisSystem::Laguerre,
+               LsmBasisSystem::Hermite, LsmBasisSystem::Hyperbolic,
+               LsmBasisSystem::Chebyshev2nd};
 
-    for (Integer i=0; i<2; ++i) {
-        for (Integer j=0; j<3; ++j) {
+    for (Integer i = 0; i < 2; ++i) {
+        for (Integer j = 0; j < 3; ++j) {
             Handle<BlackVolTermStructure> flatVolTS(
-                std::shared_ptr<BlackVolTermStructure>(
-                    new BlackConstantVol(settlementDate, NullCalendar(),
-                                         volatility+0.1*j, dayCounter)));
+                    std::make_shared<BlackConstantVol>(settlementDate, NullCalendar(),
+                                                       volatility + 0.1 * j, dayCounter));
 
-            std::shared_ptr<StrikedTypePayoff> payoff(
-                new PlainVanillaPayoff(type, underlying+4*i));
+            std::shared_ptr < StrikedTypePayoff > payoff =
+                    std::make_shared<PlainVanillaPayoff>(type, underlying + 4 * i);
 
             Handle<Quote> underlyingH(
-                std::shared_ptr<Quote>(new SimpleQuote(underlying)));
+                    std::make_shared<SimpleQuote>(underlying));
 
-            std::shared_ptr<GeneralizedBlackScholesProcess>
-                stochasticProcess(new GeneralizedBlackScholesProcess(
-                                      underlyingH, flatDividendTS,
-                                      flatTermStructure, flatVolTS));
+            std::shared_ptr < GeneralizedBlackScholesProcess >
+            stochasticProcess = std::make_shared<GeneralizedBlackScholesProcess>(
+                    underlyingH, flatDividendTS,
+                    flatTermStructure, flatVolTS);
 
             VanillaOption americanOption(payoff, americanExercise);
 
-            std::shared_ptr<PricingEngine> mcengine =
-                MakeMCAmericanEngine<PseudoRandom>(stochasticProcess)
-                  .withSteps(75)
-                  .withAntitheticVariate()
-                  .withAbsoluteTolerance(0.02)
-                  .withSeed(42)
-                  .withPolynomOrder(3)
-                  .withBasisSystem(
-                       polynomTypes[0*(i*3+j)%LENGTH(polynomTypes)]);
+            std::shared_ptr < PricingEngine > mcengine =
+                    MakeMCAmericanEngine<PseudoRandom>(stochasticProcess)
+                            .withSteps(75)
+                            .withAntitheticVariate()
+                            .withAbsoluteTolerance(0.02)
+                            .withSeed(42)
+                            .withPolynomOrder(3)
+                            .withBasisSystem(
+                                    polynomTypes[0 * (i * 3 + j) % LENGTH(polynomTypes)]);
 
             americanOption.setPricingEngine(mcengine);
             // FLOATING_POINT_EXCEPTION
             const Real calculated = americanOption.NPV();
             const Real errorEstimate = americanOption.errorEstimate();
             const Real exerciseProbability =
-                americanOption.result<QuantLib::Real>("exerciseProbability");
+                    americanOption.result<QuantLib::Real>("exerciseProbability");
 
-            americanOption.setPricingEngine(std::shared_ptr<PricingEngine>(
-                        new FDAmericanEngine<CrankNicolson>(stochasticProcess,
-                                                            401, 200)));
+            americanOption.setPricingEngine(std::make_shared<FDAmericanEngine<CrankNicolson>>(stochasticProcess,
+                                                                                                      401, 200));
             const Real expected = americanOption.NPV();
 
             // Check price
-            if (std::fabs(calculated - expected) > 2.34*errorEstimate) {
+            if (std::fabs(calculated - expected) > 2.34 * errorEstimate) {
                 FAIL_CHECK("Failed to reproduce american option prices"
-                            << "\n    expected: " << expected
-                            << "\n    calculated:   " << calculated
-                            << " +/- " << errorEstimate);
+                                   << "\n    expected: " << expected
+                                   << "\n    calculated:   " << calculated
+                                   << " +/- " << errorEstimate);
             }
 
             // Check exercise probability (tolerance 1.5%)
             if (std::fabs(exerciseProbability - expectedExProb[i][j]) > 0.015) {
                 FAIL_CHECK("Failed to reproduce american option "
-                            << "exercise probability"
-                            << "\n    expected: " << expectedExProb[i][j]
-                            << "\n    calculated:   " << exerciseProbability);
+                                   << "exercise probability"
+                                   << "\n    expected: " << expectedExProb[i][j]
+                                   << "\n    calculated:   " << exerciseProbability);
             }
         }
     }
@@ -251,65 +248,62 @@ TEST_CASE("MCLongstaffSchwartzEngine_AmericanMaxOption", "[MCLongstaffSchwartzEn
     const Date maturity(16, May, 2001);
     const DayCounter dayCounter = Actual365Fixed();
 
-    std::shared_ptr<Exercise> americanExercise(
-        new AmericanExercise(settlementDate, maturity));
+    std::shared_ptr < Exercise > americanExercise =
+            std::make_shared<AmericanExercise>(settlementDate, maturity);
 
     // bootstrap the yield/dividend/vol curves
     Handle<YieldTermStructure> flatTermStructure(
-        std::shared_ptr<YieldTermStructure>(
-            new FlatForward(settlementDate, riskFreeRate, dayCounter)));
+            std::make_shared<FlatForward>(settlementDate, riskFreeRate, dayCounter));
     Handle<YieldTermStructure> flatDividendTS(
-        std::shared_ptr<YieldTermStructure>(
-            new FlatForward(settlementDate, dividendYield, dayCounter)));
+            std::make_shared<FlatForward>(settlementDate, dividendYield, dayCounter));
 
     Handle<BlackVolTermStructure> flatVolTS(
-        std::shared_ptr<BlackVolTermStructure>(new
-            BlackConstantVol(settlementDate, NullCalendar(),
-                             volatility, dayCounter)));
+            std::make_shared<BlackConstantVol>(settlementDate, NullCalendar(),
+                                               volatility, dayCounter));
 
-    std::shared_ptr<StrikedTypePayoff> payoff(
-        new PlainVanillaPayoff(type, strike));
+    std::shared_ptr < StrikedTypePayoff > payoff =
+            std::make_shared<PlainVanillaPayoff>(type, strike);
 
     RelinkableHandle<Quote> underlyingH;
 
-    std::shared_ptr<GeneralizedBlackScholesProcess> stochasticProcess(new
-        GeneralizedBlackScholesProcess(
-            underlyingH, flatDividendTS, flatTermStructure, flatVolTS));
+    std::shared_ptr < GeneralizedBlackScholesProcess > stochasticProcess =
+            std::make_shared<GeneralizedBlackScholesProcess>(
+                    underlyingH, flatDividendTS, flatTermStructure, flatVolTS);
 
     const Size numberAssets = 2;
     Matrix corr(numberAssets, numberAssets, 0.0);
     std::vector<std::shared_ptr<StochasticProcess1D> > v;
 
-    for (Size i=0; i<numberAssets; ++i) {
+    for (Size i = 0; i < numberAssets; ++i) {
         v.emplace_back(stochasticProcess);
         corr[i][i] = 1.0;
     }
 
-    std::shared_ptr<StochasticProcessArray> process(
-        new StochasticProcessArray(v, corr));
+    std::shared_ptr < StochasticProcessArray > process =
+            std::make_shared<StochasticProcessArray>(v, corr);
     VanillaOption americanMaxOption(payoff, americanExercise);
 
-    std::shared_ptr<PricingEngine> mcengine(
-        new MCAmericanMaxEngine<PseudoRandom>(process, 25, Null<Size>(), false,
-                                              true, false, 4096,
-                                              Null<Real>(), Null<Size>(),
-                                              42, 1024));
+    std::shared_ptr < PricingEngine > mcengine =
+            std::make_shared<MCAmericanMaxEngine<PseudoRandom>>(process, 25, Null<Size>(), false,
+                                                                true, false, 4096,
+                                                                Null<Real>(), Null<Size>(),
+                                                                42, 1024);
     americanMaxOption.setPricingEngine(mcengine);
 
     const Real expected[] = {8.08, 13.90, 21.34};
     for (Size i = 0; i < 3; ++i) {
 
-        const Real underlying = 90.0 + i*10.0;
+        const Real underlying = 90.0 + i * 10.0;
         underlyingH.linkTo(
-            std::shared_ptr<Quote>(new SimpleQuote(underlying)));
+                std::make_shared<SimpleQuote>(underlying));
 
-        const Real calculated  = americanMaxOption.NPV();
+        const Real calculated = americanMaxOption.NPV();
         const Real errorEstimate = americanMaxOption.errorEstimate();
-        if (std::fabs(calculated - expected[i]) > 2.34*errorEstimate) {
-                FAIL_CHECK("Failed to reproduce american option prices"
-                            << "\n    expected: " << expected[i]
-                            << "\n    calculated:   " << calculated
-                            << " +/- " << errorEstimate);
+        if (std::fabs(calculated - expected[i]) > 2.34 * errorEstimate) {
+            FAIL_CHECK("Failed to reproduce american option prices"
+                               << "\n    expected: " << expected[i]
+                               << "\n    calculated:   " << calculated
+                               << " +/- " << errorEstimate);
         }
     }
 }

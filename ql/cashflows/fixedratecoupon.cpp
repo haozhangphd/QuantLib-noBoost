@@ -181,9 +181,9 @@ namespace QuantLib {
                        firstPeriodDC_ == rate.dayCounter(),
                        "regular first coupon "
                        "does not allow a first-period day count");
-            shared_ptr<CashFlow> temp(new
-                FixedRateCoupon(paymentDate, nominal, rate,
-                                start, end, start, end, exCouponDate));
+            shared_ptr<CashFlow> temp = 
+                std::make_shared<FixedRateCoupon>(paymentDate, nominal, rate,
+                                start, end, start, end, exCouponDate);
             leg.emplace_back(temp);
         } else {
             Date ref = schedule_.calendar().advance(
@@ -195,9 +195,8 @@ namespace QuantLib {
                            firstPeriodDC_.empty() ? rate.dayCounter()
                                                   : firstPeriodDC_,
                            rate.compounding(), rate.frequency());
-            leg.emplace_back(shared_ptr<CashFlow>(new
-                FixedRateCoupon(paymentDate, nominal, r,
-                                start, end, ref, end, exCouponDate)));
+            leg.emplace_back(std::make_shared<FixedRateCoupon>(paymentDate, nominal, r,
+                                start, end, ref, end, exCouponDate));
         }
         // regular periods
         for (Size i=2; i<schedule_.size()-1; ++i) {
@@ -218,9 +217,8 @@ namespace QuantLib {
                 nominal = notionals_[i-1];
             else
                 nominal = notionals_.back();
-            leg.emplace_back(shared_ptr<CashFlow>(new
-                FixedRateCoupon(paymentDate, nominal, rate,
-                                start, end, start, end, exCouponDate)));
+            leg.emplace_back(std::make_shared<FixedRateCoupon>(paymentDate, nominal, rate,
+                                start, end, start, end, exCouponDate));
         }
         if (schedule_.size() > 2) {
             // last period might be short or long
@@ -243,18 +241,16 @@ namespace QuantLib {
             else
                 nominal = notionals_.back();
             if (schedule_.isRegular(N-1)) {
-                leg.emplace_back(shared_ptr<CashFlow>(new
-                    FixedRateCoupon(paymentDate, nominal, rate,
-                                    start, end, start, end, exCouponDate)));
+                leg.emplace_back(std::make_shared<FixedRateCoupon>(paymentDate, nominal, rate,
+                                    start, end, start, end, exCouponDate));
             } else {
                 Date ref = schedule_.calendar().advance(
                                             start,
                                             schedule_.tenor(),
                                             schedule_.businessDayConvention(),
                                             schedule_.endOfMonth());
-                leg.emplace_back(shared_ptr<CashFlow>(new
-                    FixedRateCoupon(paymentDate, nominal, rate,
-                                    start, end, start, ref, exCouponDate)));
+                leg.emplace_back(std::make_shared<FixedRateCoupon>(paymentDate, nominal, rate,
+                                    start, end, start, ref, exCouponDate));
             }
         }
         return leg;

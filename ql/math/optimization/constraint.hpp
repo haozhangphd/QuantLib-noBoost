@@ -87,8 +87,7 @@ namespace QuantLib {
         };
       public:
         NoConstraint()
-        : Constraint(std::shared_ptr<Constraint::Impl>(
-                                                   new NoConstraint::Impl)) {}
+        : Constraint(std::make_shared<NoConstraint::Impl>()) {}
     };
 
     //! %Constraint imposing positivity to all arguments
@@ -113,8 +112,7 @@ namespace QuantLib {
         };
       public:
         PositiveConstraint()
-        : Constraint(std::shared_ptr<Constraint::Impl>(
-                                             new PositiveConstraint::Impl)) {}
+        : Constraint(std::make_shared<PositiveConstraint::Impl>()) {}
     };
 
     //! %Constraint imposing all arguments to be in [low,high]
@@ -142,8 +140,7 @@ namespace QuantLib {
         };
       public:
         BoundaryConstraint(Real low, Real high)
-        : Constraint(std::shared_ptr<Constraint::Impl>(
-                                  new BoundaryConstraint::Impl(low, high))) {}
+        : Constraint(std::make_shared<BoundaryConstraint::Impl>(low, high)) {}
     };
 
     //! %Constraint enforcing both given sub-constraints
@@ -180,8 +177,7 @@ namespace QuantLib {
         };
       public:
         CompositeConstraint(const Constraint& c1, const Constraint& c2)
-        : Constraint(std::shared_ptr<Constraint::Impl>(
-                                     new CompositeConstraint::Impl(c1,c2))) {}
+        : Constraint(std::make_shared<CompositeConstraint::Impl>(c1,c2)) {}
     };
 
     //! %Constraint imposing i-th argument to be in [low_i,high_i] for all i
@@ -214,8 +210,7 @@ namespace QuantLib {
         };
       public:
         NonhomogeneousBoundaryConstraint(Array low, Array high)
-        : Constraint(std::shared_ptr <Constraint::Impl>(
-                     new NonhomogeneousBoundaryConstraint::Impl(low, high))) {
+        : Constraint(std::make_shared<NonhomogeneousBoundaryConstraint::Impl>(low, high)) {
         }
     };
 

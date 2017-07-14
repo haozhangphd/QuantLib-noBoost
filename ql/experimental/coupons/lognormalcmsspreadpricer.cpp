@@ -160,19 +160,17 @@ namespace QuantLib {
                                 << ") should be positive while gearing2 ("
                                 << gearing2_ << ") should be negative");
 
-        c1_ = std::shared_ptr<CmsCoupon>(new CmsCoupon(
-            coupon_->date(), coupon_->nominal(), coupon_->accrualStartDate(),
+        c1_ = std::make_shared<CmsCoupon>(coupon_->date(), coupon_->nominal(), coupon_->accrualStartDate(),
             coupon_->accrualEndDate(), coupon_->fixingDays(),
             index_->swapIndex1(), 1.0, 0.0, coupon_->referencePeriodStart(),
             coupon_->referencePeriodEnd(), coupon_->dayCounter(),
-            coupon_->isInArrears()));
+            coupon_->isInArrears());
 
-        c2_ = std::shared_ptr<CmsCoupon>(new CmsCoupon(
-            coupon_->date(), coupon_->nominal(), coupon_->accrualStartDate(),
+        c2_ = std::make_shared<CmsCoupon>(coupon_->date(), coupon_->nominal(), coupon_->accrualStartDate(),
             coupon_->accrualEndDate(), coupon_->fixingDays(),
             index_->swapIndex2(), 1.0, 0.0, coupon_->referencePeriodStart(),
             coupon_->referencePeriodEnd(), coupon_->dayCounter(),
-            coupon_->isInArrears()));
+            coupon_->isInArrears());
 
         c1_->setPricer(cmsPricer_);
         c2_->setPricer(cmsPricer_);

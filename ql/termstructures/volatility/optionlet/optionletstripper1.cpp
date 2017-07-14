@@ -60,10 +60,10 @@ OptionletStripper1::OptionletStripper1(
         // update dates
         const Date& referenceDate = termVolSurface_->referenceDate();
         const DayCounter& dc = termVolSurface_->dayCounter();
-        shared_ptr<BlackCapFloorEngine> dummy(new
-                    BlackCapFloorEngine(// discounting does not matter here
+        shared_ptr<BlackCapFloorEngine> dummy =
+                    std::make_shared<BlackCapFloorEngine>(// discounting does not matter here
                                         iborIndex_->forwardingTermStructure(),
-                                        0.20, dc));
+                                        0.20, dc);
         for (Size i=0; i<nOptionletTenors_; ++i) {
             CapFloor temp = MakeCapFloor(CapFloor::Cap,
                                          capFloorLengths_[i],
@@ -97,18 +97,16 @@ OptionletStripper1::OptionletStripper1(
         const std::vector<Rate>& strikes = termVolSurface_->strikes();
 
         std::shared_ptr<PricingEngine> capFloorEngine;
-        std::shared_ptr<SimpleQuote> volQuote(new SimpleQuote);
+        std::shared_ptr<SimpleQuote> volQuote = std::make_shared<SimpleQuote>();
 
         if (volatilityType_ == ShiftedLognormal) {
-            capFloorEngine = std::shared_ptr<BlackCapFloorEngine>(
-                        new BlackCapFloorEngine(
+            capFloorEngine = std::make_shared<BlackCapFloorEngine>(
                             discountCurve, Handle<Quote>(volQuote),
-                            dc, displacement_));
+                            dc, displacement_);
         } else if (volatilityType_ == Normal) {
-            capFloorEngine = std::shared_ptr<BachelierCapFloorEngine>(
-                        new BachelierCapFloorEngine(
+            capFloorEngine = std::make_shared<BachelierCapFloorEngine>(
                             discountCurve, Handle<Quote>(volQuote),
-                            dc));
+                            dc);
         } else {
             QL_FAIL("unknown volatility type: " << volatilityType_);
         }

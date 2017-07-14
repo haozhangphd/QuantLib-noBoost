@@ -55,8 +55,7 @@ namespace QuantLib {
             // floating leg (which is not taken into account by the
             // model)
             VanillaSwap swap = *arguments_.swap;
-            swap.setPricingEngine(std::shared_ptr<PricingEngine>(
-                  new DiscountingSwapEngine(model_->termStructure(), false)));
+            swap.setPricingEngine(std::make_shared<DiscountingSwapEngine>(model_->termStructure(), false));
             Spread correction = swap.spread() *
                 std::fabs(swap.floatingLegBPS() / swap.fixedLegBPS());
             Rate fixedRate = swap.fixedRate() - correction;

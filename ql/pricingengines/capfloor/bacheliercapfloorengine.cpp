@@ -31,8 +31,7 @@ namespace QuantLib {
                               Volatility v,
                               const DayCounter& dc)
     : discountCurve_(discountCurve),
-      vol_(std::shared_ptr<OptionletVolatilityStructure>(new
-          ConstantOptionletVolatility(0, NullCalendar(), Following, v, dc))) {
+      vol_(std::make_shared<ConstantOptionletVolatility>(0, NullCalendar(), Following, v, dc)) {
         registerWith(discountCurve_);
     }
 
@@ -41,8 +40,7 @@ namespace QuantLib {
                               const Handle<Quote>& v,
                               const DayCounter& dc)
     : discountCurve_(discountCurve),
-      vol_(std::shared_ptr<OptionletVolatilityStructure>(new
-          ConstantOptionletVolatility(0, NullCalendar(), Following, v, dc))) {
+      vol_(std::make_shared<ConstantOptionletVolatility>(0, NullCalendar(), Following, v, dc)) {
         registerWith(discountCurve_);
         registerWith(vol_);
     }

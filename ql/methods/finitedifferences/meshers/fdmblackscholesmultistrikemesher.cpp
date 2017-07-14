@@ -74,13 +74,11 @@ namespace QuantLib {
         if (   cPoint.first != Null<Real>() 
             && std::log(cPoint.first) >=xMin && std::log(cPoint.first) <=xMax) {
             
-            helper = std::shared_ptr<Fdm1dMesher>(
-                new Concentrating1dMesher(xMin, xMax, size, 
-                    std::pair<Real,Real>(std::log(cPoint.first),cPoint.second)));
+            helper = std::make_shared<Concentrating1dMesher>(xMin, xMax, size, 
+                     std::pair<Real,Real>(std::log(cPoint.first),cPoint.second));
         }
         else {
-            helper = std::shared_ptr<Fdm1dMesher>(
-                                        new Uniform1dMesher(xMin, xMax, size));
+            helper = std::make_shared<Uniform1dMesher>(xMin, xMax, size);
             
         }
 

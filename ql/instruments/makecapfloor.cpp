@@ -75,8 +75,8 @@ namespace QuantLib {
                                                  discountCurve->referenceDate());
         }
 
-        shared_ptr<CapFloor> capFloor(new
-            CapFloor(capFloorType_, leg, strikeVector));
+        shared_ptr<CapFloor> capFloor =
+            std::make_shared<CapFloor>(capFloorType_, leg, strikeVector);
         capFloor->setPricingEngine(engine_);
         return capFloor;
     }

@@ -195,11 +195,11 @@ namespace {
             fixedEoniaPeriod = 1*Years;
             floatingEoniaPeriod = 1*Years;
             fixedEoniaDayCount = Actual360();
-            eoniaIndex = shared_ptr<Eonia>(new Eonia(eoniaTermStructure));
+            eoniaIndex = std::make_shared<Eonia>(eoniaTermStructure);
             fixedSwapConvention = ModifiedFollowing;
             fixedSwapFrequency = Annual;
             fixedSwapDayCount = Thirty360();
-            swapIndex = shared_ptr<IborIndex>(new Euribor3M(swapTermStructure));
+            swapIndex = std::make_shared<Euribor3M>(swapTermStructure);
             calendar = eoniaIndex->fixingCalendar();
             today = Date(5, February, 2009);
             //today = calendar.adjust(Date::todaysDate());
@@ -305,22 +305,22 @@ TEST_CASE("OvernightIndexedSwap_Bootstrap", "[OvernightIndexedSwap]") {
     std::vector<shared_ptr<RateHelper> > eoniaHelpers;
     std::vector<shared_ptr<RateHelper> > swap3mHelpers;
 
-    shared_ptr<IborIndex> euribor3m(new Euribor3M);
-    shared_ptr<Eonia> eonia(new Eonia);
+    shared_ptr<IborIndex> euribor3m = std::make_shared<Euribor3M>();
+    shared_ptr<Eonia> eonia = std::make_shared<Eonia>();
 
     for (Size i = 0; i < LENGTH(depositData); i++) {
         Real rate = 0.01 * depositData[i].rate;
-        shared_ptr<SimpleQuote> simple = shared_ptr<SimpleQuote>(new SimpleQuote(rate));
+        shared_ptr<SimpleQuote> simple = std::make_shared<SimpleQuote>(rate);
         shared_ptr<Quote> quote (simple);
         Period term = depositData[i].n * depositData[i].unit;
-        shared_ptr<RateHelper> helper(new
-                    DepositRateHelper(Handle<Quote>(quote),
+        shared_ptr<RateHelper> helper =
+                    std::make_shared<DepositRateHelper>(Handle<Quote>(quote),
                                       term,
                                       depositData[i].settlementDays,
                                       euribor3m->fixingCalendar(),
                                       euribor3m->businessDayConvention(),
                                       euribor3m->endOfMonth(),
-                                      euribor3m->dayCounter()));
+                                      euribor3m->dayCounter());
 
         if (term <= 2*Days)
             eoniaHelpers.emplace_back(helper);
@@ -330,56 +330,56 @@ TEST_CASE("OvernightIndexedSwap_Bootstrap", "[OvernightIndexedSwap]") {
 
     for (Size i = 0; i < LENGTH(fraData); i++) {
         Real rate = 0.01 * fraData[i].rate;
-        shared_ptr<SimpleQuote> simple = shared_ptr<SimpleQuote>(new SimpleQuote(rate));
+        shared_ptr<SimpleQuote> simple = std::make_shared<SimpleQuote>(rate);
         shared_ptr<Quote> quote (simple);
-        shared_ptr<RateHelper> helper(new
-                               FraRateHelper(Handle<Quote>(quote),
+        shared_ptr<RateHelper> helper =
+                               std::make_shared<FraRateHelper>(Handle<Quote>(quote),
                                              fraData[i].nExpiry,
                                              fraData[i].nMaturity,
                                              fraData[i].settlementDays,
                                              euribor3m->fixingCalendar(),
                                              euribor3m->businessDayConvention(),
                                              euribor3m->endOfMonth(),
-                                             euribor3m->dayCounter()));
+                                             euribor3m->dayCounter());
         swap3mHelpers.emplace_back(helper);
     }
 
     for (Size i = 0; i < LENGTH(eoniaSwapData); i++) {
         Real rate = 0.01 * eoniaSwapData[i].rate;
-        shared_ptr<SimpleQuote> simple = shared_ptr<SimpleQuote>(new SimpleQuote(rate));
+        shared_ptr<SimpleQuote> simple = std::make_shared<SimpleQuote>(rate);
         shared_ptr<Quote> quote (simple);
         Period term = eoniaSwapData[i].n * eoniaSwapData[i].unit;
-        shared_ptr<RateHelper> helper(new
-                     OISRateHelper(eoniaSwapData[i].settlementDays,
+        shared_ptr<RateHelper> helper =
+                     std::make_shared<OISRateHelper>(eoniaSwapData[i].settlementDays,
                                    term,
                                    Handle<Quote>(quote),
-                                   eonia));
+                                   eonia);
         eoniaHelpers.emplace_back(helper);
     }
 
     for (Size i = 0; i < LENGTH(swapData); i++) {
         Real rate = 0.01 * swapData[i].rate;
-        shared_ptr<SimpleQuote> simple = shared_ptr<SimpleQuote>(new SimpleQuote(rate));
+        shared_ptr<SimpleQuote> simple = std::make_shared<SimpleQuote>(rate);
         shared_ptr<Quote> quote (simple);
         Period tenor = swapData[i].nIndexUnits * swapData[i].indexUnit;
         Period term = swapData[i].nTermUnits * swapData[i].termUnit;
-        shared_ptr<RateHelper> helper(new SwapRateHelper(
+        shared_ptr<RateHelper> helper = std::make_shared<SwapRateHelper>(
                                Handle<Quote>(quote),
                                term,
                                vars.calendar,
                                vars.fixedSwapFrequency,
                                vars.fixedSwapConvention,
                                vars.fixedSwapDayCount,
-                               euribor3m));
+                               euribor3m);
         if (tenor == 3*Months)
             swap3mHelpers.emplace_back(helper);
     }
 
-    shared_ptr<PiecewiseFlatForward> eoniaTS(new
-        PiecewiseFlatForward (vars.today, eoniaHelpers, Actual365Fixed()));
+    shared_ptr<PiecewiseFlatForward> eoniaTS =
+        std::make_shared<PiecewiseFlatForward >(vars.today, eoniaHelpers, Actual365Fixed());
 
-    shared_ptr<PiecewiseFlatForward> swapTS(new
-        PiecewiseFlatForward (vars.today, swap3mHelpers, Actual365Fixed()));
+    shared_ptr<PiecewiseFlatForward> swapTS =
+        std::make_shared<PiecewiseFlatForward >(vars.today, swap3mHelpers, Actual365Fixed());
 
     vars.eoniaTermStructure.linkTo(eoniaTS);
 

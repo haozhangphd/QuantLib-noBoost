@@ -39,9 +39,8 @@ namespace QuantLib {
             for (Date periodStartDate=startDate; periodStartDate<endDate; ) {
                 Date periodEndDate = (periodStartDate + (1 * Months)) - 1;
                 Date paymentDate = paymentTerm.getPaymentDate(periodEndDate);
-                pricingPeriods.emplace_back(std::shared_ptr<PricingPeriod>(
-                             new PricingPeriod(periodStartDate, periodEndDate,
-                                               paymentDate, periodQuantity)));
+                pricingPeriods.emplace_back(std::make_shared<PricingPeriod>(periodStartDate, periodEndDate,
+                                               paymentDate, periodQuantity));
                 periodStartDate = periodEndDate + 1;
             }
         } else if (deliverySchedule == EnergyCommodity::Daily) {
@@ -54,9 +53,8 @@ namespace QuantLib {
                 Quantity periodQuantity =
                     quantity * (periodEndDate - periodStartDate);
                 Date paymentDate = paymentTerm.getPaymentDate(periodEndDate);
-                pricingPeriods.emplace_back(std::shared_ptr<PricingPeriod>(
-                             new PricingPeriod(periodStartDate, periodEndDate,
-                                               paymentDate, periodQuantity)));
+                pricingPeriods.emplace_back(std::make_shared<PricingPeriod>(periodStartDate, periodEndDate,
+                                               paymentDate, periodQuantity));
                 periodStartDate = periodEndDate + 1;
             }
         }

@@ -91,8 +91,7 @@ namespace QuantLib {
                                         Size numberOfFactors) const {
         std::shared_ptr<MarketModel> forwardModel =
             forwardFactory_->create(evolution,numberOfFactors);
-        return std::shared_ptr<MarketModel>(
-                                new FwdToCotSwapAdapter(forwardModel));
+        return std::make_shared<FwdToCotSwapAdapter>(forwardModel);
     }
 
     void FwdToCotSwapAdapterFactory::update() {

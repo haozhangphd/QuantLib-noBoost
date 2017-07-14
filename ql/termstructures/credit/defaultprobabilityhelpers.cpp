@@ -154,17 +154,15 @@ namespace QuantLib {
     }
 
     void SpreadCdsHelper::resetEngine() {
-        swap_ = std::shared_ptr<CreditDefaultSwap>(
-                    new CreditDefaultSwap(Protection::Buyer, 100.0, 0.01,
+        swap_ = std::make_shared<CreditDefaultSwap>(Protection::Buyer, 100.0, 0.01,
                                           schedule_, paymentConvention_,
                                           dayCounter_, settlesAccrual_,
                                           paysAtDefaultTime_,
-                                          protectionStart_));
+                                          protectionStart_);
 
-        swap_->setPricingEngine(std::shared_ptr<PricingEngine>(
-                                      new MidPointCdsEngine(probability_,
+        swap_->setPricingEngine(std::make_shared<MidPointCdsEngine>(probability_,
                                                             recoveryRate_,
-                                                            discountCurve_)));
+                                                            discountCurve_));
     }
 
 
@@ -231,21 +229,19 @@ namespace QuantLib {
     }
 
     void UpfrontCdsHelper::resetEngine() {
-        swap_ = std::shared_ptr<CreditDefaultSwap>(
-                          new CreditDefaultSwap(Protection::Buyer, 100.0,
+        swap_ = std::make_shared<CreditDefaultSwap>(Protection::Buyer, 100.0,
                                                 0.01, runningSpread_,
                                                 schedule_, paymentConvention_,
                                                 dayCounter_,
                                                 settlesAccrual_,
                                                 paysAtDefaultTime_,
                                                 protectionStart_,
-                                                upfrontDate_));
+                                                upfrontDate_);
 
-        swap_->setPricingEngine(std::shared_ptr<PricingEngine>(
-                                      new MidPointCdsEngine(probability_,
+        swap_->setPricingEngine(std::make_shared<MidPointCdsEngine>(probability_,
                                                             recoveryRate_,
                                                             discountCurve_,
-                                                            true)));
+                                                            true));
     }
 
 }

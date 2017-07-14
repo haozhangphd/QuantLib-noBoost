@@ -29,10 +29,10 @@ namespace QuantLib {
 
     SouthKorea::SouthKorea(Market market) {
         // all calendar instances share the same implementation instance
-        static std::shared_ptr<Calendar::Impl> settlementImpl(
-                                              new SouthKorea::SettlementImpl);
-        static std::shared_ptr<Calendar::Impl> krxImpl(
-                                                     new SouthKorea::KrxImpl);
+        static std::shared_ptr<Calendar::Impl> settlementImpl =
+                                              std::make_shared<SouthKorea::SettlementImpl>();
+        static std::shared_ptr<Calendar::Impl> krxImpl =
+                                                     std::make_shared<SouthKorea::KrxImpl>();
         switch (market) {
           case Settlement:
             impl_ = settlementImpl;

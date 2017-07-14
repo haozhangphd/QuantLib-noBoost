@@ -23,8 +23,8 @@ namespace QuantLib {
 
     Argentina::Argentina(Market) {
         // all calendar instances share the same implementation instance
-        static std::shared_ptr<Calendar::Impl> impl(
-                                                   new Argentina::MervalImpl);
+        static std::shared_ptr<Calendar::Impl> impl =
+                                                   std::make_shared<Argentina::MervalImpl>();
         impl_ = impl;
     }
 

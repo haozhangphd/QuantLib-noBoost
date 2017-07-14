@@ -228,9 +228,9 @@ ZabrInterpolatedSmileSection<Evaluation>::ZabrInterpolatedSmileSection(
     const std::shared_ptr<OptimizationMethod> &method, const DayCounter &dc)
     : SmileSection(optionDate, dc),
       forward_(
-          Handle<Quote>(std::shared_ptr<Quote>(new SimpleQuote(forward)))),
+          Handle<Quote>(std::make_shared<SimpleQuote>(forward))),
       atmVolatility_(Handle<Quote>(
-          std::shared_ptr<Quote>(new SimpleQuote(atmVolatility)))),
+          std::make_shared<SimpleQuote>(atmVolatility))),
       volHandles_(volHandles.size()), strikes_(strikes),
       actualStrikes_(strikes), hasFloatingStrikes_(hasFloatingStrikes),
       vols_(volHandles.size()), alpha_(alpha), beta_(beta), nu_(nu), rho_(rho),
@@ -241,18 +241,16 @@ ZabrInterpolatedSmileSection<Evaluation>::ZabrInterpolatedSmileSection(
 
     for (Size i = 0; i < volHandles_.size(); ++i)
         volHandles_[i] = Handle<Quote>(
-            std::shared_ptr<Quote>(new SimpleQuote(volHandles[i])));
+            std::make_shared<SimpleQuote>(volHandles[i]));
 }
 
 template <typename Evaluation>
 void ZabrInterpolatedSmileSection<Evaluation>::createInterpolation() const {
-    std::shared_ptr<ZabrInterpolation<Evaluation> > tmp(
-        new ZabrInterpolation<Evaluation>(
+    swap(std::make_shared<ZabrInterpolation<Evaluation>>(
             actualStrikes_.begin(), actualStrikes_.end(), vols_.begin(),
             exerciseTime(), forwardValue_, alpha_, beta_, nu_, rho_, gamma_,
             isAlphaFixed_, isBetaFixed_, isNuFixed_, isRhoFixed_, isGammaFixed_,
-            vegaWeighted_, endCriteria_, method_));
-    swap(tmp, zabrInterpolation_);
+            vegaWeighted_, endCriteria_, method_), zabrInterpolation_);
 }
 
 template <typename Evaluation>

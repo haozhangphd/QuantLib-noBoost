@@ -48,8 +48,7 @@ namespace QuantLib {
       parametricForm_(parametricForm),
       alpha_(numberOfRates_), a_(numberOfRates_), b_(numberOfRates_) {
           if (!parametricForm_)
-              parametricForm_ = std::shared_ptr<AlphaForm>(new
-                AlphaFormLinearHyperbolic(evolution.rateTimes()));
+              parametricForm_ = std::make_shared<AlphaFormLinearHyperbolic>(evolution.rateTimes());
 
         QL_REQUIRE(numberOfRates_==alphaInitial.size(),
             "mismatch between number of rates (" << numberOfRates_ <<

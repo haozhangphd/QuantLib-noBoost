@@ -62,8 +62,7 @@ TEST_CASE("Gsr_GsrProcess", "[Gsr]") {
     Real reversion = 0.01;
     Real modelvol = 0.01;
 
-    Handle<YieldTermStructure> yts0(std::shared_ptr<YieldTermStructure>(
-        new FlatForward(0, TARGET(), 0.00, Actual365Fixed())));
+    Handle<YieldTermStructure> yts0(std::make_shared<FlatForward>(0, TARGET(), 0.00, Actual365Fixed()));
 
     std::vector<Date> stepDates0;
     std::vector<Real> vols0(1, modelvol);
@@ -78,17 +77,17 @@ TEST_CASE("Gsr_GsrProcess", "[Gsr]") {
     Real T = 10.0;
     do {
 
-        std::shared_ptr<Gsr> model(
-            new Gsr(yts0, stepDates0, vols0, reversions0, T));
+        std::shared_ptr<Gsr> model =
+            std::make_shared<Gsr>(yts0, stepDates0, vols0, reversions0, T);
         std::shared_ptr<StochasticProcess1D> gsrProcess =
             model->stateProcess();
-        std::shared_ptr<Gsr> model2(
-            new Gsr(yts0, stepDates1, vols1, reversions1, T));
+        std::shared_ptr<Gsr> model2 =
+            std::make_shared<Gsr>(yts0, stepDates1, vols1, reversions1, T);
         std::shared_ptr<StochasticProcess1D> gsrProcess2 =
             model2->stateProcess();
 
-        std::shared_ptr<HullWhiteForwardProcess> hwProcess(
-            new HullWhiteForwardProcess(yts0, reversion, modelvol));
+        std::shared_ptr<HullWhiteForwardProcess> hwProcess =
+            std::make_shared<HullWhiteForwardProcess>(yts0, reversion, modelvol);
         hwProcess->setForwardMeasureTime(T);
 
         Real w, t, xw, hwVal, gsrVal, gsr2Val;
@@ -180,13 +179,12 @@ TEST_CASE("Gsr_GsrModel", "[Gsr]") {
     std::vector<Real> vols1(stepDates1.size() + 1, modelvol);
     std::vector<Real> reversions1(stepDates1.size() + 1, reversion);
 
-    Handle<YieldTermStructure> yts(std::shared_ptr<YieldTermStructure>(
-        new FlatForward(0, TARGET(), 0.03, Actual365Fixed())));
-    std::shared_ptr<Gsr> model(
-        new Gsr(yts, stepDates, vols, reversions, 50.0));
-    std::shared_ptr<Gsr> model2(
-        new Gsr(yts, stepDates1, vols1, reversions1, 50.0));
-    std::shared_ptr<HullWhite> hw(new HullWhite(yts, reversion, modelvol));
+    Handle<YieldTermStructure> yts(std::make_shared<FlatForward>(0, TARGET(), 0.03, Actual365Fixed()));
+    std::shared_ptr<Gsr> model =
+        std::make_shared<Gsr>(yts, stepDates, vols, reversions, 50.0);
+    std::shared_ptr<Gsr> model2 =
+        std::make_shared<Gsr>(yts, stepDates1, vols1, reversions1, 50.0);
+    std::shared_ptr<HullWhite> hw = std::make_shared<HullWhite>(yts, reversion, modelvol);
 
     // test zerobond prices against existing HullWhite model
     // technically we test two representations of the same constant reversion
@@ -232,7 +230,7 @@ TEST_CASE("Gsr_GsrModel", "[Gsr]") {
 
     Date expiry = TARGET().advance(refDate, 5 * Years);
     Period tenor = 10 * Years;
-    std::shared_ptr<SwapIndex> swpIdx(new EuriborSwapIsdaFixA(tenor, yts));
+    std::shared_ptr<SwapIndex> swpIdx = std::make_shared<EuriborSwapIsdaFixA>(tenor, yts);
     Real forward = swpIdx->fixing(expiry);
 
     std::shared_ptr<VanillaSwap> underlying = swpIdx->underlyingSwap(expiry);
@@ -245,24 +243,20 @@ TEST_CASE("Gsr_GsrModel", "[Gsr]") {
             .withFixedLegConvention(swpIdx->fixedLegConvention())
             .withFixedLegTerminationDateConvention(
                  swpIdx->fixedLegConvention());
-    std::shared_ptr<Exercise> exercise(new EuropeanExercise(expiry));
-    std::shared_ptr<Swaption> stdswaption(
-        new Swaption(underlyingFixed, exercise));
-    std::shared_ptr<NonstandardSwaption> nonstdswaption(
-        new NonstandardSwaption(*stdswaption));
+    std::shared_ptr<Exercise> exercise = std::make_shared<EuropeanExercise>(expiry);
+    std::shared_ptr<Swaption> stdswaption =
+        std::make_shared<Swaption>(underlyingFixed, exercise);
+    std::shared_ptr<NonstandardSwaption> nonstdswaption =
+        std::make_shared<NonstandardSwaption>(*stdswaption);
 
-    stdswaption->setPricingEngine(std::shared_ptr<PricingEngine>(
-        new JamshidianSwaptionEngine(hw, yts)));
+    stdswaption->setPricingEngine(std::make_shared<JamshidianSwaptionEngine>(hw, yts));
     Real HwJamNpv = stdswaption->NPV();
 
-    nonstdswaption->setPricingEngine(std::shared_ptr<PricingEngine>(
-        new Gaussian1dNonstandardSwaptionEngine(model, 64, 7.0, true, false)));
-    stdswaption->setPricingEngine(std::shared_ptr<PricingEngine>(
-        new Gaussian1dSwaptionEngine(model, 64, 7.0, true, false)));
+    nonstdswaption->setPricingEngine(std::make_shared<Gaussian1dNonstandardSwaptionEngine>(model, 64, 7.0, true, false));
+    stdswaption->setPricingEngine(std::make_shared<Gaussian1dSwaptionEngine>(model, 64, 7.0, true, false));
     Real GsrNonStdNpv = nonstdswaption->NPV();
     Real GsrStdNpv = stdswaption->NPV();
-    stdswaption->setPricingEngine(std::shared_ptr<PricingEngine>(
-        new Gaussian1dJamshidianSwaptionEngine(model)));
+    stdswaption->setPricingEngine(std::make_shared<Gaussian1dJamshidianSwaptionEngine>(model));
     Real GsrJamNpv = stdswaption->NPV();
 
     if (fabs(HwJamNpv - GsrNonStdNpv) > 0.00005)

@@ -51,20 +51,20 @@ namespace {
        notional amounts.
     */
     hwDatum hwData[] = {
-        { 1, { 603, 440, 293 } },
-        { 2, {  98, 139, 137 } },
-        { 3, {  12,  53,  79 } },
-        { 4, {   1,  21,  49 } },
-        { 5, {   0,   8,  31 } },
-        { 6, {   0,   3,  19 } },
-        { 7, {   0,   1,  12 } },
-        { 8, {   0,   0,   7 } },
-        { 9, {   0,   0,   3 } },
-        {10, {   0,   0,   1 } }
+            {1,  {603, 440, 293}},
+            {2,  {98,  139, 137}},
+            {3,  {12,  53,  79}},
+            {4,  {1,   21,  49}},
+            {5,  {0,   8,   31}},
+            {6,  {0,   3,   19}},
+            {7,  {0,   1,   12}},
+            {8,  {0,   0,   7}},
+            {9,  {0,   0,   3}},
+            {10, {0,   0,   1}}
     };
 
 
-    Real hwCorrelation[] = { 0.0, 0.3, 0.6 };
+    Real hwCorrelation[] = {0.0, 0.3, 0.6};
 
 
     struct hwDatumDist {
@@ -77,23 +77,23 @@ namespace {
     // NM/NZ
     // rank inf/inf 5/inf inf/5 5/5
     hwDatumDist hwDataDist[] = {
-        { 1, { 440, 419, 474, 455 } },
-        { 2, { 139, 127, 127, 116 } },
-        { 3, {  53,  51,  44,  44 } },
-        { 4, {  21,  24,  18,  22 } },
-        { 5, {   8,  13,   7,  13 } },
-        { 6, {   3,   8,   3,   8 } },
-        { 7, {   1,   5,   1,   5 } },
-        { 8, {   0,   3,   0,   4 } },
-        { 9, {   0,   2,   0,   0 } },
-        {10, {   0,   1,   0,   1 } }
+            {1,  {440, 419, 474, 455}},
+            {2,  {139, 127, 127, 116}},
+            {3,  {53,  51,  44,  44}},
+            {4,  {21,  24,  18,  22}},
+            {5,  {8,   13,  7,   13}},
+            {6,  {3,   8,   3,   8}},
+            {7,  {1,   5,   1,   5}},
+            {8,  {0,   3,   0,   4}},
+            {9,  {0,   2,   0,   0}},
+            {10, {0,   1,   0,   1}}
     };
 
 }
 
 TEST_CASE("NthToDefault_Gauss", "[NthToDefault]") {
     INFO("Testing nth-to-default against Hull-White values "
-                       "with Gaussian copula...");
+                 "with Gaussian copula...");
 
     SavedSettings backup;
 
@@ -103,7 +103,7 @@ TEST_CASE("NthToDefault_Gauss", "[NthToDefault]") {
     Real relTolerance = 0.015; // relative difference
     Real absTolerance = 1; // absolute difference in bp
 
-    Period timeUnit = 1*Weeks; // required to reach accuracy
+    Period timeUnit = 1 * Weeks; // required to reach accuracy
 
     Size names = 10;
     QL_REQUIRE (LENGTH(hwData) == names, "hwData length does not match");
@@ -113,46 +113,46 @@ TEST_CASE("NthToDefault_Gauss", "[NthToDefault]") {
     Compounding cmp = Continuous; // Simple;
 
     Real recovery = 0.4;
-    vector<Real> lambda (names, 0.01);
+    vector<Real> lambda(names, 0.01);
 
     Real namesNotional = 100.0;
 
-    Schedule schedule = MakeSchedule().from(Date (1, September, 2006))
-                                      .to(Date (1, September, 2011))
-                                      .withTenor(3*Months)
-                                      .withCalendar(TARGET());
+    Schedule schedule = MakeSchedule().from(Date(1, September, 2006))
+            .to(Date(1, September, 2011))
+            .withTenor(3 * Months)
+            .withCalendar(TARGET());
 
     Date asofDate(31, August, 2006);
 
     Settings::instance().evaluationDate() = asofDate;
 
     vector<Date> gridDates;
-    gridDates.emplace_back (asofDate);
-    gridDates.emplace_back (TARGET().advance (asofDate, Period (1, Years)));
-    gridDates.emplace_back (TARGET().advance (asofDate, Period (5, Years)));
-    gridDates.emplace_back (TARGET().advance (asofDate, Period (7, Years)));
+    gridDates.emplace_back(asofDate);
+    gridDates.emplace_back(TARGET().advance(asofDate, Period(1, Years)));
+    gridDates.emplace_back(TARGET().advance(asofDate, Period(5, Years)));
+    gridDates.emplace_back(TARGET().advance(asofDate, Period(7, Years)));
 
-    std::shared_ptr<YieldTermStructure> yieldPtr (
-                                   new FlatForward (asofDate, rate, dc, cmp));
-    Handle<YieldTermStructure> yieldHandle (yieldPtr);
+    std::shared_ptr < YieldTermStructure > yieldPtr =
+            std::make_shared<FlatForward>(asofDate, rate, dc, cmp);
+    Handle<YieldTermStructure> yieldHandle(yieldPtr);
 
     vector<Handle<DefaultProbabilityTermStructure> > probabilities;
-    Period maxTerm (10, Years);
+    Period maxTerm(10, Years);
     for (Size i = 0; i < lambda.size(); i++) {
-        Handle<Quote> h(std::shared_ptr<Quote>(new SimpleQuote(lambda[i])));
-        std::shared_ptr<DefaultProbabilityTermStructure> ptr (
-                                         new FlatHazardRate(asofDate, h, dc));
+        Handle<Quote> h(std::make_shared<SimpleQuote>(lambda[i]));
+        std::shared_ptr < DefaultProbabilityTermStructure > ptr =
+                std::make_shared<FlatHazardRate>(asofDate, h, dc);
         probabilities.emplace_back(Handle<DefaultProbabilityTermStructure>(ptr));
     }
 
-    std::shared_ptr<SimpleQuote> simpleQuote (new SimpleQuote(0.0));
-    Handle<Quote> correlationHandle (simpleQuote);
+    std::shared_ptr < SimpleQuote > simpleQuote = std::make_shared<SimpleQuote>(0.0);
+    Handle<Quote> correlationHandle(simpleQuote);
 
-    std::shared_ptr<DefaultLossModel> copula( new 
-        ConstantLossModel<GaussianCopulaPolicy>( correlationHandle, 
-        std::vector<Real>(names, recovery), 
-        LatentModelIntegrationType::GaussianQuadrature, names, 
-        GaussianCopulaPolicy::initTraits()));
+    std::shared_ptr < DefaultLossModel > copula = std::make_shared<ConstantLossModel<GaussianCopulaPolicy>>(
+            correlationHandle,
+            std::vector<Real>(names, recovery),
+            LatentModelIntegrationType::GaussianQuadrature, names,
+            GaussianCopulaPolicy::initTraits());
 
     /* If you like the action you can price with the simulation engine below
     instead below. But you need at least 1e6 simulations to pass the pricing 
@@ -166,53 +166,54 @@ TEST_CASE("NthToDefault_Gauss", "[NthToDefault]") {
     //Size numSimulations = 1000000;
     //// Size numCoresUsed = 4; use your are in the multithread branch
     //// Sobol, many cores
-    //std::shared_ptr<RandomDefaultLM<GaussianCopulaPolicy> > copula( 
-    //    new RandomDefaultLM<GaussianCopulaPolicy>(gLM, 
+    //std::shared_ptr<RandomDefaultLM<GaussianCopulaPolicy>> copula = 
+    //    std::make_shared<RandomDefaultLM<GaussianCopulaPolicy>>(gLM, 
     //        std::vector<Real>(names, recovery), numSimulations, 1.e-6, 
-    //        2863311530));
+    //        2863311530);
 
 
     vector<Handle<DefaultProbabilityTermStructure> > singleProbability;
-    singleProbability.emplace_back (probabilities[0]);
+    singleProbability.emplace_back(probabilities[0]);
 
     // Set up pool and basket
     std::vector<std::string> namesIds;
-    for(Size i=0; i<names; i++)
-        namesIds.emplace_back(std::string("Name") + 
-            std::to_string(i));
+    for (Size i = 0; i < names; i++)
+        namesIds.emplace_back(std::string("Name") +
+                              std::to_string(i));
 
     std::vector<Issuer> issuers;
-    for(Size i=0; i<names; i++) {
-        std::vector<QuantLib::Issuer::key_curve_pair> curves(1, 
-            std::make_pair(NorthAmericaCorpDefaultKey(
-                EURCurrency(), QuantLib::SeniorSec,
-                Period(), 1. // amount threshold
-                ), probabilities[i]));
+    for (Size i = 0; i < names; i++) {
+        std::vector<QuantLib::Issuer::key_curve_pair> curves(1,
+                                                             std::make_pair(NorthAmericaCorpDefaultKey(
+                                                                     EURCurrency(), QuantLib::SeniorSec,
+                                                                     Period(), 1. // amount threshold
+                                                             ), probabilities[i]));
         issuers.emplace_back(Issuer(curves));
     }
 
-    std::shared_ptr<Pool> thePool = std::make_shared<Pool>();
-    for(Size i=0; i<names; i++)
+    std::shared_ptr < Pool > thePool = std::make_shared<Pool>();
+    for (Size i = 0; i < names; i++)
         thePool->add(namesIds[i], issuers[i], NorthAmericaCorpDefaultKey(
                 EURCurrency(), QuantLib::SeniorSec, Period(), 1.));
 
-    std::vector<DefaultProbKey> defaultKeys(probabilities.size(), 
-        NorthAmericaCorpDefaultKey(EURCurrency(), SeniorSec, Period(), 1.));
+    std::vector<DefaultProbKey> defaultKeys(probabilities.size(),
+                                            NorthAmericaCorpDefaultKey(EURCurrency(), SeniorSec, Period(), 1.));
 
-    std::shared_ptr<Basket> basket(new Basket(asofDate, namesIds,
-        std::vector<Real>(names, namesNotional/names), thePool, 0., 1.));
+    std::shared_ptr < Basket > basket = std::make_shared<Basket>(asofDate, namesIds,
+                                                                 std::vector<Real>(names, namesNotional / names),
+                                                                 thePool, 0., 1.);
     basket->setLossModel(copula);
 
 
-    std::shared_ptr<PricingEngine> engine(
-        new IntegralNtdEngine(timeUnit, yieldHandle));
+    std::shared_ptr < PricingEngine > engine =
+            std::make_shared<IntegralNtdEngine>(timeUnit, yieldHandle);
 
     Real diff, maxDiff = 0;
 
     vector<NthToDefault> ntd;
     for (Size i = 1; i <= probabilities.size(); i++) {
-        ntd.emplace_back (NthToDefault (basket, i, Protection::Seller, 
-            schedule, 0.0, 0.02, Actual360(), namesNotional*names, true));
+        ntd.emplace_back(NthToDefault(basket, i, Protection::Seller,
+                                      schedule, 0.0, 0.02, Actual360(), namesNotional * names, true));
         ntd.back().setPricingEngine(engine);
     }
 
@@ -220,16 +221,16 @@ TEST_CASE("NthToDefault_Gauss", "[NthToDefault]") {
                 "correlation length does not match");
 
     for (Size j = 0; j < LENGTH(hwCorrelation); j++) {
-        simpleQuote->setValue (hwCorrelation[j]);
+        simpleQuote->setValue(hwCorrelation[j]);
         for (Size i = 0; i < ntd.size(); i++) {
             QL_REQUIRE (ntd[i].rank() == hwData[i].rank, "rank does not match");
             QL_REQUIRE (LENGTH(hwCorrelation) == LENGTH(hwData[i].spread),
                         "vector length does not match");
             diff = 1e4 * ntd[i].fairPremium() - hwData[i].spread[j];
-            maxDiff = max (maxDiff, fabs (diff));
-            if (fabs(diff/hwData[i].spread[j]) >= relTolerance && fabs(diff) >= absTolerance)
-		    FAIL_CHECK("tolerance " << relTolerance << "|"
-                               << absTolerance << " exceeded");
+            maxDiff = max(maxDiff, fabs(diff));
+            if (fabs(diff / hwData[i].spread[j]) >= relTolerance && fabs(diff) >= absTolerance)
+                FAIL_CHECK("tolerance " << relTolerance << "|"
+                                        << absTolerance << " exceeded");
         }
     }
 }
@@ -241,7 +242,7 @@ TEST_CASE("NthToDefault_Gauss", "[NthToDefault]") {
 
 TEST_CASE("NthToDefault_GaussStudent", "[.]") {
     INFO("Testing nth-to-default against Hull-White values "
-                       "with Gaussian and Student copula...");
+                 "with Gaussian and Student copula...");
 
     SavedSettings backup;
 
@@ -251,7 +252,7 @@ TEST_CASE("NthToDefault_GaussStudent", "[.]") {
     Real relTolerance = 0.015; // relative difference
     Real absTolerance = 1; // absolute difference in bp
 
-    Period timeUnit = 1*Weeks; // required to reach accuracy
+    Period timeUnit = 1 * Weeks; // required to reach accuracy
 
     Size names = 10;
     QL_REQUIRE (LENGTH(hwDataDist) == names,
@@ -263,85 +264,87 @@ TEST_CASE("NthToDefault_GaussStudent", "[.]") {
 
 
     Real recovery = 0.4;
-    vector<Real> lambda (names, 0.01);
+    vector<Real> lambda(names, 0.01);
 
-    Schedule schedule = MakeSchedule().from(Date (1, September, 2006))
-                                      .to(Date (1, September, 2011))
-                                      .withTenor(3*Months)
-                                      .withCalendar(TARGET());
+    Schedule schedule = MakeSchedule().from(Date(1, September, 2006))
+            .to(Date(1, September, 2011))
+            .withTenor(3 * Months)
+            .withCalendar(TARGET());
 
     Date asofDate(31, August, 2006);
 
     Settings::instance().evaluationDate() = asofDate;
 
     vector<Date> gridDates;
-    gridDates.emplace_back (asofDate);
-    gridDates.emplace_back (TARGET().advance (asofDate, Period (1, Years)));
-    gridDates.emplace_back (TARGET().advance (asofDate, Period (5, Years)));
-    gridDates.emplace_back (TARGET().advance (asofDate, Period (7, Years)));
+    gridDates.emplace_back(asofDate);
+    gridDates.emplace_back(TARGET().advance(asofDate, Period(1, Years)));
+    gridDates.emplace_back(TARGET().advance(asofDate, Period(5, Years)));
+    gridDates.emplace_back(TARGET().advance(asofDate, Period(7, Years)));
 
-    std::shared_ptr<YieldTermStructure> yieldPtr (new FlatForward (asofDate,
-        rate, dc, cmp));
-    Handle<YieldTermStructure> yieldHandle (yieldPtr);
+    std::shared_ptr < YieldTermStructure > yieldPtr = std::make_shared<FlatForward>(asofDate, rate, dc, cmp);
+    Handle<YieldTermStructure> yieldHandle(yieldPtr);
 
     vector<Handle<DefaultProbabilityTermStructure> > probabilities;
-    Period maxTerm (10, Years);
+    Period maxTerm(10, Years);
     for (Size i = 0; i < lambda.size(); i++) {
-        Handle<Quote> h(std::shared_ptr<Quote>(new SimpleQuote(lambda[i])));
-        std::shared_ptr<DefaultProbabilityTermStructure> ptr (
-                                         new FlatHazardRate(asofDate, h, dc));
+        Handle<Quote> h(std::make_shared<SimpleQuote>(lambda[i]));
+        std::shared_ptr < DefaultProbabilityTermStructure > ptr =
+                std::make_shared<FlatHazardRate>(asofDate, h, dc);
         probabilities.emplace_back(Handle<DefaultProbabilityTermStructure>(ptr));
     }
 
-    std::shared_ptr<SimpleQuote> simpleQuote (new SimpleQuote(0.3));
-    Handle<Quote> correlationHandle (simpleQuote);
+    std::shared_ptr < SimpleQuote > simpleQuote = std::make_shared<SimpleQuote>(0.3);
+    Handle<Quote> correlationHandle(simpleQuote);
 
-    std::shared_ptr<DefaultLossModel> gaussianCopula( new
-        ConstantLossModel<GaussianCopulaPolicy>( correlationHandle, 
-        std::vector<Real>(names, recovery), 
-        LatentModelIntegrationType::GaussianQuadrature, names,
-        GaussianCopulaPolicy::initTraits()));
+    std::shared_ptr < DefaultLossModel > gaussianCopula =
+            std::make_shared<ConstantLossModel<GaussianCopulaPolicy>>(correlationHandle,
+                                                                      std::vector<Real>(names, recovery),
+                                                                      LatentModelIntegrationType::GaussianQuadrature,
+                                                                      names,
+                                                                      GaussianCopulaPolicy::initTraits());
     TCopulaPolicy::initTraits iniT;
-    iniT.tOrders = std::vector<QuantLib::Integer>(2,5);
-    std::shared_ptr<DefaultLossModel> studentCopula( new
-        ConstantLossModel<TCopulaPolicy>( correlationHandle, 
-        std::vector<Real>(names, recovery), 
-        LatentModelIntegrationType::GaussianQuadrature, names, iniT));
+    iniT.tOrders = std::vector<QuantLib::Integer>(2, 5);
+    std::shared_ptr < DefaultLossModel > studentCopula =
+            std::make_shared<ConstantLossModel<TCopulaPolicy>>(correlationHandle,
+                                                               std::vector<Real>(names, recovery),
+                                                               LatentModelIntegrationType::GaussianQuadrature, names,
+                                                               iniT);
 
     // Set up pool and basket
     std::vector<std::string> namesIds;
-    for(Size i=0; i<names; i++)
-        namesIds.emplace_back(std::string("Name") + 
-            std::to_string(i));
+    for (Size i = 0; i < names; i++)
+        namesIds.emplace_back(std::string("Name") +
+                              std::to_string(i));
 
     std::vector<Issuer> issuers;
-    for(Size i=0; i<names; i++) {
-        std::vector<QuantLib::Issuer::key_curve_pair> curves(1, 
-            std::make_pair(NorthAmericaCorpDefaultKey(
-                EURCurrency(), QuantLib::SeniorSec,
-                Period(), 1. // amount threshold
-                ), probabilities[i]));
+    for (Size i = 0; i < names; i++) {
+        std::vector<QuantLib::Issuer::key_curve_pair> curves(1,
+                                                             std::make_pair(NorthAmericaCorpDefaultKey(
+                                                                     EURCurrency(), QuantLib::SeniorSec,
+                                                                     Period(), 1. // amount threshold
+                                                             ), probabilities[i]));
         issuers.emplace_back(Issuer(curves));
     }
 
-    std::shared_ptr<Pool> thePool = std::make_shared<Pool>();
-    for(Size i=0; i<names; i++)
+    std::shared_ptr < Pool > thePool = std::make_shared<Pool>();
+    for (Size i = 0; i < names; i++)
         thePool->add(namesIds[i], issuers[i], NorthAmericaCorpDefaultKey(
                 EURCurrency(), QuantLib::SeniorSec, Period(), 1.));
 
-    std::vector<DefaultProbKey> defaultKeys(probabilities.size(), 
-        NorthAmericaCorpDefaultKey(EURCurrency(), SeniorSec, Period(), 1.));
+    std::vector<DefaultProbKey> defaultKeys(probabilities.size(),
+                                            NorthAmericaCorpDefaultKey(EURCurrency(), SeniorSec, Period(), 1.));
 
-    std::shared_ptr<Basket> basket(new Basket(asofDate, namesIds,
-        std::vector<Real>(names, 100./names), thePool, 0., 1.));
+    std::shared_ptr < Basket > basket = std::make_shared<Basket>(asofDate, namesIds,
+                                                                 std::vector<Real>(names, 100. / names), thePool, 0.,
+                                                                 1.);
 
-    std::shared_ptr<PricingEngine> engine(
-        new IntegralNtdEngine(timeUnit, yieldHandle));
+    std::shared_ptr < PricingEngine > engine =
+            std::make_shared<IntegralNtdEngine>(timeUnit, yieldHandle);
 
     vector<NthToDefault> ntd;
     for (Size i = 1; i <= probabilities.size(); i++) {
-        ntd.emplace_back (NthToDefault (basket, i, Protection::Seller, 
-            schedule, 0.0, 0.02, Actual360(), 100.*names, true));
+        ntd.emplace_back(NthToDefault(basket, i, Protection::Seller,
+                                      schedule, 0.0, 0.02, Actual360(), 100. * names, true));
         ntd.back().setPricingEngine(engine);
     }
 
@@ -350,7 +353,7 @@ TEST_CASE("NthToDefault_GaussStudent", "[.]") {
 
     Real maxDiff = 0;
 
-    simpleQuote->setValue (0.3);
+    simpleQuote->setValue(0.3);
 
     basket->setLossModel(gaussianCopula);
 
@@ -358,10 +361,10 @@ TEST_CASE("NthToDefault_GaussStudent", "[.]") {
         QL_REQUIRE (ntd[i].rank() == hwDataDist[i].rank, "rank does not match");
 
         Real diff = 1e4 * ntd[i].fairPremium() - hwDataDist[i].spread[0];
-        maxDiff = max (maxDiff, fabs (diff));
+        maxDiff = max(maxDiff, fabs(diff));
         if (fabs(diff / hwDataDist[i].spread[0]) >= relTolerance && fabs(diff) >= absTolerance)
-		FAIL_CHECK("tolerance " << relTolerance << "|"
-                           << absTolerance << " exceeded");
+            FAIL_CHECK("tolerance " << relTolerance << "|"
+                                    << absTolerance << " exceeded");
     }
 
     basket->setLossModel(studentCopula);
@@ -371,9 +374,9 @@ TEST_CASE("NthToDefault_GaussStudent", "[.]") {
         QL_REQUIRE (ntd[i].rank() == hwDataDist[i].rank, "rank does not match");
 
         Real diff = 1e4 * ntd[i].fairPremium() - hwDataDist[i].spread[3];
-        maxDiff = max (maxDiff, fabs (diff));
+        maxDiff = max(maxDiff, fabs(diff));
         if (fabs(diff / hwDataDist[i].spread[3]) >= relTolerance && fabs(diff) >= absTolerance)
-		FAIL_CHECK("tolerance " << relTolerance << "|"
-                           << absTolerance << " exceeded");
+            FAIL_CHECK("tolerance " << relTolerance << "|"
+                                    << absTolerance << " exceeded");
     }
 }

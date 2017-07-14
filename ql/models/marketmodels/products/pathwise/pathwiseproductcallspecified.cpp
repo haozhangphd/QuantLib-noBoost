@@ -190,8 +190,7 @@ FOR A PARTICULAR PURPOSE.  See the license for more details.
         std::unique_ptr<MarketModelPathwiseMultiProduct>
             CallSpecifiedPathwiseMultiProduct::clone() const 
         {
-            return std::unique_ptr<MarketModelPathwiseMultiProduct>(
-                new CallSpecifiedPathwiseMultiProduct(*this));
+            return std::make_unique<CallSpecifiedPathwiseMultiProduct>(*this);
         }
 
         const MarketModelPathwiseMultiProduct&

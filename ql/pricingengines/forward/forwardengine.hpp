@@ -80,10 +80,10 @@ namespace QuantLib {
                 this->arguments_.payoff);
         QL_REQUIRE(argumentsPayoff, "wrong payoff given");
 
-        std::shared_ptr<StrikedTypePayoff> payoff(
-                   new PlainVanillaPayoff(argumentsPayoff->optionType(),
+        std::shared_ptr<StrikedTypePayoff> payoff =
+                   std::make_shared<PlainVanillaPayoff>(argumentsPayoff->optionType(),
                                           this->arguments_.moneyness *
-                                          process_->x0()));
+                                          process_->x0());
 
         // maybe the forward value is "better", in some fashion
         // the right level is needed in order to interpolate
@@ -91,29 +91,26 @@ namespace QuantLib {
         Handle<Quote> spot = process_->stateVariable();
         QL_REQUIRE(spot->value() >= 0.0, "negative or null underlting given");
         Handle<YieldTermStructure> dividendYield(
-            std::shared_ptr<YieldTermStructure>(
-               new ImpliedTermStructure(process_->dividendYield(),
-                                        this->arguments_.resetDate)));
+            std::make_shared<ImpliedTermStructure>(process_->dividendYield(),
+                                        this->arguments_.resetDate));
         Handle<YieldTermStructure> riskFreeRate(
-            std::shared_ptr<YieldTermStructure>(
-               new ImpliedTermStructure(process_->riskFreeRate(),
-                                        this->arguments_.resetDate)));
+            std::make_shared<ImpliedTermStructure>(process_->riskFreeRate(),
+                                        this->arguments_.resetDate));
         // The following approach is ok if the vol is at most
         // time dependant. It is plain wrong if it is asset dependant.
         // In the latter case the right solution would be stochastic
         // volatility or at least local volatility (which unfortunately
         // implies an unrealistic time-decreasing smile)
         Handle<BlackVolTermStructure> blackVolatility(
-            std::shared_ptr<BlackVolTermStructure>(
-                new ImpliedVolTermStructure(process_->blackVolatility(),
-                                            this->arguments_.resetDate)));
+            std::make_shared<ImpliedVolTermStructure>(process_->blackVolatility(),
+                                            this->arguments_.resetDate));
 
-        std::shared_ptr<GeneralizedBlackScholesProcess> fwdProcess(
-                       new GeneralizedBlackScholesProcess(spot, dividendYield,
+        std::shared_ptr<GeneralizedBlackScholesProcess> fwdProcess =
+                       std::make_shared<GeneralizedBlackScholesProcess>(spot, dividendYield,
                                                           riskFreeRate,
-                                                          blackVolatility));
+                                                          blackVolatility);
 
-        originalEngine_ = std::shared_ptr<Engine>(new Engine(fwdProcess));
+        originalEngine_ = std::make_shared<Engine>(fwdProcess);
         originalEngine_->reset();
 
         originalArguments_ =

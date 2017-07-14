@@ -73,8 +73,7 @@ namespace QuantLib {
         const std::vector<Rate>& cmSwapRates(Size spanningForwards) const;
         //@}
         std::unique_ptr<CurveState> clone() const {
-            return std::unique_ptr<CurveState>(
-                new CoterminalSwapCurveState(*this));
+            return std::make_unique<CoterminalSwapCurveState>(*this);
         }
       private:
         Size first_;

@@ -35,8 +35,7 @@ namespace QuantLib {
         };
       public:
         VolatilityConstraint()
-        : Constraint(std::shared_ptr<Constraint::Impl>(
-                                           new VolatilityConstraint::Impl)) {}
+        : Constraint(std::make_shared<VolatilityConstraint::Impl>()) {}
     };
 
     GJRGARCHModel::GJRGARCHModel(
@@ -54,8 +53,7 @@ namespace QuantLib {
         arguments_[5] = ConstantParameter(process->v0(),
                                           PositiveConstraint());
 
-        constraint_ = std::shared_ptr<Constraint>(
-            new CompositeConstraint(*constraint_, VolatilityConstraint()));
+        constraint_ = std::make_shared<CompositeConstraint>(*constraint_, VolatilityConstraint());
 
         generateArguments();
 
@@ -65,13 +63,13 @@ namespace QuantLib {
     }
 
     void GJRGARCHModel::generateArguments() {
-        process_.reset(new GJRGARCHProcess(process_->riskFreeRate(),
+        process_ = std::make_shared<GJRGARCHProcess>(process_->riskFreeRate(),
                                            process_->dividendYield(),
                                            process_->s0(),
                                            v0(), omega(),
                                            alpha(), beta(),
                                            gamma(), lambda(),
-                                           process_->daysPerYear()));
+                                           process_->daysPerYear());
     }
 }
 

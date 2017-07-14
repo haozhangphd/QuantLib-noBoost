@@ -54,21 +54,21 @@ namespace QuantLib {
         QL_REQUIRE(payoff, "Strike type payoff expected");
             
         const Time maturity = process_->time(arguments_.exercise->lastDate());
-        const std::shared_ptr<Fdm1dMesher> equityMesher(
-            new FdmBlackScholesMesher(xGrid_, process_,
-                                      maturity, payoff->strike()));
+        const std::shared_ptr<Fdm1dMesher> equityMesher =
+            std::make_shared<FdmBlackScholesMesher>(xGrid_, process_,
+                                      maturity, payoff->strike());
         
-        const std::shared_ptr<Fdm1dMesher> exerciseMesher(
-                 new Uniform1dMesher(
+        const std::shared_ptr<Fdm1dMesher> exerciseMesher =
+                 std::make_shared<Uniform1dMesher>(
                            0, static_cast<Real>(arguments_.maxExerciseRights),
-                           arguments_.maxExerciseRights+1));
+                           arguments_.maxExerciseRights+1);
 
-        const std::shared_ptr<FdmMesher> mesher (
-            new FdmMesherComposite(equityMesher, exerciseMesher));
+        const std::shared_ptr<FdmMesher> mesher =
+            std::make_shared<FdmMesherComposite>(equityMesher, exerciseMesher);
         
         // 2. Calculator
-        std::shared_ptr<FdmInnerValueCalculator> calculator(
-                                                    new FdmZeroInnerValue());
+        std::shared_ptr<FdmInnerValueCalculator> calculator =
+                                                    std::make_shared<FdmZeroInnerValue>();
         
         // 3. Step conditions
         std::list<std::shared_ptr<StepCondition<Array> > > stepConditions;
@@ -83,16 +83,15 @@ namespace QuantLib {
         }
         stoppingTimes.emplace_back(exerciseTimes);
         
-        std::shared_ptr<FdmInnerValueCalculator> exerciseCalculator(
-                                    new FdmLogInnerValue(payoff, mesher, 0));
+        std::shared_ptr<FdmInnerValueCalculator> exerciseCalculator =
+                                    std::make_shared<FdmLogInnerValue>(payoff, mesher, 0);
 
-        stepConditions.emplace_back(std::shared_ptr<StepCondition<Array> >(
-            new FdmSimpleSwingCondition(
+        stepConditions.emplace_back(std::make_shared<FdmSimpleSwingCondition>(
                 exerciseTimes, mesher, exerciseCalculator,
-                1, arguments_.minExerciseRights)));
+                1, arguments_.minExerciseRights));
         
-        std::shared_ptr<FdmStepConditionComposite> conditions(
-                new FdmStepConditionComposite(stoppingTimes, stepConditions));
+        std::shared_ptr<FdmStepConditionComposite> conditions =
+                std::make_shared<FdmStepConditionComposite>(stoppingTimes, stepConditions);
         
         // 4. Boundary conditions
         const FdmBoundaryConditionSet boundaries;
@@ -100,10 +99,10 @@ namespace QuantLib {
         // 5. Solver
         FdmSolverDesc solverDesc = { mesher, boundaries, conditions,
                                      calculator, maturity, tGrid_, 0 };
-        std::shared_ptr<FdmSimple2dBSSolver> solver(
-                new FdmSimple2dBSSolver(
+        std::shared_ptr<FdmSimple2dBSSolver> solver =
+                std::make_shared<FdmSimple2dBSSolver>(
                                Handle<GeneralizedBlackScholesProcess>(process_),
-                               payoff->strike(), solverDesc, schemeDesc_));
+                               payoff->strike(), solverDesc, schemeDesc_);
     
         const Real spot = process_->x0();
 

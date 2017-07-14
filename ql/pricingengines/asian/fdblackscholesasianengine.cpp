@@ -56,9 +56,9 @@ namespace QuantLib {
         const std::shared_ptr<StrikedTypePayoff> payoff =
             std::dynamic_pointer_cast<StrikedTypePayoff>(arguments_.payoff);
         const Time maturity = process_->time(arguments_.exercise->lastDate());
-        const std::shared_ptr<Fdm1dMesher> equityMesher(
-            new FdmBlackScholesMesher(xGrid_, process_, maturity,
-                                      payoff->strike()));
+        const std::shared_ptr<Fdm1dMesher> equityMesher =
+            std::make_shared<FdmBlackScholesMesher>(xGrid_, process_, maturity,
+                                      payoff->strike());
 
         const Real spot = process_->x0();
         QL_REQUIRE(spot > 0.0, "negative or null underlying given");
@@ -75,16 +75,16 @@ namespace QuantLib {
         Real xMin = std::min(std::log(avg)  - 0.25*r, std::log(spot) - 1.5*r);
         Real xMax = std::max(std::log(avg)  + 0.25*r, std::log(spot) + 1.5*r);
 
-        const std::shared_ptr<Fdm1dMesher> averageMesher(
-            new FdmBlackScholesMesher(aGrid_, process_, maturity,
-                                      payoff->strike(), xMin, xMax));
+        const std::shared_ptr<Fdm1dMesher> averageMesher =
+            std::make_shared<FdmBlackScholesMesher>(aGrid_, process_, maturity,
+                                      payoff->strike(), xMin, xMax);
 
-        const std::shared_ptr<FdmMesher> mesher (
-            new FdmMesherComposite(equityMesher, averageMesher));
+        const std::shared_ptr<FdmMesher> mesher =
+            std::make_shared<FdmMesherComposite>(equityMesher, averageMesher);
 
         // 2. Calculator
-        std::shared_ptr<FdmInnerValueCalculator> calculator(
-                                new FdmLogInnerValue(payoff, mesher, 1));
+        std::shared_ptr<FdmInnerValueCalculator> calculator =
+                                std::make_shared<FdmLogInnerValue>(payoff, mesher, 1);
 
         // 3. Step conditions
         std::list<std::shared_ptr<StepCondition<Array> > > stepConditions;
@@ -98,13 +98,12 @@ namespace QuantLib {
             averageTimes.emplace_back(t);
         }
         stoppingTimes.emplace_back(std::vector<Time>(averageTimes));
-        stepConditions.emplace_back(std::shared_ptr<StepCondition<Array> >(
-                new FdmArithmeticAverageCondition(
+        stepConditions.emplace_back(std::make_shared<FdmArithmeticAverageCondition>(
                         averageTimes, arguments_.runningAccumulator,
-                        arguments_.pastFixings, mesher, 0)));
+                        arguments_.pastFixings, mesher, 0));
 
-        std::shared_ptr<FdmStepConditionComposite> conditions(
-                new FdmStepConditionComposite(stoppingTimes, stepConditions));
+        std::shared_ptr<FdmStepConditionComposite> conditions =
+                std::make_shared<FdmStepConditionComposite>(stoppingTimes, stepConditions);
 
         // 4. Boundary conditions
         const FdmBoundaryConditionSet boundaries;
@@ -112,10 +111,10 @@ namespace QuantLib {
         // 5. Solver
         FdmSolverDesc solverDesc = { mesher, boundaries, conditions,
                                      calculator, maturity, tGrid_, 0 };
-        std::shared_ptr<FdmSimple2dBSSolver> solver(
-              new FdmSimple2dBSSolver(
+        std::shared_ptr<FdmSimple2dBSSolver> solver =
+              std::make_shared<FdmSimple2dBSSolver>(
                               Handle<GeneralizedBlackScholesProcess>(process_),
-                              payoff->strike(), solverDesc, schemeDesc_));
+                              payoff->strike(), solverDesc, schemeDesc_);
 
         results_.value = solver->valueAt(spot, avg);
         results_.delta = solver->deltaAt(spot, avg, spot*0.01);

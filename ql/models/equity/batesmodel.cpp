@@ -36,11 +36,11 @@ namespace QuantLib {
     }
 
     void BatesModel::generateArguments() {
-        process_.reset(new BatesProcess(
+        process_ = std::make_shared<BatesProcess>(
              process_->riskFreeRate(), process_->dividendYield(),
              process_->s0(), v0(), 
              kappa(), theta(), sigma(), rho(),
-             lambda(), nu(), delta()));
+             lambda(), nu(), delta());
     }
 
     BatesDetJumpModel::BatesDetJumpModel(

@@ -55,8 +55,7 @@ namespace QuantLib {
         };
       public:
         Actual365Fixed()
-        : DayCounter(std::shared_ptr<DayCounter::Impl>(
-                                                 new Actual365Fixed::Impl)) {}
+        : DayCounter(std::make_shared<Actual365Fixed::Impl>()) {}
     };
 
 }

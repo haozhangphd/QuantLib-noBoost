@@ -45,8 +45,7 @@ namespace QuantLib {
             };
           public:
             Garch11Constraint(Real gammaLower, Real gammaUpper)
-            : Constraint(std::shared_ptr<Constraint::Impl>(
-                      new Garch11Constraint::Impl(gammaLower, gammaUpper))) {}
+            : Constraint(std::make_shared<Garch11Constraint::Impl>(gammaLower, gammaUpper)) {}
         };
 
 
@@ -218,8 +217,7 @@ namespace QuantLib {
             };
           public:
             FitAcfConstraint(Real gammaLower, Real gammaUpper)
-            : Constraint(std::shared_ptr<Constraint::Impl>(
-                       new FitAcfConstraint::Impl(gammaLower, gammaUpper))) {}
+            : Constraint(std::make_shared<FitAcfConstraint::Impl>(gammaLower, gammaUpper)) {}
         };
 
 
@@ -528,8 +526,8 @@ namespace QuantLib {
                const EndCriteria &endCriteria,
                const Array &initGuess, Real &alpha, Real &beta, Real &omega) {
         Garch11CostFunction cost(r2);
-        std::shared_ptr<Problem> problem(
-                               new Problem(cost, constraints, initGuess));
+        std::shared_ptr<Problem> problem =
+                               std::make_shared<Problem>(cost, constraints, initGuess);
         // TODO: check return value from minimize()
         /* EndCriteria::Type ret = */
         method.minimize(*problem, endCriteria);

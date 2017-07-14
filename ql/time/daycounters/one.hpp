@@ -48,8 +48,7 @@ namespace QuantLib {
         };
       public:
         OneDayCounter()
-        : DayCounter(std::shared_ptr<DayCounter::Impl>(
-                                        new OneDayCounter::Impl)) {}
+        : DayCounter(std::make_shared<OneDayCounter::Impl>()) {}
     };
 
 }

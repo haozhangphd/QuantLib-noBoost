@@ -46,7 +46,7 @@ namespace QuantLib {
       bcSet_  (bcSet),
       gaussLaguerreIntegration_(integroIntegrationOrder),
       x_      (mesher->locations(0)),
-      ouOp_   (new FdmExtendedOrnsteinUhlenbackOp(
+      ouOp_   (std::make_shared<FdmExtendedOrnsteinUhlenbackOp>(
                    mesher,
                    process->getExtendedOrnsteinUhlenbeckProcess(), rTS, bcSet)),
       dyMap_  (FirstDerivativeOp(1, mesher)

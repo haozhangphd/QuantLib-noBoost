@@ -82,10 +82,9 @@ namespace QuantLib {
                   const Date& refPeriodEnd = Date(),
                   const DayCounter& dayCounter = DayCounter(),
                   bool isInArrears = false)
-        : CappedFlooredCoupon(std::shared_ptr<FloatingRateCoupon>(new
-            CmsSpreadCoupon(paymentDate, nominal, startDate, endDate, fixingDays,
+        : CappedFlooredCoupon(std::make_shared<CmsSpreadCoupon>(paymentDate, nominal, startDate, endDate, fixingDays,
                       index, gearing, spread, refPeriodStart, refPeriodEnd,
-                      dayCounter, isInArrears)), cap, floor) {}
+                      dayCounter, isInArrears), cap, floor) {}
 
         virtual void accept(AcyclicVisitor& v) {
             Visitor<CappedFlooredCmsSpreadCoupon>* v1 =

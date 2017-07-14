@@ -80,7 +80,7 @@ namespace QuantLib {
     : solverDesc_(solverDesc),
       schemeDesc_(schemeDesc),
       op_(op),
-      thetaCondition_(new FdmSnapshotCondition(
+      thetaCondition_(std::make_shared<FdmSnapshotCondition>(
         0.99*std::min(1.0/365.0,
                 solverDesc.condition->stoppingTimes().empty()
                 ? solverDesc.maturity :
@@ -116,7 +116,7 @@ namespace QuantLib {
             }
         }
 
-        f_ = std::shared_ptr<data_table>(new data_table(x_));
+        f_ = std::make_shared<data_table>(x_);
     }
 
 
@@ -138,8 +138,7 @@ namespace QuantLib {
             setValue(*f_, iter.coordinates(), rhs[iter.index()]);
         }
 
-        interp_ = std::shared_ptr<MultiCubicSpline<N> >(
-            new MultiCubicSpline<N>(x_, *f_, extrapolation_));
+        interp_ = std::make_shared<MultiCubicSpline<N> >(x_, *f_, extrapolation_);
     }
 
 

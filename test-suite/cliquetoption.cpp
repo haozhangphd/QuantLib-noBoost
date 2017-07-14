@@ -57,20 +57,20 @@ TEST_CASE("CliquetOption_Values", "[CliquetOption]") {
     Date today = Date::todaysDate();
     DayCounter dc = Actual360();
 
-    std::shared_ptr<SimpleQuote> spot(new SimpleQuote(60.0));
-    std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.04));
+    std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(60.0);
+    std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.04);
     std::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.08));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.08);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
-    std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.30));
+    std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.30);
     std::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
 
-    std::shared_ptr<BlackScholesMertonProcess> process(
-         new BlackScholesMertonProcess(Handle<Quote>(spot),
+    std::shared_ptr<BlackScholesMertonProcess> process =
+         std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
                                        Handle<YieldTermStructure>(qTS),
                                        Handle<YieldTermStructure>(rTS),
-                                       Handle<BlackVolTermStructure>(volTS)));
-    std::shared_ptr<PricingEngine> engine(new AnalyticCliquetEngine(process));
+                                       Handle<BlackVolTermStructure>(volTS));
+    std::shared_ptr<PricingEngine> engine = std::make_shared<AnalyticCliquetEngine>(process);
 
     std::vector<Date> reset;
     reset.emplace_back(today + 90);
@@ -78,10 +78,10 @@ TEST_CASE("CliquetOption_Values", "[CliquetOption]") {
     Option::Type type = Option::Call;
     Real moneyness = 1.1;
 
-    std::shared_ptr<PercentageStrikePayoff> payoff(
-                                 new PercentageStrikePayoff(type, moneyness));
-    std::shared_ptr<EuropeanExercise> exercise(
-                                              new EuropeanExercise(maturity));
+    std::shared_ptr<PercentageStrikePayoff> payoff =
+                                 std::make_shared<PercentageStrikePayoff>(type, moneyness);
+    std::shared_ptr<EuropeanExercise> exercise =
+                                              std::make_shared<EuropeanExercise>(maturity);
 
     CliquetOption option(payoff, exercise, reset);
     option.setPricingEngine(engine);
@@ -127,28 +127,28 @@ namespace {
         Date today = Date::todaysDate();
         Settings::instance().evaluationDate() = today;
 
-        std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
-        std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+        std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
+        std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
         Handle<YieldTermStructure> qTS(flatRate(qRate, dc));
-        std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+        std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
         Handle<YieldTermStructure> rTS(flatRate(rRate, dc));
-        std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
+        std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
         Handle<BlackVolTermStructure> volTS(flatVol(vol, dc));
 
-        std::shared_ptr<BlackScholesMertonProcess> process(
-                            new BlackScholesMertonProcess(Handle<Quote>(spot),
-                                                          qTS, rTS, volTS));
+        std::shared_ptr<BlackScholesMertonProcess> process =
+                            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
+                                                          qTS, rTS, volTS);
 
         for (Size i=0; i<LENGTH(types); i++) {
           for (Size j=0; j<LENGTH(moneyness); j++) {
             for (Size k=0; k<LENGTH(lengths); k++) {
               for (Size kk=0; kk<LENGTH(frequencies); kk++) {
 
-                std::shared_ptr<EuropeanExercise> maturity(
-                              new EuropeanExercise(today + lengths[k]*Years));
+                std::shared_ptr<EuropeanExercise> maturity =
+                              std::make_shared<EuropeanExercise>(today + lengths[k]*Years);
 
-                std::shared_ptr<PercentageStrikePayoff> payoff(
-                          new PercentageStrikePayoff(types[i], moneyness[j]));
+                std::shared_ptr<PercentageStrikePayoff> payoff =
+                          std::make_shared<PercentageStrikePayoff>(types[i], moneyness[j]);
 
                 std::vector<Date> reset;
                 for (Date d = today + Period(frequencies[kk]);
@@ -156,7 +156,7 @@ namespace {
                      d += Period(frequencies[kk]))
                     reset.emplace_back(d);
 
-                std::shared_ptr<PricingEngine> engine(new T(process));
+                std::shared_ptr<PricingEngine> engine = std::make_shared<T>(process);
 
                 CliquetOption option(payoff, maturity, reset);
                 option.setPricingEngine(engine);
@@ -291,17 +291,17 @@ TEST_CASE("CliquetOption_McPerformance", "[CliquetOption]") {
     Date today = Date::todaysDate();
     Settings::instance().evaluationDate() = today;
 
-    std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
     Handle<YieldTermStructure> qTS(flatRate(qRate, dc));
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     Handle<YieldTermStructure> rTS(flatRate(rRate, dc));
-    std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
     Handle<BlackVolTermStructure> volTS(flatVol(vol, dc));
 
-    std::shared_ptr<BlackScholesMertonProcess> process(
-                            new BlackScholesMertonProcess(Handle<Quote>(spot),
-                                                          qTS, rTS, volTS));
+    std::shared_ptr<BlackScholesMertonProcess> process =
+                            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
+                                                          qTS, rTS, volTS);
 
     for (Size i=0; i<LENGTH(types); i++) {
       for (Size j=0; j<LENGTH(moneyness); j++) {
@@ -309,11 +309,11 @@ TEST_CASE("CliquetOption_McPerformance", "[CliquetOption]") {
           for (Size kk=0; kk<LENGTH(frequencies); kk++) {
 
               Period tenor = Period(frequencies[kk]);
-              std::shared_ptr<EuropeanExercise> maturity(
-                              new EuropeanExercise(today + lengths[k]*tenor));
+              std::shared_ptr<EuropeanExercise> maturity =
+                              std::make_shared<EuropeanExercise>(today + lengths[k]*tenor);
 
-              std::shared_ptr<PercentageStrikePayoff> payoff(
-                          new PercentageStrikePayoff(types[i], moneyness[j]));
+              std::shared_ptr<PercentageStrikePayoff> payoff =
+                          std::make_shared<PercentageStrikePayoff>(types[i], moneyness[j]);
 
               std::vector<Date> reset;
               for (Date d = today + tenor; d < maturity->lastDate(); d += tenor)
@@ -321,8 +321,8 @@ TEST_CASE("CliquetOption_McPerformance", "[CliquetOption]") {
 
               CliquetOption option(payoff, maturity, reset);
 
-              std::shared_ptr<PricingEngine> refEngine(
-                                      new AnalyticPerformanceEngine(process));
+              std::shared_ptr<PricingEngine> refEngine =
+                                      std::make_shared<AnalyticPerformanceEngine>(process);
 
               std::shared_ptr<PricingEngine> mcEngine =
                   MakeMCPerformanceEngine<PseudoRandom>(process)

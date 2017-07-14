@@ -65,13 +65,12 @@ namespace QuantLib {
                                       Real leftConditionValue,
                                       CubicInterpolation::BoundaryCondition rightC,
                                       Real rightConditionValue) {
-            impl_ = std::shared_ptr<Interpolation::Impl>(new
-                detail::MixedInterpolationImpl<I1, I2, Linear, Cubic>(
+            impl_ = std::make_shared<detail::MixedInterpolationImpl<I1, I2, Linear, Cubic>>(
                     xBegin, xEnd, yBegin, n, behavior,
                     Linear(),
                     Cubic(da, monotonic,
                           leftC, leftConditionValue,
-                          rightC, rightConditionValue)));
+                          rightC, rightConditionValue));
             impl_->update();
         }
         /*! \pre the \f$ x \f$ values must be sorted.
@@ -87,14 +86,13 @@ namespace QuantLib {
                                       Real leftConditionValue,
                                       CubicInterpolation::BoundaryCondition rightC,
                                       Real rightConditionValue) {
-            impl_ = std::shared_ptr<Interpolation::Impl>(new
-                detail::MixedInterpolationImpl<I1, I2, Linear, Cubic>(
+            impl_ = std::make_shared<detail::MixedInterpolationImpl<I1, I2, Linear, Cubic>>(
                     xBegin, xEnd, yBegin, n,
                     MixedInterpolation::ShareRanges,
                     Linear(),
                     Cubic(da, monotonic,
                           leftC, leftConditionValue,
-                          rightC, rightConditionValue)));
+                          rightC, rightConditionValue));
             impl_->update();
         }
     };

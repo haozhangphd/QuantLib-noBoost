@@ -140,10 +140,8 @@ TEST_CASE("Integral_TwoDimensionalIntegration", "[Integral]") {
 
     const Size maxEvaluations = 1000;
     const Real calculated = TwoDimensionalIntegral(
-        std::shared_ptr<Integrator>(
-            new TrapezoidIntegral<Default>(tolerance, maxEvaluations)),
-        std::shared_ptr<Integrator>(
-            new TrapezoidIntegral<Default>(tolerance, maxEvaluations)))(
+        std::make_shared<TrapezoidIntegral<Default>>(tolerance, maxEvaluations),
+        std::make_shared<TrapezoidIntegral<Default>>(tolerance, maxEvaluations))(
         std::multiplies<Real>(),
         std::make_pair(0.0, 0.0), std::make_pair(1.0, 2.0));
 

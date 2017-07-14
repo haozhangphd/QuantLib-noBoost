@@ -43,7 +43,7 @@ namespace QuantLib {
             Real upperAssetBorderForStressTest = 1000000,
             Real stressLevel = 0,
             const std::shared_ptr<discretization>& d =
-                  std::shared_ptr<discretization>(new EulerDiscretization));
+                  std::make_shared<EulerDiscretization>());
         //! \name StochasticProcess1D interface
         //@{
         Real diffusion(Time t, Real x) const;

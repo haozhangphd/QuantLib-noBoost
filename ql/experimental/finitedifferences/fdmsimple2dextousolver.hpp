@@ -55,13 +55,12 @@ namespace QuantLib {
 
       protected:
         void performCalculations() const {
-            std::shared_ptr<FdmLinearOpComposite>op(
-                new FdmExtendedOrnsteinUhlenbackOp(
+            std::shared_ptr<FdmLinearOpComposite>op =
+                std::make_shared<FdmExtendedOrnsteinUhlenbackOp>(
                                 solverDesc_.mesher, process_.currentLink(),
-                                rTS_, solverDesc_.bcSet));
+                                rTS_, solverDesc_.bcSet);
 
-            solver_ = std::shared_ptr<Fdm2DimSolver>(
-                          new Fdm2DimSolver(solverDesc_, schemeDesc_, op));
+            solver_ = std::make_shared<Fdm2DimSolver>(solverDesc_, schemeDesc_, op);
         }
 
       private:

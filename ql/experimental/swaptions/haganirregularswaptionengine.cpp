@@ -43,7 +43,7 @@ namespace QuantLib {
         const Handle<SwaptionVolatilityStructure>& volatilityStructure)
         :swap_(swap),termStructure_(termStructure),volatilityStructure_(volatilityStructure),targetNPV_(0.0),lambda_(0.0){
 
-            engine_ = std::shared_ptr<PricingEngine>(new DiscountingSwapEngine(termStructure_));
+            engine_ = std::make_shared<DiscountingSwapEngine>(termStructure_);
 
             //store swap npv 
             swap_->setPricingEngine(engine_);
@@ -64,15 +64,14 @@ namespace QuantLib {
 
                 expiries_.emplace_back(coupon->date());
 
-                std::shared_ptr<FixedRateCoupon> newCpn = std::shared_ptr<FixedRateCoupon> (
-                    new  FixedRateCoupon(coupon->date(),
+                std::shared_ptr<FixedRateCoupon> newCpn = std::make_shared<FixedRateCoupon>(coupon->date(),
                     1.0,
                     coupon->rate(),
                     coupon->dayCounter(),
                     coupon->accrualStartDate(),
                     coupon->accrualEndDate(),
                     coupon->referencePeriodStart(),
-                    coupon->referencePeriodEnd())); 
+                    coupon->referencePeriodEnd()); 
 
                 fixedCFS.emplace_back(newCpn);
 
@@ -86,8 +85,7 @@ namespace QuantLib {
                     QL_REQUIRE(coupon,"dynamic cast of float leg coupon failed.");
 
                     if( coupon->date() <= expiries_[i] ){
-                        std::shared_ptr<IborCoupon> newCpn = std::shared_ptr<IborCoupon> (
-                            new  IborCoupon(coupon->date(),
+                        std::shared_ptr<IborCoupon> newCpn = std::make_shared<IborCoupon>(coupon->date(),
                             1.0,
                             coupon->accrualStartDate(),
                             coupon->accrualEndDate(),
@@ -98,13 +96,12 @@ namespace QuantLib {
                             coupon->referencePeriodStart(),
                             coupon->referencePeriodEnd(),
                             coupon->dayCounter(),
-                            coupon->isInArrears())); 
+                            coupon->isInArrears()); 
 
 
                         if (!newCpn->isInArrears())
                             newCpn->setPricer(
-                                         std::shared_ptr<FloatingRateCouponPricer>(
-                                                  new BlackIborCouponPricer()));
+                                         std::make_shared<BlackIborCouponPricer>());
 
                         floatCFS.emplace_back(newCpn);
                     }
@@ -280,8 +277,7 @@ namespace QuantLib {
             std::shared_ptr<IborCoupon> coupon = std::dynamic_pointer_cast<IborCoupon>(floatLeg[j]);
             QL_REQUIRE(coupon,"dynamic cast of float leg coupon failed.");
 
-            std::shared_ptr<IborCoupon> newCpn = std::shared_ptr<IborCoupon> (
-                new  IborCoupon(coupon->date(),
+            std::shared_ptr<IborCoupon> newCpn = std::make_shared<IborCoupon>(coupon->date(),
                 coupon->nominal(),
                 coupon->accrualStartDate(),
                 coupon->accrualEndDate(),
@@ -292,13 +288,12 @@ namespace QuantLib {
                 coupon->referencePeriodStart(),
                 coupon->referencePeriodEnd(),
                 coupon->dayCounter(),
-                coupon->isInArrears())); 
+                coupon->isInArrears()); 
 
 
             if (!newCpn->isInArrears())
                 newCpn->setPricer(
-                             std::shared_ptr<FloatingRateCouponPricer>(
-                                      new BlackIborCouponPricer()));
+                             std::make_shared<BlackIborCouponPricer>());
 
             floatCFS.emplace_back(newCpn);
         }
@@ -317,22 +312,21 @@ namespace QuantLib {
             std::shared_ptr<FixedRateCoupon> coupon = std::dynamic_pointer_cast<FixedRateCoupon>(fixedLeg[i]);
             QL_REQUIRE(coupon,"dynamic cast of fixed leg coupon failed.");
 
-            std::shared_ptr<FixedRateCoupon> newCpn = std::shared_ptr<FixedRateCoupon> (
-                new  FixedRateCoupon(coupon->date(),
+            std::shared_ptr<FixedRateCoupon> newCpn = std::make_shared<FixedRateCoupon>(coupon->date(),
                 coupon->nominal(),
                 coupon->rate()-cpn_adjustment,
                 coupon->dayCounter(),
                 coupon->accrualStartDate(),
                 coupon->accrualEndDate(),
                 coupon->referencePeriodStart(),
-                coupon->referencePeriodEnd())); 
+                coupon->referencePeriodEnd()); 
 
             fixedCFS.emplace_back(newCpn);
         }
 
 
         //this is the irregular swap with spread removed 
-        swap_  =  std::shared_ptr<IrregularSwap>(new IrregularSwap(arguments_.swap->type(),fixedCFS,floatCFS));
+        swap_  =  std::make_shared<IrregularSwap>(arguments_.swap->type(),fixedCFS,floatCFS);
 
 
 
@@ -374,7 +368,7 @@ namespace QuantLib {
 
         // Black 76 Swaption Engine: assumes that the swaptions exercise date equals the swap start date
         std::shared_ptr<PricingEngine> blackSwaptionEngine = 
-             std::shared_ptr<PricingEngine>(new BlackSwaptionEngine(termStructure_,volatilityStructure_));
+             std::make_shared<BlackSwaptionEngine>(termStructure_,volatilityStructure_);
 
         //retrieve weights of underlying swaps
         Array weights = basket.weights();

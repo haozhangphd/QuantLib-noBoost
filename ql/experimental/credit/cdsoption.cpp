@@ -41,11 +41,10 @@ namespace QuantLib {
                    Real targetValue)
             : targetValue_(targetValue) {
 
-                vol_ = std::shared_ptr<SimpleQuote>(new SimpleQuote(0.0));
+                vol_ = std::make_shared<SimpleQuote>(0.0);
                 Handle<Quote> h(vol_);
-                engine_ = std::shared_ptr<PricingEngine>(
-                           new BlackCdsOptionEngine(probability, recoveryRate,
-                                                    termStructure, h));
+                engine_ = std::make_shared<BlackCdsOptionEngine>(probability, recoveryRate,
+                                                    termStructure, h);
                 cdsoption.setupArguments(engine_->getArguments());
 
                 results_ =
@@ -70,7 +69,7 @@ namespace QuantLib {
     CdsOption::CdsOption(const std::shared_ptr<CreditDefaultSwap>& swap,
                          const std::shared_ptr<Exercise>& exercise,
                          bool knocksOut)
-    : Option(std::shared_ptr<Payoff>(new NullPayoff), exercise),
+    : Option(std::make_shared<NullPayoff>(), exercise),
       swap_(swap), knocksOut_(knocksOut) {
         QL_REQUIRE(swap->side() == Protection::Buyer || knocksOut_,
                    "receiver CDS options must knock out");

@@ -192,16 +192,16 @@ TEST_CASE("Operator_BSMOperatorConsistency", "[Operator]") {
     Date exercise = today + 2*Years;
     Time residualTime = dc.yearFraction(today,exercise);
 
-    std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS = flatRate(today, q, dc);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, r, dc);
     std::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, sigma, dc);
-    std::shared_ptr<GeneralizedBlackScholesProcess> stochProcess(
-        new GeneralizedBlackScholesProcess(
+    std::shared_ptr<GeneralizedBlackScholesProcess> stochProcess =
+        std::make_shared<GeneralizedBlackScholesProcess>(
                                        Handle<Quote>(spot),
                                        Handle<YieldTermStructure>(qTS),
                                        Handle<YieldTermStructure>(rTS),
-                                       Handle<BlackVolTermStructure>(volTS)));
+                                       Handle<BlackVolTermStructure>(volTS));
     BSMOperator op1(grid, stochProcess, residualTime);
     BSMTermOperator op2(grid, stochProcess, residualTime);
 

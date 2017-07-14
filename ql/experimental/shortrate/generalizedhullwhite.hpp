@@ -143,8 +143,7 @@ namespace QuantLib {
                  std::function<Real (Time)> sigma,
                  std::function<Real(Real)> f,
                  std::function<Real(Real)> fInverse)
-        : ShortRateDynamics(std::shared_ptr<StochasticProcess1D>(
-                      new GeneralizedOrnsteinUhlenbeckProcess(alpha, sigma))),
+        : ShortRateDynamics(std::make_shared<GeneralizedOrnsteinUhlenbeckProcess>(alpha, sigma)),
           fitting_(fitting),
           _f_(f), _fInverse_(fInverse) {}
 
@@ -153,8 +152,7 @@ namespace QuantLib {
                  Real a,
                  Real sigma)
         : GeneralizedHullWhite::ShortRateDynamics(
-              std::shared_ptr<StochasticProcess1D>(
-                      new OrnsteinUhlenbeckProcess(a, sigma))),
+              std::make_shared<OrnsteinUhlenbeckProcess>(a, sigma)),
           fitting_(fitting) {
 
             _f_=identity();
@@ -209,15 +207,13 @@ namespace QuantLib {
       public:
         FittingParameter(const Handle<YieldTermStructure>& termStructure,
                          Real a, Real sigma)
-        : TermStructureFittingParameter(std::shared_ptr<Parameter::Impl>(
-                      new FittingParameter::Impl(termStructure, a, sigma))) {}
+        : TermStructureFittingParameter(std::make_shared<FittingParameter::Impl>(termStructure, a, sigma)) {}
     };
 
     // Analytic fitting dynamics
     inline std::shared_ptr<OneFactorModel::ShortRateDynamics>
     GeneralizedHullWhite::HWdynamics() const {
-        return std::shared_ptr<ShortRateDynamics>(
-                                            new Dynamics(phi_, a(), sigma()));
+        return std::make_shared<Dynamics>(phi_, a(), sigma());
     }
 
 }

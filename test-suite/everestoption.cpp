@@ -35,7 +35,7 @@ TEST_CASE("EverestOption_Cached", "[EverestOption]") {
 
     DayCounter dc = Actual360();
     Date exerciseDate = today+360;
-    std::shared_ptr<Exercise> exercise(new EuropeanExercise(exerciseDate));
+    std::shared_ptr<Exercise> exercise = std::make_shared<EuropeanExercise>(exerciseDate);
 
     Real notional = 1.0;
     Rate guarantee = 0.0;
@@ -44,32 +44,27 @@ TEST_CASE("EverestOption_Cached", "[EverestOption]") {
     Handle<YieldTermStructure> riskFreeRate(flatRate(today, 0.05, dc));
 
     std::vector<std::shared_ptr<StochasticProcess1D> > processes(4);
-    Handle<Quote> dummyUnderlying(std::shared_ptr<Quote>(
-                                                       new SimpleQuote(1.0)));
-    processes[0] = std::shared_ptr<StochasticProcess1D>(
-        new BlackScholesMertonProcess(
+    Handle<Quote> dummyUnderlying(std::make_shared<SimpleQuote>(1.0));
+    processes[0] = std::make_shared<BlackScholesMertonProcess>(
                     dummyUnderlying,
                     Handle<YieldTermStructure>(flatRate(today, 0.01, dc)),
                     riskFreeRate,
-                    Handle<BlackVolTermStructure>(flatVol(today, 0.30, dc))));
-    processes[1] = std::shared_ptr<StochasticProcess1D>(
-        new BlackScholesMertonProcess(
+                    Handle<BlackVolTermStructure>(flatVol(today, 0.30, dc)));
+    processes[1] = std::make_shared<BlackScholesMertonProcess>(
                     dummyUnderlying,
                     Handle<YieldTermStructure>(flatRate(today, 0.05, dc)),
                     riskFreeRate,
-                    Handle<BlackVolTermStructure>(flatVol(today, 0.35, dc))));
-    processes[2] = std::shared_ptr<StochasticProcess1D>(
-        new BlackScholesMertonProcess(
+                    Handle<BlackVolTermStructure>(flatVol(today, 0.35, dc)));
+    processes[2] = std::make_shared<BlackScholesMertonProcess>(
                     dummyUnderlying,
                     Handle<YieldTermStructure>(flatRate(today, 0.04, dc)),
                     riskFreeRate,
-                    Handle<BlackVolTermStructure>(flatVol(today, 0.25, dc))));
-    processes[3] = std::shared_ptr<StochasticProcess1D>(
-        new BlackScholesMertonProcess(
+                    Handle<BlackVolTermStructure>(flatVol(today, 0.25, dc)));
+    processes[3] = std::make_shared<BlackScholesMertonProcess>(
                     dummyUnderlying,
                     Handle<YieldTermStructure>(flatRate(today, 0.03, dc)),
                     riskFreeRate,
-                    Handle<BlackVolTermStructure>(flatVol(today, 0.20, dc))));
+                    Handle<BlackVolTermStructure>(flatVol(today, 0.20, dc)));
 
     Matrix correlation(4,4);
     correlation[0][0] = 1.00;
@@ -95,8 +90,8 @@ TEST_CASE("EverestOption_Cached", "[EverestOption]") {
     Size fixedSamples = 1023;
     Real minimumTol = 1.0e-2;
 
-    std::shared_ptr<StochasticProcessArray> process(
-                          new StochasticProcessArray(processes, correlation));
+    std::shared_ptr<StochasticProcessArray> process =
+                          std::make_shared<StochasticProcessArray>(processes, correlation);
 
     option.setPricingEngine(MakeMCEverestEngine<PseudoRandom>(process)
                             .withStepsPerYear(1)

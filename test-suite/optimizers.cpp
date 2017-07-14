@@ -157,31 +157,28 @@ namespace {
                                 Real levenbergMarquardtGtol) {
         switch (optimizationMethodType) {
           case simplex:
-            return std::shared_ptr<OptimizationMethod>(
-                new Simplex(simplexLambda));
+            return std::make_shared<Simplex>(simplexLambda);
           case levenbergMarquardt:
-            return std::shared_ptr<OptimizationMethod>(
-                new LevenbergMarquardt(levenbergMarquardtEpsfcn,
+            return std::make_shared<LevenbergMarquardt>(levenbergMarquardtEpsfcn,
                                        levenbergMarquardtXtol,
-                                       levenbergMarquardtGtol));
+                                       levenbergMarquardtGtol);
           case levenbergMarquardt2:
-            return std::shared_ptr<OptimizationMethod>(
-                new LevenbergMarquardt(levenbergMarquardtEpsfcn,
+            return std::make_shared<LevenbergMarquardt>(levenbergMarquardtEpsfcn,
                                        levenbergMarquardtXtol,
                                        levenbergMarquardtGtol,
-                                       true));
+                                       true);
           case conjugateGradient:
-            return std::shared_ptr<OptimizationMethod>(new ConjugateGradient);
+            return std::make_shared<ConjugateGradient>();
           case steepestDescent:
-            return std::shared_ptr<OptimizationMethod>(new SteepestDescent);
+            return std::make_shared<SteepestDescent>();
           case bfgs:
-            return std::shared_ptr<OptimizationMethod>(new BFGS);
+            return std::make_shared<BFGS>();
           case conjugateGradient_goldstein:
-              return std::shared_ptr<OptimizationMethod>(new ConjugateGradient(std::make_shared<GoldsteinLineSearch>()));
+              return std::make_shared<ConjugateGradient>(std::make_shared<GoldsteinLineSearch>());
           case steepestDescent_goldstein:
-              return std::shared_ptr<OptimizationMethod>(new SteepestDescent(std::make_shared<GoldsteinLineSearch>()));
+              return std::make_shared<SteepestDescent>(std::make_shared<GoldsteinLineSearch>());
           case bfgs_goldstein:
-              return std::shared_ptr<OptimizationMethod>(new BFGS(std::make_shared<GoldsteinLineSearch>()));
+              return std::make_shared<BFGS>(std::make_shared<GoldsteinLineSearch>());
           default:
             QL_FAIL("unknown OptimizationMethod type");
         }
@@ -231,10 +228,9 @@ namespace {
         coefficients[0]= c;
         coefficients[1]= b;
         coefficients[2]= a;
-        costFunctions_.emplace_back(std::shared_ptr<CostFunction>(
-            new OneDimensionalPolynomialDegreeN(coefficients)));
+        costFunctions_.emplace_back(std::make_shared<OneDimensionalPolynomialDegreeN>(coefficients));
         // Set constraint for optimizers: unconstrained problem
-        constraints_.emplace_back(std::shared_ptr<Constraint>(new NoConstraint()));
+        constraints_.emplace_back(std::make_shared<NoConstraint>());
         // Set initial guess for optimizer
         Array initialValue(1);
         initialValue[0] = -100;
@@ -245,10 +241,9 @@ namespace {
         rootEpsilons_.emplace_back(1e-8);                  // rootEpsilon
         functionEpsilons_.emplace_back(1e-8);              // functionEpsilon
         gradientNormEpsilons_.emplace_back(1e-8);          // gradientNormEpsilon
-        endCriterias_.emplace_back(std::shared_ptr<EndCriteria>(
-            new EndCriteria(maxIterations_.back(), maxStationaryStateIterations_.back(),
+        endCriterias_.emplace_back(std::make_shared<EndCriteria>(maxIterations_.back(), maxStationaryStateIterations_.back(),
                             rootEpsilons_.back(), functionEpsilons_.back(),
-                            gradientNormEpsilons_.back())));
+                            gradientNormEpsilons_.back()));
         // Set optimization methods for optimizer
         OptimizationMethodType optimizationMethodTypes[] = {
             simplex, levenbergMarquardt, levenbergMarquardt2, conjugateGradient,
@@ -496,11 +491,11 @@ TEST_CASE("Optimizers_DifferentialEvolution", "[Optimizers]") {
     diffEvolOptimisers.emplace_back(deOptim2);
 
     std::vector<std::shared_ptr<CostFunction> > costFunctions;
-    costFunctions.emplace_back(std::shared_ptr<CostFunction>(new FirstDeJong));
-    costFunctions.emplace_back(std::shared_ptr<CostFunction>(new SecondDeJong));
-    costFunctions.emplace_back(std::shared_ptr<CostFunction>(new ModThirdDeJong));
-    costFunctions.emplace_back(std::shared_ptr<CostFunction>(new ModFourthDeJong));
-    costFunctions.emplace_back(std::shared_ptr<CostFunction>(new Griewangk));
+    costFunctions.emplace_back(std::make_shared<FirstDeJong>());
+    costFunctions.emplace_back(std::make_shared<SecondDeJong>());
+    costFunctions.emplace_back(std::make_shared<ModThirdDeJong>());
+    costFunctions.emplace_back(std::make_shared<ModFourthDeJong>());
+    costFunctions.emplace_back(std::make_shared<Griewangk>());
 
     std::vector<BoundaryConstraint> constraints;
     constraints.emplace_back(BoundaryConstraint(-10.0, 10.0));

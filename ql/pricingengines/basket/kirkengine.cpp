@@ -73,8 +73,7 @@ namespace QuantLib {
                             *(f2/(f2+strike)));
         
         BlackCalculator black(
-             std::shared_ptr<PlainVanillaPayoff>(
-                 new PlainVanillaPayoff(payoff->optionType(),1.0)),
+             std::make_shared<PlainVanillaPayoff>(payoff->optionType(),1.0),
              f, v, riskFreeDiscount);
         
         results_.value = (f2 + strike)*black.value();

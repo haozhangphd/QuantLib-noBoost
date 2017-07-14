@@ -45,8 +45,7 @@ TEST_CASE("CdsOption_Cached", "[CdsOption]") {
     Calendar calendar = TARGET();
 
     RelinkableHandle<YieldTermStructure> riskFree;
-    riskFree.linkTo(std::shared_ptr<YieldTermStructure>(
-                              new FlatForward(cachedToday,0.02,Actual360())));
+    riskFree.linkTo(std::make_shared<FlatForward>(cachedToday,0.02,Actual360()));
 
     Date expiry = calendar.advance(cachedToday,9,Months);
     Date startDate = calendar.advance(expiry,1,Months);
@@ -56,7 +55,7 @@ TEST_CASE("CdsOption_Cached", "[CdsOption]") {
     BusinessDayConvention convention = ModifiedFollowing;
     Real notional = 1000000.0;
 
-    Handle<Quote> hazardRate(std::shared_ptr<Quote>(new SimpleQuote(0.001)));
+    Handle<Quote> hazardRate(std::make_shared<SimpleQuote>(0.001));
 
     Schedule schedule(startDate,maturity, Period(Quarterly),
                       calendar, convention, convention,
@@ -64,29 +63,27 @@ TEST_CASE("CdsOption_Cached", "[CdsOption]") {
 
     Real recoveryRate = 0.4;
     Handle<DefaultProbabilityTermStructure> defaultProbability(
-        std::shared_ptr<DefaultProbabilityTermStructure>(
-                    new FlatHazardRate(0, calendar, hazardRate, dayCounter)));
+        std::make_shared<FlatHazardRate>(0, calendar, hazardRate, dayCounter));
 
-    std::shared_ptr<PricingEngine> swapEngine(
-           new MidPointCdsEngine(defaultProbability, recoveryRate, riskFree));
+    std::shared_ptr<PricingEngine> swapEngine =
+           std::make_shared<MidPointCdsEngine>(defaultProbability, recoveryRate, riskFree);
 
     CreditDefaultSwap swap(Protection::Seller, notional, 0.001, schedule,
                            convention, dayCounter);
     swap.setPricingEngine(swapEngine);
     Rate strike = swap.fairSpread();
 
-    Handle<Quote> cdsVol(std::shared_ptr<Quote>(new SimpleQuote(0.20)));
+    Handle<Quote> cdsVol(std::make_shared<SimpleQuote>(0.20));
 
-    std::shared_ptr<CreditDefaultSwap> underlying(
-         new CreditDefaultSwap(Protection::Seller, notional, strike, schedule,
-                               convention, dayCounter));
+    std::shared_ptr<CreditDefaultSwap> underlying =
+         std::make_shared<CreditDefaultSwap>(Protection::Seller, notional, strike, schedule,
+                               convention, dayCounter);
     underlying->setPricingEngine(swapEngine);
 
-    std::shared_ptr<Exercise> exercise(new EuropeanExercise(expiry));
+    std::shared_ptr<Exercise> exercise = std::make_shared<EuropeanExercise>(expiry);
     CdsOption option1(underlying, exercise);
-    option1.setPricingEngine(std::shared_ptr<PricingEngine>(
-                    new BlackCdsOptionEngine(defaultProbability, recoveryRate,
-                                             riskFree, cdsVol)));
+    option1.setPricingEngine(std::make_shared<BlackCdsOptionEngine>(defaultProbability, recoveryRate,
+                                             riskFree, cdsVol));
 
     Real cachedValue = 270.976348;
     if (std::fabs(option1.NPV() - cachedValue) > 1.0e-5)
@@ -95,15 +92,13 @@ TEST_CASE("CdsOption_Cached", "[CdsOption]") {
                     << "    calculated: " << option1.NPV() << "\n"
                     << "    expected:   " << cachedValue);
 
-    underlying = std::shared_ptr<CreditDefaultSwap>(
-         new CreditDefaultSwap(Protection::Buyer, notional, strike, schedule,
-                               convention, dayCounter));
+    underlying = std::make_shared<CreditDefaultSwap>(Protection::Buyer, notional, strike, schedule,
+                               convention, dayCounter);
     underlying->setPricingEngine(swapEngine);
 
     CdsOption option2(underlying, exercise);
-    option2.setPricingEngine(std::shared_ptr<PricingEngine>(
-                    new BlackCdsOptionEngine(defaultProbability, recoveryRate,
-                                             riskFree, cdsVol)));
+    option2.setPricingEngine(std::make_shared<BlackCdsOptionEngine>(defaultProbability, recoveryRate,
+                                             riskFree, cdsVol));
 
     cachedValue = 270.976348;
     if (std::fabs(option2.NPV() - cachedValue) > 1.0e-5)

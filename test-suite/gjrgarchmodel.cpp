@@ -140,27 +140,26 @@ TEST_CASE("GJRGARCHModel_Engines", "[GJRGARCHModel]") {
             *(1.0+lambda*lambda)+gamma*lambda*std::exp(-lambda*lambda/2.0)
             /std::sqrt(2.0*M_PI);
         Real v0 = omega/(1.0-m1);
-        Handle<Quote> q(std::shared_ptr<Quote>(new SimpleQuote(s0)));
-        std::shared_ptr<GJRGARCHProcess> process(new GJRGARCHProcess(
-            riskFreeTS, dividendTS, q, v0, omega, alpha, beta, gamma, lambda, daysPerYear));
+        Handle<Quote> q(std::make_shared<SimpleQuote>(s0));
+        std::shared_ptr<GJRGARCHProcess> process = std::make_shared<GJRGARCHProcess>(
+            riskFreeTS, dividendTS, q, v0, omega, alpha, beta, gamma, lambda, daysPerYear);
         std::shared_ptr<PricingEngine> engine1 =
             MakeMCEuropeanGJRGARCHEngine<PseudoRandom>(process)
             .withStepsPerYear(20)
             .withAbsoluteTolerance(0.02)
             .withSeed(1234);
 
-        std::shared_ptr<PricingEngine> engine2(
-            new AnalyticGJRGARCHEngine(std::shared_ptr<GJRGARCHModel>(
-                                               new GJRGARCHModel(process))));
+        std::shared_ptr<PricingEngine> engine2 =
+            std::make_shared<AnalyticGJRGARCHEngine>(std::make_shared<GJRGARCHModel>(process));
         for (Size i = 0; i < 2; ++i) {
             for (Size j = 0; j < 6; ++j) {
                 Real x = strike[j];
 
-                std::shared_ptr<StrikedTypePayoff> payoff(
-                                     new PlainVanillaPayoff(Option::Call, x));
+                std::shared_ptr<StrikedTypePayoff> payoff =
+                                     std::make_shared<PlainVanillaPayoff>(Option::Call, x);
                 Date exDate = today + maturity[i];
-                std::shared_ptr<Exercise> exercise(
-                                                new EuropeanExercise(exDate));
+                std::shared_ptr<Exercise> exercise =
+                                                std::make_shared<EuropeanExercise>(exDate);
 
                 VanillaOption option(payoff, exercise);
 
@@ -223,8 +222,7 @@ TEST_CASE("GJRGARCHModel_DAXCalibration", "[GJRGARCHModel]") {
         rates.emplace_back(r[i]);
     }
     Handle<YieldTermStructure> riskFreeTS(
-                       std::shared_ptr<YieldTermStructure>(
-                                    new ZeroCurve(dates, rates, dayCounter)));
+                       std::make_shared<ZeroCurve>(dates, rates, dayCounter));
 
     Handle<YieldTermStructure> dividendTS(
                                    flatRate(settlementDate, 0.0, dayCounter));
@@ -244,7 +242,7 @@ TEST_CASE("GJRGARCHModel_DAXCalibration", "[GJRGARCHModel]") {
         0.3857,0.2860,0.2578,0.2399,0.2357,0.2327,0.2312,0.2351,
         0.3976,0.2860,0.2607,0.2356,0.2297,0.2268,0.2241,0.2320 };
 
-    Handle<Quote> s0(std::shared_ptr<Quote>(new SimpleQuote(4468.17)));
+    Handle<Quote> s0(std::make_shared<SimpleQuote>(4468.17));
     Real strike[] = { 3400,3600,3800,4000,4200,4400,
                       4500,4600,4800,5000,5200,5400,5600 };
 
@@ -252,15 +250,13 @@ TEST_CASE("GJRGARCHModel_DAXCalibration", "[GJRGARCHModel]") {
 
     for (Size s = 3; s < 10; ++s) {
         for (Size m = 0; m < 3; ++m) {
-            Handle<Quote> vol(std::shared_ptr<Quote>(
-                                                  new SimpleQuote(v[s*8+m])));
+            Handle<Quote> vol(std::make_shared<SimpleQuote>(v[s*8+m]));
 
             Period maturity((int)((t[m]+3)/7.), Weeks); // round to weeks
-            options.emplace_back(std::shared_ptr<CalibrationHelper>(
-                    new HestonModelHelper(maturity, calendar,
+            options.emplace_back(std::make_shared<HestonModelHelper>(maturity, calendar,
                                           s0->value(), strike[s], vol,
                                           riskFreeTS, dividendTS, 
-                                          CalibrationHelper::ImpliedVolError)));
+                                          CalibrationHelper::ImpliedVolError));
         }
     }
 
@@ -275,13 +271,13 @@ TEST_CASE("GJRGARCHModel_DAXCalibration", "[GJRGARCHModel]") {
             /std::sqrt(2.0*M_PI);
     const Real v0 = omega/(1.0-m1);
 
-    std::shared_ptr<GJRGARCHProcess> process(new GJRGARCHProcess(
+    std::shared_ptr<GJRGARCHProcess> process = std::make_shared<GJRGARCHProcess>(
                              riskFreeTS, dividendTS, s0, v0,
-                             omega, alpha, beta, gamma, lambda, daysPerYear));
-    std::shared_ptr<GJRGARCHModel> model(new GJRGARCHModel(process));
+                             omega, alpha, beta, gamma, lambda, daysPerYear);
+    std::shared_ptr<GJRGARCHModel> model = std::make_shared<GJRGARCHModel>(process);
 
-    std::shared_ptr<PricingEngine> engine(
-        new AnalyticGJRGARCHEngine(std::shared_ptr<GJRGARCHModel>(model)));
+    std::shared_ptr<PricingEngine> engine =
+        std::make_shared<AnalyticGJRGARCHEngine>(std::shared_ptr<GJRGARCHModel>(model));
 
     for (i = 0; i < options.size(); ++i)
         options[i]->setPricingEngine(engine);

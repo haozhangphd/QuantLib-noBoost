@@ -63,14 +63,12 @@ namespace QuantLib {
         if (   cPoint.first != Null<Real>() 
             && std::log(cPoint.first) >=xMin && std::log(cPoint.first) <=xMax) {
             
-            helper = std::shared_ptr<Fdm1dMesher>(
-                new Concentrating1dMesher(xMin, xMax, size, 
-                    std::pair<Real,Real>(std::log(cPoint.first),
-                                         cPoint.second)));
+            helper = std::make_shared<Concentrating1dMesher>(xMin, xMax, size, 
+                     std::pair<Real,Real>(std::log(cPoint.first),
+                                         cPoint.second));
         }
         else {
-            helper = std::shared_ptr<Fdm1dMesher>(
-                                        new Uniform1dMesher(xMin, xMax, size));
+            helper = std::make_shared<Uniform1dMesher>(xMin, xMax, size);
             
         }
         
@@ -87,15 +85,13 @@ namespace QuantLib {
                                          const Handle<YieldTermStructure>& qTS,
                                          Volatility vol) {
         
-        return std::shared_ptr<GeneralizedBlackScholesProcess>(
-            new GeneralizedBlackScholesProcess(
+        return std::make_shared<GeneralizedBlackScholesProcess>(
                 s0, qTS, rTS,
                 Handle<BlackVolTermStructure>(
-                    std::shared_ptr<BlackVolTermStructure>(
-                        new BlackConstantVol(rTS->referenceDate(),
+                    std::make_shared<BlackConstantVol>(rTS->referenceDate(),
                                              Calendar(),
                                              vol,
-                                             rTS->dayCounter())))));
+                                             rTS->dayCounter())));
     }
 }
 

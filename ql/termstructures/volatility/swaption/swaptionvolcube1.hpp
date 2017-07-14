@@ -375,8 +375,7 @@ namespace QuantLib {
                     optionTimes[j], swapLengths[k]);
 
                 const std::shared_ptr<typename Model::Interpolation> sabrInterpolation =
-                    std::shared_ptr<typename Model::Interpolation>(new
-                                          (typename Model::Interpolation)(strikes.begin(), strikes.end(),
+                    std::make_shared<typename Model::Interpolation>(strikes.begin(), strikes.end(),
                                           volatilities.begin(),
                                           optionTimes[j], atmForward,
                                           guess[0], guess[1],
@@ -391,7 +390,7 @@ namespace QuantLib {
                                           errorAccept_,
                                           useMaxError_,
                                           maxGuesses_,
-                                          shiftTmp));
+                                          shiftTmp);
                 sabrInterpolation->update();
 
                 Real rmsError = sabrInterpolation->rmsError();
@@ -487,8 +486,7 @@ namespace QuantLib {
                 optionTimes[j], swapLengths[k]);
 
                 const std::shared_ptr<typename Model::Interpolation> sabrInterpolation =
-                    std::shared_ptr<typename Model::Interpolation>(new
-                                          (typename Model::Interpolation)(strikes.begin(), strikes.end(),
+                    std::make_shared<typename Model::Interpolation>(strikes.begin(), strikes.end(),
                                       volatilities.begin(),
                                       optionTimes[j], atmForward,
                                       guess[0], guess[1],
@@ -503,7 +501,7 @@ namespace QuantLib {
                                       errorAccept_,
                                       useMaxError_,
                                       maxGuesses_,
-                                      shiftTmp));
+                                      shiftTmp);
 
             sabrInterpolation->update();
             Real interpolationError = sabrInterpolation->rmsError();
@@ -778,8 +776,8 @@ namespace QuantLib {
         const std::vector<Real> sabrParameters =
             sabrParametersCube(optionTime, swapLength);
         Real shiftTmp = atmVol_->shift(optionTime,swapLength);
-        return std::shared_ptr<SmileSection>(new (typename Model::SmileSection)(
-                          optionTime, sabrParameters[4], sabrParameters,shiftTmp));
+        return std::make_shared<typename Model::SmileSection>(
+                          optionTime, sabrParameters[4], sabrParameters,shiftTmp);
     }
 
     template<class Model> std::shared_ptr<SmileSection>
@@ -927,8 +925,7 @@ namespace QuantLib {
                         optionTimes_.begin(), optionTimes_.end(),
                         swapLengths_.begin(), swapLengths_.end(),
                         transposedPoints_[k]);
-            interpolators_.emplace_back(std::shared_ptr<Interpolation2D>(
-                new FlatExtrapolator2D(interpolation)));
+            interpolators_.emplace_back(std::make_shared<FlatExtrapolator2D>(interpolation));
             interpolators_[k]->enableExtrapolation();
         }
         setPoints(points);
@@ -957,8 +954,7 @@ namespace QuantLib {
                         optionTimes_.begin(), optionTimes_.end(),
                         swapLengths_.begin(), swapLengths_.end(),
                         transposedPoints_[k]);
-            interpolators_.emplace_back(std::shared_ptr<Interpolation2D>(
-                new FlatExtrapolator2D(interpolation)));
+            interpolators_.emplace_back(std::make_shared<FlatExtrapolator2D>(interpolation));
             interpolators_[k]->enableExtrapolation();
         }
         setPoints(o.points_);
@@ -988,8 +984,7 @@ namespace QuantLib {
                         optionTimes_.begin(), optionTimes_.end(),
                         swapLengths_.begin(), swapLengths_.end(),
                         transposedPoints_[k]);
-            interpolators_.emplace_back(std::shared_ptr<Interpolation2D>(
-                new FlatExtrapolator2D(interpolation)));
+            interpolators_.emplace_back(std::make_shared<FlatExtrapolator2D>(interpolation));
             interpolators_[k]->enableExtrapolation();
         }
         setPoints(o.points_);
@@ -1137,8 +1132,7 @@ namespace QuantLib {
                         optionTimes_.begin(), optionTimes_.end(),
                         swapLengths_.begin(), swapLengths_.end(),
                         transposedPoints_[k]);
-            interpolators_[k] = std::shared_ptr<Interpolation2D>(
-                new FlatExtrapolator2D(interpolation));
+            interpolators_[k] = std::make_shared<FlatExtrapolator2D>(interpolation);
             interpolators_[k]->enableExtrapolation();
         }
     }

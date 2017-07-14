@@ -135,10 +135,8 @@ namespace QuantLib {
         // fill dummy handles to allow generic handle-based
         // computations later on
         for (Size i=0; i<stdDevs.size(); ++i)
-            stdDevHandles_[i] = Handle<Quote>(std::shared_ptr<Quote>(new
-                SimpleQuote(stdDevs[i])));
-        atmLevel_ = Handle<Quote>
-           (std::shared_ptr<Quote>(new SimpleQuote(atmLevel)));
+            stdDevHandles_[i] = Handle<Quote>(std::make_shared<SimpleQuote>(stdDevs[i]));
+        atmLevel_ = Handle<Quote>(std::make_shared<SimpleQuote>(atmLevel));
         // check strikes!!!!!!!!!!!!!!!!!!!!
         interpolation_ = interpolator.interpolate(strikes_.begin(),
                                                   strikes_.end(),
@@ -187,10 +185,9 @@ namespace QuantLib {
         //fill dummy handles to allow generic handle-based
         // computations later on
         for (Size i=0; i<stdDevs.size(); ++i)
-            stdDevHandles_[i] = Handle<Quote>(std::shared_ptr<Quote>(new
-                SimpleQuote(stdDevs[i])));
+            stdDevHandles_[i] = Handle<Quote>(std::make_shared<SimpleQuote>(stdDevs[i]));
         atmLevel_ = Handle<Quote>
-           (std::shared_ptr<Quote>(new SimpleQuote(atmLevel)));
+           (std::make_shared<SimpleQuote>(atmLevel));
         // check strikes!!!!!!!!!!!!!!!!!!!!
         interpolation_ = interpolator.interpolate(strikes_.begin(),
                                                   strikes_.end(),

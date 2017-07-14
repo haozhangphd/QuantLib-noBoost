@@ -208,10 +208,8 @@ namespace QuantLib {
                             const M& zData,
                             const Kernel& kernel) {
 
-            impl_ = std::shared_ptr<Interpolation2D::Impl>(new
-                detail::KernelInterpolation2DImpl<I1,I2,M,Kernel>(xBegin, xEnd,
-                                                                  yBegin, yEnd,
-                                                                  zData, kernel));
+            impl_ = std::make_shared<detail::KernelInterpolation2DImpl<I1,I2,M,Kernel>>(xBegin, xEnd,
+                                                                  yBegin, yEnd, zData, kernel);
             this->update();
         }
     };

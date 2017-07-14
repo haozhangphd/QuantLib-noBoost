@@ -55,7 +55,7 @@ namespace {
         CommonVars() {
             fixingDays = 2;
             nominal = 1000000.0;
-            index = std::shared_ptr<IborIndex>(new Euribor6M(termStructure));
+            index = std::make_shared<Euribor6M>(termStructure);
             calendar = index->fixingCalendar();
             today = calendar.adjust(Settings::instance().evaluationDate());
             Settings::instance().evaluationDate() = today;
@@ -90,15 +90,14 @@ TEST_CASE("DigitalCoupon_AssetOrNothing", "[DigitalCoupon]") {
 
     Real gap = 1e-7; /* low, in order to compare digital option value
                         with black formula result */
-    std::shared_ptr<DigitalReplication>
-        replication(new DigitalReplication(Replication::Central, gap));
+    std::shared_ptr<DigitalReplication> replication =
+        std::make_shared<DigitalReplication>(Replication::Central, gap);
     for (Size i = 0; i< LENGTH(vols); i++) {
             Volatility capletVol = vols[i];
             RelinkableHandle<OptionletVolatilityStructure> vol;
-            vol.linkTo(std::shared_ptr<OptionletVolatilityStructure>(new
-                ConstantOptionletVolatility(vars.today,
+            vol.linkTo(std::make_shared<ConstantOptionletVolatility>(vars.today,
                                             vars.calendar, Following,
-                                            capletVol, Actual360())));
+                                            capletVol, Actual360()));
         for (Size j=0; j<LENGTH(strikes); j++) {
             Rate strike = strikes[j];
             for (Size k=9; k<10; k++) {
@@ -111,18 +110,18 @@ TEST_CASE("DigitalCoupon_AssetOrNothing", "[DigitalCoupon]") {
                     Real gearing = gearings[h];
                     Rate spread = spreads[h];
 
-                    std::shared_ptr<FloatingRateCoupon> underlying(new
-                        IborCoupon(paymentDate, vars.nominal,
+                    std::shared_ptr<FloatingRateCoupon> underlying =
+                        std::make_shared<IborCoupon>(paymentDate, vars.nominal,
                                    startDate, endDate,
                                    vars.fixingDays, vars.index,
-                                   gearing, spread));
+                                   gearing, spread);
                     // Floating Rate Coupon - Call Digital option
                     DigitalCoupon digitalCappedCoupon(underlying,
                                         strike, Position::Short, false, nullstrike,
                                         nullstrike, Position::Short, false, nullstrike,
                                         replication);
-                    std::shared_ptr<IborCouponPricer> pricer(new
-                                                            BlackIborCouponPricer(vol));
+                    std::shared_ptr<IborCouponPricer> pricer =
+                                                            std::make_shared<BlackIborCouponPricer>(vol);
                     digitalCappedCoupon.setPricer(pricer);
 
                     // Check digital option price vs N(d1) price
@@ -154,26 +153,26 @@ TEST_CASE("DigitalCoupon_AssetOrNothing", "[DigitalCoupon]") {
 
                     // Check digital option price vs N(d1) price using Vanilla Option class
                     if (spread==0.0) {
-                        std::shared_ptr<Exercise>
-                            exercise(new EuropeanExercise(exerciseDate));
+                        std::shared_ptr<Exercise> exercise =
+                            std::make_shared<EuropeanExercise>(exerciseDate);
                         Real discountAtFixing = vars.termStructure->discount(exerciseDate);
-                        std::shared_ptr<SimpleQuote>
-                            fwd(new SimpleQuote(effFwd*discountAtFixing));
-                        std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
-                        std::shared_ptr<YieldTermStructure>
-                            qTS = flatRate(vars.today, qRate, Actual360());
-                        std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
-                        std::shared_ptr<BlackVolTermStructure>
-                            volTS = flatVol(vars.today, capletVol, Actual360());
-                        std::shared_ptr<StrikedTypePayoff>
-                            callPayoff(new AssetOrNothingPayoff(Option::Call,effStrike));
-                        std::shared_ptr<BlackScholesMertonProcess> stochProcess(new
-                            BlackScholesMertonProcess(Handle<Quote>(fwd),
+                        std::shared_ptr<SimpleQuote> fwd =
+                            std::make_shared<SimpleQuote>(effFwd*discountAtFixing);
+                        std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
+                        std::shared_ptr<YieldTermStructure> qTS
+                             = flatRate(vars.today, qRate, Actual360());
+                        std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
+                        std::shared_ptr<BlackVolTermStructure> volTS
+                             = flatVol(vars.today, capletVol, Actual360());
+                        std::shared_ptr<StrikedTypePayoff> callPayoff =
+                            std::make_shared<AssetOrNothingPayoff>(Option::Call,effStrike);
+                        std::shared_ptr<BlackScholesMertonProcess> stochProcess =
+                            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(fwd),
                                               Handle<YieldTermStructure>(qTS),
                                               Handle<YieldTermStructure>(vars.termStructure),
-                                              Handle<BlackVolTermStructure>(volTS)));
-                        std::shared_ptr<PricingEngine>
-                            engine(new AnalyticEuropeanEngine(stochProcess));
+                                              Handle<BlackVolTermStructure>(volTS));
+                        std::shared_ptr<PricingEngine> engine =
+                            std::make_shared<AnalyticEuropeanEngine>(stochProcess);
                         VanillaOption callOpt(callPayoff, exercise);
                         callOpt.setPricingEngine(engine);
                         Real callVO = vars.nominal * gearing
@@ -217,25 +216,25 @@ TEST_CASE("DigitalCoupon_AssetOrNothing", "[DigitalCoupon]") {
 
                     // Check digital option price vs N(d1) price using Vanilla Option class
                     if (spread==0.0) {
-                        std::shared_ptr<Exercise>
-                            exercise(new EuropeanExercise(exerciseDate));
+                        std::shared_ptr<Exercise> exercise =
+                            std::make_shared<EuropeanExercise>(exerciseDate);
                         Real discountAtFixing = vars.termStructure->discount(exerciseDate);
-                        std::shared_ptr<SimpleQuote>
-                            fwd(new SimpleQuote(effFwd*discountAtFixing));
-                        std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
-                        std::shared_ptr<YieldTermStructure>
-                            qTS = flatRate(vars.today, qRate, Actual360());
-                        std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
-                        std::shared_ptr<BlackVolTermStructure>
-                            volTS = flatVol(vars.today, capletVol, Actual360());
-                        std::shared_ptr<BlackScholesMertonProcess> stochProcess(new
-                            BlackScholesMertonProcess(Handle<Quote>(fwd),
+                        std::shared_ptr<SimpleQuote> fwd =
+                            std::make_shared<SimpleQuote>(effFwd*discountAtFixing);
+                        std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
+                        std::shared_ptr<YieldTermStructure> qTS
+                             = flatRate(vars.today, qRate, Actual360());
+                        std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
+                        std::shared_ptr<BlackVolTermStructure> volTS
+                             = flatVol(vars.today, capletVol, Actual360());
+                        std::shared_ptr<BlackScholesMertonProcess> stochProcess =
+                            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(fwd),
                                               Handle<YieldTermStructure>(qTS),
                                               Handle<YieldTermStructure>(vars.termStructure),
-                                              Handle<BlackVolTermStructure>(volTS)));
-                        std::shared_ptr<StrikedTypePayoff>
-                            putPayoff(new AssetOrNothingPayoff(Option::Put, effStrike));
-                        std::shared_ptr<PricingEngine> engine(new AnalyticEuropeanEngine(stochProcess));
+                                              Handle<BlackVolTermStructure>(volTS));
+                        std::shared_ptr<StrikedTypePayoff> putPayoff =
+                            std::make_shared<AssetOrNothingPayoff>(Option::Put, effStrike);
+                        std::shared_ptr<PricingEngine> engine = std::make_shared<AnalyticEuropeanEngine>(stochProcess);
                         VanillaOption putOpt(putPayoff, exercise);
                         putOpt.setPricingEngine(engine);
                         Real putVO  = vars.nominal * gearing
@@ -270,12 +269,11 @@ TEST_CASE("DigitalCoupon_AssetOrNothingDeepInTheMoney", "[DigitalCoupon]") {
 
     Volatility capletVolatility = 0.0001;
     RelinkableHandle<OptionletVolatilityStructure> volatility;
-    volatility.linkTo(std::shared_ptr<OptionletVolatilityStructure>(new
-        ConstantOptionletVolatility(vars.today, vars.calendar, Following,
-                                    capletVolatility, Actual360())));
+    volatility.linkTo(std::make_shared<ConstantOptionletVolatility>(vars.today, vars.calendar, Following,
+                                    capletVolatility, Actual360()));
     Real gap = 1e-4;
-    std::shared_ptr<DigitalReplication> replication(new
-        DigitalReplication(Replication::Central, gap));
+    std::shared_ptr<DigitalReplication> replication =
+        std::make_shared<DigitalReplication>(Replication::Central, gap);
 
     for (Size k = 0; k<10; k++) {   // Loop on start and end dates
         Date startDate = vars.calendar.advance(vars.settlement,(k+1)*Years);
@@ -283,11 +281,11 @@ TEST_CASE("DigitalCoupon_AssetOrNothingDeepInTheMoney", "[DigitalCoupon]") {
         Rate nullstrike = Null<Rate>();
         Date paymentDate = endDate;
 
-        std::shared_ptr<FloatingRateCoupon> underlying(new
-            IborCoupon(paymentDate, vars.nominal,
+        std::shared_ptr<FloatingRateCoupon> underlying =
+            std::make_shared<IborCoupon>(paymentDate, vars.nominal,
                        startDate, endDate,
                        vars.fixingDays, vars.index,
-                       gearing, spread));
+                       gearing, spread);
 
         // Floating Rate Coupon - Deep-in-the-money Call Digital option
         Rate strike = 0.001;
@@ -295,8 +293,8 @@ TEST_CASE("DigitalCoupon_AssetOrNothingDeepInTheMoney", "[DigitalCoupon]") {
                                           strike, Position::Short, false, nullstrike,
                                           nullstrike, Position::Short, false, nullstrike,
                                           replication);
-        std::shared_ptr<IborCouponPricer> pricer(new
-            BlackIborCouponPricer(volatility));
+        std::shared_ptr<IborCouponPricer> pricer =
+            std::make_shared<BlackIborCouponPricer>(volatility);
         digitalCappedCoupon.setPricer(pricer);
 
         // Check price vs its target price
@@ -382,12 +380,11 @@ TEST_CASE("DigitalCoupon_AssetOrNothingDeepOutTheMoney", "[DigitalCoupon]") {
 
     Volatility capletVolatility = 0.0001;
     RelinkableHandle<OptionletVolatilityStructure> volatility;
-    volatility.linkTo(std::shared_ptr<OptionletVolatilityStructure>(new
-        ConstantOptionletVolatility(vars.today, vars.calendar, Following,
-                                    capletVolatility, Actual360())));
+    volatility.linkTo(std::make_shared<ConstantOptionletVolatility>(vars.today, vars.calendar, Following,
+                                    capletVolatility, Actual360()));
     Real gap = 1e-4;
-    std::shared_ptr<DigitalReplication>
-        replication(new DigitalReplication(Replication::Central, gap));
+    std::shared_ptr<DigitalReplication> replication =
+        std::make_shared<DigitalReplication>(Replication::Central, gap);
 
     for (Size k = 0; k<10; k++) { // loop on start and end dates
         Date startDate = vars.calendar.advance(vars.settlement,(k+1)*Years);
@@ -395,11 +392,11 @@ TEST_CASE("DigitalCoupon_AssetOrNothingDeepOutTheMoney", "[DigitalCoupon]") {
         Rate nullstrike = Null<Rate>();
         Date paymentDate = endDate;
 
-        std::shared_ptr<FloatingRateCoupon> underlying(new
-            IborCoupon(paymentDate, vars.nominal,
+        std::shared_ptr<FloatingRateCoupon> underlying =
+            std::make_shared<IborCoupon>(paymentDate, vars.nominal,
                        startDate, endDate,
                        vars.fixingDays, vars.index,
-                       gearing, spread));
+                       gearing, spread);
 
         // Floating Rate Coupon - Deep-out-of-the-money Call Digital option
         Rate strike = 0.99;
@@ -407,7 +404,7 @@ TEST_CASE("DigitalCoupon_AssetOrNothingDeepOutTheMoney", "[DigitalCoupon]") {
                                           strike, Position::Short, false, nullstrike,
                                           nullstrike, Position::Long, false, nullstrike,
                                           replication/*Replication::Central, gap*/);
-        std::shared_ptr<IborCouponPricer> pricer(new BlackIborCouponPricer(volatility));
+        std::shared_ptr<IborCouponPricer> pricer = std::make_shared<BlackIborCouponPricer>(volatility);
         digitalCappedCoupon.setPricer(pricer);
 
         // Check price vs its target
@@ -502,16 +499,15 @@ TEST_CASE("DigitalCoupon_CashOrNothing", "[DigitalCoupon]") {
 
     Real gap = 1e-08; /* very low, in order to compare digital option value
                                      with black formula result */
-    std::shared_ptr<DigitalReplication> replication(new
-        DigitalReplication(Replication::Central, gap));
+    std::shared_ptr<DigitalReplication> replication =
+        std::make_shared<DigitalReplication>(Replication::Central, gap);
 
     for (Size i = 0; i< LENGTH(vols); i++) {
             Volatility capletVol = vols[i];
             RelinkableHandle<OptionletVolatilityStructure> vol;
-            vol.linkTo(std::shared_ptr<OptionletVolatilityStructure>(new
-                ConstantOptionletVolatility(vars.today,
+            vol.linkTo(std::make_shared<ConstantOptionletVolatility>(vars.today,
                                             vars.calendar, Following,
-                                            capletVol, Actual360())));
+                                            capletVol, Actual360()));
         for (Size j = 0; j< LENGTH(strikes); j++) {
             Rate strike = strikes[j];
             for (Size k = 0; k<10; k++) {
@@ -521,17 +517,17 @@ TEST_CASE("DigitalCoupon_CashOrNothing", "[DigitalCoupon]") {
                 Rate cashRate = 0.01;
 
                 Date paymentDate = endDate;
-                std::shared_ptr<FloatingRateCoupon> underlying(new
-                    IborCoupon(paymentDate, vars.nominal,
+                std::shared_ptr<FloatingRateCoupon> underlying =
+                    std::make_shared<IborCoupon>(paymentDate, vars.nominal,
                                startDate, endDate,
                                vars.fixingDays, vars.index,
-                               gearing, spread));
+                               gearing, spread);
                 // Floating Rate Coupon - Call Digital option
                 DigitalCoupon digitalCappedCoupon(underlying,
                                           strike, Position::Short, false, cashRate,
                                           nullstrike, Position::Short, false, nullstrike,
                                           replication);
-                std::shared_ptr<IborCouponPricer> pricer(new BlackIborCouponPricer(vol));
+                std::shared_ptr<IborCouponPricer> pricer = std::make_shared<BlackIborCouponPricer>(vol);
                 digitalCappedCoupon.setPricer(pricer);
 
                 // Check digital option price vs N(d2) price
@@ -558,22 +554,22 @@ TEST_CASE("DigitalCoupon_CashOrNothing", "[DigitalCoupon]") {
                                 "\nError = " << error );
 
                 // Check digital option price vs N(d2) price using Vanilla Option class
-                std::shared_ptr<Exercise> exercise(new EuropeanExercise(exerciseDate));
+                std::shared_ptr<Exercise> exercise = std::make_shared<EuropeanExercise>(exerciseDate);
                 Real discountAtFixing = vars.termStructure->discount(exerciseDate);
-                std::shared_ptr<SimpleQuote> fwd(new SimpleQuote(effFwd*discountAtFixing));
-                std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+                std::shared_ptr<SimpleQuote> fwd = std::make_shared<SimpleQuote>(effFwd*discountAtFixing);
+                std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
                 std::shared_ptr<YieldTermStructure> qTS = flatRate(vars.today, qRate, Actual360());
-                std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
+                std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
                 std::shared_ptr<BlackVolTermStructure> volTS = flatVol(vars.today, capletVol,
                                                                          Actual360());
-                std::shared_ptr<StrikedTypePayoff> callPayoff(new CashOrNothingPayoff(
-                                                        Option::Call, effStrike, cashRate));
-                std::shared_ptr<BlackScholesMertonProcess> stochProcess(new
-                BlackScholesMertonProcess(Handle<Quote>(fwd),
+                std::shared_ptr<StrikedTypePayoff> callPayoff =
+                                                        std::make_shared<CashOrNothingPayoff>(Option::Call, effStrike, cashRate);
+                std::shared_ptr<BlackScholesMertonProcess> stochProcess =
+                std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(fwd),
                                           Handle<YieldTermStructure>(qTS),
                                           Handle<YieldTermStructure>(vars.termStructure),
-                                          Handle<BlackVolTermStructure>(volTS)));
-                std::shared_ptr<PricingEngine> engine(new AnalyticEuropeanEngine(stochProcess));
+                                          Handle<BlackVolTermStructure>(volTS));
+                std::shared_ptr<PricingEngine> engine = std::make_shared<AnalyticEuropeanEngine>(stochProcess);
                 VanillaOption callOpt(callPayoff, exercise);
                 callOpt.setPricingEngine(engine);
                 Real callVO = vars.nominal * accrualPeriod * callOpt.NPV()
@@ -615,8 +611,8 @@ TEST_CASE("DigitalCoupon_CashOrNothing", "[DigitalCoupon]") {
                                 "\nError = " << error );
 
                 // Check digital option price vs N(d2) price using Vanilla Option class
-                std::shared_ptr<StrikedTypePayoff> putPayoff(new
-                    CashOrNothingPayoff(Option::Put, effStrike, cashRate));
+                std::shared_ptr<StrikedTypePayoff> putPayoff =
+                    std::make_shared<CashOrNothingPayoff>(Option::Put, effStrike, cashRate);
                 VanillaOption putOpt(putPayoff, exercise);
                 putOpt.setPricingEngine(engine);
                 Real putVO  = vars.nominal * accrualPeriod * putOpt.NPV()
@@ -647,9 +643,8 @@ TEST_CASE("DigitalCoupon_CashOrNothingDeepInTheMoney", "[DigitalCoupon]") {
 
     Volatility capletVolatility = 0.0001;
     RelinkableHandle<OptionletVolatilityStructure> volatility;
-    volatility.linkTo(std::shared_ptr<OptionletVolatilityStructure>(new
-        ConstantOptionletVolatility(vars.today, vars.calendar, Following,
-                                    capletVolatility, Actual360())));
+    volatility.linkTo(std::make_shared<ConstantOptionletVolatility>(vars.today, vars.calendar, Following,
+                                    capletVolatility, Actual360()));
 
     for (Size k = 0; k<10; k++) {   // Loop on start and end dates
         Date startDate = vars.calendar.advance(vars.settlement,(k+1)*Years);
@@ -657,23 +652,23 @@ TEST_CASE("DigitalCoupon_CashOrNothingDeepInTheMoney", "[DigitalCoupon]") {
         Rate nullstrike = Null<Rate>();
         Rate cashRate = 0.01;
         Real gap = 1e-4;
-        std::shared_ptr<DigitalReplication> replication(new
-            DigitalReplication(Replication::Central, gap));
+        std::shared_ptr<DigitalReplication> replication =
+            std::make_shared<DigitalReplication>(Replication::Central, gap);
         Date paymentDate = endDate;
 
-        std::shared_ptr<FloatingRateCoupon> underlying(new
-            IborCoupon(paymentDate, vars.nominal,
+        std::shared_ptr<FloatingRateCoupon> underlying =
+            std::make_shared<IborCoupon>(paymentDate, vars.nominal,
                        startDate, endDate,
                        vars.fixingDays, vars.index,
-                       gearing, spread));
+                       gearing, spread);
         // Floating Rate Coupon - Deep-in-the-money Call Digital option
         Rate strike = 0.001;
         DigitalCoupon digitalCappedCoupon(underlying,
                                           strike, Position::Short, false, cashRate,
                                           nullstrike, Position::Short, false, nullstrike,
                                           replication);
-        std::shared_ptr<IborCouponPricer> pricer(new
-            BlackIborCouponPricer(volatility));
+        std::shared_ptr<IborCouponPricer> pricer =
+            std::make_shared<BlackIborCouponPricer>(volatility);
         digitalCappedCoupon.setPricer(pricer);
 
         // Check price vs its target
@@ -757,9 +752,8 @@ TEST_CASE("DigitalCoupon_CashOrNothingDeepOutTheMoney", "[DigitalCoupon]") {
 
     Volatility capletVolatility = 0.0001;
     RelinkableHandle<OptionletVolatilityStructure> volatility;
-    volatility.linkTo(std::shared_ptr<OptionletVolatilityStructure>(new
-        ConstantOptionletVolatility(vars.today, vars.calendar, Following,
-                                    capletVolatility, Actual360())));
+    volatility.linkTo(std::make_shared<ConstantOptionletVolatility>(vars.today, vars.calendar, Following,
+                                    capletVolatility, Actual360()));
 
     for (Size k = 0; k<10; k++) { // loop on start and end dates
         Date startDate = vars.calendar.advance(vars.settlement,(k+1)*Years);
@@ -767,15 +761,15 @@ TEST_CASE("DigitalCoupon_CashOrNothingDeepOutTheMoney", "[DigitalCoupon]") {
         Rate nullstrike = Null<Rate>();
         Rate cashRate = 0.01;
         Real gap = 1e-4;
-        std::shared_ptr<DigitalReplication> replication(new
-            DigitalReplication(Replication::Central, gap));
+        std::shared_ptr<DigitalReplication> replication =
+            std::make_shared<DigitalReplication>(Replication::Central, gap);
         Date paymentDate = endDate;
 
-        std::shared_ptr<FloatingRateCoupon> underlying(new
-            IborCoupon(paymentDate, vars.nominal,
+        std::shared_ptr<FloatingRateCoupon> underlying =
+            std::make_shared<IborCoupon>(paymentDate, vars.nominal,
                        startDate, endDate,
                        vars.fixingDays, vars.index,
-                       gearing, spread));
+                       gearing, spread);
         // Deep out-of-the-money Capped Digital Coupon
         Rate strike = 0.99;
         DigitalCoupon digitalCappedCoupon(underlying,
@@ -783,7 +777,7 @@ TEST_CASE("DigitalCoupon_CashOrNothingDeepOutTheMoney", "[DigitalCoupon]") {
                                           nullstrike, Position::Short, false, nullstrike,
                                           replication);
 
-        std::shared_ptr<IborCouponPricer> pricer(new BlackIborCouponPricer(volatility));
+        std::shared_ptr<IborCouponPricer> pricer = std::make_shared<BlackIborCouponPricer>(volatility);
         digitalCappedCoupon.setPricer(pricer);
 
         // Check price vs its target
@@ -870,15 +864,14 @@ TEST_CASE("DigitalCoupon_CallPutParity", "[DigitalCoupon]") {
     Real spread = 0.0;
 
     Real gap = 1e-04;
-    std::shared_ptr<DigitalReplication> replication(new
-        DigitalReplication(Replication::Central, gap));
+    std::shared_ptr<DigitalReplication> replication =
+        std::make_shared<DigitalReplication>(Replication::Central, gap);
 
     for (Size i = 0; i< LENGTH(vols); i++) {
             Volatility capletVolatility = vols[i];
             RelinkableHandle<OptionletVolatilityStructure> volatility;
-            volatility.linkTo(std::shared_ptr<OptionletVolatilityStructure>(new
-                ConstantOptionletVolatility(vars.today, vars.calendar, Following,
-                                            capletVolatility, Actual360())));
+            volatility.linkTo(std::make_shared<ConstantOptionletVolatility>(vars.today, vars.calendar, Following,
+                                            capletVolatility, Actual360()));
         for (Size j = 0; j< LENGTH(strikes); j++) {
             Rate strike = strikes[j];
             for (Size k = 0; k<10; k++) {
@@ -888,11 +881,11 @@ TEST_CASE("DigitalCoupon_CallPutParity", "[DigitalCoupon]") {
 
                 Date paymentDate = endDate;
 
-                std::shared_ptr<FloatingRateCoupon> underlying(new
-                    IborCoupon(paymentDate, vars.nominal,
+                std::shared_ptr<FloatingRateCoupon> underlying =
+                    std::make_shared<IborCoupon>(paymentDate, vars.nominal,
                                startDate, endDate,
                                vars.fixingDays, vars.index,
-                               gearing, spread));
+                               gearing, spread);
                 // Cash-or-Nothing
                 Rate cashRate = 0.01;
                 // Floating Rate Coupon + Call Digital option
@@ -900,8 +893,8 @@ TEST_CASE("DigitalCoupon_CallPutParity", "[DigitalCoupon]") {
                                           strike, Position::Long, false, cashRate,
                                           nullstrike, Position::Long, false, nullstrike,
                                           replication);
-                std::shared_ptr<IborCouponPricer> pricer(new
-                    BlackIborCouponPricer(volatility));
+                std::shared_ptr<IborCouponPricer> pricer =
+                    std::make_shared<BlackIborCouponPricer>(volatility);
                 cash_digitalCallCoupon.setPricer(pricer);
                 // Floating Rate Coupon - Put Digital option
                 DigitalCoupon cash_digitalPutCoupon(underlying,
@@ -973,19 +966,18 @@ TEST_CASE("DigitalCoupon_ReplicationType", "[DigitalCoupon]") {
     Real spread = 0.0;
 
     Real gap = 1e-04;
-    std::shared_ptr<DigitalReplication> subReplication(new
-        DigitalReplication(Replication::Sub, gap));
-    std::shared_ptr<DigitalReplication> centralReplication(new
-        DigitalReplication(Replication::Central, gap));
-    std::shared_ptr<DigitalReplication> superReplication(new
-        DigitalReplication(Replication::Super, gap));
+    std::shared_ptr<DigitalReplication> subReplication =
+        std::make_shared<DigitalReplication>(Replication::Sub, gap);
+    std::shared_ptr<DigitalReplication> centralReplication =
+        std::make_shared<DigitalReplication>(Replication::Central, gap);
+    std::shared_ptr<DigitalReplication> superReplication =
+        std::make_shared<DigitalReplication>(Replication::Super, gap);
 
     for (Size i = 0; i< LENGTH(vols); i++) {
         Volatility capletVolatility = vols[i];
         RelinkableHandle<OptionletVolatilityStructure> volatility;
-        volatility.linkTo(std::shared_ptr<OptionletVolatilityStructure>(new
-        ConstantOptionletVolatility(vars.today, vars.calendar, Following,
-                                    capletVolatility, Actual360())));
+        volatility.linkTo(std::make_shared<ConstantOptionletVolatility>(vars.today, vars.calendar, Following,
+                                    capletVolatility, Actual360()));
         for (Size j = 0; j< LENGTH(strikes); j++) {
             Rate strike = strikes[j];
             for (Size k = 0; k<10; k++) {
@@ -995,11 +987,11 @@ TEST_CASE("DigitalCoupon_ReplicationType", "[DigitalCoupon]") {
 
                 Date paymentDate = endDate;
 
-                std::shared_ptr<FloatingRateCoupon> underlying(new
-                    IborCoupon(paymentDate, vars.nominal,
+                std::shared_ptr<FloatingRateCoupon> underlying =
+                    std::make_shared<IborCoupon>(paymentDate, vars.nominal,
                                startDate, endDate,
                                vars.fixingDays, vars.index,
-                               gearing, spread));
+                               gearing, spread);
                 // Cash-or-Nothing
                 Rate cashRate = 0.005;
                 // Floating Rate Coupon + Call Digital option
@@ -1015,8 +1007,8 @@ TEST_CASE("DigitalCoupon_ReplicationType", "[DigitalCoupon]") {
                                           strike, Position::Long, false, cashRate,
                                           nullstrike, Position::Long, false, nullstrike,
                                           superReplication);
-                std::shared_ptr<IborCouponPricer> pricer(new
-                    BlackIborCouponPricer(volatility));
+                std::shared_ptr<IborCouponPricer> pricer =
+                    std::make_shared<BlackIborCouponPricer>(volatility);
                 sub_cash_longDigitalCallCoupon.setPricer(pricer);
                 central_cash_longDigitalCallCoupon.setPricer(pricer);
                 over_cash_longDigitalCallCoupon.setPricer(pricer);

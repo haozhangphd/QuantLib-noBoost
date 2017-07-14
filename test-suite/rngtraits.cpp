@@ -73,8 +73,7 @@ TEST_CASE("RngTraits_CustomPoisson", "[RngTraits]") {
     INFO("Testing custom Poisson pseudo-random number generation...");
 
     PoissonPseudoRandom::icInstance =
-        std::shared_ptr<InverseCumulativePoisson>(
-                                           new InverseCumulativePoisson(4.0));
+        std::make_shared<InverseCumulativePoisson>(4.0);
     PoissonPseudoRandom::rsg_type rsg =
         PoissonPseudoRandom::make_sequence_generator(100, 1234);
 

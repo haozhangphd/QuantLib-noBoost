@@ -93,8 +93,7 @@ namespace QuantLib {
         bcSet.emplace_back(controlBCs_);
 
         conditionSet.emplace_back(stepCondition_);
-        conditionSet.emplace_back(std::shared_ptr<StandardStepCondition>(
-                                                   new NullCondition<Array>));
+        conditionSet.emplace_back(std::make_shared<NullCondition<Array>>());
 
         model_type model(operatorSet, bcSet);
 

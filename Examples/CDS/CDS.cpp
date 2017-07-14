@@ -42,10 +42,10 @@ namespace QuantLib {
 }
 #endif
 
-int main(int, char* []) {
+int main(int, char *[]) {
 
     try {
-        std::chrono::time_point<std::chrono::steady_clock> startT =  std::chrono::steady_clock::now();
+        std::chrono::time_point<std::chrono::steady_clock> startT = std::chrono::steady_clock::now();
 
         std::cout << std::endl;
 
@@ -61,11 +61,10 @@ int main(int, char* []) {
         Settings::instance().evaluationDate() = todaysDate;
 
         // dummy curve
-        std::shared_ptr<Quote> flatRate(new SimpleQuote(0.01));
+        std::shared_ptr < Quote > flatRate = std::make_shared<SimpleQuote>(0.01);
         Handle<YieldTermStructure> tsCurve(
-              std::shared_ptr<FlatForward>(
-                      new FlatForward(todaysDate, Handle<Quote>(flatRate),
-                                      Actual365Fixed())));
+                std::make_shared<FlatForward>(todaysDate, Handle<Quote>(flatRate),
+                                                   Actual365Fixed()));
 
         /*
           In Lehmans Brothers "guide to exotic credit derivatives"
@@ -77,62 +76,59 @@ int main(int, char* []) {
 
         // market
         Real recovery_rate = 0.5;
-        Real quoted_spreads[] = { 0.0150, 0.0150, 0.0150, 0.0150 };
+        Real quoted_spreads[] = {0.0150, 0.0150, 0.0150, 0.0150};
         vector<Period> tenors;
-        tenors.emplace_back(3*Months);
-        tenors.emplace_back(6*Months);
-        tenors.emplace_back(1*Years);
-        tenors.emplace_back(2*Years);
+        tenors.emplace_back(3 * Months);
+        tenors.emplace_back(6 * Months);
+        tenors.emplace_back(1 * Years);
+        tenors.emplace_back(2 * Years);
         vector<Date> maturities;
-        for (Size i=0; i<4; i++) {
+        for (Size i = 0; i < 4; i++) {
             maturities.emplace_back(calendar.adjust(todaysDate + tenors[i],
-                                                 Following));
+                                                    Following));
         }
 
         std::vector<std::shared_ptr<DefaultProbabilityHelper> > instruments;
-        for (Size i=0; i<4; i++) {
-            instruments.emplace_back(std::shared_ptr<DefaultProbabilityHelper>(
-                new SpreadCdsHelper(
-                              Handle<Quote>(std::shared_ptr<Quote>(
-                                         new SimpleQuote(quoted_spreads[i]))),
-                              tenors[i],
-                              0,
-                              calendar,
-                              Quarterly,
-                              Following,
-                              DateGeneration::TwentiethIMM,
-                              Actual365Fixed(),
-                              recovery_rate,
-                              tsCurve)));
+        for (Size i = 0; i < 4; i++) {
+            instruments.emplace_back(std::make_shared<SpreadCdsHelper>(
+                    Handle<Quote>(std::make_shared<SimpleQuote>(quoted_spreads[i])),
+                    tenors[i],
+                    0,
+                    calendar,
+                    Quarterly,
+                    Following,
+                    DateGeneration::TwentiethIMM,
+                    Actual365Fixed(),
+                    recovery_rate,
+                    tsCurve));
         }
 
         // Bootstrap hazard rates
-        std::shared_ptr<PiecewiseDefaultCurve<HazardRate, BackwardFlat> >
-           hazardRateStructure(
-               new PiecewiseDefaultCurve<HazardRate, BackwardFlat>(
-                                                           todaysDate,
-                                                           instruments,
-                                                           Actual365Fixed()));
+        std::shared_ptr < PiecewiseDefaultCurve<HazardRate, BackwardFlat> > hazardRateStructure =
+                std::make_shared<PiecewiseDefaultCurve<HazardRate, BackwardFlat>>(
+                        todaysDate,
+                        instruments,
+                        Actual365Fixed());
         vector<pair<Date, Real> > hr_curve_data = hazardRateStructure->nodes();
 
-        cout << "Calibrated hazard rate values: " << endl ;
-        for (Size i=0; i<hr_curve_data.size(); i++) {
+        cout << "Calibrated hazard rate values: " << endl;
+        for (Size i = 0; i < hr_curve_data.size(); i++) {
             cout << "hazard rate on " << hr_curve_data[i].first << " is "
                  << hr_curve_data[i].second << endl;
         }
         cout << endl;
 
-        cout << "Some survival probability values: " << endl ;
+        cout << "Some survival probability values: " << endl;
         cout << "1Y survival probability: "
              << io::percent(hazardRateStructure->survivalProbability(
-                                                        todaysDate + 1*Years))
+                     todaysDate + 1 * Years))
              << endl
              << "               expected: "
              << io::percent(0.9704)
              << endl;
         cout << "2Y survival probability: "
              << io::percent(hazardRateStructure->survivalProbability(
-                                                        todaysDate + 2*Years))
+                     todaysDate + 2 * Years))
              << endl
              << "               expected: "
              << io::percent(0.9418)
@@ -143,15 +139,15 @@ int main(int, char* []) {
         // reprice instruments
         Real nominal = 1000000.0;
         Handle<DefaultProbabilityTermStructure> probability(hazardRateStructure);
-        std::shared_ptr<PricingEngine> engine(
-                  new MidPointCdsEngine(probability, recovery_rate, tsCurve));
+        std::shared_ptr < PricingEngine > engine =
+                std::make_shared<MidPointCdsEngine>(probability, recovery_rate, tsCurve);
 
         Schedule cdsSchedule =
-            MakeSchedule().from(todaysDate).to(maturities[0])
-                          .withFrequency(Quarterly)
-                          .withCalendar(calendar)
-                          .withTerminationDateConvention(Unadjusted)
-                          .withRule(DateGeneration::TwentiethIMM);
+                MakeSchedule().from(todaysDate).to(maturities[0])
+                        .withFrequency(Quarterly)
+                        .withCalendar(calendar)
+                        .withTerminationDateConvention(Unadjusted)
+                        .withRule(DateGeneration::TwentiethIMM);
         CreditDefaultSwap cds_3m(Protection::Seller,
                                  nominal,
                                  quoted_spreads[0],
@@ -160,11 +156,11 @@ int main(int, char* []) {
                                  Actual365Fixed());
 
         cdsSchedule =
-            MakeSchedule().from(todaysDate).to(maturities[1])
-                          .withFrequency(Quarterly)
-                          .withCalendar(calendar)
-                          .withTerminationDateConvention(Unadjusted)
-                          .withRule(DateGeneration::TwentiethIMM);
+                MakeSchedule().from(todaysDate).to(maturities[1])
+                        .withFrequency(Quarterly)
+                        .withCalendar(calendar)
+                        .withTerminationDateConvention(Unadjusted)
+                        .withRule(DateGeneration::TwentiethIMM);
         CreditDefaultSwap cds_6m(Protection::Seller,
                                  nominal,
                                  quoted_spreads[1],
@@ -173,11 +169,11 @@ int main(int, char* []) {
                                  Actual365Fixed());
 
         cdsSchedule =
-            MakeSchedule().from(todaysDate).to(maturities[2])
-                          .withFrequency(Quarterly)
-                          .withCalendar(calendar)
-                          .withTerminationDateConvention(Unadjusted)
-                          .withRule(DateGeneration::TwentiethIMM);
+                MakeSchedule().from(todaysDate).to(maturities[2])
+                        .withFrequency(Quarterly)
+                        .withCalendar(calendar)
+                        .withTerminationDateConvention(Unadjusted)
+                        .withRule(DateGeneration::TwentiethIMM);
         CreditDefaultSwap cds_1y(Protection::Seller,
                                  nominal,
                                  quoted_spreads[2],
@@ -186,11 +182,11 @@ int main(int, char* []) {
                                  Actual365Fixed());
 
         cdsSchedule =
-            MakeSchedule().from(todaysDate).to(maturities[3])
-                          .withFrequency(Quarterly)
-                          .withCalendar(calendar)
-                          .withTerminationDateConvention(Unadjusted)
-                          .withRule(DateGeneration::TwentiethIMM);
+                MakeSchedule().from(todaysDate).to(maturities[3])
+                        .withFrequency(Quarterly)
+                        .withCalendar(calendar)
+                        .withTerminationDateConvention(Unadjusted)
+                        .withRule(DateGeneration::TwentiethIMM);
         CreditDefaultSwap cds_2y(Protection::Seller,
                                  nominal,
                                  quoted_spreads[3],
@@ -230,12 +226,12 @@ int main(int, char* []) {
 
         cout << endl << endl;
 
-	std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
+        std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
         double seconds = static_cast<double>((endT - startT).count()) / 1.0e9;
 
-        Integer hours = Integer(seconds/3600);
+        Integer hours = Integer(seconds / 3600);
         seconds -= hours * 3600;
-        Integer minutes = Integer(seconds/60);
+        Integer minutes = Integer(seconds / 60);
         seconds -= minutes * 60;
         cout << "Run completed in ";
         if (hours > 0)
@@ -246,7 +242,7 @@ int main(int, char* []) {
              << seconds << " s" << endl;
 
         return 0;
-    } catch (exception& e) {
+    } catch (exception &e) {
         cerr << e.what() << endl;
         return 1;
     } catch (...) {

@@ -182,15 +182,14 @@ namespace QuantLib {
         QL_REQUIRE(!exercise->payoffAtExpiry(),
                    "payoff at expiry not handled");
 
-        std::shared_ptr<AmericanPathPricer> earlyExercisePathPricer(
-            new AmericanPathPricer(this->arguments_.payoff,
-                                   polynomOrder_, polynomType_));
+        std::shared_ptr<AmericanPathPricer> earlyExercisePathPricer =
+            std::make_shared<AmericanPathPricer>(this->arguments_.payoff,
+                                   polynomOrder_, polynomType_);
 
-        return std::shared_ptr<LongstaffSchwartzPathPricer<Path> > (
-             new LongstaffSchwartzPathPricer<Path>(
+        return std::make_shared<LongstaffSchwartzPathPricer<Path>>(
                                       this->timeGrid(),
                                       earlyExercisePathPricer,
-                                      *(process->riskFreeRate())));
+                                      *(process->riskFreeRate()));
     }
 
     template <class RNG, class S, class RNG_Calibration>
@@ -206,12 +205,10 @@ namespace QuantLib {
                                                               this->process_);
         QL_REQUIRE(process, "generalized Black-Scholes process required");
 
-        return std::shared_ptr<PathPricer<Path> >(
-            new EuropeanPathPricer(
+        return std::make_shared<EuropeanPathPricer>(
                 payoff->optionType(),
                 payoff->strike(),
-                process->riskFreeRate()->discount(this->timeGrid().back()))
-            );
+                process->riskFreeRate()->discount(this->timeGrid().back()));
     }
 
     template <class RNG, class S, class RNG_Calibration>
@@ -222,8 +219,7 @@ namespace QuantLib {
                                                               this->process_);
         QL_REQUIRE(process, "generalized Black-Scholes process required");
 
-        return std::shared_ptr<PricingEngine>(
-                                         new AnalyticEuropeanEngine(process));
+        return std::make_shared<AnalyticEuropeanEngine>(process);
     }
 
     template <class RNG, class S, class RNG_Calibration>
@@ -239,8 +235,7 @@ namespace QuantLib {
         VanillaOption::arguments* controlArguments =
             dynamic_cast<VanillaOption::arguments*>(controlPE->getArguments());
         *controlArguments = this->arguments_;
-        controlArguments->exercise = std::shared_ptr<Exercise>(
-             new EuropeanExercise(this->arguments_.exercise->lastDate()));
+        controlArguments->exercise = std::make_shared<EuropeanExercise>(this->arguments_.exercise->lastDate());
 
         controlPE->calculate();
 
@@ -374,8 +369,7 @@ namespace QuantLib {
                    "number of steps not given");
         QL_REQUIRE(steps_ == Null<Size>() || stepsPerYear_ == Null<Size>(),
                    "number of steps overspecified");
-        return std::shared_ptr<PricingEngine>(new
-           MCAmericanEngine<RNG, S, RNG_Calibration>(process_,
+        return std::make_shared<MCAmericanEngine<RNG, S, RNG_Calibration>>(process_,
                                      steps_,
                                      stepsPerYear_,
                                      antithetic_,
@@ -387,7 +381,7 @@ namespace QuantLib {
                                      polynomType_,
                                      calibrationSamples_,
                                      antitheticCalibration_,
-                                     seedCalibration_));
+                                     seedCalibration_);
     }
 
 }

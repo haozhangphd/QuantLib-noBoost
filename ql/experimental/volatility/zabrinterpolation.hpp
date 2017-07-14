@@ -149,15 +149,15 @@ namespace QuantLib {
                 std::shared_ptr < OptimizationMethod > (),
                 const Real errorAccept = 0.0020, const bool useMaxError = false,
                 const Size maxGuesses = 50) {
-            impl_ = std::shared_ptr <
-                    Interpolation::Impl > (new detail::XABRInterpolationImpl<
+            impl_ = std::make_shared<
+                    detail::XABRInterpolationImpl<
                     I1, I2,
                     detail::ZabrSpecs<Evaluation> >(
                     xBegin, xEnd, yBegin, t, forward,
                     std::vector<Real>{alpha, beta, nu, rho, gamma},
                     std::vector<bool>{alphaIsFixed, betaIsFixed, nuIsFixed, rhoIsFixed, gammaIsFixed},
                     vegaWeighted, endCriteria, optMethod, errorAccept, useMaxError,
-                    maxGuesses));
+                    maxGuesses);
             coeffs_ = std::dynamic_pointer_cast<detail::XABRCoeffHolder<
                     detail::ZabrSpecs<Evaluation> > >(impl_);
         }

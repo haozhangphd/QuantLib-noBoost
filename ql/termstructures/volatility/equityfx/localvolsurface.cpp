@@ -68,7 +68,7 @@ namespace QuantLib {
     : LocalVolTermStructure(blackTS->businessDayConvention(),
                             blackTS->dayCounter()),
       blackTS_(blackTS), riskFreeTS_(riskFreeTS), dividendTS_(dividendTS),
-      underlying_(std::shared_ptr<Quote>(new SimpleQuote(underlying))) {
+      underlying_(std::make_shared<SimpleQuote>(underlying)) {
         registerWith(blackTS_);
         registerWith(riskFreeTS_);
         registerWith(dividendTS_);

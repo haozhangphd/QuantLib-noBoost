@@ -97,7 +97,7 @@ namespace QuantLib {
             resetSteps_(resetSteps == 0 ? QL_MAX_INTEGER : resetSteps), localOptimizer_(localOptimizer),
             optimizeScheme_(localOptimizer ? optimizeScheme : NoLocalOptimize) {
             if (!localOptimizer)
-                localOptimizer.reset(new LevenbergMarquardt);
+                localOptimizer = std::make_shared<LevenbergMarquardt>();
         }
 
         EndCriteria::Type minimize(Problem &P, const EndCriteria &endCriteria);

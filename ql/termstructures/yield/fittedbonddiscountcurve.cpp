@@ -143,7 +143,7 @@ namespace QuantLib {
         Frequency yieldFreq = Annual;
 
         Size n = curve_->bondHelpers_.size();
-        costFunction_ = shared_ptr<FittingCost>(new FittingCost(this));
+        costFunction_ = std::make_shared<FittingCost>(this);
         costFunction_->firstCashFlow_.resize(n);
 
         for (Size i=0; i<curve_->bondHelpers_.size(); ++i) {
@@ -198,24 +198,24 @@ namespace QuantLib {
             x = curve_->guessSolution_;
         }
 
-		if(curve_->maxEvaluations_ == 0)
-		{
-			//Don't calculate, simply use given parameters to provide a fitted curve.
-			//This turns the fittedbonddiscountcurve into an evaluator of the parametric
-			//curve, for example allowing to use the parameters for a credit spread curve
-			//calculated with bonds in one currency to be coupled to a discount curve in 
-			//another currency. 
-			return;
-		}
-		
+        if(curve_->maxEvaluations_ == 0)
+        {
+            //Don't calculate, simply use given parameters to provide a fitted curve.
+            //This turns the fittedbonddiscountcurve into an evaluator of the parametric
+            //curve, for example allowing to use the parameters for a credit spread curve
+            //calculated with bonds in one currency to be coupled to a discount curve in
+            //another currency.
+            return;
+        }
+
         //workaround for backwards compatibility
         std::shared_ptr<OptimizationMethod> optimization = optimizationMethod_;
         if(!optimization){
-		    optimization = std::make_shared<Simplex>(curve_->simplexLambda_);
-		}
-		Problem problem(costFunction, constraint, x);
+            optimization = std::make_shared<Simplex>(curve_->simplexLambda_);
+        }
+        Problem problem(costFunction, constraint, x);
 
-		Real rootEpsilon = curve_->accuracy_;
+        Real rootEpsilon = curve_->accuracy_;
         Real functionEpsilon =  curve_->accuracy_;
         Real gradientNormEpsilon = curve_->accuracy_;
 
@@ -244,8 +244,8 @@ namespace QuantLib {
     Real FittedBondDiscountCurve::FittingMethod::FittingCost::value(
                                                        const Array& x) const {
         Real squaredError = 0.0;
-		Array vals = values(x);
-		for (Size i = 0; i<vals.size(); ++i) {
+        Array vals = values(x);
+        for (Size i = 0; i<vals.size(); ++i) {
             squaredError += vals[i];
         }
         return squaredError;

@@ -99,15 +99,14 @@ namespace QuantLib {
 
         Real nominal = 1000000.0;   // has to be something but doesn't matter what
         Date start = z->nominalTermStructure()->referenceDate();
-        zciis_.reset(new ZeroCouponInflationSwap(
+        zciis_ = std::make_shared<ZeroCouponInflationSwap>(
                                 ZeroCouponInflationSwap::Payer,
                                 nominal, start, maturity_,
                                 calendar_, paymentConvention_, dayCounter_, K, // fixed side & fixed rate
-                                new_zii, swapObsLag_));
+                                new_zii, swapObsLag_);
         // Because very simple instrument only takes
         // standard discounting swap engine.
-        zciis_->setPricingEngine(std::shared_ptr<PricingEngine>(
-                new DiscountingSwapEngine(z->nominalTermStructure())));
+        zciis_->setPricingEngine(std::make_shared<DiscountingSwapEngine>(z->nominalTermStructure()));
     }
 
 
@@ -196,7 +195,7 @@ namespace QuantLib {
         Rate fixedRate = quote()->value();
 
         Real nominal = 1000000.0;   // has to be something but doesn't matter what
-        yyiis_.reset(new YearOnYearInflationSwap(YearOnYearInflationSwap::Payer,
+        yyiis_ = std::make_shared<YearOnYearInflationSwap>(YearOnYearInflationSwap::Payer,
                                                     nominal,
                                                     fixedSchedule,
                                                     fixedRate,
@@ -207,13 +206,12 @@ namespace QuantLib {
                                                     spread,
                                                     dayCounter_,
                                                     calendar_,  // inflation index does not have a calendar
-                                                    paymentConvention_));
+                                                    paymentConvention_);
 
 
         // Because very simple instrument only takes
         // standard discounting swap engine.
-        yyiis_->setPricingEngine(std::shared_ptr<PricingEngine>(
-                    new DiscountingSwapEngine(y->nominalTermStructure())));
+        yyiis_->setPricingEngine(std::make_shared<DiscountingSwapEngine>(y->nominalTermStructure()));
     }
 
 }

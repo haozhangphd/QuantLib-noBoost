@@ -114,10 +114,9 @@ namespace QuantLib {
                   const Date& refPeriodEnd = Date(),
                   const DayCounter& dayCounter = DayCounter(),
                   bool isInArrears = false)
-        : CappedFlooredCoupon(std::shared_ptr<FloatingRateCoupon>(new
-            IborCoupon(paymentDate, nominal, startDate, endDate, fixingDays,
+        : CappedFlooredCoupon(std::make_shared<IborCoupon>(paymentDate, nominal, startDate, endDate, fixingDays,
                        index, gearing, spread, refPeriodStart, refPeriodEnd,
-                       dayCounter, isInArrears)), cap, floor) {}
+                       dayCounter, isInArrears), cap, floor) {}
 
         virtual void accept(AcyclicVisitor& v) {
             Visitor<CappedFlooredIborCoupon>* v1 =
@@ -146,10 +145,9 @@ namespace QuantLib {
                   const Date& refPeriodEnd = Date(),
                   const DayCounter& dayCounter = DayCounter(),
                   bool isInArrears = false)
-        : CappedFlooredCoupon(std::shared_ptr<FloatingRateCoupon>(new
-            CmsCoupon(paymentDate, nominal, startDate, endDate, fixingDays,
+        : CappedFlooredCoupon(std::make_shared<CmsCoupon>(paymentDate, nominal, startDate, endDate, fixingDays,
                       index, gearing, spread, refPeriodStart, refPeriodEnd,
-                      dayCounter, isInArrears)), cap, floor) {}
+                      dayCounter, isInArrears), cap, floor) {}
 
         virtual void accept(AcyclicVisitor& v) {
             Visitor<CappedFlooredCmsCoupon>* v1 =

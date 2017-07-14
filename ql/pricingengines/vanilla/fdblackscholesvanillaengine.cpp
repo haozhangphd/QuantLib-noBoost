@@ -52,18 +52,18 @@ namespace QuantLib {
             std::dynamic_pointer_cast<StrikedTypePayoff>(arguments_.payoff);
 
         const Time maturity = process_->time(arguments_.exercise->lastDate());
-        const std::shared_ptr<Fdm1dMesher> equityMesher(
-            new FdmBlackScholesMesher(
+        const std::shared_ptr<Fdm1dMesher> equityMesher =
+            std::make_shared<FdmBlackScholesMesher>(
                     xGrid_, process_, maturity, payoff->strike(), 
                     Null<Real>(), Null<Real>(), 0.0001, 1.5, 
-                    std::pair<Real, Real>(payoff->strike(), 0.1)));
+                    std::pair<Real, Real>(payoff->strike(), 0.1));
         
-        const std::shared_ptr<FdmMesher> mesher (
-            new FdmMesherComposite(equityMesher));
+        const std::shared_ptr<FdmMesher> mesher =
+            std::make_shared<FdmMesherComposite>(equityMesher);
         
         // 2. Calculator
-        const std::shared_ptr<FdmInnerValueCalculator> calculator(
-                                      new FdmLogInnerValue(payoff, mesher, 0));
+        const std::shared_ptr<FdmInnerValueCalculator> calculator =
+                                      std::make_shared<FdmLogInnerValue>(payoff, mesher, 0);
 
         // 3. Step conditions
         const std::shared_ptr<FdmStepConditionComposite> conditions =
@@ -80,11 +80,11 @@ namespace QuantLib {
         FdmSolverDesc solverDesc = { mesher, boundaries, conditions, calculator,
                                      maturity, tGrid_, dampingSteps_ };
 
-        const std::shared_ptr<FdmBlackScholesSolver> solver(
-                new FdmBlackScholesSolver(
+        const std::shared_ptr<FdmBlackScholesSolver> solver =
+                std::make_shared<FdmBlackScholesSolver>(
                              Handle<GeneralizedBlackScholesProcess>(process_),
                              payoff->strike(), solverDesc, schemeDesc_,
-                             localVol_, illegalLocalVolOverwrite_));
+                             localVol_, illegalLocalVolOverwrite_);
 
         const Real spot = process_->x0();
         results_.value = solver->valueAt(spot);

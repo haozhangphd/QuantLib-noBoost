@@ -64,15 +64,15 @@ namespace QuantLib {
 
     template <class T>
     ObservableValue<T>::ObservableValue()
-    : value_(), observable_(new Observable) {}
+    : value_(), observable_(std::make_shared<Observable>()) {}
 
     template <class T>
     ObservableValue<T>::ObservableValue(const T& t)
-    : value_(t), observable_(new Observable) {}
+    : value_(t), observable_(std::make_shared<Observable>()) {}
 
     template <class T>
     ObservableValue<T>::ObservableValue(const ObservableValue<T>& t)
-    : value_(t.value_), observable_(new Observable) {}
+    : value_(t.value_), observable_(std::make_shared<Observable>()) {}
 
     template <class T>
     ObservableValue<T>& ObservableValue<T>::operator=(const T& t) {

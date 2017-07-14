@@ -44,12 +44,11 @@ namespace QuantLib {
     }
 
     void FdmBlackScholesSolver::performCalculations() const {
-        const std::shared_ptr<FdmBlackScholesOp> op(new FdmBlackScholesOp(
-                solverDesc_.mesher, process_.currentLink(), strike_,
-                localVol_, illegalLocalVolOverwrite_));
+        const std::shared_ptr<FdmBlackScholesOp> op = std::make_shared<FdmBlackScholesOp>(
+                                                      solverDesc_.mesher, process_.currentLink(), strike_,
+                                                      localVol_, illegalLocalVolOverwrite_);
 
-        solver_ = std::shared_ptr<Fdm1DimSolver>(
-            new Fdm1DimSolver(solverDesc_, schemeDesc_, op));
+        solver_ = std::make_shared<Fdm1DimSolver>(solverDesc_, schemeDesc_, op);
     }
 
     Real FdmBlackScholesSolver::valueAt(Real s) const {

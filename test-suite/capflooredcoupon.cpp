@@ -67,7 +67,7 @@ namespace {
             nominal = 100.;
             nominals = std::vector<Real>(length,nominal);
             frequency = Annual;
-            index = std::shared_ptr<IborIndex>(new Euribor1Y(termStructure));
+            index = std::make_shared<Euribor1Y>(termStructure);
             calendar = index->fixingCalendar();
             convention = ModifiedFollowing;
             today = calendar.adjust(Date::todaysDate());
@@ -128,12 +128,11 @@ namespace {
                               convention,convention,
                               DateGeneration::Forward,false);
             Handle<OptionletVolatilityStructure> vol(
-                std::shared_ptr<OptionletVolatilityStructure>(new
-                    ConstantOptionletVolatility(0, calendar, Following,
-                                                volatility,Actual365Fixed())));
+                std::make_shared<ConstantOptionletVolatility>(0, calendar, Following,
+                                                volatility,Actual365Fixed()));
 
-            std::shared_ptr<IborCouponPricer> pricer(new
-                BlackIborCouponPricer(vol));
+            std::shared_ptr<IborCouponPricer> pricer =
+                std::make_shared<BlackIborCouponPricer>(vol);
             std::vector<Rate> gearingVector(length, gearing);
             std::vector<Spread> spreadVector(length, spread);
 
@@ -151,10 +150,8 @@ namespace {
         }
 
         std::shared_ptr<PricingEngine> makeEngine(Volatility volatility) {
-            Handle<Quote> vol(std::shared_ptr<Quote>(
-                                                new SimpleQuote(volatility)));
-            return std::shared_ptr<PricingEngine>(
-                                 new BlackCapFloorEngine(termStructure, vol));
+            Handle<Quote> vol(std::make_shared<SimpleQuote>(volatility));
+            return std::make_shared<BlackCapFloorEngine>(termStructure, vol);
         }
 
         std::shared_ptr<CapFloor> makeCapFloor(CapFloor::Type type,
@@ -165,18 +162,15 @@ namespace {
             std::shared_ptr<CapFloor> result;
             switch (type) {
               case CapFloor::Cap:
-                result = std::shared_ptr<CapFloor>(
-                               new Cap(leg, std::vector<Rate>(1, capStrike)));
+                result = std::make_shared<Cap>(leg, std::vector<Rate>(1, capStrike));
                 break;
               case CapFloor::Floor:
-                result = std::shared_ptr<CapFloor>(
-                           new Floor(leg, std::vector<Rate>(1, floorStrike)));
+                result = std::make_shared<Floor>(leg, std::vector<Rate>(1, floorStrike));
                 break;
               case CapFloor::Collar:
-                result = std::shared_ptr<CapFloor>(
-                               new Collar(leg,
+                result = std::make_shared<Collar>(leg,
                                           std::vector<Rate>(1, capStrike),
-                                          std::vector<Rate>(1, floorStrike)));
+                                          std::vector<Rate>(1, floorStrike));
                 break;
               default:
                 QL_FAIL("unknown cap/floor type");
@@ -213,8 +207,8 @@ TEST_CASE("CapFlooredCoupon_LargeRates", "[CapFlooredCoupon]") {
         vars.makeCapFlooredLeg(vars.startDate,vars.length,
                                caps,floors,vars.volatility);
 
-    std::shared_ptr<PricingEngine> engine(
-                               new DiscountingSwapEngine(vars.termStructure));
+    std::shared_ptr<PricingEngine> engine =
+                               std::make_shared<DiscountingSwapEngine>(vars.termStructure);
     Swap vanillaLeg(fixedLeg,floatLeg);
     Swap collarLeg(fixedLeg,collaredLeg);
     vanillaLeg.setPricingEngine(engine);
@@ -271,8 +265,8 @@ TEST_CASE("CapFlooredCoupon_Decomposition", "[CapFlooredCoupon]") {
     // Swap with null fixed leg and floating leg with negative gearing and spread<>0
     Swap vanillaLeg_n(fixedLeg,floatLeg_n);
 
-    std::shared_ptr<PricingEngine> engine(
-                               new DiscountingSwapEngine(vars.termStructure));
+    std::shared_ptr<PricingEngine> engine =
+                               std::make_shared<DiscountingSwapEngine>(vars.termStructure);
     vanillaLeg.setPricingEngine(engine);
     vanillaLeg_p.setPricingEngine(engine);
     vanillaLeg_n.setPricingEngine(engine);

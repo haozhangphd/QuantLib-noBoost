@@ -77,8 +77,7 @@ namespace QuantLib {
         conditions.emplace_back(c2);
         conditions.emplace_back(c1);
 
-        return std::shared_ptr<FdmStepConditionComposite>(
-            new FdmStepConditionComposite(stoppingTimes, conditions));
+        return std::make_shared<FdmStepConditionComposite>(stoppingTimes, conditions);
     }
 
     std::shared_ptr<FdmStepConditionComposite> 
@@ -94,9 +93,9 @@ namespace QuantLib {
         std::list<std::shared_ptr<StepCondition<Array> > > stepConditions;
 
         if(!cashFlow.empty()) {
-            std::shared_ptr<FdmDividendHandler> dividendCondition(
-                new FdmDividendHandler(cashFlow, mesher,
-                                       refDate, dayCounter, 0));
+            std::shared_ptr<FdmDividendHandler> dividendCondition = 
+                std::make_shared<FdmDividendHandler>(cashFlow, mesher,
+                                                     refDate, dayCounter, 0);
             stepConditions.emplace_back(dividendCondition);
             stoppingTimes.emplace_back(dividendCondition->dividendTimes());
         }
@@ -106,20 +105,18 @@ namespace QuantLib {
                    || exercise->type() == Exercise::Bermudan,
                    "exercise type is not supported");
         if (exercise->type() == Exercise::American) {
-            stepConditions.emplace_back(std::shared_ptr<StepCondition<Array> >(
-                          new FdmAmericanStepCondition(mesher,calculator)));
+            stepConditions.emplace_back(std::make_shared<FdmAmericanStepCondition>(mesher,calculator));
         }
         else if (exercise->type() == Exercise::Bermudan) {
-            std::shared_ptr<FdmBermudanStepCondition> bermudanCondition(
-                new FdmBermudanStepCondition(exercise->dates(),
-                                             refDate, dayCounter,
-                                             mesher, calculator));
+            std::shared_ptr<FdmBermudanStepCondition> bermudanCondition =
+                std::make_shared<FdmBermudanStepCondition>(exercise->dates(),
+                                                           refDate, dayCounter,
+                                                           mesher, calculator);
             stepConditions.emplace_back(bermudanCondition);
             stoppingTimes.emplace_back(bermudanCondition->exerciseTimes());
         }
         
-        return std::shared_ptr<FdmStepConditionComposite>(
-            new FdmStepConditionComposite(stoppingTimes, stepConditions));
+        return std::make_shared<FdmStepConditionComposite>(stoppingTimes, stepConditions);
 
     }
 

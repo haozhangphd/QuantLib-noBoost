@@ -32,8 +32,8 @@ namespace QuantLib {
     class GenericRegion : public Region {
       public:
         GenericRegion() {
-            static std::shared_ptr<Data> GENERICdata(
-                                               new Data("Generic","GENERIC"));
+            static std::shared_ptr<Data> GENERICdata =
+                          std::make_shared<Data>("Generic","GENERIC");
             data_ = GENERICdata;
         }
     };

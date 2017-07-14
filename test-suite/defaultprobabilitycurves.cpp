@@ -44,7 +44,7 @@ TEST_CASE("DefaultProbabilityCurve_DefaultProbability", "[DefaultProbabilityCurv
 
     Real hazardRate = 0.0100;
     Handle<Quote> hazardRateQuote = Handle<Quote>(
-                std::shared_ptr<Quote>(new SimpleQuote(hazardRate)));
+                std::make_shared<SimpleQuote>(hazardRate));
     DayCounter dayCounter = Actual360();
     Calendar calendar = TARGET();
     Size n = 20;
@@ -108,7 +108,7 @@ TEST_CASE("DefaultProbabilityCurve_FlatHazardRate", "[DefaultProbabilityCurve]")
 
     Real hazardRate = 0.0100;
     Handle<Quote> hazardRateQuote = Handle<Quote>(
-                std::shared_ptr<Quote>(new SimpleQuote(hazardRate)));
+                std::make_shared<SimpleQuote>(hazardRate));
     DayCounter dayCounter = Actual360();
     Calendar calendar = TARGET();
     Size n = 20;
@@ -166,25 +166,22 @@ namespace {
         Real recoveryRate = 0.4;
 
         RelinkableHandle<YieldTermStructure> discountCurve;
-        discountCurve.linkTo(std::shared_ptr<YieldTermStructure>(
-                                    new FlatForward(today,0.06,Actual360())));
+        discountCurve.linkTo(std::make_shared<FlatForward>(today,0.06,Actual360()));
 
         std::vector<std::shared_ptr<DefaultProbabilityHelper> > helpers;
 
         for(Size i=0; i<n.size(); i++)
             helpers.emplace_back(
-                std::shared_ptr<DefaultProbabilityHelper>(
-                    new SpreadCdsHelper(quote[i], Period(n[i], Years),
+                std::make_shared<SpreadCdsHelper>(quote[i], Period(n[i], Years),
                                         settlementDays, calendar,
                                         frequency, convention, rule,
                                         dayCounter, recoveryRate,
-                                        discountCurve)));
+                                        discountCurve));
 
         RelinkableHandle<DefaultProbabilityTermStructure> piecewiseCurve;
         piecewiseCurve.linkTo(
-            std::shared_ptr<DefaultProbabilityTermStructure>(
-                new PiecewiseDefaultCurve<T,I>(today, helpers,
-                                               Thirty360())));
+            std::make_shared<PiecewiseDefaultCurve<T,I>>(today, helpers,
+                                               Thirty360()));
 
         Real notional = 1.0;
         double tolerance = 1.0e-6;
@@ -204,9 +201,8 @@ namespace {
             CreditDefaultSwap cds(Protection::Buyer, notional, quote[i],
                                   schedule, convention, dayCounter,
                                   true, true, protectionStart);
-            cds.setPricingEngine(std::shared_ptr<PricingEngine>(
-                           new MidPointCdsEngine(piecewiseCurve, recoveryRate,
-                                                 discountCurve)));
+            cds.setPricingEngine(std::make_shared<MidPointCdsEngine>(piecewiseCurve, recoveryRate,
+                                                 discountCurve));
 
             // test
             Rate inputRate = quote[i];
@@ -251,26 +247,23 @@ namespace {
         Real recoveryRate = 0.4;
 
         RelinkableHandle<YieldTermStructure> discountCurve;
-        discountCurve.linkTo(std::shared_ptr<YieldTermStructure>(
-                                    new FlatForward(today,0.06,Actual360())));
+        discountCurve.linkTo(std::make_shared<FlatForward>(today,0.06,Actual360()));
 
         std::vector<std::shared_ptr<DefaultProbabilityHelper> > helpers;
 
         for(Size i=0; i<n.size(); i++)
             helpers.emplace_back(
-                std::shared_ptr<DefaultProbabilityHelper>(
-                    new UpfrontCdsHelper(quote[i], fixedRate,
+                std::make_shared<UpfrontCdsHelper>(quote[i], fixedRate,
                                          Period(n[i], Years),
                                          settlementDays, calendar,
                                          frequency, convention, rule,
                                          dayCounter, recoveryRate,
-                                         discountCurve)));
+                                         discountCurve));
 
         RelinkableHandle<DefaultProbabilityTermStructure> piecewiseCurve;
         piecewiseCurve.linkTo(
-            std::shared_ptr<DefaultProbabilityTermStructure>(
-                new PiecewiseDefaultCurve<T,I>(today, helpers,
-                                               Thirty360())));
+            std::make_shared<PiecewiseDefaultCurve<T,I>>(today, helpers,
+                                               Thirty360()));
 
         Real notional = 1.0;
         double tolerance = 1.0e-6;
@@ -291,9 +284,8 @@ namespace {
                                   quote[i], fixedRate,
                                   schedule, convention, dayCounter,
                                   true, true, protectionStart);
-            cds.setPricingEngine(std::shared_ptr<PricingEngine>(
-                           new MidPointCdsEngine(piecewiseCurve, recoveryRate,
-                                                 discountCurve, true)));
+            cds.setPricingEngine(std::make_shared<MidPointCdsEngine>(piecewiseCurve, recoveryRate,
+                                                 discountCurve, true));
 
             // test
             Rate inputUpfront = quote[i];
@@ -353,17 +345,15 @@ TEST_CASE("DefaultProbabilityCurve_SingleInstrumentBootstrap", "[DefaultProbabil
     Real recoveryRate = 0.4;
 
     RelinkableHandle<YieldTermStructure> discountCurve;
-    discountCurve.linkTo(std::shared_ptr<YieldTermStructure>(
-                                    new FlatForward(today,0.06,Actual360())));
+    discountCurve.linkTo(std::make_shared<FlatForward>(today,0.06,Actual360()));
 
     std::vector<std::shared_ptr<DefaultProbabilityHelper> > helpers(1);
 
-    helpers[0] = std::shared_ptr<DefaultProbabilityHelper>(
-                        new SpreadCdsHelper(quote, tenor,
+    helpers[0] = std::make_shared<SpreadCdsHelper>(quote, tenor,
                                             settlementDays, calendar,
                                             frequency, convention, rule,
                                             dayCounter, recoveryRate,
-                                            discountCurve));
+                                            discountCurve);
 
     PiecewiseDefaultCurve<HazardRate,BackwardFlat> defaultCurve(today, helpers,
                                                                 dayCounter);

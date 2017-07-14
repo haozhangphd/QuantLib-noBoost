@@ -46,7 +46,7 @@ namespace QuantLib {
 
         QL_REQUIRE(!isExpired(), "option expired");
 
-        std::shared_ptr<SimpleQuote> volQuote(new SimpleQuote);
+        std::shared_ptr<SimpleQuote> volQuote = std::make_shared<SimpleQuote>();
 
         std::shared_ptr<GeneralizedBlackScholesProcess> newProcess =
             detail::ImpliedVolatilityHelper::clone(process, volQuote);
@@ -55,13 +55,13 @@ namespace QuantLib {
         std::unique_ptr<PricingEngine> engine;
         switch (exercise_->type()) {
           case Exercise::European:
-            engine.reset(new AnalyticEuropeanEngine(newProcess));
+            engine = std::make_unique<AnalyticEuropeanEngine>(newProcess);
             break;
           case Exercise::American:
-            engine.reset(new FDAmericanEngine<CrankNicolson>(newProcess));
+            engine = std::make_unique<FDAmericanEngine<CrankNicolson>>(newProcess);
             break;
           case Exercise::Bermudan:
-            engine.reset(new FDBermudanEngine<CrankNicolson>(newProcess));
+            engine = std::make_unique<FDBermudanEngine<CrankNicolson>>(newProcess);
             break;
           default:
             QL_FAIL("unknown exercise type");

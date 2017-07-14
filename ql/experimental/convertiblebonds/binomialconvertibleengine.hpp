@@ -91,16 +91,13 @@ namespace QuantLib {
                    "negative value after subtracting dividends");
 
         // binomial trees with constant coefficient
-        Handle<Quote> underlying(std::shared_ptr<Quote>(new SimpleQuote(s0)));
+        Handle<Quote> underlying(std::make_shared<SimpleQuote>(s0));
         Handle<YieldTermStructure> flatRiskFree(
-            std::shared_ptr<YieldTermStructure>(
-                new FlatForward(referenceDate, riskFreeRate, rfdc)));
+                std::make_shared<FlatForward>(referenceDate, riskFreeRate, rfdc));
         Handle<YieldTermStructure> flatDividends(
-            std::shared_ptr<YieldTermStructure>(
-                new FlatForward(referenceDate, q, divdc)));
+                std::make_shared<FlatForward>(referenceDate, q, divdc));
         Handle<BlackVolTermStructure> flatVol(
-            std::shared_ptr<BlackVolTermStructure>(
-                new BlackConstantVol(referenceDate, volcal, v, voldc)));
+                std::make_shared<BlackConstantVol>(referenceDate, volcal, v, voldc));
 
         std::shared_ptr<PlainVanillaPayoff> payoff =
             std::dynamic_pointer_cast<PlainVanillaPayoff>(arguments_.payoff);
@@ -109,17 +106,17 @@ namespace QuantLib {
         Time maturity = rfdc.yearFraction(arguments_.settlementDate,
                                           maturityDate);
 
-        std::shared_ptr<GeneralizedBlackScholesProcess> bs(
-                 new GeneralizedBlackScholesProcess(underlying, flatDividends,
-                                                    flatRiskFree, flatVol));
-        std::shared_ptr<T> tree(new T(bs, maturity, timeSteps_,
-                                        payoff->strike()));
+        std::shared_ptr<GeneralizedBlackScholesProcess> bs =
+              std::make_shared<GeneralizedBlackScholesProcess>(underlying, flatDividends,
+                                                 flatRiskFree, flatVol);
+        std::shared_ptr<T> tree = std::make_shared<T>(bs, maturity, timeSteps_,
+                                        payoff->strike());
 
         Real creditSpread = arguments_.creditSpread->value();
 
-        std::shared_ptr<Lattice> lattice(
-              new TsiveriotisFernandesLattice<T>(tree,riskFreeRate,maturity,
-                                                 timeSteps_,creditSpread,v,q));
+        std::shared_ptr<Lattice> lattice =
+              std::make_shared<TsiveriotisFernandesLattice<T>>(tree,riskFreeRate,maturity,
+                                                 timeSteps_,creditSpread,v,q);
 
         DiscretizedConvertible convertible(arguments_, bs,
                                            TimeGrid(maturity, timeSteps_));

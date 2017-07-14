@@ -62,14 +62,14 @@ namespace QuantLib {
                                               arguments_.exercise->lastDate());
 
 
-        const std::shared_ptr<OrnsteinUhlenbeckProcess> process(
-            new OrnsteinUhlenbeckProcess(model_->a(), model_->sigma()));
+        const std::shared_ptr<OrnsteinUhlenbeckProcess> process =
+            std::make_shared<OrnsteinUhlenbeckProcess>(model_->a(), model_->sigma());
 
-        const std::shared_ptr<Fdm1dMesher> shortRateMesher(
-            new FdmSimpleProcess1dMesher(xGrid_, process, maturity,1,invEps_));
+        const std::shared_ptr<Fdm1dMesher> shortRateMesher =
+            std::make_shared<FdmSimpleProcess1dMesher>(xGrid_, process, maturity,1,invEps_);
 
-        const std::shared_ptr<FdmMesher> mesher(
-            new FdmMesherComposite(shortRateMesher));
+        const std::shared_ptr<FdmMesher> mesher =
+            std::make_shared<FdmMesherComposite>(shortRateMesher);
 
         // 3. Inner Value Calculator
         const std::vector<Date>& exerciseDates = arguments_.exercise->dates();
@@ -91,13 +91,13 @@ namespace QuantLib {
         QL_REQUIRE(fwdTs->referenceDate() == disTs->referenceDate(),
                 "reference date of forward and discount curve must match");
 
-        const std::shared_ptr<HullWhite> fwdModel(
-            new HullWhite(fwdTs, model_->a(), model_->sigma()));
+        const std::shared_ptr<HullWhite> fwdModel =
+            std::make_shared<HullWhite>(fwdTs, model_->a(), model_->sigma());
 
-        const std::shared_ptr<FdmInnerValueCalculator> calculator(
-             new FdmAffineModelSwapInnerValue<HullWhite>(
+        const std::shared_ptr<FdmInnerValueCalculator> calculator =
+             std::make_shared<FdmAffineModelSwapInnerValue<HullWhite>>(
                  model_.currentLink(), fwdModel,
-                 arguments_.swap, t2d, mesher, 0));
+                 arguments_.swap, t2d, mesher, 0);
 
         // 4. Step conditions
         const std::shared_ptr<FdmStepConditionComposite> conditions =
@@ -113,8 +113,8 @@ namespace QuantLib {
                                      calculator, maturity,
                                      tGrid_, dampingSteps_ };
 
-        const std::unique_ptr<FdmHullWhiteSolver> solver(
-            new FdmHullWhiteSolver(model_, solverDesc, schemeDesc_));
+        const std::unique_ptr<FdmHullWhiteSolver> solver =
+            std::make_unique<FdmHullWhiteSolver>(model_, solverDesc, schemeDesc_);
 
         results_.value = solver->valueAt(0.0);
     }

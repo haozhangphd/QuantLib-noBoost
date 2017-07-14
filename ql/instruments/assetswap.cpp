@@ -118,14 +118,14 @@ namespace QuantLib {
         if (i<bondLeg.end()-1) {
             shared_ptr<Coupon> c = std::dynamic_pointer_cast<Coupon>(*i);
             if (c) {
-                shared_ptr<CashFlow> accruedCoupon(new
-                    SimpleCashFlow(c->accruedAmount(dealMaturity), finalDate));
+                shared_ptr<CashFlow> accruedCoupon =
+                    std::make_shared<SimpleCashFlow>(c->accruedAmount(dealMaturity), finalDate);
                 legs_[0].emplace_back(accruedCoupon);
             }
         }
         // add the nonParRepayment_
-        shared_ptr<CashFlow> nonParRepaymentFlow(new
-            SimpleCashFlow(nonParRepayment_, finalDate));
+        shared_ptr<CashFlow> nonParRepaymentFlow =
+            std::make_shared<SimpleCashFlow>(nonParRepayment_, finalDate);
         legs_[0].emplace_back(nonParRepaymentFlow);
 
         QL_REQUIRE(!legs_[0].empty(),
@@ -135,19 +135,19 @@ namespace QuantLib {
         if (parSwap_) {
             // upfront on the floating leg
             Real upfront = (dirtyPrice-100.0)/100.0*notional;
-            shared_ptr<CashFlow> upfrontCashFlow(new
-                SimpleCashFlow(upfront, upfrontDate_));
+            shared_ptr<CashFlow> upfrontCashFlow =
+                std::make_shared<SimpleCashFlow>(upfront, upfrontDate_);
             legs_[1].insert(legs_[1].begin(), upfrontCashFlow);
             // backpayment on the floating leg
             // (accounts for non-par redemption, if any)
             Real backPayment = notional;
-            shared_ptr<CashFlow> backPaymentCashFlow(new
-                SimpleCashFlow(backPayment, finalDate));
+            shared_ptr<CashFlow> backPaymentCashFlow =
+                std::make_shared<SimpleCashFlow>(backPayment, finalDate);
             legs_[1].emplace_back(backPaymentCashFlow);
         } else {
             // final notional exchange
-            shared_ptr<CashFlow> finalCashFlow (new
-                SimpleCashFlow(notional, finalDate));
+            shared_ptr<CashFlow> finalCashFlow =
+                std::make_shared<SimpleCashFlow>(notional, finalDate);
             legs_[1].emplace_back(finalCashFlow);
         }
 
@@ -244,19 +244,19 @@ namespace QuantLib {
         if (parSwap_) {
             // upfront on the floating leg
             Real upfront = (dirtyPrice-100.0)/100.0*notional;
-            shared_ptr<CashFlow> upfrontCashFlow(new
-                SimpleCashFlow(upfront, upfrontDate_));
+            shared_ptr<CashFlow> upfrontCashFlow =
+                std::make_shared<SimpleCashFlow>(upfront, upfrontDate_);
             legs_[1].insert(legs_[1].begin(), upfrontCashFlow);
             // backpayment on the floating leg
             // (accounts for non-par redemption, if any)
             Real backPayment = notional;
-            shared_ptr<CashFlow> backPaymentCashFlow(new
-                SimpleCashFlow(backPayment, finalDate));
+            shared_ptr<CashFlow> backPaymentCashFlow =
+                std::make_shared<SimpleCashFlow>(backPayment, finalDate);
             legs_[1].emplace_back(backPaymentCashFlow);
         } else {
             // final notional exchange
-            shared_ptr<CashFlow> finalCashFlow(new
-                SimpleCashFlow(notional, finalDate));
+            shared_ptr<CashFlow> finalCashFlow =
+                std::make_shared<SimpleCashFlow>(notional, finalDate);
             legs_[1].emplace_back(finalCashFlow);
         }
 

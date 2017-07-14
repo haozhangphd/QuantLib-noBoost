@@ -68,8 +68,7 @@ namespace QuantLib {
 
     std::unique_ptr<ExerciseStrategy<CurveState> >
     ParametricExerciseAdapter::clone() const {
-        return std::unique_ptr<ExerciseStrategy<CurveState> >(
-                                        new ParametricExerciseAdapter(*this));
+        return std::make_unique<ParametricExerciseAdapter>(*this);
     }
 
 }

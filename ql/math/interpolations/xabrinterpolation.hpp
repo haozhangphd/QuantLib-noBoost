@@ -117,13 +117,10 @@ class XABRInterpolationImpl : public Interpolation::templateImpl<I1, I2>,
           maxGuesses_(maxGuesses), vegaWeighted_(vegaWeighted) {
         // if no optimization method or endCriteria is provided, we provide one
         if (!optMethod_)
-            optMethod_ = std::shared_ptr<OptimizationMethod>(
-                new LevenbergMarquardt(1e-8, 1e-8, 1e-8));
-        // optMethod_ = std::shared_ptr<OptimizationMethod>(new
-        //    Simplex(0.01));
+            optMethod_ = std::make_shared<LevenbergMarquardt>(1e-8, 1e-8, 1e-8);
+        // optMethod_ = std::make_shared<Simplex>(0.01);
         if (!endCriteria_) {
-            endCriteria_ = std::shared_ptr<EndCriteria>(
-                new EndCriteria(60000, 100, 1e-8, 1e-8, 1e-8));
+            endCriteria_ = std::make_shared<EndCriteria>(60000, 100, 1e-8, 1e-8, 1e-8);
         }
         this->weights_ =
             std::vector<Real>(xEnd - xBegin, 1.0 / (xEnd - xBegin));

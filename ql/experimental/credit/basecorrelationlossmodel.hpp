@@ -98,10 +98,8 @@ namespace QuantLib {
             const std::vector<Real>& recoveries,
             const initTraits& traits = initTraits()
             )
-        : localCorrelationAttach_(std::shared_ptr<SimpleQuote>(
-            new SimpleQuote(0.))),
-          localCorrelationDetach_(std::shared_ptr<SimpleQuote>(
-            new SimpleQuote(0.))),
+        : localCorrelationAttach_(std::make_shared<SimpleQuote>(0.)),
+          localCorrelationDetach_(std::make_shared<SimpleQuote>(0.)),
           recoveries_(recoveries),
           correlTS_(correlTS),
           copulaTraits_(traits)
@@ -125,22 +123,20 @@ namespace QuantLib {
             detachRatio_ = basket_->remainingDetachmentAmount()
                 /remainingNotional_;
 
-             basketAttach_ = std::shared_ptr<Basket>(new
-                Basket(basket_->refDate(),basket_->remainingNames(), 
+             basketAttach_ = std::make_shared<Basket>(basket_->refDate(),basket_->remainingNames(), 
                          basket_->remainingNotionals(), 
                          basket_->pool(), 
                          0.0,
                          attachRatio_,
                          basket_->claim()
-                         ));
-             basketDetach_ = std::shared_ptr<Basket>(new
-                Basket(basket_->refDate(),basket_->remainingNames(), 
+                         );
+             basketDetach_ = std::make_shared<Basket>(basket_->refDate(),basket_->remainingNames(), 
                          basket_->remainingNotionals(), 
                          basket_->pool(),
                          0.0,
                          detachRatio_,
                          basket_->claim()
-                         ));
+                         );
              setupModels();
         }
         /* Most of the statistics are not implemented, not impossible but

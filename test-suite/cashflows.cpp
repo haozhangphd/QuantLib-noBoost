@@ -47,7 +47,7 @@ TEST_CASE("CashFlows_Settings", "[CashFlows]") {
     // cash flows at T+0, T+1, T+2
     std::vector<std::shared_ptr<CashFlow> > leg;
     for (Integer i=0; i<3; ++i)
-        leg.emplace_back(std::shared_ptr<CashFlow>(new SimpleCashFlow(1.0, today+i)));
+        leg.emplace_back(std::make_shared<SimpleCashFlow>(1.0, today+i));
 
 
     #define CHECK_INCLUSION(n, days, expected) \
@@ -185,25 +185,24 @@ TEST_CASE("CashFlows_AccessViolation", "[CashFlows]") {
     Volatility volatility = 0.10;
     Handle<OptionletVolatilityStructure> vol;
     vol = Handle<OptionletVolatilityStructure>(
-             std::shared_ptr<OptionletVolatilityStructure>(
-                 new ConstantOptionletVolatility(
+             std::make_shared<ConstantOptionletVolatility>(
                              2,
                              calendar,
                              ModifiedFollowing,
                              volatility,
-                             Actual365Fixed())));
+                             Actual365Fixed()));
 
-    std::shared_ptr<IborIndex> index3m (new USDLibor(3*Months,
-                                                       rhTermStructure));
+    std::shared_ptr<IborIndex> index3m = std::make_shared<USDLibor>(3*Months,
+                                                       rhTermStructure);
 
     Date payDate(20, December, 2013);
     Date startDate(20, September, 2013);
     Date endDate(20, December, 2013);
     Rate spread = 0.0115;
-    std::shared_ptr<IborCouponPricer> pricer(new BlackIborCouponPricer(vol));
-    std::shared_ptr<FloatingRateCoupon> coupon(
-        new FloatingRateCoupon(payDate,100, startDate, endDate, 2,
-                               index3m, 1.0 , spread / 100));
+    std::shared_ptr<IborCouponPricer> pricer = std::make_shared<BlackIborCouponPricer>(vol);
+    std::shared_ptr<FloatingRateCoupon> coupon =
+        std::make_shared<FloatingRateCoupon>(payDate,100, startDate, endDate, 2,
+                               index3m, 1.0 , spread / 100);
     coupon->setPricer(pricer);
 
     try {
@@ -255,7 +254,7 @@ TEST_CASE("CashFlows_NullFixingDays", "[CashFlows]") {
         .withConvention(Following)
         .backwards();
 
-    std::shared_ptr<IborIndex> index(new USDLibor(6*Months));
+    std::shared_ptr<IborIndex> index = std::make_shared<USDLibor>(6*Months);
     Leg leg = IborLeg(schedule, index)
         .withNotionals(100.0)
         // this can happen with default values, and caused an

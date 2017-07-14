@@ -201,23 +201,23 @@ TEST_CASE("BlackDeltaCalculator_DeltaPriceConsistency", "[BlackDeltaCalculator]"
     Real calculatedVal  =0.0;
     Real error          =0.0;
 
-    std::shared_ptr<SimpleQuote> spotQuote(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spotQuote = std::make_shared<SimpleQuote>(0.0);
     Handle<Quote> spotHandle(spotQuote);
 
-    std::shared_ptr<SimpleQuote> qQuote(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> qQuote = std::make_shared<SimpleQuote>(0.0);
     Handle<Quote> qHandle(qQuote);
-    std::shared_ptr<YieldTermStructure> qTS(
-                                         new FlatForward(today, qHandle, dc));
+    std::shared_ptr<YieldTermStructure> qTS =
+                                         std::make_shared<FlatForward>(today, qHandle, dc);
 
-    std::shared_ptr<SimpleQuote> rQuote(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rQuote = std::make_shared<SimpleQuote>(0.0);
     Handle<Quote> rHandle(qQuote);
-    std::shared_ptr<YieldTermStructure> rTS(
-                                         new FlatForward(today, rHandle, dc));
+    std::shared_ptr<YieldTermStructure> rTS =
+                                         std::make_shared<FlatForward>(today, rHandle, dc);
 
-    std::shared_ptr<SimpleQuote> volQuote(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> volQuote = std::make_shared<SimpleQuote>(0.0);
     Handle<Quote> volHandle(volQuote);
-    std::shared_ptr<BlackVolTermStructure> volTS(
-                        new BlackConstantVol(today, calendar, volHandle, dc));
+    std::shared_ptr<BlackVolTermStructure> volTS =
+                        std::make_shared<BlackConstantVol>(today, calendar, volHandle, dc);
 
     std::shared_ptr<BlackScholesMertonProcess>    stochProcess;
     std::shared_ptr<PricingEngine>                engine;
@@ -230,10 +230,9 @@ TEST_CASE("BlackDeltaCalculator_DeltaPriceConsistency", "[BlackDeltaCalculator]"
 
     for(Size i=0; i<LENGTH(values);++i){
 
-        payoff = std::shared_ptr<StrikedTypePayoff>(
-                    new PlainVanillaPayoff(values[i].type, values[i].strike));
+        payoff = std::make_shared<PlainVanillaPayoff>(values[i].type, values[i].strike);
         exDate = today + timeToDays(values[i].t);
-        exercise = std::shared_ptr<Exercise>(new EuropeanExercise(exDate));
+        exercise = std::make_shared<EuropeanExercise>(exDate);
 
         spotQuote   ->setValue(values[i].s);
         volQuote    ->setValue(values[i].v);
@@ -248,14 +247,12 @@ TEST_CASE("BlackDeltaCalculator_DeltaPriceConsistency", "[BlackDeltaCalculator]"
                                     spotQuote->value(),
                                     discDom, discFor, implVol);
 
-        stochProcess=std::shared_ptr<BlackScholesMertonProcess> (new
-            BlackScholesMertonProcess(spotHandle,
+        stochProcess=std::make_shared<BlackScholesMertonProcess>(spotHandle,
                                       Handle<YieldTermStructure>(qTS),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS)));
+                                      Handle<BlackVolTermStructure>(volTS));
 
-        engine = std::shared_ptr<PricingEngine>(
-                                    new AnalyticEuropeanEngine(stochProcess));
+        engine = std::make_shared<AnalyticEuropeanEngine>(stochProcess);
 
         EuropeanOption option(payoff, exercise);
         option.setPricingEngine(engine);
@@ -379,22 +376,22 @@ TEST_CASE("BlackDeltaCalculator_PutCallParity", "[BlackDeltaCalculator]"){
     Real error          =0.0;
     Real forward        =0.0;
 
-    std::shared_ptr<SimpleQuote> spotQuote(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spotQuote = std::make_shared<SimpleQuote>(0.0);
 
-    std::shared_ptr<SimpleQuote> qQuote(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> qQuote = std::make_shared<SimpleQuote>(0.0);
     Handle<Quote> qHandle(qQuote);
-    std::shared_ptr<YieldTermStructure> qTS(
-                                         new FlatForward(today, qHandle, dc));
+    std::shared_ptr<YieldTermStructure> qTS =
+                                         std::make_shared<FlatForward>(today, qHandle, dc);
 
-    std::shared_ptr<SimpleQuote> rQuote(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rQuote = std::make_shared<SimpleQuote>(0.0);
     Handle<Quote> rHandle(qQuote);
-    std::shared_ptr<YieldTermStructure> rTS(
-                                         new FlatForward(today, rHandle, dc));
+    std::shared_ptr<YieldTermStructure> rTS =
+                                         std::make_shared<FlatForward>(today, rHandle, dc);
 
-    std::shared_ptr<SimpleQuote> volQuote(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> volQuote = std::make_shared<SimpleQuote>(0.0);
     Handle<Quote> volHandle(volQuote);
-    std::shared_ptr<BlackVolTermStructure> volTS(
-                        new BlackConstantVol(today, calendar, volHandle, dc));
+    std::shared_ptr<BlackVolTermStructure> volTS =
+                        std::make_shared<BlackConstantVol>(today, calendar, volHandle, dc);
 
     std::shared_ptr<StrikedTypePayoff> payoff;
     Date exDate;
@@ -404,10 +401,9 @@ TEST_CASE("BlackDeltaCalculator_PutCallParity", "[BlackDeltaCalculator]"){
 
     for(Size i=0; i<LENGTH(values);++i){
 
-        payoff = std::shared_ptr<StrikedTypePayoff>(new
-                            PlainVanillaPayoff(Option::Call, values[i].strike));
+        payoff = std::make_shared<PlainVanillaPayoff>(Option::Call, values[i].strike);
         exDate = today + timeToDays(values[i].t);
-        exercise = std::shared_ptr<Exercise>(new EuropeanExercise(exDate));
+        exercise = std::make_shared<EuropeanExercise>(exDate);
 
         spotQuote->setValue(values[i].s);
         volQuote->setValue(values[i].v);

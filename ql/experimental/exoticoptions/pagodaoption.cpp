@@ -26,9 +26,8 @@ namespace QuantLib {
     PagodaOption::PagodaOption(const std::vector<Date>& fixingDates,
                                Real roof,
                                Real fraction)
-    : MultiAssetOption(std::shared_ptr<Payoff>(new NullPayoff),
-                       std::shared_ptr<Exercise>(
-                                   new EuropeanExercise(fixingDates.back()))),
+    : MultiAssetOption(std::make_shared<NullPayoff>(),
+                       std::make_shared<EuropeanExercise>(fixingDates.back())),
       fixingDates_(fixingDates), roof_(roof), fraction_(fraction) {}
 
 

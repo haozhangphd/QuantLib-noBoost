@@ -50,12 +50,12 @@ namespace QuantLib {
 }
 #endif
 
-int main(int, char* []) {
+int main(int, char *[]) {
 
     try {
 
-        std::chrono::time_point<std::chrono::steady_clock> startT =  std::chrono::steady_clock::now();
-	std::cout << std::endl;
+        std::chrono::time_point<std::chrono::steady_clock> startT = std::chrono::steady_clock::now();
+        std::cout << std::endl;
 
         Date today(29, May, 2006);
         Settings::instance().evaluationDate() = today;
@@ -66,18 +66,18 @@ int main(int, char* []) {
         Real rebate = 0.0;
         Option::Type type = Option::Put;
         Real underlyingValue = 100.0;
-        std::shared_ptr<SimpleQuote> underlying(
-                                            new SimpleQuote(underlyingValue));
+        std::shared_ptr < SimpleQuote > underlying =
+                std::make_shared<SimpleQuote>(underlyingValue);
         Real strike = 100.0;
-        std::shared_ptr<SimpleQuote> riskFreeRate(new SimpleQuote(0.04));
-        std::shared_ptr<SimpleQuote> volatility(new SimpleQuote(0.20));
-        Date maturity = today + 1*Years;
+        std::shared_ptr < SimpleQuote > riskFreeRate = std::make_shared<SimpleQuote>(0.04);
+        std::shared_ptr < SimpleQuote > volatility = std::make_shared<SimpleQuote>(0.20);
+        Date maturity = today + 1 * Years;
 
-        std::cout << std::endl ;
+        std::cout << std::endl;
 
         // write column headings
-        Size widths[] = { 45, 15, 15 };
-        Size totalWidth = widths[0]+widths[1]+widths[2];
+        Size widths[] = {45, 15, 15};
+        Size totalWidth = widths[0] + widths[1] + widths[2];
         std::string rule(totalWidth, '-'), dblrule(totalWidth, '=');
 
         std::cout << dblrule << std::endl;
@@ -94,28 +94,26 @@ int main(int, char* []) {
         Handle<Quote> h1(riskFreeRate);
         Handle<Quote> h2(volatility);
         Handle<YieldTermStructure> flatRate(
-            std::shared_ptr<YieldTermStructure>(
-                                  new FlatForward(0, NullCalendar(),
-                                                  h1, dayCounter)));
+                std::make_shared<FlatForward>(0, NullCalendar(),
+                                              h1, dayCounter));
         Handle<BlackVolTermStructure> flatVol(
-            std::shared_ptr<BlackVolTermStructure>(
-                               new BlackConstantVol(0, NullCalendar(),
-                                                    h2, dayCounter)));
+                std::make_shared<BlackConstantVol>(0, NullCalendar(),
+                                                   h2, dayCounter));
 
         // instantiate the option
-        std::shared_ptr<Exercise> exercise(
-                                         new EuropeanExercise(maturity));
-        std::shared_ptr<StrikedTypePayoff> payoff(
-                                        new PlainVanillaPayoff(type, strike));
+        std::shared_ptr < Exercise > exercise =
+                std::make_shared<EuropeanExercise>(maturity);
+        std::shared_ptr < StrikedTypePayoff > payoff =
+                std::make_shared<PlainVanillaPayoff>(type, strike);
 
-        std::shared_ptr<BlackScholesProcess> bsProcess(
-                            new BlackScholesProcess(Handle<Quote>(underlying),
-                                                    flatRate, flatVol));
+        std::shared_ptr < BlackScholesProcess > bsProcess =
+                std::make_shared<BlackScholesProcess>(Handle<Quote>(underlying),
+                                                      flatRate, flatVol);
 
-        std::shared_ptr<PricingEngine> barrierEngine(
-                                        new AnalyticBarrierEngine(bsProcess));
-        std::shared_ptr<PricingEngine> europeanEngine(
-                                       new AnalyticEuropeanEngine(bsProcess));
+        std::shared_ptr < PricingEngine > barrierEngine =
+                std::make_shared<AnalyticBarrierEngine>(bsProcess);
+        std::shared_ptr < PricingEngine > europeanEngine =
+                std::make_shared<AnalyticEuropeanEngine>(bsProcess);
 
         BarrierOption referenceOption(barrierType, barrier, rebate,
                                       payoff, exercise);
@@ -135,26 +133,26 @@ int main(int, char* []) {
 
         // Final payoff first (the same for all portfolios):
         // as shown in Joshi, a put struck at K...
-        std::shared_ptr<Instrument> put1(
-                                        new EuropeanOption(payoff, exercise));
+        std::shared_ptr < Instrument > put1 =
+                std::make_shared<EuropeanOption>(payoff, exercise);
         put1->setPricingEngine(europeanEngine);
         portfolio1.add(put1);
         portfolio2.add(put1);
         portfolio3.add(put1);
         // ...minus a digital put struck at B of notional K-B...
-        std::shared_ptr<StrikedTypePayoff> digitalPayoff(
-                          new CashOrNothingPayoff(Option::Put, barrier, 1.0));
-        std::shared_ptr<Instrument> digitalPut(
-                                 new EuropeanOption(digitalPayoff, exercise));
+        std::shared_ptr < StrikedTypePayoff > digitalPayoff =
+                std::make_shared<CashOrNothingPayoff>(Option::Put, barrier, 1.0);
+        std::shared_ptr < Instrument > digitalPut =
+                std::make_shared<EuropeanOption>(digitalPayoff, exercise);
         digitalPut->setPricingEngine(europeanEngine);
-        portfolio1.subtract(digitalPut, strike-barrier);
-        portfolio2.subtract(digitalPut, strike-barrier);
-        portfolio3.subtract(digitalPut, strike-barrier);
+        portfolio1.subtract(digitalPut, strike - barrier);
+        portfolio2.subtract(digitalPut, strike - barrier);
+        portfolio3.subtract(digitalPut, strike - barrier);
         // ...minus a put option struck at B.
-        std::shared_ptr<StrikedTypePayoff> lowerPayoff(
-                                new PlainVanillaPayoff(Option::Put, barrier));
-        std::shared_ptr<Instrument> put2(
-                                   new EuropeanOption(lowerPayoff, exercise));
+        std::shared_ptr < StrikedTypePayoff > lowerPayoff =
+                std::make_shared<PlainVanillaPayoff>(Option::Put, barrier);
+        std::shared_ptr < Instrument > put2 =
+                std::make_shared<EuropeanOption>(lowerPayoff, exercise);
         put2->setPricingEngine(europeanEngine);
         portfolio1.subtract(put2);
         portfolio2.subtract(put2);
@@ -164,26 +162,26 @@ int main(int, char* []) {
         // portfolio on a number of points (B,t).  For the first
         // portfolio, we'll use 12 dates at one-month's distance.
         Integer i;
-        for (i=12; i>=1; i--) {
+        for (i = 12; i >= 1; i--) {
             // First, we instantiate the option...
-            Date innerMaturity = today + i*Months;
-            std::shared_ptr<Exercise> innerExercise(
-                                         new EuropeanExercise(innerMaturity));
-            std::shared_ptr<StrikedTypePayoff> innerPayoff(
-                                new PlainVanillaPayoff(Option::Put, barrier));
-            std::shared_ptr<Instrument> putn(
-                              new EuropeanOption(innerPayoff, innerExercise));
+            Date innerMaturity = today + i * Months;
+            std::shared_ptr < Exercise > innerExercise =
+                    std::make_shared<EuropeanExercise>(innerMaturity);
+            std::shared_ptr < StrikedTypePayoff > innerPayoff =
+                    std::make_shared<PlainVanillaPayoff>(Option::Put, barrier);
+            std::shared_ptr < Instrument > putn =
+                    std::make_shared<EuropeanOption>(innerPayoff, innerExercise);
             putn->setPricingEngine(europeanEngine);
             // ...second, we evaluate the current portfolio and the
             // latest put at (B,t)...
-            Date killDate = today + (i-1)*Months;
+            Date killDate = today + (i - 1) * Months;
             Settings::instance().evaluationDate() = killDate;
             underlying->setValue(barrier);
             Real portfolioValue = portfolio1.NPV();
             Real putValue = putn->NPV();
             // ...finally, we estimate the notional that kills the
             // portfolio value at that point...
-            Real notional = portfolioValue/putValue;
+            Real notional = portfolioValue / putValue;
             // ...and we subtract from the portfolio a put with such
             // notional.
             portfolio1.subtract(putn, notional);
@@ -203,22 +201,22 @@ int main(int, char* []) {
 
         // For the second portfolio, we'll use 26 dates at two-weeks'
         // distance.
-        for (i=52; i>=2; i-=2) {
+        for (i = 52; i >= 2; i -= 2) {
             // Same as above.
-            Date innerMaturity = today + i*Weeks;
-            std::shared_ptr<Exercise> innerExercise(
-                                         new EuropeanExercise(innerMaturity));
-            std::shared_ptr<StrikedTypePayoff> innerPayoff(
-                                new PlainVanillaPayoff(Option::Put, barrier));
-            std::shared_ptr<Instrument> putn(
-                              new EuropeanOption(innerPayoff, innerExercise));
+            Date innerMaturity = today + i * Weeks;
+            std::shared_ptr < Exercise > innerExercise =
+                    std::make_shared<EuropeanExercise>(innerMaturity);
+            std::shared_ptr < StrikedTypePayoff > innerPayoff =
+                    std::make_shared<PlainVanillaPayoff>(Option::Put, barrier);
+            std::shared_ptr < Instrument > putn =
+                    std::make_shared<EuropeanOption>(innerPayoff, innerExercise);
             putn->setPricingEngine(europeanEngine);
-            Date killDate = today + (i-2)*Weeks;
+            Date killDate = today + (i - 2) * Weeks;
             Settings::instance().evaluationDate() = killDate;
             underlying->setValue(barrier);
             Real portfolioValue = portfolio2.NPV();
             Real putValue = putn->NPV();
-            Real notional = portfolioValue/putValue;
+            Real notional = portfolioValue / putValue;
             portfolio2.subtract(putn, notional);
         }
         Settings::instance().evaluationDate() = today;
@@ -234,22 +232,22 @@ int main(int, char* []) {
 
         // For the third portfolio, we'll use 52 dates at one-week's
         // distance.
-        for (i=52; i>=1; i--) {
+        for (i = 52; i >= 1; i--) {
             // Same as above.
-            Date innerMaturity = today + i*Weeks;
-            std::shared_ptr<Exercise> innerExercise(
-                                         new EuropeanExercise(innerMaturity));
-            std::shared_ptr<StrikedTypePayoff> innerPayoff(
-                                new PlainVanillaPayoff(Option::Put, barrier));
-            std::shared_ptr<Instrument> putn(
-                              new EuropeanOption(innerPayoff, innerExercise));
+            Date innerMaturity = today + i * Weeks;
+            std::shared_ptr < Exercise > innerExercise =
+                    std::make_shared<EuropeanExercise>(innerMaturity);
+            std::shared_ptr < StrikedTypePayoff > innerPayoff =
+                    std::make_shared<PlainVanillaPayoff>(Option::Put, barrier);
+            std::shared_ptr < Instrument > putn =
+                    std::make_shared<EuropeanOption>(innerPayoff, innerExercise);
             putn->setPricingEngine(europeanEngine);
-            Date killDate = today + (i-1)*Weeks;
+            Date killDate = today + (i - 1) * Weeks;
             Settings::instance().evaluationDate() = killDate;
             underlying->setValue(barrier);
             Real portfolioValue = portfolio3.NPV();
             Real putValue = putn->NPV();
-            Real notional = portfolioValue/putValue;
+            Real notional = portfolioValue / putValue;
             portfolio3.subtract(putn, notional);
         }
         Settings::instance().evaluationDate() = today;
@@ -359,17 +357,17 @@ int main(int, char* []) {
         // run the example but do not read the code.
         std::cout << dblrule << std::endl;
         std::cout
-            << std::endl
-            << "The replication seems to be less robust when volatility and \n"
-            << "risk-free rate are changed. Feel free to experiment with \n"
-            << "the example and contribute a patch if you spot any errors."
-            << std::endl;
+                << std::endl
+                << "The replication seems to be less robust when volatility and \n"
+                << "risk-free rate are changed. Feel free to experiment with \n"
+                << "the example and contribute a patch if you spot any errors."
+                << std::endl;
 
-	std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
+        std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
         double seconds = static_cast<double>((endT - startT).count()) / 1.0e9;
-        Integer hours = int(seconds/3600);
+        Integer hours = int(seconds / 3600);
         seconds -= hours * 3600;
-        Integer minutes = int(seconds/60);
+        Integer minutes = int(seconds / 60);
         seconds -= minutes * 60;
         std::cout << " \nRun completed in ";
         if (hours > 0)
@@ -380,7 +378,7 @@ int main(int, char* []) {
                   << seconds << " s\n" << std::endl;
 
         return 0;
-    } catch (std::exception& e) {
+    } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 1;
     } catch (...) {

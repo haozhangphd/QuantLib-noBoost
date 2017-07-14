@@ -97,8 +97,7 @@ namespace QuantLib {
                 Handle< OptionletVolatilityStructure >(),
             const TimingAdjustment timingAdjustment = Black76,
             const Handle< Quote > correlation =
-                Handle< Quote >(std::shared_ptr<Quote>(
-                                                   new SimpleQuote(1.0))))
+                Handle< Quote >(std::make_shared<SimpleQuote>(1.0)))
             : IborCouponPricer(v), timingAdjustment_(timingAdjustment),
               correlation_(correlation) {
             QL_REQUIRE(timingAdjustment_ == Black76 ||

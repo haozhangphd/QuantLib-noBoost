@@ -98,14 +98,14 @@ namespace QuantLib {
     }
 
     void FDVanillaEngine::initializeBoundaryConditions() const {
-        BCs_[0] = std::shared_ptr<bc_type>(new NeumannBC(
+        BCs_[0] = std::make_shared<NeumannBC>(
                                       intrinsicValues_.value(1)-
                                       intrinsicValues_.value(0),
-                                      NeumannBC::Lower));
-        BCs_[1] = std::shared_ptr<bc_type>(new NeumannBC(
+                                      NeumannBC::Lower);
+        BCs_[1] = std::make_shared<NeumannBC>(
                        intrinsicValues_.value(intrinsicValues_.size()-1) -
                        intrinsicValues_.value(intrinsicValues_.size()-2),
-                       NeumannBC::Upper));
+                       NeumannBC::Upper);
     }
 
     Time FDVanillaEngine::getResidualTime() const {

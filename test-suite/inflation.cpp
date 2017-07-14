@@ -57,8 +57,7 @@ namespace {
 
     std::shared_ptr<YieldTermStructure> nominalTermStructure() {
         Date evaluationDate(13, August, 2007);
-        return std::shared_ptr<YieldTermStructure>(
-            new FlatForward(evaluationDate, 0.05, Actual360()));
+        return std::make_shared<FlatForward>(evaluationDate, 0.05, Actual360());
     }
 
     template <class T, class U, class I>
@@ -72,11 +71,9 @@ namespace {
         std::vector<std::shared_ptr<BootstrapHelper<T> > > instruments;
         for (Size i=0; i<N; i++) {
             Date maturity = iiData[i].date;
-            Handle<Quote> quote(std::shared_ptr<Quote>(
-                new SimpleQuote(iiData[i].rate/100.0)));
-            std::shared_ptr<BootstrapHelper<T> > anInstrument(new U(
-                quote, observationLag, maturity,
-                calendar, bdc, dc, ii));
+            Handle<Quote> quote(std::make_shared<SimpleQuote>(iiData[i].rate/100.0));
+            std::shared_ptr<BootstrapHelper<T> > anInstrument = std::make_shared<U>(
+                quote, observationLag, maturity, calendar, bdc, dc, ii);
             instruments.emplace_back(anInstrument);
         }
 
@@ -148,7 +145,7 @@ TEST_CASE("Inflation_ZeroIndex", "[Inflation]") {
         207.3, 206.1 };
 
     bool interp = false;
-    std::shared_ptr<UKRPI> iir(new UKRPI(interp));
+    std::shared_ptr<UKRPI> iir = std::make_shared<UKRPI>(interp);
     for (Size i=0; i<LENGTH(fixData); i++) {
         iir->addFixing(rpiSchedule[i], fixData[i]);
     }
@@ -207,7 +204,7 @@ TEST_CASE("Inflation_ZeroTermStructure", "[Inflation]") {
 
     RelinkableHandle<ZeroInflationTermStructure> hz;
     bool interp = false;
-    std::shared_ptr<UKRPI> iiUKRPI(new UKRPI(interp, hz));
+    std::shared_ptr<UKRPI> iiUKRPI = std::make_shared<UKRPI>(interp, hz);
     for (Size i=0; i<LENGTH(fixData); i++) {
         iiUKRPI->addFixing(rpiSchedule[i], fixData[i]);
     }
@@ -243,11 +240,11 @@ TEST_CASE("Inflation_ZeroTermStructure", "[Inflation]") {
                                     calendar, bdc, dc);
 
     Rate baseZeroRate = zcData[0].rate/100.0;
-    std::shared_ptr<PiecewiseZeroInflationCurve<Linear> > pZITS(
-                        new PiecewiseZeroInflationCurve<Linear>(
+    std::shared_ptr<PiecewiseZeroInflationCurve<Linear> > pZITS =
+                        std::make_shared<PiecewiseZeroInflationCurve<Linear>>(
                         evaluationDate, calendar, dc, observationLag,
                         frequency, ii->interpolated(), baseZeroRate,
-                        Handle<YieldTermStructure>(nominalTS), helpers));
+                        Handle<YieldTermStructure>(nominalTS), helpers);
     pZITS->recalculate();
 
     // first check that the zero rates on the curve match the data
@@ -340,7 +337,7 @@ TEST_CASE("Inflation_ZeroTermStructure", "[Inflation]") {
     // N.B. no coupon pricer because it is not a coupon, effect of inflation curve via
     //      inflation curve attached to the inflation index.
     Handle<YieldTermStructure> hTS(nominalTS);
-    std::shared_ptr<PricingEngine> sppe(new DiscountingSwapEngine(hTS));
+    std::shared_ptr<PricingEngine> sppe = std::make_shared<DiscountingSwapEngine>(hTS);
     nzcis.setPricingEngine(sppe);
 
     // ... and price it, should be zero
@@ -379,12 +376,12 @@ TEST_CASE("Inflation_ZeroTermStructure", "[Inflation]") {
 
     //Creating two different seasonality objects
     //
-    std::shared_ptr<MultiplicativePriceSeasonality> seasonality_1(new MultiplicativePriceSeasonality());
+    std::shared_ptr<MultiplicativePriceSeasonality> seasonality_1 = std::make_shared<MultiplicativePriceSeasonality>();
     std::vector<Rate> seasonalityFactors_1(12, 1.0);
     seasonality_1->set(seasonallityBaseDate,Monthly,seasonalityFactors_1);
 
-    std::shared_ptr<MultiplicativePriceSeasonality> seasonality_real(
-        new MultiplicativePriceSeasonality(seasonallityBaseDate,Monthly,seasonalityFactors));
+    std::shared_ptr<MultiplicativePriceSeasonality> seasonality_real =
+        std::make_shared<MultiplicativePriceSeasonality>(seasonallityBaseDate,Monthly,seasonalityFactors);
     //Testing seasonality correction when seasonality factors are = 1
     //
     Rate fixing[] = {
@@ -505,7 +502,7 @@ TEST_CASE("Inflation_ZeroTermStructure", "[Inflation]") {
     // UKRPI (to save making another term structure)
 
     bool interpYES = true;
-    std::shared_ptr<UKRPI> iiUKRPIyes(new UKRPI(interpYES, hz));
+    std::shared_ptr<UKRPI> iiUKRPIyes = std::make_shared<UKRPI>(interpYES, hz);
     for (Size i=0; i<LENGTH(fixData);i++) {
         iiUKRPIyes->addFixing(rpiSchedule[i], fixData[i]);
     }
@@ -522,11 +519,11 @@ TEST_CASE("Inflation_ZeroTermStructure", "[Inflation]") {
                         observationLagyes,
                         calendar, bdc, dc);
 
-    std::shared_ptr<PiecewiseZeroInflationCurve<Linear> > pZITSyes(
-            new PiecewiseZeroInflationCurve<Linear>(
+    std::shared_ptr<PiecewiseZeroInflationCurve<Linear> > pZITSyes =
+            std::make_shared<PiecewiseZeroInflationCurve<Linear>>(
             evaluationDate, calendar, dc, observationLagyes,
             frequency, iiyes->interpolated(), baseZeroRate,
-            Handle<YieldTermStructure>(nominalTS), helpersyes));
+            Handle<YieldTermStructure>(nominalTS), helpersyes);
     pZITSyes->recalculate();
 
     // first check that the zero rates on the curve match the data
@@ -748,8 +745,8 @@ TEST_CASE("Inflation_YYIndex", "[Inflation]") {
         207.3 };
 
     bool interp = false;
-    std::shared_ptr<YYUKRPIr> iir(new YYUKRPIr(interp));
-    std::shared_ptr<YYUKRPIr> iirYES(new YYUKRPIr(true));
+    std::shared_ptr<YYUKRPIr> iir = std::make_shared<YYUKRPIr>(interp);
+    std::shared_ptr<YYUKRPIr> iirYES = std::make_shared<YYUKRPIr>(true);
     for (Size i=0; i<LENGTH(fixData);i++) {
         iir->addFixing(rpiSchedule[i], fixData[i]);
         iirYES->addFixing(rpiSchedule[i], fixData[i]);
@@ -837,7 +834,7 @@ TEST_CASE("Inflation_YYTermStructure", "[Inflation]") {
 
     RelinkableHandle<YoYInflationTermStructure> hy;
     bool interp = false;
-    std::shared_ptr<YYUKRPIr> iir(new YYUKRPIr(interp, hy));
+    std::shared_ptr<YYUKRPIr> iir = std::make_shared<YYUKRPIr>(interp, hy);
     for (Size i=0; i<LENGTH(fixData); i++) {
         iir->addFixing(rpiSchedule[i], fixData[i]);
     }
@@ -876,11 +873,11 @@ TEST_CASE("Inflation_YYTermStructure", "[Inflation]") {
                         calendar, bdc, dc);
 
     Rate baseYYRate = yyData[0].rate/100.0;
-    std::shared_ptr<PiecewiseYoYInflationCurve<Linear> > pYYTS(
-        new PiecewiseYoYInflationCurve<Linear>(
+    std::shared_ptr<PiecewiseYoYInflationCurve<Linear> > pYYTS =
+        std::make_shared<PiecewiseYoYInflationCurve<Linear>>(
                 evaluationDate, calendar, dc, observationLag,
                 iir->frequency(),iir->interpolated(), baseYYRate,
-                Handle<YieldTermStructure>(nominalTS), helpers));
+                Handle<YieldTermStructure>(nominalTS), helpers);
     pYYTS->recalculate();
 
     // validation
@@ -889,7 +886,7 @@ TEST_CASE("Inflation_YYTermStructure", "[Inflation]") {
     Real eps = 0.000001;
     // usual swap engine
     Handle<YieldTermStructure> hTS(nominalTS);
-    std::shared_ptr<PricingEngine> sppe(new DiscountingSwapEngine(hTS));
+    std::shared_ptr<PricingEngine> sppe = std::make_shared<DiscountingSwapEngine>(hTS);
 
     // make sure that the index has the latest yoy term structure
     hy.linkTo(pYYTS);

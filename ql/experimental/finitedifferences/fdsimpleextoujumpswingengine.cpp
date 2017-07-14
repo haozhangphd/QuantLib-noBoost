@@ -69,25 +69,25 @@ namespace QuantLib {
         const Time maturity = exerciseTimes.back();
         const std::shared_ptr<StochasticProcess1D> ouProcess(
                               process_->getExtendedOrnsteinUhlenbeckProcess());
-        const std::shared_ptr<Fdm1dMesher> xMesher(
-                     new FdmSimpleProcess1dMesher(xGrid_, ouProcess,maturity));
+        const std::shared_ptr<Fdm1dMesher> xMesher =
+                     std::make_shared<FdmSimpleProcess1dMesher>(xGrid_, ouProcess,maturity);
 
-        const std::shared_ptr<Fdm1dMesher> yMesher(
-                        new ExponentialJump1dMesher(yGrid_,
+        const std::shared_ptr<Fdm1dMesher> yMesher =
+                        std::make_shared<ExponentialJump1dMesher>(yGrid_,
                                                     process_->beta(),
                                                     process_->jumpIntensity(),
-                                                    process_->eta()));
-        const std::shared_ptr<Fdm1dMesher> exerciseMesher(
-                       new Uniform1dMesher(
+                                                    process_->eta());
+        const std::shared_ptr<Fdm1dMesher> exerciseMesher =
+                       std::make_shared<Uniform1dMesher>(
                            0, static_cast<Real>(arguments_.maxExerciseRights),
-                           arguments_.maxExerciseRights+1));
+                           arguments_.maxExerciseRights+1);
 
-        const std::shared_ptr<FdmMesher> mesher(
-            new FdmMesherComposite(xMesher, yMesher, exerciseMesher));
+        const std::shared_ptr<FdmMesher> mesher =
+            std::make_shared<FdmMesherComposite>(xMesher, yMesher, exerciseMesher);
 
         // 3. Calculator
-        std::shared_ptr<FdmInnerValueCalculator> calculator(
-                                                    new FdmZeroInnerValue());
+        std::shared_ptr<FdmInnerValueCalculator> calculator =
+                                                    std::make_shared<FdmZeroInnerValue>();
         // 4. Step conditions
         std::list<std::shared_ptr<StepCondition<Array> > > stepConditions;
         std::list<std::vector<Time> > stoppingTimes;
@@ -95,16 +95,15 @@ namespace QuantLib {
         // 4.1 Bermudan step conditions
         stoppingTimes.emplace_back(exerciseTimes);
 
-        std::shared_ptr<FdmInnerValueCalculator> exerciseCalculator(
-            new FdmExtOUJumpModelInnerValue(arguments_.payoff, mesher, shape_));
+        std::shared_ptr<FdmInnerValueCalculator> exerciseCalculator =
+            std::make_shared<FdmExtOUJumpModelInnerValue>(arguments_.payoff, mesher, shape_);
 
-        stepConditions.emplace_back(std::shared_ptr<StepCondition<Array> >(
-            new FdmSimpleSwingCondition(
+        stepConditions.emplace_back(std::make_shared<FdmSimpleSwingCondition>(
                 exerciseTimes, mesher, exerciseCalculator,
-                2, arguments_.minExerciseRights)));
+                2, arguments_.minExerciseRights));
 
-        std::shared_ptr<FdmStepConditionComposite> conditions(
-                new FdmStepConditionComposite(stoppingTimes, stepConditions));
+        std::shared_ptr<FdmStepConditionComposite> conditions =
+                std::make_shared<FdmStepConditionComposite>(stoppingTimes, stepConditions);
 
 
         // 5. Boundary conditions
@@ -114,10 +113,10 @@ namespace QuantLib {
         FdmSolverDesc solverDesc = { mesher, boundaries, conditions,
                                      calculator, maturity, tGrid_, 0 };
 
-        const std::shared_ptr<FdmSimple3dExtOUJumpSolver> solver(
-            new FdmSimple3dExtOUJumpSolver(
+        const std::shared_ptr<FdmSimple3dExtOUJumpSolver> solver =
+            std::make_shared<FdmSimple3dExtOUJumpSolver>(
                                     Handle<ExtOUWithJumpsProcess>(process_),
-                                    rTS_, solverDesc, schemeDesc_));
+                                    rTS_, solverDesc, schemeDesc_);
 
         const Real x = process_->initialValues()[0];
         const Real y = process_->initialValues()[1];

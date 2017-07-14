@@ -46,44 +46,42 @@ namespace QuantLib {
 
 
 std::shared_ptr<YieldTermStructure>
-    flatRate(const Date& today,
-             const std::shared_ptr<Quote>& forward,
-             const DayCounter& dc,
-             const Compounding& compounding,
-             const Frequency& frequency) {
-    return std::shared_ptr<YieldTermStructure>(
-                                       new FlatForward(today,
-                                                       Handle<Quote>(forward),
-                                                       dc,
-                                                       compounding,
-                                                       frequency));
+flatRate(const Date &today,
+         const std::shared_ptr<Quote> &forward,
+         const DayCounter &dc,
+         const Compounding &compounding,
+         const Frequency &frequency) {
+    return std::make_shared<FlatForward>(today,
+                                         Handle<Quote>(forward),
+                                         dc,
+                                         compounding,
+                                         frequency);
 }
 
 
 std::shared_ptr<YieldTermStructure>
-    flatRate(const Date& today,
-             Rate forward,
-             const DayCounter& dc,
-             const Compounding &compounding,
-             const Frequency &frequency) {
+flatRate(const Date &today,
+         Rate forward,
+         const DayCounter &dc,
+         const Compounding &compounding,
+         const Frequency &frequency) {
     return flatRate(today,
-            std::shared_ptr<Quote>(new SimpleQuote(forward)),
-            dc,
-            compounding,
-            frequency);
+                    std::make_shared<SimpleQuote>(forward),
+                    dc,
+                    compounding,
+                    frequency);
 }
 
 
-int main(int, char* [])
-{
+int main(int, char *[]) {
     try {
 
-        std::chrono::time_point<std::chrono::steady_clock> startT =  std::chrono::steady_clock::now();
+        std::chrono::time_point<std::chrono::steady_clock> startT = std::chrono::steady_clock::now();
 
-	Date today = Date(16,October,2007);
+        Date today = Date(16, October, 2007);
         Settings::instance().evaluationDate() = today;
 
-        cout <<  endl;
+        cout << endl;
         cout << "Pricing a callable fixed rate bond using" << endl;
         cout << "Hull White model w/ reversion parameter = 0.03" << endl;
         cout << "BAC4.65 09/15/12  ISIN: US06060WBJ36" << endl;
@@ -104,7 +102,7 @@ int main(int, char* [])
 
         Rate bbCurveRate = 0.055;
         DayCounter bbDayCounter = ActualActual(ActualActual::Bond);
-        InterestRate bbIR(bbCurveRate,bbDayCounter,Compounded,Semiannual);
+        InterestRate bbIR(bbCurveRate, bbDayCounter, Compounded, Semiannual);
 
         Handle<YieldTermStructure> termStructure(flatRate(today,
                                                           bbIR.rate(),
@@ -117,27 +115,26 @@ int main(int, char* [])
         CallabilitySchedule callSchedule;
         Real callPrice = 100.;
         Size numberOfCallDates = 24;
-        Date callDate = Date(15,September,2006);
+        Date callDate = Date(15, September, 2006);
 
-        for (Size i=0; i< numberOfCallDates; i++) {
+        for (Size i = 0; i < numberOfCallDates; i++) {
             Calendar nullCalendar = NullCalendar();
 
             Callability::Price myPrice(callPrice,
                                        Callability::Price::Clean);
             callSchedule.emplace_back(
-                std::shared_ptr<Callability>(
-                    new Callability(myPrice,
-                                    Callability::Call,
-                                    callDate )));
+                    std::make_shared<Callability>(myPrice,
+                                                  Callability::Call,
+                                                  callDate));
             callDate = nullCalendar.advance(callDate, 3, Months);
         }
 
 
         // set up the callable bond
 
-        Date dated = Date(16,September,2004);
+        Date dated = Date(16, September, 2004);
         Date issue = dated;
-        Date maturity = Date(15,September,2012);
+        Date maturity = Date(15, September, 2012);
         Natural settlementDays = 3;  // Bloomberg OAS1 settle is Oct 19, 2007
         Calendar bondCalendar = UnitedStates(UnitedStates::GovernmentBond);
         Real coupon = .0465;
@@ -169,11 +166,10 @@ int main(int, char* [])
 
         Real sigma = QL_EPSILON; // core dumps if zero on Cygwin
 
-        std::shared_ptr<ShortRateModel> hw0(
-                       new HullWhite(termStructure,reversionParameter,sigma));
+        std::shared_ptr < ShortRateModel > hw0 = std::make_shared<HullWhite>(termStructure, reversionParameter, sigma);
 
-        std::shared_ptr<PricingEngine> engine0(
-                      new TreeCallableFixedRateBondEngine(hw0,gridIntervals));
+        std::shared_ptr < PricingEngine > engine0 = std::make_shared<TreeCallableFixedRateBondEngine>(hw0,
+                                                                                                      gridIntervals);
 
         CallableFixedRateBond callableBond(settlementDays, faceAmount, sch,
                                            vector<Rate>(1, coupon),
@@ -185,7 +181,7 @@ int main(int, char* [])
              << showpoint
              << fixed
              << "sigma/vol (%) = "
-             << 100.*sigma
+             << 100. * sigma
              << endl;
 
         cout << "QuantLib price/yld (%)  ";
@@ -204,23 +200,22 @@ int main(int, char* [])
 
         sigma = .01;
 
-        cout << "sigma/vol (%) = " << 100.*sigma << endl;
+        cout << "sigma/vol (%) = " << 100. * sigma << endl;
 
-        std::shared_ptr<ShortRateModel> hw1(
-                       new HullWhite(termStructure,reversionParameter,sigma));
+        std::shared_ptr < ShortRateModel > hw1 = std::make_shared<HullWhite>(termStructure, reversionParameter, sigma);
 
-        std::shared_ptr<PricingEngine> engine1(
-                      new TreeCallableFixedRateBondEngine(hw1,gridIntervals));
+        std::shared_ptr < PricingEngine > engine1 = std::make_shared<TreeCallableFixedRateBondEngine>(hw1,
+                                                                                                      gridIntervals);
 
         callableBond.setPricingEngine(engine1);
 
         cout << "QuantLib price/yld (%)  ";
         cout << callableBond.cleanPrice() << " / "
-             << 100.* callableBond.yield(bondDayCounter,
-                                         Compounded,
-                                         frequency,
-                                         accuracy,
-                                         maxIterations)
+             << 100. * callableBond.yield(bondDayCounter,
+                                          Compounded,
+                                          frequency,
+                                          accuracy,
+                                          maxIterations)
              << endl;
 
         cout << "Bloomberg price/yld (%) ";
@@ -232,16 +227,15 @@ int main(int, char* [])
 
         sigma = .03;
 
-        std::shared_ptr<ShortRateModel> hw2(
-                     new HullWhite(termStructure, reversionParameter, sigma));
+        std::shared_ptr < ShortRateModel > hw2 = std::make_shared<HullWhite>(termStructure, reversionParameter, sigma);
 
-        std::shared_ptr<PricingEngine> engine2(
-                      new TreeCallableFixedRateBondEngine(hw2,gridIntervals));
+        std::shared_ptr < PricingEngine > engine2 = std::make_shared<TreeCallableFixedRateBondEngine>(hw2,
+                                                                                                      gridIntervals);
 
         callableBond.setPricingEngine(engine2);
 
         cout << "sigma/vol (%) = "
-             << 100.*sigma
+             << 100. * sigma
              << endl;
 
         cout << "QuantLib price/yld (%)  ";
@@ -262,16 +256,15 @@ int main(int, char* [])
 
         sigma = .06;
 
-        std::shared_ptr<ShortRateModel> hw3(
-                     new HullWhite(termStructure, reversionParameter, sigma));
+        std::shared_ptr < ShortRateModel > hw3 = std::make_shared<HullWhite>(termStructure, reversionParameter, sigma);
 
-        std::shared_ptr<PricingEngine> engine3(
-                      new TreeCallableFixedRateBondEngine(hw3,gridIntervals));
+        std::shared_ptr < PricingEngine > engine3 = std::make_shared<TreeCallableFixedRateBondEngine>(hw3,
+                                                                                                      gridIntervals);
 
         callableBond.setPricingEngine(engine3);
 
         cout << "sigma/vol (%) = "
-             << 100.*sigma
+             << 100. * sigma
              << endl;
 
         cout << "QuantLib price/yld (%)  ";
@@ -292,25 +285,24 @@ int main(int, char* [])
 
         sigma = .12;
 
-        std::shared_ptr<ShortRateModel> hw4(
-                     new HullWhite(termStructure, reversionParameter, sigma));
+        std::shared_ptr < ShortRateModel > hw4 = std::make_shared<HullWhite>(termStructure, reversionParameter, sigma);
 
-        std::shared_ptr<PricingEngine> engine4(
-                      new TreeCallableFixedRateBondEngine(hw4,gridIntervals));
+        std::shared_ptr < PricingEngine > engine4 = std::make_shared<TreeCallableFixedRateBondEngine>(hw4,
+                                                                                                      gridIntervals);
 
         callableBond.setPricingEngine(engine4);
 
         cout << "sigma/vol (%) = "
-             << 100.*sigma
+             << 100. * sigma
              << endl;
 
         cout << "QuantLib price/yld (%)  ";
         cout << callableBond.cleanPrice() << " / "
-             << 100.* callableBond.yield(bondDayCounter,
-                                         Compounded,
-                                         frequency,
-                                         accuracy,
-                                         maxIterations)
+             << 100. * callableBond.yield(bondDayCounter,
+                                          Compounded,
+                                          frequency,
+                                          accuracy,
+                                          maxIterations)
              << endl;
 
         cout << "Bloomberg price/yld (%) ";
@@ -320,9 +312,9 @@ int main(int, char* [])
 
         std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
         double seconds = static_cast<double>((endT - startT).count()) / 1.0e9;
-        Integer hours = int(seconds/3600);
+        Integer hours = int(seconds / 3600);
         seconds -= hours * 3600;
-        Integer minutes = int(seconds/60);
+        Integer minutes = int(seconds / 60);
         seconds -= minutes * 60;
         cout << " \nRun completed in ";
         if (hours > 0)
@@ -334,7 +326,7 @@ int main(int, char* [])
 
         return 0;
 
-    } catch (std::exception& e) {
+    } catch (std::exception &e) {
         std::cerr << e.what() << std::endl;
         return 1;
     } catch (...) {

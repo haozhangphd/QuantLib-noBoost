@@ -80,7 +80,7 @@ namespace QuantLib {
                                          Rate convAdj,
                                          Futures::Type type)
     : RateHelper(price),
-      convAdj_(Handle<Quote>(shared_ptr<Quote>(new SimpleQuote(convAdj))))
+      convAdj_(Handle<Quote>(std::make_shared<SimpleQuote>(convAdj)))
     {
         switch (type) {
           case Futures::IMM:
@@ -160,7 +160,7 @@ namespace QuantLib {
                                          Rate convAdj,
                                          Futures::Type type)
     : RateHelper(price),
-      convAdj_(Handle<Quote>(shared_ptr<Quote>(new SimpleQuote(convAdj))))
+      convAdj_(Handle<Quote>(std::make_shared<SimpleQuote>(convAdj)))
     {
         switch (type) {
           case Futures::IMM:
@@ -240,7 +240,7 @@ namespace QuantLib {
                                          Rate convAdj,
                                          Futures::Type type)
     : RateHelper(price),
-      convAdj_(Handle<Quote>(shared_ptr<Quote>(new SimpleQuote(convAdj))))
+      convAdj_(Handle<Quote>(std::make_shared<SimpleQuote>(convAdj)))
     {
         switch (type) {
           case Futures::IMM:
@@ -296,11 +296,10 @@ namespace QuantLib {
                                          bool endOfMonth,
                                          const DayCounter& dayCounter)
     : RelativeDateRateHelper(rate) {
-        iborIndex_ = shared_ptr<IborIndex>(new
-            IborIndex("no-fix", // never take fixing into account
+        iborIndex_ = std::make_shared<IborIndex>("no-fix", // never take fixing into account
                       tenor, fixingDays,
                       Currency(), calendar, convention,
-                      endOfMonth, dayCounter, termStructureHandle_));
+                      endOfMonth, dayCounter, termStructureHandle_);
         initializeDates();
     }
 
@@ -312,11 +311,10 @@ namespace QuantLib {
                                          bool endOfMonth,
                                          const DayCounter& dayCounter)
     : RelativeDateRateHelper(rate) {
-        iborIndex_ = shared_ptr<IborIndex>(new
-            IborIndex("no-fix", // never take fixing into account
+        iborIndex_ = std::make_shared<IborIndex>("no-fix", // never take fixing into account
                       tenor, fixingDays,
                       Currency(), calendar, convention,
-                      endOfMonth, dayCounter, termStructureHandle_));
+                      endOfMonth, dayCounter, termStructureHandle_);
         initializeDates();
     }
 
@@ -391,12 +389,11 @@ namespace QuantLib {
                    ")");
         // no way to take fixing into account,
         // even if we would like to for FRA over today
-        iborIndex_ = shared_ptr<IborIndex>(new
-            IborIndex("no-fix", // correct family name would be needed
+        iborIndex_ = std::make_shared<IborIndex>("no-fix", // correct family name would be needed
                       (monthsToEnd-monthsToStart)*Months,
                       fixingDays,
                       Currency(), calendar, convention,
-                      endOfMonth, dayCounter, termStructureHandle_));
+                      endOfMonth, dayCounter, termStructureHandle_);
         pillarDate_ = customPillarDate;
         initializeDates();
     }
@@ -419,12 +416,11 @@ namespace QuantLib {
                    ")");
         // no way to take fixing into account,
         // even if we would like to for FRA over today
-        iborIndex_ = shared_ptr<IborIndex>(new
-            IborIndex("no-fix", // correct family name would be needed
+        iborIndex_ = std::make_shared<IborIndex>("no-fix", // correct family name would be needed
                       (monthsToEnd-monthsToStart)*Months,
                       fixingDays,
                       Currency(), calendar, convention,
-                      endOfMonth, dayCounter, termStructureHandle_));
+                      endOfMonth, dayCounter, termStructureHandle_);
         pillarDate_ = customPillarDate;
         initializeDates();
     }
@@ -477,12 +473,11 @@ namespace QuantLib {
       pillarChoice_(pillarChoice) {
         // no way to take fixing into account,
         // even if we would like to for FRA over today
-        iborIndex_ = shared_ptr<IborIndex>(new
-            IborIndex("no-fix", // correct family name would be needed
+        iborIndex_ = std::make_shared<IborIndex>("no-fix", // correct family name would be needed
                       lengthInMonths*Months,
                       fixingDays,
                       Currency(), calendar, convention,
-                      endOfMonth, dayCounter, termStructureHandle_));
+                      endOfMonth, dayCounter, termStructureHandle_);
         pillarDate_ = customPillarDate;
         initializeDates();
     }
@@ -501,12 +496,11 @@ namespace QuantLib {
       pillarChoice_(pillarChoice) {
         // no way to take fixing into account,
         // even if we would like to for FRA over today
-        iborIndex_ = shared_ptr<IborIndex>(new
-            IborIndex("no-fix", // correct family name would be needed
+        iborIndex_ = std::make_shared<IborIndex>("no-fix", // correct family name would be needed
                       lengthInMonths*Months,
                       fixingDays,
                       Currency(), calendar, convention,
-                      endOfMonth, dayCounter, termStructureHandle_));
+                      endOfMonth, dayCounter, termStructureHandle_);
         pillarDate_ = customPillarDate;
         initializeDates();
     }
@@ -886,7 +880,7 @@ namespace QuantLib {
         Date maturity = earliestDate_ + tenor_;
 
         // dummy BMA index with curve/swap arguments
-        shared_ptr<BMAIndex> clonedIndex(new BMAIndex(termStructureHandle_));
+        shared_ptr<BMAIndex> clonedIndex = std::make_shared<BMAIndex>(termStructureHandle_);
 
         Schedule bmaSchedule =
             MakeSchedule().from(earliestDate_).to(maturity)
@@ -903,7 +897,7 @@ namespace QuantLib {
                           .endOfMonth(iborIndex_->endOfMonth())
                           .backwards();
 
-        swap_ = shared_ptr<BMASwap>(new BMASwap(BMASwap::Payer, 100.0,
+        swap_ = std::make_shared<BMASwap>(BMASwap::Payer, 100.0,
                                                 liborSchedule,
                                                 0.75, // arbitrary
                                                 0.0,
@@ -911,9 +905,8 @@ namespace QuantLib {
                                                 iborIndex_->dayCounter(),
                                                 bmaSchedule,
                                                 clonedIndex,
-                                                bmaDayCount_));
-        swap_->setPricingEngine(shared_ptr<PricingEngine>(new
-            DiscountingSwapEngine(iborIndex_->forwardingTermStructure())));
+                                                bmaDayCount_);
+        swap_->setPricingEngine(std::make_shared<DiscountingSwapEngine>(iborIndex_->forwardingTermStructure()));
 
         Date d = calendar_.adjust(swap_->maturityDate(), Following);
         Weekday w = d.weekday();

@@ -143,10 +143,9 @@ namespace QuantLib {
     void MCLongstaffSchwartzPathEngine<GenericEngine,MC,RNG,S>::calculate() 
     const {
         pathPricer_ = this->lsmPathPricer();
-        this->mcModel_ = std::shared_ptr<MonteCarloModel<MC,RNG,S> >(
-                          new MonteCarloModel<MC,RNG,S>
+        this->mcModel_ = std::make_shared<MonteCarloModel<MC,RNG,S>>
                               (pathGenerator(), pathPricer_,
-                               stats_type(), this->antitheticVariate_));
+                               stats_type(), this->antitheticVariate_);
 
         this->mcModel_->addSamples(nCalibrationSamples_);
         this->pathPricer_->calibrate();
@@ -192,9 +191,8 @@ namespace QuantLib {
         TimeGrid grid = this->timeGrid();
         typename RNG::rsg_type generator =
             RNG::make_sequence_generator(dimensions*(grid.size()-1),seed_);
-        return std::shared_ptr<path_generator_type>(
-                   new path_generator_type(process_,
-                                           grid, generator, brownianBridge_));
+        return std::make_shared<path_generator_type>(process_,
+                                           grid, generator, brownianBridge_);
     }
 }
 

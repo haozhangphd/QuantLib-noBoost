@@ -52,10 +52,9 @@ namespace QuantLib {
                                                               Real targetValue)
         : discountCurve_(discountCurve), targetValue_(targetValue) {
 
-            vol_ = std::shared_ptr<SimpleQuote>(new SimpleQuote(-1.0));
+            vol_ = std::make_shared<SimpleQuote>(-1.0);
             Handle<Quote> h(vol_);
-            engine_ = std::shared_ptr<PricingEngine>(new
-                                    BlackSwaptionEngine(discountCurve_, h));
+            engine_ = std::make_shared<BlackSwaptionEngine>(discountCurve_, h);
             swaption.setupArguments(engine_->getArguments());
 
             results_ =

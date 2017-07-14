@@ -120,13 +120,11 @@ namespace QuantLib {
             std::dynamic_pointer_cast<P>(this->process_);
         QL_REQUIRE(process, "Heston like process required");
 
-        return std::shared_ptr<
-            typename MCEuropeanHestonEngine<RNG,S,P>::path_pricer_type>(
-                   new EuropeanHestonPathPricer(
+        return std::make_shared<EuropeanHestonPathPricer>(
                                         payoff->optionType(),
                                         payoff->strike(),
                                         process->riskFreeRate()->discount(
-                                                   this->timeGrid().back())));
+                                                   this->timeGrid().back()));
     }
 
 
@@ -205,14 +203,13 @@ namespace QuantLib {
     operator std::shared_ptr<PricingEngine>() const {
         QL_REQUIRE(steps_ != Null<Size>() || stepsPerYear_ != Null<Size>(),
                    "number of steps not given");
-        return std::shared_ptr<PricingEngine>(
-               new MCEuropeanHestonEngine<RNG,S,P>(process_,
+        return std::make_shared<MCEuropeanHestonEngine<RNG,S,P>>(process_,
                                                    steps_,
                                                    stepsPerYear_,
                                                    antithetic_,
                                                    samples_, tolerance_,
                                                    maxSamples_,
-                                                   seed_));
+                                                   seed_);
     }
 
 

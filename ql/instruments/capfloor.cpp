@@ -63,19 +63,17 @@ namespace QuantLib {
 
             // set an implausible value, so that calculation is forced
             // at first ImpliedCapVolHelper::operator()(Volatility x) call
-            vol_ = std::shared_ptr<SimpleQuote>(new SimpleQuote(-1));
+            vol_ = std::make_shared<SimpleQuote>(-1);
             Handle<Quote> h(vol_);
 
             switch (type) {
             case ShiftedLognormal:
-                engine_ = std::shared_ptr<PricingEngine>(new
-                    BlackCapFloorEngine(discountCurve_, h, Actual365Fixed(),
-                                                                displacement));
+                engine_ = std::make_shared<BlackCapFloorEngine>(discountCurve_, h, Actual365Fixed(),
+                                                                displacement);
                 break;
             case Normal:
-                engine_ = std::shared_ptr<PricingEngine>(new
-                    BachelierCapFloorEngine(discountCurve_, h, 
-                                                            Actual365Fixed()));
+                engine_ = std::make_shared<BachelierCapFloorEngine>(discountCurve_, h, 
+                                                            Actual365Fixed());
                 break;
             default:
                 QL_FAIL("unknown VolatilityType (" << type << ")");
@@ -208,7 +206,7 @@ namespace QuantLib {
         if (type() == Floor || type() == Collar)
             floor.emplace_back(floorRates()[i]);
 
-        return shared_ptr<CapFloor>(new CapFloor(type(), cf, cap, floor));
+        return std::make_shared<CapFloor>(type(), cf, cap, floor);
     }
 
     void CapFloor::setupArguments(PricingEngine::arguments* args) const {

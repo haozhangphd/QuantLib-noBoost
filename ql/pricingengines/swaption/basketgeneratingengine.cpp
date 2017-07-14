@@ -88,7 +88,7 @@ namespace QuantLib {
                     atmVol = sec->volatility(atmStrike);
                 Real shift = sec->shift();
 
-                helper = std::shared_ptr<SwaptionHelper>(new SwaptionHelper(
+                helper = std::make_shared<SwaptionHelper>(
                     expiry, underlyingLastDate(),
                     Handle<Quote>(std::make_shared<SimpleQuote>(atmVol)),
                     standardSwapBase->iborIndex(),
@@ -99,7 +99,7 @@ namespace QuantLib {
                         ? standardSwapBase->discountingTermStructure()
                         : standardSwapBase->forwardingTermStructure(),
                     CalibrationHelper::RelativePriceError, Null<Real>(), 1.0,
-                    swaptionVolatility->volatilityType() ,shift));
+                    swaptionVolatility->volatilityType() ,shift);
 
                 break;
             }
@@ -161,9 +161,9 @@ namespace QuantLib {
                         expiry, Date::maxDate() - 365);
 
                 std::shared_ptr<MatchHelper> matchHelper_;
-                matchHelper_ = std::shared_ptr<MatchHelper>(new MatchHelper(
+                matchHelper_ = std::make_shared<MatchHelper>(
                     underlyingType(), npv, delta, gamma, onefactormodel_,
-                    standardSwapBase, expiry, maxMaturity, h));
+                    standardSwapBase, expiry, maxMaturity, h);
 
                 // Optimize
                 Array initial = initialGuess(expiry);
@@ -216,7 +216,7 @@ namespace QuantLib {
 
                 Real vol = sec->volatility(solution[2]);
 
-                helper = std::shared_ptr<SwaptionHelper>(new SwaptionHelper(
+                helper = std::make_shared<SwaptionHelper>(
                     expiry, matPeriod,
                     Handle<Quote>(std::make_shared<SimpleQuote>(
                                       vol)),
@@ -228,7 +228,7 @@ namespace QuantLib {
                         ? standardSwapBase->discountingTermStructure()
                         : standardSwapBase->forwardingTermStructure(),
                     CalibrationHelper::RelativePriceError, solution[2],
-                    fabs(solution[0]), swaptionVolatility->volatilityType(), shift));
+                    fabs(solution[0]), swaptionVolatility->volatilityType(), shift);
                 break;
             }
 

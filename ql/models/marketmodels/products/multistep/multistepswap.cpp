@@ -60,8 +60,7 @@ namespace QuantLib {
     }
 
     std::unique_ptr<MarketModelMultiProduct> MultiStepSwap::clone() const {
-        return std::unique_ptr<MarketModelMultiProduct>(
-                                                 new MultiStepSwap(*this));
+        return std::make_unique<MultiStepSwap>(*this);
     }
 
 }

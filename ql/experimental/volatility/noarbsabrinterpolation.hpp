@@ -213,13 +213,12 @@ class NoArbSabrInterpolation : public Interpolation {
         const Size maxGuesses = 50, const Real shift = 0.0) {
 
         QL_REQUIRE(shift==0.0,"NoArbSabrInterpolation for non zero shift not implemented");
-        impl_ = std::shared_ptr<Interpolation::Impl>(
-            new detail::XABRInterpolationImpl<I1, I2, detail::NoArbSabrSpecs>(
+        impl_ = std::make_shared<detail::XABRInterpolationImpl<I1, I2, detail::NoArbSabrSpecs>>(
                 xBegin, xEnd, yBegin, t, forward,
                 std::vector<Real>{alpha, beta, nu, rho},
                 std::vector<bool>{alphaIsFixed, betaIsFixed, nuIsFixed, rhoIsFixed},
                 vegaWeighted, endCriteria, optMethod, errorAccept, useMaxError,
-                maxGuesses));
+                maxGuesses);
         coeffs_ = std::dynamic_pointer_cast<
             detail::XABRCoeffHolder<detail::NoArbSabrSpecs> >(impl_);
     }

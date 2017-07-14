@@ -272,8 +272,7 @@ namespace QuantLib {
                     (dDelta  > 0) ? receiveLegDiscountFactor : payLegDiscountFactor;
 
                 paymentCashFlows_[pricingPeriod->paymentDate()] =
-                    std::shared_ptr<CommodityCashFlow> (
-                           new CommodityCashFlow(pricingPeriod->paymentDate(),
+                    std::make_shared<CommodityCashFlow>(pricingPeriod->paymentDate(),
                                                  Money(baseCurrency,
                                                        uDelta * discountFactor),
                                                  Money(baseCurrency, uDelta),
@@ -283,7 +282,7 @@ namespace QuantLib {
                                                        uDelta * pmtFxConversionFactor),
                                                  discountFactor,
                                                  pmtDiscountFactor,
-                                                 pricingPeriod->paymentDate() <= evaluationDate));
+                                                 pricingPeriod->paymentDate() <= evaluationDate);
 
                 calculateSecondaryCostAmounts(
                                pricingPeriods_[0]->quantity().commodityType(),

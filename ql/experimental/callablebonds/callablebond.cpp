@@ -70,7 +70,7 @@ namespace QuantLib {
                               Real targetValue)
     : targetValue_(targetValue) {
 
-        vol_ = std::shared_ptr<SimpleQuote>(new SimpleQuote(0.0));
+        vol_ = std::make_shared<SimpleQuote>(0.0);
         bond.blackVolQuote_.linkTo(vol_);
 
         QL_REQUIRE(bond.blackEngine_,
@@ -140,11 +140,10 @@ namespace QuantLib {
         }
 
         // used for impliedVolatility() calculation
-        std::shared_ptr<SimpleQuote> dummyVolQuote(new SimpleQuote(0.));
+        std::shared_ptr<SimpleQuote> dummyVolQuote = std::make_shared<SimpleQuote>(0.);
         blackVolQuote_.linkTo(dummyVolQuote);
-        blackEngine_ = std::shared_ptr<PricingEngine>(
-                   new BlackCallableFixedRateBondEngine(blackVolQuote_,
-                                                        blackDiscountCurve_));
+        blackEngine_ = std::make_shared<BlackCallableFixedRateBondEngine>(blackVolQuote_,
+                                                        blackDiscountCurve_);
     }
 
 

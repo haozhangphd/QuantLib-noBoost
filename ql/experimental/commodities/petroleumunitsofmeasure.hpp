@@ -31,8 +31,8 @@ namespace QuantLib {
     class BarrelUnitOfMeasure : public UnitOfMeasure {
       public:
         BarrelUnitOfMeasure() {
-            static std::shared_ptr<Data> data(
-                           new Data("Barrels", "BBL", UnitOfMeasure::Volume));
+            static std::shared_ptr<Data> data =
+                           std::make_shared<Data>("Barrels", "BBL", UnitOfMeasure::Volume);
             data_ = data;
         }
     };
@@ -40,8 +40,8 @@ namespace QuantLib {
     class MTUnitOfMeasure : public UnitOfMeasure {
       public:
         MTUnitOfMeasure() {
-            static std::shared_ptr<Data> data(
-                        new Data("Metric Tonnes", "MT", UnitOfMeasure::Mass));
+            static std::shared_ptr<Data> data =
+                        std::make_shared<Data>("Metric Tonnes", "MT", UnitOfMeasure::Mass);
             data_ = data;
         }
     };
@@ -49,9 +49,9 @@ namespace QuantLib {
     class MBUnitOfMeasure : public UnitOfMeasure {
       public:
         MBUnitOfMeasure() {
-            static std::shared_ptr<Data> data(
-                         new Data("1000 Barrels", "MB", UnitOfMeasure::Volume,
-                                  BarrelUnitOfMeasure()));
+            static std::shared_ptr<Data> data =
+                         std::make_shared<Data>("1000 Barrels", "MB", UnitOfMeasure::Volume,
+                                  BarrelUnitOfMeasure());
             data_ = data;
         }
     };
@@ -59,9 +59,9 @@ namespace QuantLib {
     class GallonUnitOfMeasure : public UnitOfMeasure {
       public:
         GallonUnitOfMeasure() {
-            static std::shared_ptr<Data> data(
-                          new Data("US Gallons", "GAL", UnitOfMeasure::Volume,
-                                   BarrelUnitOfMeasure()));
+            static std::shared_ptr<Data> data =
+                          std::make_shared<Data>("US Gallons", "GAL", UnitOfMeasure::Volume,
+                                   BarrelUnitOfMeasure());
             data_ = data;
         }
     };
@@ -69,9 +69,9 @@ namespace QuantLib {
     class LitreUnitOfMeasure : public UnitOfMeasure {
       public:
         LitreUnitOfMeasure() {
-            static std::shared_ptr<Data> data(
-                                new Data("Litres", "l", UnitOfMeasure::Volume,
-                                         BarrelUnitOfMeasure()));
+            static std::shared_ptr<Data> data =
+                                std::make_shared<Data>("Litres", "l", UnitOfMeasure::Volume,
+                                         BarrelUnitOfMeasure());
             data_ = data;
         }
     };
@@ -79,9 +79,9 @@ namespace QuantLib {
     class KilolitreUnitOfMeasure : public UnitOfMeasure {
       public:
         KilolitreUnitOfMeasure() {
-            static std::shared_ptr<Data> data(
-                           new Data("Kilolitres", "kl", UnitOfMeasure::Volume,
-                                    BarrelUnitOfMeasure()));
+            static std::shared_ptr<Data> data =
+                           std::make_shared<Data>("Kilolitres", "kl", UnitOfMeasure::Volume,
+                                    BarrelUnitOfMeasure());
             data_ = data;
         }
     };
@@ -89,9 +89,9 @@ namespace QuantLib {
     class TokyoKilolitreUnitOfMeasure : public UnitOfMeasure {
       public:
         TokyoKilolitreUnitOfMeasure() {
-            static std::shared_ptr<Data> data(
-                new Data("Tokyo Kilolitres", "KL_tk", UnitOfMeasure::Volume,
-                         BarrelUnitOfMeasure()));
+            static std::shared_ptr<Data> data =
+                std::make_shared<Data>("Tokyo Kilolitres", "KL_tk", UnitOfMeasure::Volume,
+                         BarrelUnitOfMeasure());
             data_ = data;
         }
     };

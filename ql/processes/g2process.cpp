@@ -24,8 +24,8 @@ namespace QuantLib {
 
     G2Process::G2Process(Real a, Real sigma, Real b, Real eta, Real rho)
     : x0_(0.0), y0_(0.0), a_(a), sigma_(sigma), b_(b), eta_(eta), rho_(rho),
-      xProcess_(new QuantLib::OrnsteinUhlenbeckProcess(a, sigma, 0.0)),
-      yProcess_(new QuantLib::OrnsteinUhlenbeckProcess(b, eta, 0.0)) {}
+      xProcess_(std::make_shared<QuantLib::OrnsteinUhlenbeckProcess>(a, sigma, 0.0)),
+      yProcess_(std::make_shared<QuantLib::OrnsteinUhlenbeckProcess>(b, eta, 0.0)) {}
 
     Size G2Process::size() const {
         return 2;
@@ -132,8 +132,8 @@ namespace QuantLib {
     G2ForwardProcess::G2ForwardProcess(Real a, Real sigma, Real b,
                                        Real eta, Real rho)
     : x0_(0.0), y0_(0.0), a_(a), sigma_(sigma), b_(b), eta_(eta), rho_(rho),
-      xProcess_(new QuantLib::OrnsteinUhlenbeckProcess(a, sigma, 0.0)),
-      yProcess_(new QuantLib::OrnsteinUhlenbeckProcess(b, eta, 0.0)) {}
+      xProcess_(std::make_shared<QuantLib::OrnsteinUhlenbeckProcess>(a, sigma, 0.0)),
+      yProcess_(std::make_shared<QuantLib::OrnsteinUhlenbeckProcess>(b, eta, 0.0)) {}
 
     Size G2ForwardProcess::size() const {
         return 2;

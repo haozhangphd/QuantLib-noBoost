@@ -182,7 +182,7 @@ TEST_CASE("Bond_AtmRate", "[Bond]") {
     BusinessDayConvention paymentConvention = ModifiedFollowing;
     Real redemption = 100.0;
     Handle<YieldTermStructure> disc(flatRate(vars.today,0.03,Actual360()));
-    shared_ptr<PricingEngine> bondEngine(new DiscountingBondEngine(disc));
+    shared_ptr<PricingEngine> bondEngine = std::make_shared<DiscountingBondEngine>(disc);
 
     for (Size i=0; i<LENGTH(issueMonths); i++) {
       for (Size j=0; j<LENGTH(lengths); j++) {
@@ -352,7 +352,7 @@ TEST_CASE("Bond_Theoretical", "[Bond]") {
             Date issue = dated;
             Date maturity = vars.calendar.advance(issue, lengths[j], Years);
 
-            shared_ptr<SimpleQuote> rate(new SimpleQuote(0.0));
+            shared_ptr<SimpleQuote> rate = std::make_shared<SimpleQuote>(0.0);
             Handle<YieldTermStructure> discountCurve(flatRate(vars.today,
                                                               rate,
                                                               bondDayCount));
@@ -367,8 +367,8 @@ TEST_CASE("Bond_Theoretical", "[Bond]") {
                                bondDayCount, paymentConvention,
                                redemption, issue);
 
-            shared_ptr<PricingEngine> bondEngine(
-                                    new DiscountingBondEngine(discountCurve));
+            shared_ptr<PricingEngine> bondEngine =
+                                    std::make_shared<DiscountingBondEngine>(discountCurve);
             bond.setPricingEngine(bondEngine);
 
             for (Size m=0; m<LENGTH(yields); m++) {
@@ -445,8 +445,8 @@ TEST_CASE("Bond_Cached", "[Bond]") {
                         bondDayCount, ModifiedFollowing,
                         100.0, Date(1, November, 2004));
 
-    shared_ptr<PricingEngine> bondEngine(
-                                    new DiscountingBondEngine(discountCurve));
+    shared_ptr<PricingEngine> bondEngine =
+                                    std::make_shared<DiscountingBondEngine>(discountCurve);
     bond1.setPricingEngine(bondEngine);
 
     Real marketPrice1 = 99.203125;
@@ -651,8 +651,8 @@ TEST_CASE("Bond_CachedZero", "[Bond]") {
                          ModifiedFollowing,
                          100.0, Date(30,November,2004));
 
-    shared_ptr<PricingEngine> bondEngine(
-                                    new DiscountingBondEngine(discountCurve));
+    shared_ptr<PricingEngine> bondEngine =
+                                    std::make_shared<DiscountingBondEngine>(discountCurve);
     bond1.setPricingEngine(bondEngine);
 
     Real cachedPrice1 = 88.551726;
@@ -736,8 +736,8 @@ TEST_CASE("Bond_CachedFixed", "[Bond]") {
                         ModifiedFollowing,
                         100.0, Date(30,November,2004));
 
-    shared_ptr<PricingEngine> bondEngine(
-                                    new DiscountingBondEngine(discountCurve));
+    shared_ptr<PricingEngine> bondEngine =
+                                    std::make_shared<DiscountingBondEngine>(discountCurve);
     bond1.setPricingEngine(bondEngine);
 
     Real cachedPrice1 = 99.298100;
@@ -820,13 +820,13 @@ TEST_CASE("Bond_CachedFloating", "[Bond]") {
     Handle<YieldTermStructure> riskFreeRate(flatRate(today,0.025,Actual360()));
     Handle<YieldTermStructure> discountCurve(flatRate(today,0.03,Actual360()));
 
-    shared_ptr<IborIndex> index(new USDLibor(6*Months, riskFreeRate));
+    shared_ptr<IborIndex> index = std::make_shared<USDLibor>(6*Months, riskFreeRate);
     Natural fixingDays = 1;
 
     Real tolerance = 1.0e-6;
 
-    shared_ptr<IborCouponPricer> pricer(new
-        BlackIborCouponPricer(Handle<OptionletVolatilityStructure>()));
+    shared_ptr<IborCouponPricer> pricer =
+        std::make_shared<BlackIborCouponPricer>(Handle<OptionletVolatilityStructure>());
 
     // plain
 
@@ -845,8 +845,8 @@ TEST_CASE("Bond_CachedFloating", "[Bond]") {
                            false,
                            100.0, Date(30,November,2004));
 
-    shared_ptr<PricingEngine> bondEngine(
-                                     new DiscountingBondEngine(riskFreeRate));
+    shared_ptr<PricingEngine> bondEngine =
+                                     std::make_shared<DiscountingBondEngine>(riskFreeRate);
     bond1.setPricingEngine(bondEngine);
 
     setCouponPricer(bond1.cashflows(),pricer);
@@ -877,8 +877,8 @@ TEST_CASE("Bond_CachedFloating", "[Bond]") {
                            false,
                            100.0, Date(30,November,2004));
 
-    shared_ptr<PricingEngine> bondEngine2(
-                                    new DiscountingBondEngine(discountCurve));
+    shared_ptr<PricingEngine> bondEngine2 =
+                                    std::make_shared<DiscountingBondEngine>(discountCurve);
     bond2.setPricingEngine(bondEngine2);
 
     setCouponPricer(bond2.cashflows(),pricer);

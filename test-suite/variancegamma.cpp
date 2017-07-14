@@ -127,27 +127,27 @@ TEST_CASE("VarianceGamma_VarianceGamma", "[VarianceGamma]") {
     Date today = Date::todaysDate();
 
     for (Size i=0; i<LENGTH(processes); i++) {
-        std::shared_ptr<SimpleQuote> spot(new SimpleQuote(processes[i].s));
-        std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(processes[i].q));
+        std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(processes[i].s);
+        std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(processes[i].q);
         std::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-        std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(processes[i].r));
+        std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(processes[i].r);
         std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
 
-        std::shared_ptr<VarianceGammaProcess> stochProcess(
-            new VarianceGammaProcess(Handle<Quote>(spot),
+        std::shared_ptr<VarianceGammaProcess> stochProcess =
+            std::make_shared<VarianceGammaProcess>(Handle<Quote>(spot),
             Handle<YieldTermStructure>(qTS),
             Handle<YieldTermStructure>(rTS),
             processes[i].sigma,
             processes[i].nu,
-            processes[i].theta));
+            processes[i].theta);
 
         // Analytic engine
-        std::shared_ptr<PricingEngine> analyticEngine(
-            new VarianceGammaEngine(stochProcess));
+        std::shared_ptr<PricingEngine> analyticEngine =
+            std::make_shared<VarianceGammaEngine>(stochProcess);
 
         // FFT engine
-        std::shared_ptr<FFTVarianceGammaEngine> fftEngine(
-            new FFTVarianceGammaEngine(stochProcess));
+        std::shared_ptr<FFTVarianceGammaEngine> fftEngine =
+            std::make_shared<FFTVarianceGammaEngine>(stochProcess);
 
         // which requires a list of options
         std::vector<std::shared_ptr<Instrument> > optionList;
@@ -156,14 +156,14 @@ TEST_CASE("VarianceGamma_VarianceGamma", "[VarianceGamma]") {
         for (Size j=0; j<LENGTH(options); j++)
         {
             Date exDate = today + Integer(options[j].t*360+0.5);
-            std::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
+            std::shared_ptr<Exercise> exercise = std::make_shared<EuropeanExercise>(exDate);
 
-            std::shared_ptr<StrikedTypePayoff> payoff(new
-                PlainVanillaPayoff(options[j].type, options[j].strike));
+            std::shared_ptr<StrikedTypePayoff> payoff = 
+                std::make_shared<PlainVanillaPayoff>(options[j].type, options[j].strike);
             payoffs.emplace_back(payoff);
 
             // Test analytic engine
-            std::shared_ptr<EuropeanOption> option(new EuropeanOption(payoff, exercise));
+            std::shared_ptr<EuropeanOption> option = std::make_shared<EuropeanOption>(payoff, exercise);
             option->setPricingEngine(analyticEngine);
 
             Real calculated = option->NPV();

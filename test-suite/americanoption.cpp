@@ -127,38 +127,38 @@ TEST_CASE("AmericanOption_BaroneAdesiWhaleyValues", "[AmericanOption]") {
 
     Date today = Date::todaysDate();
     DayCounter dc = Actual360();
-    std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
-    std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
 
     Real tolerance = 3.0e-3;
 
     for (Size i=0; i<LENGTH(values); i++) {
 
-        std::shared_ptr<StrikedTypePayoff> payoff(new
-            PlainVanillaPayoff(values[i].type, values[i].strike));
+        std::shared_ptr<StrikedTypePayoff> payoff =
+            std::make_shared<PlainVanillaPayoff>(values[i].type, values[i].strike);
         // FLOATING_POINT_EXCEPTION
         Date exDate = today + Integer(values[i].t*360+0.5);
-        std::shared_ptr<Exercise> exercise(
-                                         new AmericanExercise(today, exDate));
+        std::shared_ptr<Exercise> exercise =
+                                         std::make_shared<AmericanExercise>(today, exDate);
 
         spot ->setValue(values[i].s);
         qRate->setValue(values[i].q);
         rRate->setValue(values[i].r);
         vol  ->setValue(values[i].v);
 
-        std::shared_ptr<BlackScholesMertonProcess> stochProcess(new
-            BlackScholesMertonProcess(Handle<Quote>(spot),
+        std::shared_ptr<BlackScholesMertonProcess> stochProcess =
+            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
                                       Handle<YieldTermStructure>(qTS),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS)));
+                                      Handle<BlackVolTermStructure>(volTS));
 
-        std::shared_ptr<PricingEngine> engine(
-                      new BaroneAdesiWhaleyApproximationEngine(stochProcess));
+        std::shared_ptr<PricingEngine> engine =
+                      std::make_shared<BaroneAdesiWhaleyApproximationEngine>(stochProcess);
 
         VanillaOption option(payoff, exercise);
         option.setPricingEngine(engine);
@@ -201,38 +201,38 @@ TEST_CASE("AmericanOption_BjerksundStenslandValues", "[AmericanOption]") {
 
     Date today = Date::todaysDate();
     DayCounter dc = Actual360();
-    std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
-    std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
 
     Real tolerance = 5.0e-5;
 
     for (Size i=0; i<LENGTH(values); i++) {
 
-        std::shared_ptr<StrikedTypePayoff> payoff(new
-            PlainVanillaPayoff(values[i].type, values[i].strike));
+        std::shared_ptr<StrikedTypePayoff> payoff =
+            std::make_shared<PlainVanillaPayoff>(values[i].type, values[i].strike);
         //FLOATING_POINT_EXCEPTION
         Date exDate = today + Integer(values[i].t*360+0.5);
-        std::shared_ptr<Exercise> exercise(
-                                         new AmericanExercise(today, exDate));
+        std::shared_ptr<Exercise> exercise =
+                                         std::make_shared<AmericanExercise>(today, exDate);
 
         spot ->setValue(values[i].s);
         qRate->setValue(values[i].q);
         rRate->setValue(values[i].r);
         vol  ->setValue(values[i].v);
 
-        std::shared_ptr<BlackScholesMertonProcess> stochProcess(new
-            BlackScholesMertonProcess(Handle<Quote>(spot),
+        std::shared_ptr<BlackScholesMertonProcess> stochProcess =
+            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
                                       Handle<YieldTermStructure>(qTS),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS)));
+                                      Handle<BlackVolTermStructure>(volTS));
 
-        std::shared_ptr<PricingEngine> engine(
-                     new BjerksundStenslandApproximationEngine(stochProcess));
+        std::shared_ptr<PricingEngine> engine =
+                     std::make_shared<BjerksundStenslandApproximationEngine>(stochProcess);
 
         VanillaOption option(payoff, exercise);
         option.setPricingEngine(engine);
@@ -332,38 +332,38 @@ TEST_CASE("AmericanOption_JuValues", "[AmericanOption]") {
 
     Date today = Date::todaysDate();
     DayCounter dc = Actual360();
-    std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
-    std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
 
     Real tolerance = 1.0e-3;
 
     for (Size i=0; i<LENGTH(juValues); i++) {
 
-        std::shared_ptr<StrikedTypePayoff> payoff(new
-            PlainVanillaPayoff(juValues[i].type, juValues[i].strike));
+        std::shared_ptr<StrikedTypePayoff> payoff =
+            std::make_shared<PlainVanillaPayoff>(juValues[i].type, juValues[i].strike);
         //FLOATING_POINT_EXCEPTION
         Date exDate = today + Integer(juValues[i].t*360+0.5);
-        std::shared_ptr<Exercise> exercise(
-                                         new AmericanExercise(today, exDate));
+        std::shared_ptr<Exercise> exercise =
+                                         std::make_shared<AmericanExercise>(today, exDate);
 
         spot ->setValue(juValues[i].s);
         qRate->setValue(juValues[i].q);
         rRate->setValue(juValues[i].r);
         vol  ->setValue(juValues[i].v);
 
-        std::shared_ptr<BlackScholesMertonProcess> stochProcess(new
-            BlackScholesMertonProcess(Handle<Quote>(spot),
+        std::shared_ptr<BlackScholesMertonProcess> stochProcess =
+            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
                                       Handle<YieldTermStructure>(qTS),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS)));
+                                      Handle<BlackVolTermStructure>(volTS));
 
-        std::shared_ptr<PricingEngine> engine(
-                            new JuQuadraticApproximationEngine(stochProcess));
+        std::shared_ptr<PricingEngine> engine =
+                            std::make_shared<JuQuadraticApproximationEngine>(stochProcess);
 
         VanillaOption option(payoff, exercise);
         option.setPricingEngine(engine);
@@ -387,39 +387,39 @@ TEST_CASE("AmericanOption_FdValues", "[AmericanOption]") {
 
     Date today = Date::todaysDate();
     DayCounter dc = Actual360();
-    std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
-    std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
 
     Real tolerance = 8.0e-2;
 
     for (Size i=0; i<LENGTH(juValues); i++) {
 
-        std::shared_ptr<StrikedTypePayoff> payoff(new
-            PlainVanillaPayoff(juValues[i].type, juValues[i].strike));
+        std::shared_ptr<StrikedTypePayoff> payoff =
+            std::make_shared<PlainVanillaPayoff>(juValues[i].type, juValues[i].strike);
 
         // FLOATING_POINT_EXCEPTION
         Date exDate = today + Integer(juValues[i].t*360+0.5);
-        std::shared_ptr<Exercise> exercise(
-                                         new AmericanExercise(today, exDate));
+        std::shared_ptr<Exercise> exercise =
+                                         std::make_shared<AmericanExercise>(today, exDate);
 
         spot ->setValue(juValues[i].s);
         qRate->setValue(juValues[i].q);
         rRate->setValue(juValues[i].r);
         vol  ->setValue(juValues[i].v);
 
-        std::shared_ptr<BlackScholesMertonProcess> stochProcess(new
-            BlackScholesMertonProcess(Handle<Quote>(spot),
+        std::shared_ptr<BlackScholesMertonProcess> stochProcess =
+            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
                                       Handle<YieldTermStructure>(qTS),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS)));
+                                      Handle<BlackVolTermStructure>(volTS));
 
-        std::shared_ptr<PricingEngine> engine(
-                  new FDAmericanEngine<CrankNicolson>(stochProcess, 100,100));
+        std::shared_ptr<PricingEngine> engine =
+                  std::make_shared<FDAmericanEngine<CrankNicolson>>(stochProcess, 100,100);
 
         VanillaOption option(payoff, exercise);
         option.setPricingEngine(engine);
@@ -460,12 +460,12 @@ namespace {
         Date today = Date::todaysDate();
         Settings::instance().evaluationDate() = today;
 
-        std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
-        std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+        std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
+        std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
         Handle<YieldTermStructure> qTS(flatRate(qRate, dc));
-        std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+        std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
         Handle<YieldTermStructure> rTS(flatRate(rRate, dc));
-        std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
+        std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
         Handle<BlackVolTermStructure> volTS(flatVol(vol, dc));
 
         std::shared_ptr<StrikedTypePayoff> payoff;
@@ -474,16 +474,16 @@ namespace {
           for (Size j=0; j<LENGTH(strikes); j++) {
             for (Size k=0; k<LENGTH(years); k++) {
                 Date exDate = today + years[k]*Years;
-                std::shared_ptr<Exercise> exercise(
-                                         new AmericanExercise(today, exDate));
-                std::shared_ptr<StrikedTypePayoff> payoff(
-                                new PlainVanillaPayoff(types[i], strikes[j]));
-                std::shared_ptr<BlackScholesMertonProcess> stochProcess(
-                            new BlackScholesMertonProcess(Handle<Quote>(spot),
-                                                          qTS, rTS, volTS));
+                std::shared_ptr<Exercise> exercise =
+                                         std::make_shared<AmericanExercise>(today, exDate);
+                std::shared_ptr<StrikedTypePayoff> payoff =
+                                std::make_shared<PlainVanillaPayoff>(types[i], strikes[j]);
+                std::shared_ptr<BlackScholesMertonProcess> stochProcess =
+                            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
+                                                          qTS, rTS, volTS);
 
-                std::shared_ptr<PricingEngine> engine(
-                                                    new Engine(stochProcess));
+                std::shared_ptr<PricingEngine> engine =
+                                                    std::make_shared<Engine>(stochProcess);
 
                 VanillaOption option(payoff, exercise);
                 option.setPricingEngine(engine);

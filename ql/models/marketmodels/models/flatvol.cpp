@@ -188,16 +188,15 @@ namespace QuantLib {
         Matrix correlations = exponentialCorrelations(evolution.rateTimes(),
                                                       longTermCorrelation_,
                                                       beta_);
-        shared_ptr<PiecewiseConstantCorrelation> corr(new
-            TimeHomogeneousForwardCorrelation(correlations,
-                                              rateTimes));
-        return shared_ptr<MarketModel>(new
-            FlatVol(displacedVolatilities,
+        shared_ptr<PiecewiseConstantCorrelation> corr =
+            std::make_shared<TimeHomogeneousForwardCorrelation>(correlations,
+                                              rateTimes);
+        return std::make_shared<FlatVol>(displacedVolatilities,
                            corr,
                            evolution,
                            numberOfFactors,
                            initialRates,
-                           displacements));
+                           displacements);
     }
 
     void FlatVolFactory::update() {

@@ -71,8 +71,8 @@ namespace QuantLib {
                         s0_->value() * dividendYield_->discount(tau_)
                     ? Option::Call
                     : Option::Put;
-        std::shared_ptr<StrikedTypePayoff> payoff(
-            new PlainVanillaPayoff(type_, strikePrice_));
+        std::shared_ptr<StrikedTypePayoff> payoff =
+            std::make_shared<PlainVanillaPayoff>(type_, strikePrice_);
         std::shared_ptr<Exercise> exercise =
             std::make_shared<EuropeanExercise>(exerciseDate_);
         option_ = std::make_shared<VanillaOption>(payoff, exercise);

@@ -59,13 +59,12 @@ namespace QuantLib {
 
       protected:
         void performCalculations() const {
-            std::shared_ptr<FdmLinearOpComposite>op(
-                new FdmKlugeExtOUOp(solverDesc_.mesher,
+            std::shared_ptr<FdmLinearOpComposite>op =
+                std::make_shared<FdmKlugeExtOUOp>(solverDesc_.mesher,
                                     klugeOUProcess_.currentLink(),
-                                    rTS_, solverDesc_.bcSet, 16));
+                                    rTS_, solverDesc_.bcSet, 16);
 
-            solver_ = std::shared_ptr<FdmNdimSolver<N> >(
-                          new FdmNdimSolver<N>(solverDesc_, schemeDesc_, op));
+            solver_ = std::make_shared<FdmNdimSolver<N>>(solverDesc_, schemeDesc_, op);
         }
 
       private:

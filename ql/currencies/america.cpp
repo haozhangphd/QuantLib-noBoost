@@ -30,12 +30,12 @@ namespace QuantLib {
     /* The ISO three-letter code is ARS; the numeric code is 32.
        It is divided in 100 centavos.
     */
-     ARSCurrency::ARSCurrency() {
-        static std::shared_ptr<Data> arsData(
-                                   new Data("Argentinian peso", "ARS", 32,
-                                            "", "", 100,
-                                            Rounding(),
-                                            "%2% %1$.2f"));
+    ARSCurrency::ARSCurrency() {
+        static std::shared_ptr<Data> arsData =
+                std::make_shared<Data>("Argentinian peso", "ARS", 32,
+                                       "", "", 100,
+                                       Rounding(),
+                                       "%2% %1$.2f");
         data_ = arsData;
     }
 
@@ -44,11 +44,11 @@ namespace QuantLib {
        It is divided in 100 centavos.
     */
     BRLCurrency::BRLCurrency() {
-        static std::shared_ptr<Data> brlData(
-                                    new Data("Brazilian real", "BRL", 986,
-                                             "R$", "", 100,
-                                             Rounding(),
-                                             "%3% %1$.2f"));
+        static std::shared_ptr<Data> brlData =
+                std::make_shared<Data>("Brazilian real", "BRL", 986,
+                                       "R$", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = brlData;
     }
 
@@ -57,11 +57,11 @@ namespace QuantLib {
        It is divided into 100 cents.
     */
     CADCurrency::CADCurrency() {
-        static std::shared_ptr<Data> cadData(
-                                   new Data("Canadian dollar", "CAD", 124,
-                                            "Can$", "", 100,
-                                            Rounding(),
-                                            "%3% %1$.2f"));
+        static std::shared_ptr<Data> cadData =
+                std::make_shared<Data>("Canadian dollar", "CAD", 124,
+                                       "Can$", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = cadData;
     }
 
@@ -70,11 +70,11 @@ namespace QuantLib {
       It is divided in 100 centavos.
     */
     CLPCurrency::CLPCurrency() {
-        static std::shared_ptr<Data> clpData(
-                                      new Data("Chilean peso", "CLP", 152,
-                                               "Ch$", "", 100,
-                                               Rounding(),
-                                               "%3% %1$.0f"));
+        static std::shared_ptr<Data> clpData =
+                std::make_shared<Data>("Chilean peso", "CLP", 152,
+                                       "Ch$", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.0f");
         data_ = clpData;
     }
 
@@ -83,11 +83,11 @@ namespace QuantLib {
        It is divided in 100 centavos.
     */
     COPCurrency::COPCurrency() {
-        static std::shared_ptr<Data> copData(
-                                    new Data("Colombian peso", "COP", 170,
-                                             "Col$", "", 100,
-                                             Rounding(),
-                                             "%3% %1$.2f"));
+        static std::shared_ptr<Data> copData =
+                std::make_shared<Data>("Colombian peso", "COP", 170,
+                                       "Col$", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = copData;
     }
 
@@ -96,11 +96,11 @@ namespace QuantLib {
        It is divided in 100 centavos.
     */
     MXNCurrency::MXNCurrency() {
-        static std::shared_ptr<Data> mxnData(
-                                      new Data("Mexican peso", "MXN", 484,
-                                               "Mex$", "", 100,
-                                               Rounding(),
-                                               "%3% %1$.2f"));
+        static std::shared_ptr<Data> mxnData =
+                std::make_shared<Data>("Mexican peso", "MXN", 484,
+                                       "Mex$", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = mxnData;
     }
 
@@ -109,11 +109,11 @@ namespace QuantLib {
        It is divided in 100 centimos.
     */
     PENCurrency::PENCurrency() {
-        static std::shared_ptr<Data> penData(
-                                new Data("Peruvian nuevo sol", "PEN", 604,
-                                         "S/.", "", 100,
-                                         Rounding(),
-                                         "%3% %1$.2f"));
+        static std::shared_ptr<Data> penData =
+                std::make_shared<Data>("Peruvian nuevo sol", "PEN", 604,
+                                       "S/.", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = penData;
     }
 
@@ -123,11 +123,11 @@ namespace QuantLib {
        as per ISO 3166-1, we assign 998 as a user-defined code.
     */
     PEICurrency::PEICurrency() {
-        static std::shared_ptr<Data> peiData(
-                                new Data("Peruvian inti", "PEI", 998,
-                                         "I/.", "", 100,
-                                         Rounding(),
-                                         "%3% %1$.2f"));
+        static std::shared_ptr<Data> peiData =
+                std::make_shared<Data>("Peruvian inti", "PEI", 998,
+                                       "I/.", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = peiData;
     }
 
@@ -137,11 +137,11 @@ namespace QuantLib {
        It was divided in 100 centavos.
     */
     PEHCurrency::PEHCurrency() {
-        static std::shared_ptr<Data> pehData(
-                                new Data("Peruvian sol", "PEH", 999,
-                                         "S./", "", 100,
-                                         Rounding(),
-                                         "%3% %1$.2f"));
+        static std::shared_ptr<Data> pehData =
+                std::make_shared<Data>("Peruvian sol", "PEH", 999,
+                                       "S./", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = pehData;
     }
 
@@ -150,11 +150,11 @@ namespace QuantLib {
        It is divided in 100 cents.
     */
     TTDCurrency::TTDCurrency() {
-        static std::shared_ptr<Data> ttdData(
-                          new Data("Trinidad & Tobago dollar", "TTD", 780,
-                                   "TT$", "", 100,
-                                   Rounding(),
-                                   "%3% %1$.2f"));
+        static std::shared_ptr<Data> ttdData =
+                std::make_shared<Data>("Trinidad & Tobago dollar", "TTD", 780,
+                                       "TT$", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = ttdData;
     }
 
@@ -163,11 +163,11 @@ namespace QuantLib {
        It is divided in 100 cents.
     */
     USDCurrency::USDCurrency() {
-        static std::shared_ptr<Data> usdData(
-                                       new Data("U.S. dollar", "USD", 840,
-                                                "$", "¢", 100,
-                                                Rounding(),
-                                                "%3% %1$.2f"));
+        static std::shared_ptr<Data> usdData =
+                std::make_shared<Data>("U.S. dollar", "USD", 840,
+                                       "$", "¢", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = usdData;
     }
 
@@ -176,11 +176,11 @@ namespace QuantLib {
        It is divided in 100 centimos.
     */
     VEBCurrency::VEBCurrency() {
-        static std::shared_ptr<Data> vebData(
-                                new Data("Venezuelan bolivar", "VEB", 862,
-                                         "Bs", "", 100,
-                                         Rounding(),
-                                         "%3% %1$.2f"));
+        static std::shared_ptr<Data> vebData =
+                std::make_shared<Data>("Venezuelan bolivar", "VEB", 862,
+                                       "Bs", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = vebData;
     }
 

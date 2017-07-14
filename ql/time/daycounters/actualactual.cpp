@@ -27,14 +27,14 @@ namespace QuantLib {
         switch (c) {
           case ISMA:
           case Bond:
-            return std::shared_ptr<DayCounter::Impl>(new ISMA_Impl(schedule));
+            return std::make_shared<ISMA_Impl>(schedule);
           case ISDA:
           case Historical:
           case Actual365:
-            return std::shared_ptr<DayCounter::Impl>(new ISDA_Impl);
+            return std::make_shared<ISDA_Impl>();
           case AFB:
           case Euro:
-            return std::shared_ptr<DayCounter::Impl>(new AFB_Impl);
+            return std::make_shared<AFB_Impl>();
           default:
             QL_FAIL("unknown act/act convention");
         }

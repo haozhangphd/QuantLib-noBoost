@@ -23,7 +23,7 @@ namespace QuantLib {
 
     WeekendsOnly::WeekendsOnly() {
         // all calendar instances share the same implementation instance
-        static std::shared_ptr<Calendar::Impl> impl(new WeekendsOnly::Impl);
+        static std::shared_ptr<Calendar::Impl> impl = std::make_shared<WeekendsOnly::Impl>();
         impl_ = impl;
     }
 

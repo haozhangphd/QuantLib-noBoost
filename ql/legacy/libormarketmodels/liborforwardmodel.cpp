@@ -30,7 +30,7 @@ namespace QuantLib {
      : CalibratedModel(volaModel->params().size()+corrModel->params().size()),
        f_(process->size()),
        accrualPeriod_(process->size()),
-       covarProxy_(new LfmCovarianceProxy(volaModel, corrModel)),
+       covarProxy_(std::make_shared<LfmCovarianceProxy>(volaModel, corrModel)),
        process_(process)
      {
 
@@ -191,10 +191,9 @@ namespace QuantLib {
             }
         }
 
-        return swaptionVola = std::shared_ptr<SwaptionVolatilityMatrix>(
-             new SwaptionVolatilityMatrix(today, exercises, lengths,
-                                          volatilities,
-                                          index->dayCounter()));
+        return std::make_shared<SwaptionVolatilityMatrix>(
+             today, exercises, lengths,
+             volatilities, index->dayCounter());
     }
 
     // the next two methods are meaningless within this context

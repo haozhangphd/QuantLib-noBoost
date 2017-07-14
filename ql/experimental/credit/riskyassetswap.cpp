@@ -255,17 +255,11 @@ namespace QuantLib {
                                floatConvention_, floatConvention_,
                                DateGeneration::Forward, false);
 
-        asw_ = std::shared_ptr<RiskyAssetSwap>(
-                                      new RiskyAssetSwap(true,
-                                                         100.0,
-                                                         fixedSchedule,
-                                                         floatSchedule,
-                                                         fixedDayCount_,
-                                                         floatDayCount_,
-                                                         0.01,
-                                                         recoveryRate_,
-                                                         yieldTS_,
-                                                         probability_));
+        asw_ = std::make_shared<RiskyAssetSwap>(true, 100.0, fixedSchedule,
+                                                floatSchedule, fixedDayCount_,
+                                                floatDayCount_, 0.01,
+                                                recoveryRate_, yieldTS_,
+                                                probability_);
     }
 
 }

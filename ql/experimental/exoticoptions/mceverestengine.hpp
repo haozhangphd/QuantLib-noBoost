@@ -79,9 +79,8 @@ namespace QuantLib {
             typename RNG::rsg_type gen =
                 RNG::make_sequence_generator(numAssets*(grid.size()-1),seed_);
 
-            return std::shared_ptr<path_generator_type>(
-                         new path_generator_type(processes_,
-                                                 grid, gen, brownianBridge_));
+            return std::make_shared<path_generator_type>(processes_,
+                                                 grid, gen, brownianBridge_);
         }
         std::shared_ptr<path_pricer_type> pathPricer() const;
 
@@ -197,11 +196,9 @@ namespace QuantLib {
     inline std::shared_ptr<typename MCEverestEngine<RNG,S>::path_pricer_type>
     MCEverestEngine<RNG,S>::pathPricer() const {
 
-        return std::shared_ptr<
-                         typename MCEverestEngine<RNG,S>::path_pricer_type>(
-                              new EverestMultiPathPricer(arguments_.notional,
+        return std::make_shared<EverestMultiPathPricer>(arguments_.notional,
                                                          arguments_.guarantee,
-                                                         endDiscount()));
+                                                         endDiscount());
     }
 
 
@@ -284,15 +281,14 @@ namespace QuantLib {
                    "number of steps not given");
         QL_REQUIRE(steps_ == Null<Size>() || stepsPerYear_ == Null<Size>(),
                    "number of steps overspecified");
-        return std::shared_ptr<PricingEngine>(new
-            MCEverestEngine<RNG,S>(process_,
+        return std::make_shared<MCEverestEngine<RNG,S>>(process_,
                                    steps_,
                                    stepsPerYear_,
                                    brownianBridge_,
                                    antithetic_,
                                    samples_, tolerance_,
                                    maxSamples_,
-                                   seed_));
+                                   seed_);
     }
 
 }

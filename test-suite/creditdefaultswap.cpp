@@ -49,16 +49,14 @@ TEST_CASE("CreditDefaultSwap_CachedValue", "[CreditDefaultSwap]") {
     Calendar calendar = TARGET();
 
     Handle<Quote> hazardRate = Handle<Quote>(
-                std::shared_ptr<Quote>(new SimpleQuote(0.01234)));
+                std::make_shared<SimpleQuote>(0.01234));
     RelinkableHandle<DefaultProbabilityTermStructure> probabilityCurve;
     probabilityCurve.linkTo(
-        std::shared_ptr<DefaultProbabilityTermStructure>(
-                   new FlatHazardRate(0, calendar, hazardRate, Actual360())));
+        std::make_shared<FlatHazardRate>(0, calendar, hazardRate, Actual360()));
 
     RelinkableHandle<YieldTermStructure> discountCurve;
 
-    discountCurve.linkTo(std::shared_ptr<YieldTermStructure>(
-                            new FlatForward(today,0.06,Actual360())));
+    discountCurve.linkTo(std::make_shared<FlatForward>(today,0.06,Actual360()));
 
     // Build the schedule
     Date issueDate = calendar.advance(today, -1, Years);
@@ -77,8 +75,7 @@ TEST_CASE("CreditDefaultSwap_CachedValue", "[CreditDefaultSwap]") {
 
     CreditDefaultSwap cds(Protection::Seller, notional, fixedRate,
                           schedule, convention, dayCount, true, true);
-    cds.setPricingEngine(std::shared_ptr<PricingEngine>(
-         new MidPointCdsEngine(probabilityCurve,recoveryRate,discountCurve)));
+    cds.setPricingEngine(std::make_shared<MidPointCdsEngine>(probabilityCurve,recoveryRate,discountCurve));
 
     Real npv = 295.0153398;
     Rate fairRate = 0.007517539081;
@@ -101,9 +98,8 @@ TEST_CASE("CreditDefaultSwap_CachedValue", "[CreditDefaultSwap]") {
             << "    calculated fair rate: " << calculatedFairRate << "\n"
             << "    expected fair rate:   " << fairRate);
 
-    cds.setPricingEngine(std::shared_ptr<PricingEngine>(
-                          new IntegralCdsEngine(1*Days,probabilityCurve,
-                                                recoveryRate,discountCurve)));
+    cds.setPricingEngine(std::make_shared<IntegralCdsEngine>(1*Days,probabilityCurve,
+                                                recoveryRate,discountCurve));
 
     calculatedNpv = cds.NPV();
     calculatedFairRate = cds.fairSpread();
@@ -125,9 +121,8 @@ TEST_CASE("CreditDefaultSwap_CachedValue", "[CreditDefaultSwap]") {
             << "    calculated fair rate: " << calculatedFairRate << "\n"
             << "    expected fair rate:   " << fairRate);
 
-    cds.setPricingEngine(std::shared_ptr<PricingEngine>(
-                          new IntegralCdsEngine(1*Weeks,probabilityCurve,
-                                                recoveryRate,discountCurve)));
+    cds.setPricingEngine(std::make_shared<IntegralCdsEngine>(1*Weeks,probabilityCurve,
+                                                recoveryRate,discountCurve));
 
     calculatedNpv = cds.NPV();
     calculatedFairRate = cds.fairSpread();
@@ -204,8 +199,7 @@ TEST_CASE("CreditDefaultSwap_CachedMarketValue", "[CreditDefaultSwap]") {
 
     RelinkableHandle<YieldTermStructure> discountCurve;
     discountCurve.linkTo(
-        std::shared_ptr<YieldTermStructure>(
-            new DiscountCurve(discountDates, dfs, curveDayCounter)));
+        std::make_shared<DiscountCurve>(discountDates, dfs, curveDayCounter));
 
     DayCounter dayCounter = Thirty360();
     std::vector<Date> dates;
@@ -242,10 +236,9 @@ TEST_CASE("CreditDefaultSwap_CachedMarketValue", "[CreditDefaultSwap]") {
 
     RelinkableHandle<DefaultProbabilityTermStructure> piecewiseFlatHazardRate;
     piecewiseFlatHazardRate.linkTo(
-        std::shared_ptr<DefaultProbabilityTermStructure>(
-               new InterpolatedHazardRateCurve<BackwardFlat>(dates,
+        std::make_shared<InterpolatedHazardRateCurve<BackwardFlat>>(dates,
                                                              hazardRates,
-                                                             Thirty360())));
+                                                             Thirty360()));
 
     // Testing credit default swap
 
@@ -267,9 +260,8 @@ TEST_CASE("CreditDefaultSwap_CachedMarketValue", "[CreditDefaultSwap]") {
 
     CreditDefaultSwap cds(Protection::Seller, cdsNotional, fixedRate,
                           schedule, cdsConvention, dayCount, true, true);
-    cds.setPricingEngine(std::shared_ptr<PricingEngine>(
-                          new MidPointCdsEngine(piecewiseFlatHazardRate,
-                                                recoveryRate,discountCurve)));
+    cds.setPricingEngine(std::make_shared<MidPointCdsEngine>(piecewiseFlatHazardRate,
+                                                recoveryRate,discountCurve));
 
     Real calculatedNpv = cds.NPV();
     Real calculatedFairRate = cds.fairSpread();
@@ -321,14 +313,12 @@ TEST_CASE("CreditDefaultSwap_ImpliedHazardRate", "[CreditDefaultSwap]") {
     hazardRates[2] = h2;
 
     RelinkableHandle<DefaultProbabilityTermStructure> probabilityCurve;
-    probabilityCurve.linkTo(std::shared_ptr<DefaultProbabilityTermStructure>(
-                    new InterpolatedHazardRateCurve<BackwardFlat>(dates,
+    probabilityCurve.linkTo(std::make_shared<InterpolatedHazardRateCurve<BackwardFlat>>(dates,
                                                                   hazardRates,
-                                                                  dayCounter)));
+                                                                  dayCounter));
 
     RelinkableHandle<YieldTermStructure> discountCurve;
-    discountCurve.linkTo(std::shared_ptr<YieldTermStructure>(
-                            new FlatForward(today,0.03,Actual360())));
+    discountCurve.linkTo(std::make_shared<FlatForward>(today,0.03,Actual360()));
 
 
     Frequency frequency = Semiannual;
@@ -351,9 +341,8 @@ TEST_CASE("CreditDefaultSwap_ImpliedHazardRate", "[CreditDefaultSwap]") {
         CreditDefaultSwap cds(Protection::Seller, notional, fixedRate,
                               schedule, convention, cdsDayCount,
                               true, true);
-        cds.setPricingEngine(std::shared_ptr<PricingEngine>(
-                         new MidPointCdsEngine(probabilityCurve,
-                                               recoveryRate, discountCurve)));
+        cds.setPricingEngine(std::make_shared<MidPointCdsEngine>(probabilityCurve,
+                                               recoveryRate, discountCurve));
 
         Real NPV = cds.NPV();
         Rate flatRate = cds.impliedHazardRate(NPV, discountCurve,
@@ -378,18 +367,16 @@ TEST_CASE("CreditDefaultSwap_ImpliedHazardRate", "[CreditDefaultSwap]") {
         latestRate = flatRate;
 
         RelinkableHandle<DefaultProbabilityTermStructure> probability;
-        probability.linkTo(std::shared_ptr<DefaultProbabilityTermStructure>(
-         new FlatHazardRate(
+        probability.linkTo(std::make_shared<FlatHazardRate>(
            today,
-           Handle<Quote>(std::shared_ptr<Quote>(new SimpleQuote(flatRate))),
-           dayCounter)));
+           Handle<Quote>(std::make_shared<SimpleQuote>(flatRate)),
+           dayCounter));
 
         CreditDefaultSwap cds2(Protection::Seller, notional, fixedRate,
                                schedule, convention, cdsDayCount,
                                true, true);
-        cds2.setPricingEngine(std::shared_ptr<PricingEngine>(
-                               new MidPointCdsEngine(probability,recoveryRate,
-                                                     discountCurve)));
+        cds2.setPricingEngine(std::make_shared<MidPointCdsEngine>(probability,recoveryRate,
+                                                     discountCurve));
 
         Real NPV2 = cds2.NPV();
         Real tolerance = 1.0;
@@ -415,15 +402,13 @@ TEST_CASE("CreditDefaultSwap_FairSpread", "[CreditDefaultSwap]") {
     Settings::instance().evaluationDate() = today;
 
     Handle<Quote> hazardRate = Handle<Quote>(
-                std::shared_ptr<Quote>(new SimpleQuote(0.01234)));
+                std::make_shared<SimpleQuote>(0.01234));
     RelinkableHandle<DefaultProbabilityTermStructure> probabilityCurve;
     probabilityCurve.linkTo(
-        std::shared_ptr<DefaultProbabilityTermStructure>(
-                   new FlatHazardRate(0, calendar, hazardRate, Actual360())));
+        std::make_shared<FlatHazardRate>(0, calendar, hazardRate, Actual360()));
 
     RelinkableHandle<YieldTermStructure> discountCurve;
-    discountCurve.linkTo(std::shared_ptr<YieldTermStructure>(
-                            new FlatForward(today,0.06,Actual360())));
+    discountCurve.linkTo(std::make_shared<FlatForward>(today,0.06,Actual360()));
 
     // Build the schedule
     Date issueDate = calendar.advance(today, -1, Years);
@@ -444,8 +429,8 @@ TEST_CASE("CreditDefaultSwap_FairSpread", "[CreditDefaultSwap]") {
     Real notional = 10000.0;
     Real recoveryRate = 0.4;
 
-    std::shared_ptr<PricingEngine> engine(
-          new MidPointCdsEngine(probabilityCurve,recoveryRate,discountCurve));
+    std::shared_ptr<PricingEngine> engine =
+          std::make_shared<MidPointCdsEngine>(probabilityCurve,recoveryRate,discountCurve);
 
     CreditDefaultSwap cds(Protection::Seller, notional, fixedRate,
                           schedule, convention, dayCount, true, true);
@@ -480,15 +465,13 @@ TEST_CASE("CreditDefaultSwap_FairUpfront", "[CreditDefaultSwap]") {
     Settings::instance().evaluationDate() = today;
 
     Handle<Quote> hazardRate = Handle<Quote>(
-                std::shared_ptr<Quote>(new SimpleQuote(0.01234)));
+                std::make_shared<SimpleQuote>(0.01234));
     RelinkableHandle<DefaultProbabilityTermStructure> probabilityCurve;
     probabilityCurve.linkTo(
-        std::shared_ptr<DefaultProbabilityTermStructure>(
-                   new FlatHazardRate(0, calendar, hazardRate, Actual360())));
+        std::make_shared<FlatHazardRate>(0, calendar, hazardRate, Actual360()));
 
     RelinkableHandle<YieldTermStructure> discountCurve;
-    discountCurve.linkTo(std::shared_ptr<YieldTermStructure>(
-                            new FlatForward(today,0.06,Actual360())));
+    discountCurve.linkTo(std::make_shared<FlatForward>(today,0.06,Actual360()));
 
     // Build the schedule
     Date issueDate = today;
@@ -510,9 +493,9 @@ TEST_CASE("CreditDefaultSwap_FairUpfront", "[CreditDefaultSwap]") {
     Real notional = 10000.0;
     Real recoveryRate = 0.4;
 
-    std::shared_ptr<PricingEngine> engine(
-          new MidPointCdsEngine(probabilityCurve, recoveryRate,
-                                discountCurve, true));
+    std::shared_ptr<PricingEngine> engine =
+          std::make_shared<MidPointCdsEngine>(probabilityCurve, recoveryRate,
+                                discountCurve, true);
 
     CreditDefaultSwap cds(Protection::Seller, notional, upfront, fixedRate,
                           schedule, convention, dayCount, true, true);

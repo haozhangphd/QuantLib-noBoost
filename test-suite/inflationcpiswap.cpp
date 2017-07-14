@@ -52,22 +52,21 @@ namespace {
         Rate rate;
     };
 
-    template <class T, class U, class I>
+    template<class T, class U, class I>
     std::vector<std::shared_ptr<BootstrapHelper<T> > > makeHelpers(
-        Datum iiData[], Size N,
-        const std::shared_ptr<I> &ii, const Period &observationLag,
-        const Calendar &calendar,
-        const BusinessDayConvention &bdc,
-        const DayCounter &dc) {
+            Datum iiData[], Size N,
+            const std::shared_ptr<I> &ii, const Period &observationLag,
+            const Calendar &calendar,
+            const BusinessDayConvention &bdc,
+            const DayCounter &dc) {
 
         std::vector<std::shared_ptr<BootstrapHelper<T> > > instruments;
-        for (Size i=0; i<N; i++) {
+        for (Size i = 0; i < N; i++) {
             Date maturity = iiData[i].date;
-            Handle<Quote> quote(std::shared_ptr<Quote>(
-                                new SimpleQuote(iiData[i].rate/100.0)));
-            std::shared_ptr<BootstrapHelper<T> > anInstrument(new U(
-                                quote, observationLag, maturity,
-                                calendar, bdc, dc, ii));
+            Handle<Quote> quote(std::make_shared<SimpleQuote>(iiData[i].rate / 100.0));
+            std::shared_ptr < BootstrapHelper<T> > anInstrument = std::make_shared<U>(
+                    quote, observationLag, maturity,
+                    calendar, bdc, dc, ii);
             instruments.emplace_back(anInstrument);
         }
 
@@ -92,7 +91,7 @@ namespace {
         Date settlement;
         Period observationLag, contractObservationLag;
         CPI::InterpolationType contractObservationInterpolation;
-        DayCounter dcZCIIS,dcNominal;
+        DayCounter dcZCIIS, dcNominal;
         std::vector<Date> zciisD;
         std::vector<Rate> zciisR;
         std::shared_ptr<UKRPI> ii;
@@ -109,7 +108,7 @@ namespace {
 
         // setup
         CommonVars()
-        : nominals(1,1000000) {
+                : nominals(1, 1000000) {
 
             // option variables
             frequency = Annual;
@@ -123,7 +122,7 @@ namespace {
             Settings::instance().evaluationDate() = evaluationDate;
             settlementDays = 0;
             fixingDays = 0;
-            settlement = calendar.advance(today,settlementDays,Days);
+            settlement = calendar.advance(today, settlementDays, Days);
             startDate = settlement;
             dcZCIIS = ActualActual();
             dcNominal = ActualActual();
@@ -134,96 +133,95 @@ namespace {
             //Date from(20, July, 2008);
             Date to(20, November, 2009);
             Schedule rpiSchedule = MakeSchedule().from(from).to(to)
-            .withTenor(1*Months)
-            .withCalendar(UnitedKingdom())
-            .withConvention(ModifiedFollowing);
+                    .withTenor(1 * Months)
+                    .withCalendar(UnitedKingdom())
+                    .withConvention(ModifiedFollowing);
             Real fixData[] = {
-                206.1, 207.3, 208.0, 208.9, 209.7, 210.9,
-                209.8, 211.4, 212.1, 214.0, 215.1, 216.8,
-                216.5, 217.2, 218.4, 217.7, 216,
-                212.9, 210.1, 211.4, 211.3, 211.5,
-                212.8, 213.4, 213.4, 213.4, 214.4,
-                -999.0, -999.0 };
+                    206.1, 207.3, 208.0, 208.9, 209.7, 210.9,
+                    209.8, 211.4, 212.1, 214.0, 215.1, 216.8,
+                    216.5, 217.2, 218.4, 217.7, 216,
+                    212.9, 210.1, 211.4, 211.3, 211.5,
+                    212.8, 213.4, 213.4, 213.4, 214.4,
+                    -999.0, -999.0};
 
             // link from cpi index to cpi TS
             bool interp = false;// this MUST be false because the observation lag is only 2 months
-                                // for ZCIIS; but not for contract if the contract uses a bigger lag.
-            ii = std::shared_ptr<UKRPI>(new UKRPI(interp, hcpi));
-            for (Size i=0; i<rpiSchedule.size();i++) {
+            // for ZCIIS; but not for contract if the contract uses a bigger lag.
+            ii = std::make_shared<UKRPI>(interp, hcpi);
+            for (Size i = 0; i < rpiSchedule.size(); i++) {
                 ii->addFixing(rpiSchedule[i], fixData[i], true);// force overwrite in case multiple use
             };
 
 
             Datum nominalData[] = {
-                { Date(26, November, 2009), 0.475 },
-                { Date(2, December, 2009), 0.47498 },
-                { Date(29, December, 2009), 0.49988 },
-                { Date(25, February, 2010), 0.59955 },
-                { Date(18, March, 2010), 0.65361 },
-                { Date(25, May, 2010), 0.82830 },
-                //  { Date(17, June, 2010), 0.7 },  // can't bootsrap with this data point
-                { Date(16, September, 2010), 0.78960 },
-                { Date(16, December, 2010), 0.93762 },
-                { Date(17, March, 2011), 1.12037 },
-                { Date(16, June, 2011), 1.31308 },
-                { Date(22, September, 2011),1.52011 },
-                { Date(25, November, 2011), 1.78399 },
-                { Date(26, November, 2012), 2.41170 },
-                { Date(25, November, 2013), 2.83935 },
-                { Date(25, November, 2014), 3.12888 },
-                { Date(25, November, 2015), 3.34298 },
-                { Date(25, November, 2016), 3.50632 },
-                { Date(27, November, 2017), 3.63666 },
-                { Date(26, November, 2018), 3.74723 },
-                { Date(25, November, 2019), 3.83988 },
-                { Date(25, November, 2021), 4.00508 },
-                { Date(25, November, 2024), 4.16042 },
-                { Date(26, November, 2029), 4.15577 },
-                { Date(27, November, 2034), 4.04933 },
-                { Date(25, November, 2039), 3.95217 },
-                { Date(25, November, 2049), 3.80932 },
-                { Date(25, November, 2059), 3.80849 },
-                { Date(25, November, 2069), 3.72677 },
-                { Date(27, November, 2079), 3.63082 }
+                    {Date(26, November, 2009),  0.475},
+                    {Date(2, December, 2009),   0.47498},
+                    {Date(29, December, 2009),  0.49988},
+                    {Date(25, February, 2010),  0.59955},
+                    {Date(18, March, 2010),     0.65361},
+                    {Date(25, May, 2010),       0.82830},
+                    //  { Date(17, June, 2010), 0.7 },  // can't bootsrap with this data point
+                    {Date(16, September, 2010), 0.78960},
+                    {Date(16, December, 2010),  0.93762},
+                    {Date(17, March, 2011),     1.12037},
+                    {Date(16, June, 2011),      1.31308},
+                    {Date(22, September, 2011), 1.52011},
+                    {Date(25, November, 2011),  1.78399},
+                    {Date(26, November, 2012),  2.41170},
+                    {Date(25, November, 2013),  2.83935},
+                    {Date(25, November, 2014),  3.12888},
+                    {Date(25, November, 2015),  3.34298},
+                    {Date(25, November, 2016),  3.50632},
+                    {Date(27, November, 2017),  3.63666},
+                    {Date(26, November, 2018),  3.74723},
+                    {Date(25, November, 2019),  3.83988},
+                    {Date(25, November, 2021),  4.00508},
+                    {Date(25, November, 2024),  4.16042},
+                    {Date(26, November, 2029),  4.15577},
+                    {Date(27, November, 2034),  4.04933},
+                    {Date(25, November, 2039),  3.95217},
+                    {Date(25, November, 2049),  3.80932},
+                    {Date(25, November, 2059),  3.80849},
+                    {Date(25, November, 2069),  3.72677},
+                    {Date(27, November, 2079),  3.63082}
             };
-            const Size nominalDataLength = 30-1;
+            const Size nominalDataLength = 30 - 1;
 
             std::vector<Date> nomD;
             std::vector<Rate> nomR;
             for (Size i = 0; i < nominalDataLength; i++) {
                 nomD.emplace_back(nominalData[i].date);
-                nomR.emplace_back(nominalData[i].rate/100.0);
+                nomR.emplace_back(nominalData[i].rate / 100.0);
             }
-            std::shared_ptr<YieldTermStructure> nominal =
-            std::shared_ptr<InterpolatedZeroCurve<Linear>
-            >(new InterpolatedZeroCurve<Linear>(nomD,nomR,dcNominal));
+            std::shared_ptr < YieldTermStructure > nominal = std::make_shared<InterpolatedZeroCurve<Linear>>(nomD, nomR,
+                                                                                                             dcNominal);
 
 
             nominalTS.linkTo(nominal);
 
             // now build the zero inflation curve
-            observationLag = Period(2,Months);
-            contractObservationLag = Period(3,Months);
+            observationLag = Period(2, Months);
+            contractObservationLag = Period(3, Months);
             contractObservationInterpolation = CPI::Flat;
 
             Datum zciisData[] = {
-                { Date(25, November, 2010), 3.0495 },
-                { Date(25, November, 2011), 2.93 },
-                { Date(26, November, 2012), 2.9795 },
-                { Date(25, November, 2013), 3.029 },
-                { Date(25, November, 2014), 3.1425 },
-                { Date(25, November, 2015), 3.211 },
-                { Date(25, November, 2016), 3.2675 },
-                { Date(25, November, 2017), 3.3625 },
-                { Date(25, November, 2018), 3.405 },
-                { Date(25, November, 2019), 3.48 },
-                { Date(25, November, 2021), 3.576 },
-                { Date(25, November, 2024), 3.649 },
-                { Date(26, November, 2029), 3.751 },
-                { Date(27, November, 2034), 3.77225 },
-                { Date(25, November, 2039), 3.77 },
-                { Date(25, November, 2049), 3.734 },
-                { Date(25, November, 2059), 3.714 },
+                    {Date(25, November, 2010), 3.0495},
+                    {Date(25, November, 2011), 2.93},
+                    {Date(26, November, 2012), 2.9795},
+                    {Date(25, November, 2013), 3.029},
+                    {Date(25, November, 2014), 3.1425},
+                    {Date(25, November, 2015), 3.211},
+                    {Date(25, November, 2016), 3.2675},
+                    {Date(25, November, 2017), 3.3625},
+                    {Date(25, November, 2018), 3.405},
+                    {Date(25, November, 2019), 3.48},
+                    {Date(25, November, 2021), 3.576},
+                    {Date(25, November, 2024), 3.649},
+                    {Date(26, November, 2029), 3.751},
+                    {Date(27, November, 2034), 3.77225},
+                    {Date(25, November, 2039), 3.77},
+                    {Date(25, November, 2049), 3.734},
+                    {Date(25, November, 2059), 3.714},
             };
             zciisDataLength = 17;
             for (Size i = 0; i < zciisDataLength; i++) {
@@ -233,19 +231,19 @@ namespace {
 
             // now build the helpers ...
             std::vector<std::shared_ptr<BootstrapHelper<ZeroInflationTermStructure> > > helpers =
-            makeHelpers<ZeroInflationTermStructure,ZeroCouponInflationSwapHelper,
-            ZeroInflationIndex>(zciisData, zciisDataLength, ii,
-                                observationLag,
-                                calendar, convention, dcZCIIS);
+                    makeHelpers<ZeroInflationTermStructure, ZeroCouponInflationSwapHelper,
+                            ZeroInflationIndex>(zciisData, zciisDataLength, ii,
+                                                observationLag,
+                                                calendar, convention, dcZCIIS);
 
             // we can use historical or first ZCIIS for this
             // we know historical is WAY off market-implied, so use market implied flat.
-            Rate baseZeroRate = zciisData[0].rate/100.0;
-            std::shared_ptr<PiecewiseZeroInflationCurve<Linear> > pCPIts(
-                                new PiecewiseZeroInflationCurve<Linear>(
-                                    evaluationDate, calendar, dcZCIIS, observationLag,
-                                    ii->frequency(),ii->interpolated(), baseZeroRate,
-                                    Handle<YieldTermStructure>(nominalTS), helpers));
+            Rate baseZeroRate = zciisData[0].rate / 100.0;
+            std::shared_ptr < PiecewiseZeroInflationCurve<Linear> > pCPIts =
+                    std::make_shared<PiecewiseZeroInflationCurve<Linear>>(
+                            evaluationDate, calendar, dcZCIIS, observationLag,
+                            ii->frequency(), ii->interpolated(), baseZeroRate,
+                            Handle<YieldTermStructure>(nominalTS), helpers);
             pCPIts->recalculate();
             cpiTS = std::dynamic_pointer_cast<ZeroInflationTermStructure>(pCPIts);
 
@@ -256,7 +254,6 @@ namespace {
     };
 
 }
-
 
 
 TEST_CASE("CPISwap_consistency", "[CPISwap]") {
@@ -274,8 +271,8 @@ TEST_CASE("CPISwap_consistency", "[CPISwap]") {
     DayCounter floatDayCount = Actual365Fixed();
     BusinessDayConvention floatPaymentConvention = ModifiedFollowing;
     Natural fixingDays = 0;
-    std::shared_ptr<IborIndex> floatIndex(new GBPLibor(Period(6,Months),
-                                                         common.nominalTS));
+    std::shared_ptr < IborIndex > floatIndex = std::make_shared<GBPLibor>(Period(6, Months),
+                                                                          common.nominalTS);
 
     // fixed x inflation leg
     Rate fixedRate = 0.1;//1% would be 0.01
@@ -283,7 +280,7 @@ TEST_CASE("CPISwap_consistency", "[CPISwap]") {
     DayCounter fixedDayCount = Actual365Fixed();
     BusinessDayConvention fixedPaymentConvention = ModifiedFollowing;
     Calendar fixedPaymentCalendar = UnitedKingdom();
-    std::shared_ptr<ZeroInflationIndex> fixedIndex = common.ii;
+    std::shared_ptr < ZeroInflationIndex > fixedIndex = common.ii;
     Period contractObservationLag = common.contractObservationLag;
     CPI::InterpolationType observationInterpolation = common.contractObservationInterpolation;
 
@@ -291,17 +288,15 @@ TEST_CASE("CPISwap_consistency", "[CPISwap]") {
     Date startDate(2, October, 2007);
     Date endDate(2, October, 2052);
     Schedule floatSchedule = MakeSchedule().from(startDate).to(endDate)
-    .withTenor(Period(6,Months))
-    .withCalendar(UnitedKingdom())
-    .withConvention(floatPaymentConvention)
-    .backwards()
-    ;
+            .withTenor(Period(6, Months))
+            .withCalendar(UnitedKingdom())
+            .withConvention(floatPaymentConvention)
+            .backwards();
     Schedule fixedSchedule = MakeSchedule().from(startDate).to(endDate)
-    .withTenor(Period(6,Months))
-    .withCalendar(UnitedKingdom())
-    .withConvention(Unadjusted)
-    .backwards()
-    ;
+            .withTenor(Period(6, Months))
+            .withCalendar(UnitedKingdom())
+            .withConvention(Unadjusted)
+            .backwards();
 
 
     CPISwap zisV(type, nominal, subtractInflationNominal,
@@ -312,64 +307,63 @@ TEST_CASE("CPISwap_consistency", "[CPISwap]") {
                  fixedIndex, observationInterpolation);
     Date asofDate = Settings::instance().evaluationDate();
 
-    Real floatFix[] = {0.06255,0.05975,0.0637,0.018425,0.0073438,-1,-1};
-    Real cpiFix[] = {211.4,217.2,211.4,213.4,-2,-2};
-    for(Size i=0;i<floatSchedule.size(); i++){
+    Real floatFix[] = {0.06255, 0.05975, 0.0637, 0.018425, 0.0073438, -1, -1};
+    Real cpiFix[] = {211.4, 217.2, 211.4, 213.4, -2, -2};
+    for (Size i = 0; i < floatSchedule.size(); i++) {
         if (floatSchedule[i] < common.evaluationDate) {
-            floatIndex->addFixing(floatSchedule[i], floatFix[i],true);//true=overwrite
+            floatIndex->addFixing(floatSchedule[i], floatFix[i], true);//true=overwrite
         }
 
-        std::shared_ptr<CPICoupon>
+        std::shared_ptr < CPICoupon >
         zic = std::dynamic_pointer_cast<CPICoupon>(zisV.cpiLeg()[i]);
         if (zic) {
-            if (zic->fixingDate() < (common.evaluationDate - Period(1,Months))) {
-                fixedIndex->addFixing(zic->fixingDate(), cpiFix[i],true);
+            if (zic->fixingDate() < (common.evaluationDate - Period(1, Months))) {
+                fixedIndex->addFixing(zic->fixingDate(), cpiFix[i], true);
             }
         }
     }
 
 
     // simple structure so simple pricing engine - most work done by index
-    std::shared_ptr<DiscountingSwapEngine>
-        dse(new DiscountingSwapEngine(common.nominalTS));
+    std::shared_ptr < DiscountingSwapEngine > dse = std::make_shared<DiscountingSwapEngine>(common.nominalTS);
 
     zisV.setPricingEngine(dse);
 
     // get float+spread & fixed*inflation leg prices separately
     Real testInfLegNPV = 0.0;
-    for(Size i=0;i<zisV.leg(0).size(); i++){
+    for (Size i = 0; i < zisV.leg(0).size(); i++) {
 
         Date zicPayDate = (zisV.leg(0))[i]->date();
-        if(zicPayDate > asofDate) {
-            testInfLegNPV += (zisV.leg(0))[i]->amount()*common.nominalTS->discount(zicPayDate);
+        if (zicPayDate > asofDate) {
+            testInfLegNPV += (zisV.leg(0))[i]->amount() * common.nominalTS->discount(zicPayDate);
         }
 
-        std::shared_ptr<CPICoupon>
-            zicV = std::dynamic_pointer_cast<CPICoupon>(zisV.cpiLeg()[i]);
+        std::shared_ptr < CPICoupon >
+        zicV = std::dynamic_pointer_cast<CPICoupon>(zisV.cpiLeg()[i]);
         if (zicV) {
-            Real diff = fabs( zicV->rate() - (fixedRate*(zicV->indexFixing()/baseCPI)) );
-            QL_REQUIRE(diff<1e-8,"failed "<<i<<"th coupon reconstruction as "
-                       << (fixedRate*(zicV->indexFixing()/baseCPI)) << " vs rate = "
-                       <<zicV->rate() << ", with difference: " << diff);
+            Real diff = fabs(zicV->rate() - (fixedRate * (zicV->indexFixing() / baseCPI)));
+            QL_REQUIRE(diff < 1e-8, "failed " << i << "th coupon reconstruction as "
+                                              << (fixedRate * (zicV->indexFixing() / baseCPI)) << " vs rate = "
+                                              << zicV->rate() << ", with difference: " << diff);
         }
     }
 
     Real error = fabs(testInfLegNPV - zisV.legNPV(0));
-    QL_REQUIRE(error<1e-5,
+    QL_REQUIRE(error < 1e-5,
                "failed manual inf leg NPV calc vs pricing engine: " <<
-               testInfLegNPV << " vs " << zisV.legNPV(0));
+                                                                    testInfLegNPV << " vs " << zisV.legNPV(0));
 
-    Real diff = fabs(1-zisV.NPV()/4191660.0);
-    #ifndef QL_USE_INDEXED_COUPON
+    Real diff = fabs(1 - zisV.NPV() / 4191660.0);
+#ifndef QL_USE_INDEXED_COUPON
     Real max_diff = 1e-5;
-    #else
+#else
     Real max_diff = 3e-5;
-    #endif
-    QL_REQUIRE(diff<max_diff,
+#endif
+    QL_REQUIRE(diff < max_diff,
                "failed stored consistency value test, ratio = " << diff);
 
     // remove circular refernce
-    common.hcpi.linkTo(std::shared_ptr<ZeroInflationTermStructure>());
+    common.hcpi.linkTo(std::shared_ptr < ZeroInflationTermStructure > ());
 }
 
 
@@ -377,13 +371,13 @@ TEST_CASE("CPISwap_zciisconsistency", "[CPISwap]") {
     CommonVars common;
 
     ZeroCouponInflationSwap::Type ztype = ZeroCouponInflationSwap::Payer;
-    Real  nominal = 1000000.0;
+    Real nominal = 1000000.0;
     Date startDate(common.evaluationDate);
     Date endDate(25, November, 2059);
     Calendar cal = UnitedKingdom();
     BusinessDayConvention paymentConvention = ModifiedFollowing;
     DayCounter dummyDC, dc = ActualActual();
-    Period observationLag(2,Months);
+    Period observationLag(2, Months);
 
     Rate quote = 0.03714;
     ZeroCouponInflationSwap zciis(ztype, nominal, startDate, endDate, cal,
@@ -391,11 +385,10 @@ TEST_CASE("CPISwap_zciisconsistency", "[CPISwap]") {
                                   observationLag);
 
     // simple structure so simple pricing engine - most work done by index
-    std::shared_ptr<DiscountingSwapEngine>
-    dse(new DiscountingSwapEngine(common.nominalTS));
+    std::shared_ptr < DiscountingSwapEngine > dse = std::make_shared<DiscountingSwapEngine>(common.nominalTS);
 
     zciis.setPricingEngine(dse);
-    QL_REQUIRE(fabs(zciis.NPV())<1e-3,"zciis does not reprice to zero");
+    QL_REQUIRE(fabs(zciis.NPV()) < 1e-3, "zciis does not reprice to zero");
 
     std::vector<Date> oneDate;
     oneDate.emplace_back(endDate);
@@ -403,14 +396,14 @@ TEST_CASE("CPISwap_zciisconsistency", "[CPISwap]") {
 
     CPISwap::Type stype = CPISwap::Payer;
     Real inflationNominal = nominal;
-    Real floatNominal = inflationNominal * std::pow(1.0+quote,50);
+    Real floatNominal = inflationNominal * std::pow(1.0 + quote, 50);
     bool subtractInflationNominal = true;
-    Real dummySpread=0.0, dummyFixedRate=0.0;
+    Real dummySpread = 0.0, dummyFixedRate = 0.0;
     Natural fixingDays = 0;
     Date baseDate = startDate - observationLag;
     Real baseCPI = common.ii->fixing(baseDate);
 
-    std::shared_ptr<IborIndex> dummyFloatIndex;
+    std::shared_ptr < IborIndex > dummyFloatIndex;
 
     CPISwap cS(stype, floatNominal, subtractInflationNominal, dummySpread, dummyDC, schOneDate,
                paymentConvention, fixingDays, dummyFloatIndex,
@@ -418,13 +411,13 @@ TEST_CASE("CPISwap_zciisconsistency", "[CPISwap]") {
                common.ii, CPI::AsIndex, inflationNominal);
 
     cS.setPricingEngine(dse);
-    QL_REQUIRE(fabs(cS.NPV())<1e-3,"CPISwap as ZCIIS does not reprice to zero");
+    QL_REQUIRE(fabs(cS.NPV()) < 1e-3, "CPISwap as ZCIIS does not reprice to zero");
 
-    for (Size i=0; i<2; i++) {
-        QL_REQUIRE(fabs(cS.legNPV(i)-zciis.legNPV(i))<1e-3,"zciis leg does not equal CPISwap leg");
+    for (Size i = 0; i < 2; i++) {
+        QL_REQUIRE(fabs(cS.legNPV(i) - zciis.legNPV(i)) < 1e-3, "zciis leg does not equal CPISwap leg");
     }
     // remove circular refernce
-    common.hcpi.linkTo(std::shared_ptr<ZeroInflationTermStructure>());
+    common.hcpi.linkTo(std::shared_ptr < ZeroInflationTermStructure > ());
 }
 
 
@@ -441,8 +434,8 @@ TEST_CASE("CPISwap_cpibondconsistency", "[CPISwap]") {
     DayCounter floatDayCount = Actual365Fixed();
     BusinessDayConvention floatPaymentConvention = ModifiedFollowing;
     Natural fixingDays = 0;
-    std::shared_ptr<IborIndex> floatIndex(new GBPLibor(Period(6,Months),
-                                                         common.nominalTS));
+    std::shared_ptr < IborIndex > floatIndex = std::make_shared<GBPLibor>(Period(6, Months),
+                                                                          common.nominalTS);
 
     // fixed x inflation leg
     Rate fixedRate = 0.1;//1% would be 0.01
@@ -450,7 +443,7 @@ TEST_CASE("CPISwap_cpibondconsistency", "[CPISwap]") {
     DayCounter fixedDayCount = Actual365Fixed();
     BusinessDayConvention fixedPaymentConvention = ModifiedFollowing;
     Calendar fixedPaymentCalendar = UnitedKingdom();
-    std::shared_ptr<ZeroInflationIndex> fixedIndex = common.ii;
+    std::shared_ptr < ZeroInflationIndex > fixedIndex = common.ii;
     Period contractObservationLag = common.contractObservationLag;
     CPI::InterpolationType observationInterpolation = common.contractObservationInterpolation;
 
@@ -458,17 +451,15 @@ TEST_CASE("CPISwap_cpibondconsistency", "[CPISwap]") {
     Date startDate(2, October, 2007);
     Date endDate(2, October, 2052);
     Schedule floatSchedule = MakeSchedule().from(startDate).to(endDate)
-    .withTenor(Period(6,Months))
-    .withCalendar(UnitedKingdom())
-    .withConvention(floatPaymentConvention)
-    .backwards()
-    ;
+            .withTenor(Period(6, Months))
+            .withCalendar(UnitedKingdom())
+            .withConvention(floatPaymentConvention)
+            .backwards();
     Schedule fixedSchedule = MakeSchedule().from(startDate).to(endDate)
-    .withTenor(Period(6,Months))
-    .withCalendar(UnitedKingdom())
-    .withConvention(Unadjusted)
-    .backwards()
-    ;
+            .withTenor(Period(6, Months))
+            .withCalendar(UnitedKingdom())
+            .withConvention(Unadjusted)
+            .backwards();
 
 
     CPISwap zisV(type, nominal, subtractInflationNominal,
@@ -478,31 +469,30 @@ TEST_CASE("CPISwap_cpibondconsistency", "[CPISwap]") {
                  fixedPaymentConvention, contractObservationLag,
                  fixedIndex, observationInterpolation);
 
-    Real floatFix[] = {0.06255,0.05975,0.0637,0.018425,0.0073438,-1,-1};
-    Real cpiFix[] = {211.4,217.2,211.4,213.4,-2,-2};
-    for(Size i=0;i<floatSchedule.size(); i++){
+    Real floatFix[] = {0.06255, 0.05975, 0.0637, 0.018425, 0.0073438, -1, -1};
+    Real cpiFix[] = {211.4, 217.2, 211.4, 213.4, -2, -2};
+    for (Size i = 0; i < floatSchedule.size(); i++) {
         if (floatSchedule[i] < common.evaluationDate) {
-            floatIndex->addFixing(floatSchedule[i], floatFix[i],true);//true=overwrite
+            floatIndex->addFixing(floatSchedule[i], floatFix[i], true);//true=overwrite
         }
 
-        std::shared_ptr<CPICoupon>
+        std::shared_ptr < CPICoupon >
         zic = std::dynamic_pointer_cast<CPICoupon>(zisV.cpiLeg()[i]);
         if (zic) {
-            if (zic->fixingDate() < (common.evaluationDate - Period(1,Months))) {
-                fixedIndex->addFixing(zic->fixingDate(), cpiFix[i],true);
+            if (zic->fixingDate() < (common.evaluationDate - Period(1, Months))) {
+                fixedIndex->addFixing(zic->fixingDate(), cpiFix[i], true);
             }
         }
     }
 
 
     // simple structure so simple pricing engine - most work done by index
-    std::shared_ptr<DiscountingSwapEngine>
-    dse(new DiscountingSwapEngine(common.nominalTS));
+    std::shared_ptr < DiscountingSwapEngine > dse = std::make_shared<DiscountingSwapEngine>(common.nominalTS);
 
     zisV.setPricingEngine(dse);
 
     // now do the bond equivalent
-    std::vector<Rate> fixedRates(1,fixedRate);
+    std::vector<Rate> fixedRates(1, fixedRate);
     Natural settlementDays = 1;// cannot be zero!
     bool growthOnly = true;
     CPIBond cpiB(settlementDays, nominal, growthOnly,
@@ -510,11 +500,10 @@ TEST_CASE("CPISwap_cpibondconsistency", "[CPISwap]") {
                  observationInterpolation, fixedSchedule,
                  fixedRates, fixedDayCount, fixedPaymentConvention);
 
-    std::shared_ptr<DiscountingBondEngine>
-    dbe(new DiscountingBondEngine(common.nominalTS));
+    std::shared_ptr < DiscountingBondEngine > dbe = std::make_shared<DiscountingBondEngine>(common.nominalTS);
     cpiB.setPricingEngine(dbe);
 
-    QL_REQUIRE(fabs(cpiB.NPV() - zisV.legNPV(0))<1e-5,"cpi bond does not equal equivalent cpi swap leg");
+    QL_REQUIRE(fabs(cpiB.NPV() - zisV.legNPV(0)) < 1e-5, "cpi bond does not equal equivalent cpi swap leg");
     // remove circular refernce
-    common.hcpi.linkTo(std::shared_ptr<ZeroInflationTermStructure>());
+    common.hcpi.linkTo(std::shared_ptr < ZeroInflationTermStructure > ());
 }

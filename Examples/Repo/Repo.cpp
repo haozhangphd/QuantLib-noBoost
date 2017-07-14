@@ -52,15 +52,15 @@ namespace QuantLib {
 }
 #endif
 
-int main(int, char* []) {
+int main(int, char *[]) {
 
     try {
 
-        std::chrono::time_point<std::chrono::steady_clock> startT =  std::chrono::steady_clock::now();
-	std::cout << std::endl;
+        std::chrono::time_point<std::chrono::steady_clock> startT = std::chrono::steady_clock::now();
+        std::cout << std::endl;
 
-        Date repoSettlementDate(14,February,2000);;
-        Date repoDeliveryDate(15,August,2000);
+        Date repoSettlementDate(14, February, 2000);;
+        Date repoDeliveryDate(15, August, 2000);
         Rate repoRate = 0.05;
         DayCounter repoDayCountConvention = Actual360();
         Integer repoSettlementDays = 0;
@@ -68,9 +68,9 @@ int main(int, char* []) {
         Frequency repoCompoundFreq = Annual;
 
         // assume a ten year bond- this is irrelevant
-        Date bondIssueDate(15,September,1995);
-        Date bondDatedDate(15,September,1995);
-        Date bondMaturityDate(15,September,2005);
+        Date bondIssueDate(15, September, 1995);
+        Date bondDatedDate(15, September, 1995);
+        Date bondMaturityDate(15, September, 2005);
         Real bondCoupon = 0.08;
         Frequency bondCouponFrequency = Semiannual;
         // unknown what calendar fincad is using
@@ -87,67 +87,63 @@ int main(int, char* []) {
         Settings::instance().evaluationDate() = repoSettlementDate;
 
         RelinkableHandle<YieldTermStructure> bondCurve;
-        bondCurve.linkTo(std::shared_ptr<YieldTermStructure>(
-                                       new FlatForward(repoSettlementDate,
-                                                       .01, // dummy rate
-                                                       bondDayCountConvention,
-                                                       Compounded,
-                                                       bondCouponFrequency)));
+        bondCurve.linkTo(std::make_shared<FlatForward>(repoSettlementDate,
+                                                            .01, // dummy rate
+                                                            bondDayCountConvention,
+                                                            Compounded,
+                                                            bondCouponFrequency));
 
         /*
-        std::shared_ptr<FixedRateBond> bond(
-                       new FixedRateBond(faceAmount,
-                                         bondIssueDate,
-                                         bondDatedDate,
-                                         bondMaturityDate,
-                                         bondSettlementDays,
-                                         std::vector<Rate>(1,bondCoupon),
-                                         bondCouponFrequency,
-                                         bondCalendar,
-                                         bondDayCountConvention,
-                                         bondBusinessDayConvention,
-                                         bondBusinessDayConvention,
-                                         bondRedemption,
-                                         bondCurve));
+        std::shared_ptr<FixedRateBond> bond = 
+          std::make_shared<FixedRateBond>(faceAmount,
+                                          bondIssueDate,
+                                          bondDatedDate,
+                                          bondMaturityDate,
+                                          bondSettlementDays,
+                                          std::vector<Rate>(1,bondCoupon),
+                                          bondCouponFrequency,
+                                          bondCalendar,
+                                          bondDayCountConvention,
+                                          bondBusinessDayConvention,
+                                          bondBusinessDayConvention,
+                                          bondRedemption,
+                                          bondCurve);
         */
 
         Schedule bondSchedule(bondDatedDate, bondMaturityDate,
                               Period(bondCouponFrequency),
-                              bondCalendar,bondBusinessDayConvention,
+                              bondCalendar, bondBusinessDayConvention,
                               bondBusinessDayConvention,
-                              DateGeneration::Backward,false);
-        std::shared_ptr<FixedRateBond> bond(
-                       new FixedRateBond(bondSettlementDays,
-                                         faceAmount,
-                                         bondSchedule,
-                                         std::vector<Rate>(1,bondCoupon),
-                                         bondDayCountConvention,
-                                         bondBusinessDayConvention,
-                                         bondRedemption,
-                                         bondIssueDate));
-        bond->setPricingEngine(std::shared_ptr<PricingEngine>(
-                                       new DiscountingBondEngine(bondCurve)));
+                              DateGeneration::Backward, false);
+        std::shared_ptr < FixedRateBond > bond =
+                std::make_shared<FixedRateBond>(bondSettlementDays,
+                                                faceAmount,
+                                                bondSchedule,
+                                                std::vector<Rate>(1, bondCoupon),
+                                                bondDayCountConvention,
+                                                bondBusinessDayConvention,
+                                                bondRedemption,
+                                                bondIssueDate);
+        bond->setPricingEngine(std::make_shared<DiscountingBondEngine>(bondCurve));
 
-        bondCurve.linkTo(std::shared_ptr<YieldTermStructure> (
-                   new FlatForward(repoSettlementDate,
-                                   bond->yield(bondCleanPrice,
-                                               bondDayCountConvention,
-                                               Compounded,
-                                               bondCouponFrequency),
-                                   bondDayCountConvention,
-                                   Compounded,
-                                   bondCouponFrequency)));
+        bondCurve.linkTo(std::make_shared<FlatForward>(repoSettlementDate,
+                                                            bond->yield(bondCleanPrice,
+                                                                        bondDayCountConvention,
+                                                                        Compounded,
+                                                                        bondCouponFrequency),
+                                                            bondDayCountConvention,
+                                                            Compounded,
+                                                            bondCouponFrequency));
 
         Position::Type fwdType = Position::Long;
         double dummyStrike = 91.5745;
 
         RelinkableHandle<YieldTermStructure> repoCurve;
-        repoCurve.linkTo(std::shared_ptr<YieldTermStructure> (
-                                       new FlatForward(repoSettlementDate,
-                                                       repoRate,
-                                                       repoDayCountConvention,
-                                                       repoCompounding,
-                                                       repoCompoundFreq)));
+        repoCurve.linkTo(std::make_shared<FlatForward>(repoSettlementDate,
+                                                            repoRate,
+                                                            repoDayCountConvention,
+                                                            repoCompounding,
+                                                            repoCompoundFreq));
 
 
         FixedRateBondForward bondFwd(repoSettlementDate,
@@ -179,7 +175,7 @@ int main(int, char* []) {
              << bondFwd.spotIncome(repoCurve)
              << endl;
         cout << "Underlying bond fwd income:  "
-             << bondFwd.spotIncome(repoCurve)/
+             << bondFwd.spotIncome(repoCurve) /
                 repoCurve->discount(repoDeliveryDate)
              << endl;
         cout << "Repo strike: "
@@ -211,10 +207,10 @@ int main(int, char* []) {
 
         cout << "Compare with example given at \n"
              << "http://www.fincad.com/support/developerFunc/mathref/BFWD.htm"
-             <<  endl;
+             << endl;
         cout << "Clean forward price = 88.2408"
-             <<  endl
-             <<  endl;
+             << endl
+             << endl;
         cout << "In that example, it is unknown what bond calendar they are\n"
              << "using, as well as settlement Days. For that reason, I have\n"
              << "made the simplest possible assumptions here: NullCalendar\n"
@@ -224,9 +220,9 @@ int main(int, char* []) {
 
         std::chrono::time_point<std::chrono::steady_clock> endT = std::chrono::steady_clock::now();
         double seconds = static_cast<double>((endT - startT).count()) / 1.0e9;
-	Integer hours = int(seconds/3600);
+        Integer hours = int(seconds / 3600);
         seconds -= hours * 3600;
-        Integer minutes = int(seconds/60);
+        Integer minutes = int(seconds / 60);
         seconds -= minutes * 60;
         cout << " \nRun completed in ";
         if (hours > 0)
@@ -238,7 +234,7 @@ int main(int, char* []) {
 
         return 0;
 
-    } catch (exception& e) {
+    } catch (exception &e) {
         cerr << e.what() << endl;
         return 1;
     } catch (...) {

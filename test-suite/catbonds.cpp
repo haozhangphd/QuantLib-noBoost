@@ -45,16 +45,18 @@ using namespace QuantLib;
 using std::shared_ptr;
 
 namespace {
-    std::pair<Date, Real> data[] = {std::pair<Date, Real>(Date(1, February, 2012), 100), std::pair<Date, Real>(Date(1, July, 2013), 150), std::pair<Date, Real>(Date(5, January, 2014), 50)};
-    std::shared_ptr<std::vector<std::pair<Date, Real> > > sampleEvents(new std::vector<std::pair<Date, Real> >(data, data+3));
+    std::pair<Date, Real> data[] = {std::pair < Date, Real > (Date(1, February, 2012), 100), std::pair < Date,
+                                    Real > (Date(1, July, 2013), 150), std::pair < Date,
+                                    Real > (Date(5, January, 2014), 50)};
+    std::shared_ptr<std::vector<std::pair<Date, Real>>> sampleEvents =
+            std::make_shared<std::vector<std::pair<Date, Real>>>(std::vector<std::pair<Date, Real>>(data, data + 3));
 
     Date eventsStart(1, January, 2011);
     Date eventsEnd(31, December, 2014);
-    
-    template <typename lhs_t, typename rhs_t, typename tolerance_t>
-    bool close(lhs_t lhs, rhs_t rhs, tolerance_t tolerance)
-    {
-	    return std::abs(rhs - lhs) <= tolerance;
+
+    template<typename lhs_t, typename rhs_t, typename tolerance_t>
+    bool close(lhs_t lhs, rhs_t rhs, tolerance_t tolerance) {
+        return std::abs(rhs - lhs) <= tolerance;
 
     }
 }
@@ -62,75 +64,79 @@ namespace {
 TEST_CASE("CatBond_EventSetForWholeYears", "[CatBond]") {
     INFO("Testing that catastrophe events are split correctly for periods of whole years...");
 
-	EventSet catRisk(sampleEvents, eventsStart, eventsEnd);
-	std::shared_ptr<CatSimulation> simulation = catRisk.newSimulation(Date(1, January, 2015), Date(31, December, 2015));
+    EventSet catRisk(sampleEvents, eventsStart, eventsEnd);
+    std::shared_ptr < CatSimulation > simulation = catRisk.newSimulation(Date(1, January, 2015),
+                                                                         Date(31, December, 2015));
 
-	REQUIRE(simulation);
+    REQUIRE(simulation);
 
-	std::vector<std::pair<Date, Real> > path;
+    std::vector<std::pair<Date, Real>> path;
 
-	REQUIRE(simulation->nextPath(path));
-	CHECK(Size(0) == path.size());
+    REQUIRE(simulation->nextPath(path));
+    CHECK(Size(0) == path.size());
 
-	REQUIRE(simulation->nextPath(path));
-	CHECK(Size(1) == path.size());
-	CHECK(Date(1, February, 2015) == path.at(0).first);
-	CHECK(100 == path.at(0).second);
+    REQUIRE(simulation->nextPath(path));
+    CHECK(Size(1) == path.size());
+    CHECK(Date(1, February, 2015) == path.at(0).first);
+    CHECK(100 == path.at(0).second);
 
-	REQUIRE(simulation->nextPath(path));
-	CHECK(Size(1) == path.size());
-	CHECK(Date(1, July, 2015) == path.at(0).first);
-	CHECK(150 == path.at(0).second);
+    REQUIRE(simulation->nextPath(path));
+    CHECK(Size(1) == path.size());
+    CHECK(Date(1, July, 2015) == path.at(0).first);
+    CHECK(150 == path.at(0).second);
 
-	REQUIRE(simulation->nextPath(path));
-	CHECK(Size(1) == path.size());
-	CHECK(Date(5, January, 2015) == path.at(0).first);
-	CHECK(50 == path.at(0).second);
+    REQUIRE(simulation->nextPath(path));
+    CHECK(Size(1) == path.size());
+    CHECK(Date(5, January, 2015) == path.at(0).first);
+    CHECK(50 == path.at(0).second);
 
-	REQUIRE(!simulation->nextPath(path));
+    REQUIRE(!simulation->nextPath(path));
 }
 
 
 TEST_CASE("CatBond_EventSetForIrregularPeriods", "[CatBond]") {
     INFO("Testing that catastrophe events are split correctly for irregular periods...");
-	
-	EventSet catRisk(sampleEvents, eventsStart, eventsEnd);
-	std::shared_ptr<CatSimulation> simulation = catRisk.newSimulation(Date(2, January, 2015), Date(5, January, 2016));
 
-	REQUIRE(simulation);
+    EventSet catRisk(sampleEvents, eventsStart, eventsEnd);
+    std::shared_ptr < CatSimulation > simulation = catRisk.newSimulation(Date(2, January, 2015),
+                                                                         Date(5, January, 2016));
 
-	std::vector<std::pair<Date, Real> > path;
+    REQUIRE(simulation);
 
-	REQUIRE(simulation->nextPath(path));
-	CHECK(Size(0) == path.size());
+    std::vector<std::pair<Date, Real>> path;
 
-	REQUIRE(simulation->nextPath(path));
-	CHECK(Size(2) == path.size());
-	CHECK(Date(1, July, 2015) == path.at(0).first);
-	CHECK(150 == path.at(0).second);
-	CHECK(Date(5, January, 2016) == path.at(1).first);
-	CHECK(50 == path.at(1).second);
+    REQUIRE(simulation->nextPath(path));
+    CHECK(Size(0) == path.size());
 
-	REQUIRE(!simulation->nextPath(path));
+    REQUIRE(simulation->nextPath(path));
+    CHECK(Size(2) == path.size());
+    CHECK(Date(1, July, 2015) == path.at(0).first);
+    CHECK(150 == path.at(0).second);
+    CHECK(Date(5, January, 2016) == path.at(1).first);
+    CHECK(50 == path.at(1).second);
+
+    REQUIRE(!simulation->nextPath(path));
 }
 
 
 TEST_CASE("CatBond_EventSetForNoEvents", "[CatBond]") {
     INFO("Testing that catastrophe events are split correctly when there are no simulated events...");
 
-    std::shared_ptr<std::vector<std::pair<Date, Real> > > emptyEvents(new std::vector<std::pair<Date, Real> >());
+    std::shared_ptr < std::vector<std::pair<Date, Real>> >
+    emptyEvents = std::make_shared<std::vector<std::pair<Date, Real>>>();
     EventSet catRisk(emptyEvents, eventsStart, eventsEnd);
-	std::shared_ptr<CatSimulation> simulation = catRisk.newSimulation(Date(2, January, 2015), Date(5, January, 2016));
+    std::shared_ptr < CatSimulation > simulation = catRisk.newSimulation(Date(2, January, 2015),
+                                                                         Date(5, January, 2016));
 
-	REQUIRE(simulation);
+    REQUIRE(simulation);
 
-	std::vector<std::pair<Date, Real> > path;
-
-	REQUIRE(simulation->nextPath(path));
-	CHECK(Size(0) == path.size());
+    std::vector<std::pair<Date, Real>> path;
 
     REQUIRE(simulation->nextPath(path));
-	CHECK(Size(0) == path.size());
+    CHECK(Size(0) == path.size());
+
+    REQUIRE(simulation->nextPath(path));
+    CHECK(Size(0) == path.size());
 
     REQUIRE(!simulation->nextPath(path));
 }
@@ -140,37 +146,37 @@ TEST_CASE("CatBond_BetaRisk", "[CatBond]") {
 
     const size_t PATHS = 1000000;
     BetaRisk catRisk(100.0, 100.0, 10.0, 15.0);
-    std::shared_ptr<CatSimulation> simulation = catRisk.newSimulation(Date(2, January, 2015), Date(2, January, 2018));
+    std::shared_ptr < CatSimulation > simulation = catRisk.newSimulation(Date(2, January, 2015),
+                                                                         Date(2, January, 2018));
     REQUIRE(simulation);
 
-    std::vector<std::pair<Date, Real> > path;
+    std::vector<std::pair<Date, Real>> path;
     Real sum = 0.0;
     Real sumSquares = 0.0;
     Real poissonSum = 0.0;
     Real poissonSumSquares = 0.0;
-    
-    
-    for(size_t i=0; i<PATHS; ++i)
-    {
+
+
+    for (size_t i = 0; i < PATHS; ++i) {
         REQUIRE(simulation->nextPath(path));
         Real processValue = 0.0;
-        for(size_t j=0; j<path.size(); ++j) processValue+=path[j].second;
-        sum+=processValue;
-        sumSquares+=processValue*processValue;
-        poissonSum+=path.size();
-        poissonSumSquares+=path.size()*path.size();
+        for (size_t j = 0; j < path.size(); ++j) processValue += path[j].second;
+        sum += processValue;
+        sumSquares += processValue * processValue;
+        poissonSum += path.size();
+        poissonSumSquares += path.size() * path.size();
     }
-    Real poissonMean = poissonSum/PATHS;
-    CHECK(close(Real(3.0/100.0), poissonMean, 2));
-    Real poissonVar = poissonSumSquares/PATHS - poissonMean*poissonMean;
-    CHECK(close(Real(3.0/100.0), poissonVar, 5));
-    
-    Real expectedMean = 3.0*10.0/100.0;
-    Real actualMean = sum/PATHS;
+    Real poissonMean = poissonSum / PATHS;
+    CHECK(close(Real(3.0 / 100.0), poissonMean, 2));
+    Real poissonVar = poissonSumSquares / PATHS - poissonMean * poissonMean;
+    CHECK(close(Real(3.0 / 100.0), poissonVar, 5));
+
+    Real expectedMean = 3.0 * 10.0 / 100.0;
+    Real actualMean = sum / PATHS;
     CHECK(close(expectedMean, actualMean, 1));
-    
-    Real expectedVar = 3.0*(15.0*15.0+10*10)/100.0;
-    Real actualVar = sumSquares/PATHS - actualMean*actualMean;
+
+    Real expectedVar = 3.0 * (15.0 * 15.0 + 10 * 10) / 100.0;
+    Real actualVar = sumSquares / PATHS - actualMean * actualMean;
     CHECK(close(expectedVar, actualVar, 1));
 }
 
@@ -200,37 +206,37 @@ TEST_CASE("CatBond_RiskFreeAgainstFloatingRateBond", "[CatBond]") {
 
     CommonVars vars;
 
-    Date today(22,November,2004);
+    Date today(22, November, 2004);
     Settings::instance().evaluationDate() = today;
 
     Natural settlementDays = 1;
 
-    Handle<YieldTermStructure> riskFreeRate(flatRate(today,0.025,Actual360()));
-    Handle<YieldTermStructure> discountCurve(flatRate(today,0.03,Actual360()));
+    Handle<YieldTermStructure> riskFreeRate(flatRate(today, 0.025, Actual360()));
+    Handle<YieldTermStructure> discountCurve(flatRate(today, 0.03, Actual360()));
 
-    shared_ptr<IborIndex> index(new USDLibor(6*Months, riskFreeRate));
+    shared_ptr < IborIndex > index = std::make_shared<USDLibor>(6 * Months, riskFreeRate);
     Natural fixingDays = 1;
 
     Real tolerance = 1.0e-6;
 
-    shared_ptr<IborCouponPricer> pricer(new
-        BlackIborCouponPricer(Handle<OptionletVolatilityStructure>()));
+    shared_ptr < IborCouponPricer > pricer =
+            std::make_shared<BlackIborCouponPricer>(Handle<OptionletVolatilityStructure>());
 
     // plain
 
-    Schedule sch(Date(30,November,2004),
-                 Date(30,November,2008),
+    Schedule sch(Date(30, November, 2004),
+                 Date(30, November, 2008),
                  Period(Semiannual),
                  UnitedStates(UnitedStates::GovernmentBond),
                  ModifiedFollowing, ModifiedFollowing,
                  DateGeneration::Backward, false);
 
-    std::shared_ptr<CatRisk> noCatRisk(new EventSet(
-        std::shared_ptr<std::vector<std::pair<Date, Real> > >(new std::vector<std::pair<Date, Real> >()),
-        Date(1, Jan, 2000), Date(31, Dec, 2010)));
+    std::shared_ptr < CatRisk > noCatRisk = std::make_shared<EventSet>(
+            std::make_shared<std::vector<std::pair<Date, Real>>>(),
+            Date(1, Jan, 2000), Date(31, Dec, 2010));
 
-    std::shared_ptr<EventPaymentOffset> paymentOffset(new NoOffset());
-    std::shared_ptr<NotionalRisk> notionalRisk(new DigitalNotionalRisk(paymentOffset, 100));
+    std::shared_ptr < EventPaymentOffset > paymentOffset = std::make_shared<NoOffset>();
+    std::shared_ptr < NotionalRisk > notionalRisk = std::make_shared<DigitalNotionalRisk>(paymentOffset, 100);
 
     FloatingRateBond bond1(settlementDays, vars.faceAmount, sch,
                            index, ActualActual(ActualActual::ISMA),
@@ -238,45 +244,45 @@ TEST_CASE("CatBond_RiskFreeAgainstFloatingRateBond", "[CatBond]") {
                            std::vector<Real>(), std::vector<Spread>(),
                            std::vector<Rate>(), std::vector<Rate>(),
                            false,
-                           100.0, Date(30,November,2004));
+                           100.0, Date(30, November, 2004));
 
-	FloatingCatBond catBond1(settlementDays, vars.faceAmount, sch,
-                           index, ActualActual(ActualActual::ISMA),
-                           notionalRisk, 
-                           ModifiedFollowing, fixingDays,
-                           std::vector<Real>(), std::vector<Spread>(),
-                           std::vector<Rate>(), std::vector<Rate>(),
-                           false,
-                           100.0, Date(30,November,2004));
+    FloatingCatBond catBond1(settlementDays, vars.faceAmount, sch,
+                             index, ActualActual(ActualActual::ISMA),
+                             notionalRisk,
+                             ModifiedFollowing, fixingDays,
+                             std::vector<Real>(), std::vector<Spread>(),
+                             std::vector<Rate>(), std::vector<Rate>(),
+                             false,
+                             100.0, Date(30, November, 2004));
 
-    shared_ptr<PricingEngine> bondEngine(
-                                     new DiscountingBondEngine(riskFreeRate));
+    shared_ptr < PricingEngine > bondEngine =
+            std::make_shared<DiscountingBondEngine>(riskFreeRate);
     bond1.setPricingEngine(bondEngine);
-    setCouponPricer(bond1.cashflows(),pricer);
+    setCouponPricer(bond1.cashflows(), pricer);
 
-    shared_ptr<PricingEngine> catBondEngine(new MonteCarloCatBondEngine(noCatRisk, riskFreeRate));
+    shared_ptr < PricingEngine > catBondEngine = std::make_shared<MonteCarloCatBondEngine>(noCatRisk, riskFreeRate);
     catBond1.setPricingEngine(catBondEngine);
-    setCouponPricer(catBond1.cashflows(),pricer);
+    setCouponPricer(catBond1.cashflows(), pricer);
 
-    #if defined(QL_USE_INDEXED_COUPON)
+#if defined(QL_USE_INDEXED_COUPON)
     Real cachedPrice1 = 99.874645;
-    #else
+#else
     Real cachedPrice1 = 99.874646;
-    #endif
+#endif
 
 
     Real price = bond1.cleanPrice();
     Real catPrice = catBond1.cleanPrice();
-    if (std::fabs(price-cachedPrice1) > tolerance || std::fabs(catPrice-price) > tolerance) {
+    if (std::fabs(price - cachedPrice1) > tolerance || std::fabs(catPrice - price) > tolerance) {
         FAIL("failed to reproduce floating rate bond price:\n"
-                   << std::fixed
-                   << "    floating bond: " << price << "\n"
-                   << "    catBond bond: " << catPrice << "\n"
-                   << "    expected:   " << cachedPrice1 << "\n"
-                   << "    error:      " << catPrice-price);
+                     << std::fixed
+                     << "    floating bond: " << price << "\n"
+                     << "    catBond bond: " << catPrice << "\n"
+                     << "    expected:   " << cachedPrice1 << "\n"
+                     << "    error:      " << catPrice - price);
     }
 
-    
+
 
     // different risk-free and discount curve
 
@@ -286,41 +292,41 @@ TEST_CASE("CatBond_RiskFreeAgainstFloatingRateBond", "[CatBond]") {
                            std::vector<Rate>(), std::vector<Spread>(),
                            std::vector<Rate>(), std::vector<Rate>(),
                            false,
-                           100.0, Date(30,November,2004));
+                           100.0, Date(30, November, 2004));
 
     FloatingCatBond catBond2(settlementDays, vars.faceAmount, sch,
-                           index, ActualActual(ActualActual::ISMA),
-                           notionalRisk,
-                           ModifiedFollowing, fixingDays,
-                           std::vector<Rate>(), std::vector<Spread>(),
-                           std::vector<Rate>(), std::vector<Rate>(),
-                           false,
-                           100.0, Date(30,November,2004));
+                             index, ActualActual(ActualActual::ISMA),
+                             notionalRisk,
+                             ModifiedFollowing, fixingDays,
+                             std::vector<Rate>(), std::vector<Spread>(),
+                             std::vector<Rate>(), std::vector<Rate>(),
+                             false,
+                             100.0, Date(30, November, 2004));
 
-    shared_ptr<PricingEngine> bondEngine2(
-                                    new DiscountingBondEngine(discountCurve));
+    shared_ptr < PricingEngine > bondEngine2 =
+            std::make_shared<DiscountingBondEngine>(discountCurve);
     bond2.setPricingEngine(bondEngine2);
-    setCouponPricer(bond2.cashflows(),pricer);
+    setCouponPricer(bond2.cashflows(), pricer);
 
-    shared_ptr<PricingEngine> catBondEngine2(new MonteCarloCatBondEngine(noCatRisk, discountCurve));
+    shared_ptr < PricingEngine > catBondEngine2 = std::make_shared<MonteCarloCatBondEngine>(noCatRisk, discountCurve);
     catBond2.setPricingEngine(catBondEngine2);
-    setCouponPricer(catBond2.cashflows(),pricer);
+    setCouponPricer(catBond2.cashflows(), pricer);
 
-    #if defined(QL_USE_INDEXED_COUPON)
+#if defined(QL_USE_INDEXED_COUPON)
     Real cachedPrice2 = 97.955904;
-    #else
+#else
     Real cachedPrice2 = 97.955904;
-    #endif
+#endif
 
     price = bond2.cleanPrice();
     catPrice = catBond2.cleanPrice();
-    if (std::fabs(price-cachedPrice2) > tolerance || std::fabs(catPrice-price) > tolerance) {
+    if (std::fabs(price - cachedPrice2) > tolerance || std::fabs(catPrice - price) > tolerance) {
         FAIL("failed to reproduce floating rate bond price:\n"
-                   << std::fixed
-                   << "    floating bond: " << price << "\n"
-                   << "    catBond bond: " << catPrice << "\n"
-                   << "    expected:   " << cachedPrice2 << "\n"
-                   << "    error:      " << catPrice-price);
+                     << std::fixed
+                     << "    floating bond: " << price << "\n"
+                     << "    catBond bond: " << catPrice << "\n"
+                     << "    expected:   " << cachedPrice2 << "\n"
+                     << "    error:      " << catPrice - price);
     }
 
     // varying spread
@@ -337,41 +343,40 @@ TEST_CASE("CatBond_RiskFreeAgainstFloatingRateBond", "[CatBond]") {
                            std::vector<Real>(), spreads,
                            std::vector<Rate>(), std::vector<Rate>(),
                            false,
-                           100.0, Date(30,November,2004));
+                           100.0, Date(30, November, 2004));
 
     FloatingCatBond catBond3(settlementDays, vars.faceAmount, sch,
-                           index, ActualActual(ActualActual::ISMA),
-                           notionalRisk,
-                           ModifiedFollowing, fixingDays,
-                           std::vector<Real>(), spreads,
-                           std::vector<Rate>(), std::vector<Rate>(),
-                           false,
-                           100.0, Date(30,November,2004));
+                             index, ActualActual(ActualActual::ISMA),
+                             notionalRisk,
+                             ModifiedFollowing, fixingDays,
+                             std::vector<Real>(), spreads,
+                             std::vector<Rate>(), std::vector<Rate>(),
+                             false,
+                             100.0, Date(30, November, 2004));
 
     bond3.setPricingEngine(bondEngine2);
-    setCouponPricer(bond3.cashflows(),pricer);
+    setCouponPricer(bond3.cashflows(), pricer);
 
     catBond3.setPricingEngine(catBondEngine2);
-    setCouponPricer(catBond3.cashflows(),pricer);
+    setCouponPricer(catBond3.cashflows(), pricer);
 
-    #if defined(QL_USE_INDEXED_COUPON)
+#if defined(QL_USE_INDEXED_COUPON)
     Real cachedPrice3 = 98.495458;
-    #else
+#else
     Real cachedPrice3 = 98.495459;
-    #endif
+#endif
 
     price = bond3.cleanPrice();
     catPrice = catBond3.cleanPrice();
-    if (std::fabs(price-cachedPrice3) > tolerance || std::fabs(catPrice-price) > tolerance) {
+    if (std::fabs(price - cachedPrice3) > tolerance || std::fabs(catPrice - price) > tolerance) {
         FAIL("failed to reproduce floating rate bond price:\n"
-                   << std::fixed
-                   << "    floating bond: " << price << "\n"
-                   << "    catBond bond: " << catPrice << "\n"
-                   << "    expected:   " << cachedPrice2 << "\n"
-                   << "    error:      " << catPrice-price);
+                     << std::fixed
+                     << "    floating bond: " << price << "\n"
+                     << "    catBond bond: " << catPrice << "\n"
+                     << "    expected:   " << cachedPrice2 << "\n"
+                     << "    error:      " << catPrice - price);
     }
 }
-
 
 
 TEST_CASE("CatBond_CatBondInDoomScenario", "[CatBond]") {
@@ -379,50 +384,50 @@ TEST_CASE("CatBond_CatBondInDoomScenario", "[CatBond]") {
 
     CommonVars vars;
 
-    Date today(22,November,2004);
+    Date today(22, November, 2004);
     Settings::instance().evaluationDate() = today;
 
     Natural settlementDays = 1;
 
-    Handle<YieldTermStructure> riskFreeRate(flatRate(today,0.025,Actual360()));
-    Handle<YieldTermStructure> discountCurve(flatRate(today,0.03,Actual360()));
+    Handle<YieldTermStructure> riskFreeRate(flatRate(today, 0.025, Actual360()));
+    Handle<YieldTermStructure> discountCurve(flatRate(today, 0.03, Actual360()));
 
-    shared_ptr<IborIndex> index(new USDLibor(6*Months, riskFreeRate));
+    shared_ptr < IborIndex > index = std::make_shared<USDLibor>(6 * Months, riskFreeRate);
     Natural fixingDays = 1;
 
     Real tolerance = 1.0e-6;
 
-    shared_ptr<IborCouponPricer> pricer(new
-        BlackIborCouponPricer(Handle<OptionletVolatilityStructure>()));
+    shared_ptr < IborCouponPricer > pricer =
+            std::make_shared<BlackIborCouponPricer>(Handle<OptionletVolatilityStructure>());
 
-    Schedule sch(Date(30,November,2004),
-                 Date(30,November,2008),
+    Schedule sch(Date(30, November, 2004),
+                 Date(30, November, 2008),
                  Period(Semiannual),
                  UnitedStates(UnitedStates::GovernmentBond),
                  ModifiedFollowing, ModifiedFollowing,
                  DateGeneration::Backward, false);
 
-    std::shared_ptr<std::vector<std::pair<Date, Real> > > events(new std::vector<std::pair<Date, Real> >());
-    events->emplace_back(std::pair<Date, Real>(Date(30,November,2004), 1000));
-    std::shared_ptr<CatRisk> doomCatRisk(new EventSet(
-        events, 
-        Date(30,November,2004), Date(30,November,2008)));
+    std::shared_ptr < std::vector<std::pair<Date, Real>> >
+    events = std::make_shared<std::vector<std::pair<Date, Real>>>();
+    events->emplace_back(std::pair < Date, Real > (Date(30, November, 2004), 1000));
+    std::shared_ptr < CatRisk > doomCatRisk = std::make_shared<EventSet>(events, Date(30, November, 2004),
+                                                                         Date(30, November, 2008));
 
-    std::shared_ptr<EventPaymentOffset> paymentOffset(new NoOffset());
-    std::shared_ptr<NotionalRisk> notionalRisk(new DigitalNotionalRisk(paymentOffset, 100));
+    std::shared_ptr < EventPaymentOffset > paymentOffset = std::make_shared<NoOffset>();
+    std::shared_ptr < NotionalRisk > notionalRisk = std::make_shared<DigitalNotionalRisk>(paymentOffset, 100);
 
     FloatingCatBond catBond(settlementDays, vars.faceAmount, sch,
-                           index, ActualActual(ActualActual::ISMA),
-                           notionalRisk,
-                           ModifiedFollowing, fixingDays,
-                           std::vector<Rate>(), std::vector<Spread>(),
-                           std::vector<Rate>(), std::vector<Rate>(),
-                           false,
-                           100.0, Date(30,November,2004));
+                            index, ActualActual(ActualActual::ISMA),
+                            notionalRisk,
+                            ModifiedFollowing, fixingDays,
+                            std::vector<Rate>(), std::vector<Spread>(),
+                            std::vector<Rate>(), std::vector<Rate>(),
+                            false,
+                            100.0, Date(30, November, 2004));
 
-    shared_ptr<PricingEngine> catBondEngine(new MonteCarloCatBondEngine(doomCatRisk, discountCurve));
+    shared_ptr < PricingEngine > catBondEngine = std::make_shared<MonteCarloCatBondEngine>(doomCatRisk, discountCurve);
     catBond.setPricingEngine(catBondEngine);
-    setCouponPricer(catBond.cashflows(),pricer);
+    setCouponPricer(catBond.cashflows(), pricer);
 
     Real price = catBond.cleanPrice();
     CHECK(0 == price);
@@ -442,54 +447,53 @@ TEST_CASE("CatBond_CatBondWithDoomOnceInTenYears", "[CatBond]") {
 
     CommonVars vars;
 
-    Date today(22,November,2004);
+    Date today(22, November, 2004);
     Settings::instance().evaluationDate() = today;
 
     Natural settlementDays = 1;
 
-    Handle<YieldTermStructure> riskFreeRate(flatRate(today,0.025,Actual360()));
-    Handle<YieldTermStructure> discountCurve(flatRate(today,0.03,Actual360()));
+    Handle<YieldTermStructure> riskFreeRate(flatRate(today, 0.025, Actual360()));
+    Handle<YieldTermStructure> discountCurve(flatRate(today, 0.03, Actual360()));
 
-    shared_ptr<IborIndex> index(new USDLibor(6*Months, riskFreeRate));
+    shared_ptr < IborIndex > index = std::make_shared<USDLibor>(6 * Months, riskFreeRate);
     Natural fixingDays = 1;
 
     Real tolerance = 1.0e-6;
 
-    shared_ptr<IborCouponPricer> pricer(new
-        BlackIborCouponPricer(Handle<OptionletVolatilityStructure>()));
+    shared_ptr < IborCouponPricer > pricer =
+            std::make_shared<BlackIborCouponPricer>(Handle<OptionletVolatilityStructure>());
 
-    Schedule sch(Date(30,November,2004),
-                 Date(30,November,2008),
+    Schedule sch(Date(30, November, 2004),
+                 Date(30, November, 2008),
                  Period(Semiannual),
                  UnitedStates(UnitedStates::GovernmentBond),
                  ModifiedFollowing, ModifiedFollowing,
                  DateGeneration::Backward, false);
 
-    std::shared_ptr<std::vector<std::pair<Date, Real> > > events(new std::vector<std::pair<Date, Real> >());
-    events->emplace_back(std::pair<Date, Real>(Date(30,November,2008), 1000));
-    std::shared_ptr<CatRisk> doomCatRisk(new EventSet(
-        events, 
-        Date(30,November,2004), Date(30,November,2044)));
+    std::shared_ptr < std::vector<std::pair<Date, Real>> >
+    events = std::make_shared<std::vector<std::pair<Date, Real>>>();
+    events->emplace_back(std::pair < Date, Real > (Date(30, November, 2008), 1000));
+    std::shared_ptr < CatRisk > doomCatRisk = std::make_shared<EventSet>(events, Date(30, November, 2004),
+                                                                         Date(30, November, 2044));
 
-    std::shared_ptr<CatRisk> noCatRisk(new EventSet(
-        std::shared_ptr<std::vector<std::pair<Date, Real> > >(new std::vector<std::pair<Date, Real> >()),
-        Date(1, Jan, 2000), Date(31, Dec, 2010)));
+    std::shared_ptr < CatRisk > noCatRisk = std::make_shared<EventSet>(
+            std::make_shared<std::vector<std::pair<Date, Real>>>(), Date(1, Jan, 2000), Date(31, Dec, 2010));
 
-    std::shared_ptr<EventPaymentOffset> paymentOffset(new NoOffset());
-    std::shared_ptr<NotionalRisk> notionalRisk(new DigitalNotionalRisk(paymentOffset, 100));
+    std::shared_ptr < EventPaymentOffset > paymentOffset = std::make_shared<NoOffset>();
+    std::shared_ptr < NotionalRisk > notionalRisk = std::make_shared<DigitalNotionalRisk>(paymentOffset, 100);
 
     FloatingCatBond catBond(settlementDays, vars.faceAmount, sch,
-                           index, ActualActual(ActualActual::ISMA),
-                           notionalRisk,
-                           ModifiedFollowing, fixingDays,
-                           std::vector<Rate>(), std::vector<Spread>(),
-                           std::vector<Rate>(), std::vector<Rate>(),
-                           false,
-                           100.0, Date(30,November,2004));
+                            index, ActualActual(ActualActual::ISMA),
+                            notionalRisk,
+                            ModifiedFollowing, fixingDays,
+                            std::vector<Rate>(), std::vector<Spread>(),
+                            std::vector<Rate>(), std::vector<Rate>(),
+                            false,
+                            100.0, Date(30, November, 2004));
 
-    shared_ptr<PricingEngine> catBondEngine(new MonteCarloCatBondEngine(doomCatRisk, discountCurve));
+    shared_ptr < PricingEngine > catBondEngine = std::make_shared<MonteCarloCatBondEngine>(doomCatRisk, discountCurve);
     catBond.setPricingEngine(catBondEngine);
-    setCouponPricer(catBond.cashflows(),pricer);
+    setCouponPricer(catBond.cashflows(), pricer);
 
     Real price = catBond.cleanPrice();
     Real yield = catBond.yield(ActualActual(ActualActual::ISMA), Simple, Annual);
@@ -501,7 +505,7 @@ TEST_CASE("CatBond_CatBondWithDoomOnceInTenYears", "[CatBond]") {
     CHECK(close(Real(0.1), exhaustionProbability, tolerance));
     CHECK(close(Real(0.1), expectedLoss, tolerance));
 
-    shared_ptr<PricingEngine> catBondEngineRF(new MonteCarloCatBondEngine(noCatRisk, discountCurve));
+    shared_ptr < PricingEngine > catBondEngineRF = std::make_shared<MonteCarloCatBondEngine>(noCatRisk, discountCurve);
     catBond.setPricingEngine(catBondEngineRF);
 
     Real riskFreePrice = catBond.cleanPrice();
@@ -509,12 +513,12 @@ TEST_CASE("CatBond_CatBondWithDoomOnceInTenYears", "[CatBond]") {
     Real riskFreeLossProbability = catBond.lossProbability();
     Real riskFreeExhaustionProbability = catBond.exhaustionProbability();
     Real riskFreeExpectedLoss = catBond.expectedLoss();
-    
+
     CHECK(close(Real(0.0), riskFreeLossProbability, tolerance));
     CHECK(close(Real(0.0), riskFreeExhaustionProbability, tolerance));
     CHECK(std::abs(riskFreeExpectedLoss) < tolerance);
-    
-    CHECK(close(riskFreePrice*0.9, price, tolerance));
+
+    CHECK(close(riskFreePrice * 0.9, price, tolerance));
     CHECK(riskFreeYield < yield);
 }
 
@@ -523,54 +527,55 @@ TEST_CASE("CatBond_CatBondWithDoomOnceInTenYearsProportional", "[CatBond]") {
 
     CommonVars vars;
 
-    Date today(22,November,2004);
+    Date today(22, November, 2004);
     Settings::instance().evaluationDate() = today;
 
     Natural settlementDays = 1;
 
-    Handle<YieldTermStructure> riskFreeRate(flatRate(today,0.025,Actual360()));
-    Handle<YieldTermStructure> discountCurve(flatRate(today,0.03,Actual360()));
+    Handle<YieldTermStructure> riskFreeRate(flatRate(today, 0.025, Actual360()));
+    Handle<YieldTermStructure> discountCurve(flatRate(today, 0.03, Actual360()));
 
-    shared_ptr<IborIndex> index(new USDLibor(6*Months, riskFreeRate));
+    shared_ptr < IborIndex > index = std::make_shared<USDLibor>(6 * Months, riskFreeRate);
     Natural fixingDays = 1;
 
     Real tolerance = 1.0e-6;
 
-    shared_ptr<IborCouponPricer> pricer(new
-        BlackIborCouponPricer(Handle<OptionletVolatilityStructure>()));
+    shared_ptr < IborCouponPricer > pricer =
+            std::make_shared<BlackIborCouponPricer>(Handle<OptionletVolatilityStructure>());
 
-    Schedule sch(Date(30,November,2004),
-                 Date(30,November,2008),
+    Schedule sch(Date(30, November, 2004),
+                 Date(30, November, 2008),
                  Period(Semiannual),
                  UnitedStates(UnitedStates::GovernmentBond),
                  ModifiedFollowing, ModifiedFollowing,
                  DateGeneration::Backward, false);
 
-    std::shared_ptr<std::vector<std::pair<Date, Real> > > events(new std::vector<std::pair<Date, Real> >());
-    events->emplace_back(std::pair<Date, Real>(Date(30,November,2008), 1000));
-    std::shared_ptr<CatRisk> doomCatRisk(new EventSet(
-        events, 
-        Date(30,November,2004), Date(30,November,2044)));
+    std::shared_ptr < std::vector<std::pair<Date, Real>> >
+    events = std::make_shared<std::vector<std::pair<Date, Real>>>();
+    events->emplace_back(std::pair < Date, Real > (Date(30, November, 2008), 1000));
+    std::shared_ptr < CatRisk > doomCatRisk = std::make_shared<EventSet>(events, Date(30, November, 2004),
+                                                                         Date(30, November, 2044));
 
-    std::shared_ptr<CatRisk> noCatRisk(new EventSet(
-        std::shared_ptr<std::vector<std::pair<Date, Real> > >(new std::vector<std::pair<Date, Real> >()),
-        Date(1, Jan, 2000), Date(31, Dec, 2010)));
+    std::shared_ptr < CatRisk > noCatRisk = std::make_shared<EventSet>(
+            std::make_shared<std::vector<std::pair<Date, Real>>>(),
+            Date(1, Jan, 2000), Date(31, Dec, 2010));
 
-    std::shared_ptr<EventPaymentOffset> paymentOffset(new NoOffset());
-    std::shared_ptr<NotionalRisk> notionalRisk(new ProportionalNotionalRisk(paymentOffset, 500, 1500));
+    std::shared_ptr < EventPaymentOffset > paymentOffset = std::make_shared<NoOffset>();
+    std::shared_ptr < NotionalRisk > notionalRisk = std::make_shared<ProportionalNotionalRisk>(paymentOffset, 500,
+                                                                                               1500);
 
     FloatingCatBond catBond(settlementDays, vars.faceAmount, sch,
-                           index, ActualActual(ActualActual::ISMA),
-                           notionalRisk,
-                           ModifiedFollowing, fixingDays,
-                           std::vector<Rate>(), std::vector<Spread>(),
-                           std::vector<Rate>(), std::vector<Rate>(),
-                           false,
-                           100.0, Date(30,November,2004));
+                            index, ActualActual(ActualActual::ISMA),
+                            notionalRisk,
+                            ModifiedFollowing, fixingDays,
+                            std::vector<Rate>(), std::vector<Spread>(),
+                            std::vector<Rate>(), std::vector<Rate>(),
+                            false,
+                            100.0, Date(30, November, 2004));
 
-    shared_ptr<PricingEngine> catBondEngine(new MonteCarloCatBondEngine(doomCatRisk, discountCurve));
+    shared_ptr < PricingEngine > catBondEngine = std::make_shared<MonteCarloCatBondEngine>(doomCatRisk, discountCurve);
     catBond.setPricingEngine(catBondEngine);
-    setCouponPricer(catBond.cashflows(),pricer);
+    setCouponPricer(catBond.cashflows(), pricer);
 
     Real price = catBond.cleanPrice();
     Real yield = catBond.yield(ActualActual(ActualActual::ISMA), Simple, Annual);
@@ -582,18 +587,18 @@ TEST_CASE("CatBond_CatBondWithDoomOnceInTenYearsProportional", "[CatBond]") {
     CHECK(close(Real(0.0), exhaustionProbability, tolerance));
     CHECK(close(Real(0.05), expectedLoss, tolerance));
 
-    shared_ptr<PricingEngine> catBondEngineRF(new MonteCarloCatBondEngine(noCatRisk, discountCurve));
+    shared_ptr < PricingEngine > catBondEngineRF = std::make_shared<MonteCarloCatBondEngine>(noCatRisk, discountCurve);
     catBond.setPricingEngine(catBondEngineRF);
 
     Real riskFreePrice = catBond.cleanPrice();
     Real riskFreeYield = catBond.yield(ActualActual(ActualActual::ISMA), Simple, Annual);
     Real riskFreeLossProbability = catBond.lossProbability();
     Real riskFreeExpectedLoss = catBond.expectedLoss();
-    
+
     CHECK(close(Real(0.0), riskFreeLossProbability, tolerance));
     CHECK(std::abs(riskFreeExpectedLoss) < tolerance);
-    
-    CHECK(close(riskFreePrice*0.95, price, tolerance));
+
+    CHECK(close(riskFreePrice * 0.95, price, tolerance));
     CHECK(riskFreeYield < yield);
 }
 
@@ -603,50 +608,51 @@ TEST_CASE("CatBond_CatBondWithGeneratedEventsProportional", "[CatBond]") {
 
     CommonVars vars;
 
-    Date today(22,November,2004);
+    Date today(22, November, 2004);
     Settings::instance().evaluationDate() = today;
 
     Natural settlementDays = 1;
 
-    Handle<YieldTermStructure> riskFreeRate(flatRate(today,0.025,Actual360()));
-    Handle<YieldTermStructure> discountCurve(flatRate(today,0.03,Actual360()));
+    Handle<YieldTermStructure> riskFreeRate(flatRate(today, 0.025, Actual360()));
+    Handle<YieldTermStructure> discountCurve(flatRate(today, 0.03, Actual360()));
 
-    shared_ptr<IborIndex> index(new USDLibor(6*Months, riskFreeRate));
+    shared_ptr < IborIndex > index = std::make_shared<USDLibor>(6 * Months, riskFreeRate);
     Natural fixingDays = 1;
 
     Real tolerance = 1.0e-6;
 
-    shared_ptr<IborCouponPricer> pricer(new
-        BlackIborCouponPricer(Handle<OptionletVolatilityStructure>()));
+    shared_ptr < IborCouponPricer > pricer =
+            std::make_shared<BlackIborCouponPricer>(Handle<OptionletVolatilityStructure>());
 
-    Schedule sch(Date(30,November,2004),
-                 Date(30,November,2008),
+    Schedule sch(Date(30, November, 2004),
+                 Date(30, November, 2008),
                  Period(Semiannual),
                  UnitedStates(UnitedStates::GovernmentBond),
                  ModifiedFollowing, ModifiedFollowing,
                  DateGeneration::Backward, false);
 
-	std::shared_ptr<CatRisk> betaCatRisk(new BetaRisk(5000, 50, 500, 500));
+    std::shared_ptr < CatRisk > betaCatRisk = std::make_shared<BetaRisk>(5000, 50, 500, 500);
 
-    std::shared_ptr<CatRisk> noCatRisk(new EventSet(
-        std::shared_ptr<std::vector<std::pair<Date, Real> > >(new std::vector<std::pair<Date, Real> >()),
-        Date(1, Jan, 2000), Date(31, Dec, 2010)));
+    std::shared_ptr < CatRisk > noCatRisk = std::make_shared<EventSet>(
+            std::make_shared<std::vector<std::pair<Date, Real>>>(),
+            Date(1, Jan, 2000), Date(31, Dec, 2010));
 
-    std::shared_ptr<EventPaymentOffset> paymentOffset(new NoOffset());
-    std::shared_ptr<NotionalRisk> notionalRisk(new ProportionalNotionalRisk(paymentOffset, 500, 1500));
+    std::shared_ptr < EventPaymentOffset > paymentOffset = std::make_shared<NoOffset>();
+    std::shared_ptr < NotionalRisk > notionalRisk = std::make_shared<ProportionalNotionalRisk>(paymentOffset, 500,
+                                                                                               1500);
 
     FloatingCatBond catBond(settlementDays, vars.faceAmount, sch,
-                           index, ActualActual(ActualActual::ISMA),
-                           notionalRisk,
-                           ModifiedFollowing, fixingDays,
-                           std::vector<Rate>(), std::vector<Spread>(),
-                           std::vector<Rate>(), std::vector<Rate>(),
-                           false,
-                           100.0, Date(30,November,2004));
+                            index, ActualActual(ActualActual::ISMA),
+                            notionalRisk,
+                            ModifiedFollowing, fixingDays,
+                            std::vector<Rate>(), std::vector<Spread>(),
+                            std::vector<Rate>(), std::vector<Rate>(),
+                            false,
+                            100.0, Date(30, November, 2004));
 
-    shared_ptr<PricingEngine> catBondEngine(new MonteCarloCatBondEngine(betaCatRisk, discountCurve));
+    shared_ptr < PricingEngine > catBondEngine = std::make_shared<MonteCarloCatBondEngine>(betaCatRisk, discountCurve);
     catBond.setPricingEngine(catBondEngine);
-    setCouponPricer(catBond.cashflows(),pricer);
+    setCouponPricer(catBond.cashflows(), pricer);
 
     Real price = catBond.cleanPrice();
     Real yield = catBond.yield(ActualActual(ActualActual::ISMA), Simple, Annual);
@@ -654,23 +660,23 @@ TEST_CASE("CatBond_CatBondWithGeneratedEventsProportional", "[CatBond]") {
     Real exhaustionProbability = catBond.exhaustionProbability();
     Real expectedLoss = catBond.expectedLoss();
 
-    CHECK(lossProbability<1.0);
-    CHECK(lossProbability>0.0);
-    CHECK(exhaustionProbability<1.0);
-    CHECK(exhaustionProbability>0.0);
-    CHECK(expectedLoss>0.0);
+    CHECK(lossProbability < 1.0);
+    CHECK(lossProbability > 0.0);
+    CHECK(exhaustionProbability < 1.0);
+    CHECK(exhaustionProbability > 0.0);
+    CHECK(expectedLoss > 0.0);
 
-    shared_ptr<PricingEngine> catBondEngineRF(new MonteCarloCatBondEngine(noCatRisk, discountCurve));
+    shared_ptr < PricingEngine > catBondEngineRF = std::make_shared<MonteCarloCatBondEngine>(noCatRisk, discountCurve);
     catBond.setPricingEngine(catBondEngineRF);
 
     Real riskFreePrice = catBond.cleanPrice();
     Real riskFreeYield = catBond.yield(ActualActual(ActualActual::ISMA), Simple, Annual);
     Real riskFreeLossProbability = catBond.lossProbability();
     Real riskFreeExpectedLoss = catBond.expectedLoss();
-    
+
     CHECK(close(Real(0.0), riskFreeLossProbability, tolerance));
     CHECK(std::abs(riskFreeExpectedLoss) < tolerance);
-    
+
     CHECK(riskFreePrice > price);
     CHECK(riskFreeYield < yield);
 }

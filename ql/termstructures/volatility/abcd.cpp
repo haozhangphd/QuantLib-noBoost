@@ -96,7 +96,7 @@ namespace QuantLib {
 //===========================================================================//
 
     AbcdSquared::AbcdSquared(Real a, Real b, Real c, Real d, Time T, Time S)
-    : abcd_(new AbcdFunction(a,b,c,d)),
+    : abcd_(std::make_shared<AbcdFunction>(a,b,c,d)),
       T_(T), S_(S) {}
 
     Real AbcdSquared::operator()(Time t) const {

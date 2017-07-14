@@ -83,8 +83,7 @@ namespace QuantLib {
                 }
                 u.emplace_back(1.0);
                 z.emplace_back(1.0);
-                transform = std::shared_ptr < Interpolation > (
-                        new LinearInterpolation(u.begin(), u.end(), z.begin()));
+                transform = std::make_shared<LinearInterpolation>(u.begin(), u.end(), z.begin());
             }
 
             for (Size i = 1; i < size - 1; ++i) {

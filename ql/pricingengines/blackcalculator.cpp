@@ -60,8 +60,7 @@ namespace QuantLib {
                                      Real discount)
     : strike_(strike), forward_(forward), stdDev_(stdDev),
       discount_(discount), variance_(stdDev*stdDev) {
-        initialize(shared_ptr<StrikedTypePayoff>(new
-            PlainVanillaPayoff(optionType, strike)));
+        initialize(std::make_shared<PlainVanillaPayoff>(optionType, strike));
     }
 
     void BlackCalculator::initialize(const std::shared_ptr<StrikedTypePayoff>& p) {

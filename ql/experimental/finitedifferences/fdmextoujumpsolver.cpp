@@ -41,12 +41,11 @@ namespace QuantLib {
     }
             
     void FdmExtOUJumpSolver::performCalculations() const {
-        std::shared_ptr<FdmLinearOpComposite>op(
-            new FdmExtOUJumpOp(solverDesc_.mesher, process_.currentLink(),
-                               rTS_, solverDesc_.bcSet, 32));
+        std::shared_ptr<FdmLinearOpComposite>op =
+            std::make_shared<FdmExtOUJumpOp>(solverDesc_.mesher, process_.currentLink(),
+                               rTS_, solverDesc_.bcSet, 32);
         
-        solver_ = std::shared_ptr<Fdm2DimSolver>(
-                              new Fdm2DimSolver(solverDesc_, schemeDesc_, op));
+        solver_ = std::make_shared<Fdm2DimSolver>(solverDesc_, schemeDesc_, op);
     }
     
     Real FdmExtOUJumpSolver::valueAt(Real x, Real y) const {

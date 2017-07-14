@@ -41,8 +41,8 @@ namespace QuantLib {
                 ModifiedFollowing, // fixedLegConvention
                 Actual365Fixed(), // fixedLegDaycounter
                 tenor > 1*Years ?
-                    shared_ptr<IborIndex>(new GBPLibor(6*Months, h)) :
-                    shared_ptr<IborIndex>(new GBPLibor(3*Months, h))) {}
+                    std::make_shared<GBPLibor>(6*Months, h) :
+                    std::make_shared<GBPLibor>(3*Months, h)) {}
 
     GbpLiborSwapIsdaFix::GbpLiborSwapIsdaFix(
                             const Period& tenor,
@@ -58,8 +58,8 @@ namespace QuantLib {
                 ModifiedFollowing, // fixedLegConvention
                 Actual365Fixed(), // fixedLegDaycounter
                 tenor > 1*Years ?
-                    shared_ptr<IborIndex>(new GBPLibor(6*Months, forwarding)) :
-                    shared_ptr<IborIndex>(new GBPLibor(3*Months, forwarding)),
+                    std::make_shared<GBPLibor>(6*Months, forwarding) :
+                    std::make_shared<GBPLibor>(3*Months, forwarding),
                 discounting) {}
 
 }

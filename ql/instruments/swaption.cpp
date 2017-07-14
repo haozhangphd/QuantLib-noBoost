@@ -62,7 +62,7 @@ namespace QuantLib {
 
             // set an implausible value, so that calculation is forced
             // at first ImpliedSwaptionVolHelper::operator()(Volatility x) call
-            vol_ = std::shared_ptr<SimpleQuote>(new SimpleQuote(-1.0));
+            vol_ = std::make_shared<SimpleQuote>(-1.0);
             Handle<Quote> h(vol_);
 
             switch (type) {

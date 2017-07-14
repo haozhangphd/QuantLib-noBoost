@@ -1219,7 +1219,7 @@ namespace QuantLib {
                           bool includeSettlementDateFlows,
                           Date settlementDate,
                           Date npvDate)
-            : leg_(leg), npv_(npv), zSpread_(new SimpleQuote(0.0)),
+            : leg_(leg), npv_(npv), zSpread_(std::make_shared<SimpleQuote>(0.0)),
               curve_(Handle<YieldTermStructure>(discountCurve),
                      Handle<Quote>(zSpread_), comp, freq, dc),
               includeSettlementDateFlows_(includeSettlementDateFlows),
@@ -1275,8 +1275,7 @@ namespace QuantLib {
             npvDate = settlementDate;
 
         Handle<YieldTermStructure> discountCurveHandle(discountCurve);
-        Handle<Quote> zSpreadQuoteHandle(shared_ptr<Quote>(new
-            SimpleQuote(zSpread)));
+        Handle<Quote> zSpreadQuoteHandle(std::make_shared<SimpleQuote>(zSpread));
 
         ZeroSpreadedTermStructure spreadedCurve(discountCurveHandle,
                                                 zSpreadQuoteHandle,

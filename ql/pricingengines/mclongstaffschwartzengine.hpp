@@ -194,10 +194,9 @@ namespace QuantLib {
                 std::make_shared<path_generator_type_calibration>(
                     process_, grid, generator, brownianBridgeCalibration_);
         mcModelCalibration_ =
-            std::shared_ptr<MonteCarloModel<MC, RNG_Calibration, S> >(
-                new MonteCarloModel<MC, RNG_Calibration, S>(
+            std::make_shared<MonteCarloModel<MC, RNG_Calibration, S>>(
                     pathGeneratorCalibration, pathPricer_, stats_type(),
-                    this->antitheticVariateCalibration_));
+                    this->antitheticVariateCalibration_);
 
         mcModelCalibration_->addSamples(nCalibrationSamples_);
         pathPricer_->calibrate();
@@ -255,9 +254,8 @@ namespace QuantLib {
         TimeGrid grid = this->timeGrid();
         typename RNG::rsg_type generator =
             RNG::make_sequence_generator(dimensions*(grid.size()-1),seed_);
-        return std::shared_ptr<path_generator_type>(
-                   new path_generator_type(process_,
-                                           grid, generator, brownianBridge_));
+        return std::make_shared<path_generator_type>(process_,
+                                           grid, generator, brownianBridge_);
     }
 
 }

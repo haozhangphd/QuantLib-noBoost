@@ -48,25 +48,22 @@ namespace QuantLib {
       gaussHermiteIntegration_(integroIntegrationOrder),
       mesher_(mesher),
       bcSet_(bcSet),
-      hestonOp_(new FdmHestonOp(
+      hestonOp_(std::make_shared<FdmHestonOp>(
         mesher,
-        shared_ptr<HestonProcess>(new HestonProcess(
-          batesProcess->riskFreeRate(),
+        std::make_shared<HestonProcess>(batesProcess->riskFreeRate(),
           Handle<YieldTermStructure>(
-            shared_ptr<ZeroSpreadedTermStructure>(new
-              ZeroSpreadedTermStructure(
-                batesProcess->dividendYield(),
-                Handle<Quote>(shared_ptr<Quote>(new SimpleQuote(lambda_*m_))),
+            std::make_shared<ZeroSpreadedTermStructure>(batesProcess->dividendYield(),
+                Handle<Quote>(std::make_shared<SimpleQuote>(lambda_*m_)),
                 Continuous,
                 NoFrequency,
-                batesProcess->dividendYield()->dayCounter()))),
+                batesProcess->dividendYield()->dayCounter())),
           batesProcess->s0(),
           batesProcess->v0(),
           batesProcess->kappa(),
           batesProcess->theta(),
           batesProcess->sigma(),
-          batesProcess->rho())),
-        quantoHelper)) {}
+          batesProcess->rho()),
+          quantoHelper)) {}
 
     FdmBatesOp::IntegroIntegrand::IntegroIntegrand(
                     const shared_ptr<LinearInterpolation>& interpl,
@@ -115,8 +112,7 @@ namespace QuantLib {
         }
         std::vector<shared_ptr<LinearInterpolation> > interpl(f.rows());
         for (Size i=0; i < f.rows(); ++i) {
-            interpl[i] = shared_ptr<LinearInterpolation>(
-                new LinearInterpolation(x.begin(), x.end(), f.row_begin(i)));
+            interpl[i] = std::make_shared<LinearInterpolation>(x.begin(), x.end(), f.row_begin(i));
         }
         
         Array integral(r.size());

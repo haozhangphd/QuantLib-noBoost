@@ -138,10 +138,10 @@ TEST_CASE("VarianceSwap_ReplicatingVarianceSwap", "[VarianceSwap]") {
     DayCounter dc = Actual365Fixed();
     Date today = Date::todaysDate();
 
-    std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
 
     for (Size i=0; i<LENGTH(values); i++) {
@@ -183,22 +183,22 @@ TEST_CASE("VarianceSwap_ReplicatingVarianceSwap", "[VarianceSwap]") {
             strikes.emplace_back(callStrikes[k]);
         }
 
-        std::shared_ptr<BlackVolTermStructure> volTS(new
-            BlackVarianceSurface(today, NullCalendar(),
-                                 dates, strikes, vols, dc));
+        std::shared_ptr<BlackVolTermStructure> volTS = 
+            std::make_shared<BlackVarianceSurface>(today, NullCalendar(),
+                                 dates, strikes, vols, dc);
 
-        std::shared_ptr<GeneralizedBlackScholesProcess> stochProcess(
-                             new BlackScholesMertonProcess(
+        std::shared_ptr<GeneralizedBlackScholesProcess> stochProcess =
+                             std::make_shared<BlackScholesMertonProcess>(
                                        Handle<Quote>(spot),
                                        Handle<YieldTermStructure>(qTS),
                                        Handle<YieldTermStructure>(rTS),
-                                       Handle<BlackVolTermStructure>(volTS)));
+                                       Handle<BlackVolTermStructure>(volTS));
 
 
-        std::shared_ptr<PricingEngine> engine(
-                          new ReplicatingVarianceSwapEngine(stochProcess, 5.0,
+        std::shared_ptr<PricingEngine> engine =
+                          std::make_shared<ReplicatingVarianceSwapEngine>(stochProcess, 5.0,
                                                             callStrikes,
-                                                            putStrikes));
+                                                            putStrikes);
 
         VarianceSwap varianceSwap(values[i].type,
                                   values[i].varStrike,
@@ -242,10 +242,10 @@ TEST_CASE("VarianceSwap_MCVarianceSwap", "[VarianceSwap]") {
     DayCounter dc = Actual365Fixed();
     Date today = Date::todaysDate();
 
-    std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
     std::vector<Volatility> vols(2);
     std::vector<Date> dates(2);
@@ -253,7 +253,7 @@ TEST_CASE("VarianceSwap_MCVarianceSwap", "[VarianceSwap]") {
     for (Size i=0; i<LENGTH(values); i++) {
         Date exDate = today + Integer(values[i].t*365+0.5);
         Date intermDate = today + Integer(values[i].t1*365+0.5);
-        std::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
+        std::shared_ptr<Exercise> exercise = std::make_shared<EuropeanExercise>(exDate);
         dates[0] = intermDate;
         dates[1] = exDate;
 
@@ -263,15 +263,15 @@ TEST_CASE("VarianceSwap_MCVarianceSwap", "[VarianceSwap]") {
         vols[0] = values[i].v1;
         vols[1] = values[i].v;
 
-        std::shared_ptr<BlackVolTermStructure> volTS(
-                        new BlackVarianceCurve(today, dates, vols, dc, true));
+        std::shared_ptr<BlackVolTermStructure> volTS =
+                        std::make_shared<BlackVarianceCurve>(today, dates, vols, dc, true);
 
-        std::shared_ptr<GeneralizedBlackScholesProcess> stochProcess(
-                    new BlackScholesMertonProcess(
+        std::shared_ptr<GeneralizedBlackScholesProcess> stochProcess =
+                    std::make_shared<BlackScholesMertonProcess>(
                                        Handle<Quote>(spot),
                                        Handle<YieldTermStructure>(qTS),
                                        Handle<YieldTermStructure>(rTS),
-                                       Handle<BlackVolTermStructure>(volTS)));
+                                       Handle<BlackVolTermStructure>(volTS));
 
         std::shared_ptr<PricingEngine> engine;
         engine =

@@ -164,8 +164,7 @@ namespace QuantLib {
                         legs_[0].begin();
                     std::advance(it1, i + 1);
                     legs_[0].insert(
-                        it1, std::shared_ptr<CashFlow>(
-                                 new Redemption(cap, legs_[0][i]->date())));
+                        it1, std::make_shared<Redemption>(cap, legs_[0][i]->date()));
                     std::vector<Real>::iterator it2 = fixedNominal_.begin();
                     std::advance(it2, i + 1);
                     fixedNominal_.insert(it2, fixedNominal_[i]);
@@ -182,8 +181,7 @@ namespace QuantLib {
                         legs_[1].begin();
                     std::advance(it1, i + 1);
                     legs_[1].insert(
-                        it1, std::shared_ptr<CashFlow>(
-                                 new Redemption(cap, legs_[1][i]->date())));
+                        it1, std::make_shared<Redemption>(cap, legs_[1][i]->date()));
                     std::vector<Real>::iterator it2 = floatingNominal_.begin();
                     std::advance(it2, i + 1);
                     floatingNominal_.insert(it2, floatingNominal_[i]);
@@ -193,12 +191,11 @@ namespace QuantLib {
         }
 
         if (finalCapitalExchange_) {
-            legs_[0].emplace_back(std::shared_ptr<CashFlow>(
-                new Redemption(fixedNominal_.back(), legs_[0].back()->date())));
+            legs_[0].emplace_back(std::make_shared<Redemption>(fixedNominal_.back(), legs_[0].back()->date()));
             fixedNominal_.emplace_back(fixedNominal_.back());
             fixedRate_.emplace_back(0.0);
-            legs_[1].emplace_back(std::shared_ptr<CashFlow>(new Redemption(
-                floatingNominal_.back(), legs_[1].back()->date())));
+            legs_[1].emplace_back(std::make_shared<Redemption>(
+                floatingNominal_.back(), legs_[1].back()->date()));
             floatingNominal_.emplace_back(floatingNominal_.back());
         }
 

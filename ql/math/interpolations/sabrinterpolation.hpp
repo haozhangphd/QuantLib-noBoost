@@ -167,13 +167,12 @@ class SABRInterpolation : public Interpolation {
                       const bool useMaxError = false,
                       const Size maxGuesses = 50, const Real shift = 0.0) {
 
-        impl_ = std::shared_ptr<Interpolation::Impl>(
-            new detail::XABRInterpolationImpl<I1, I2, detail::SABRSpecs>(
+        impl_ = std::make_shared<detail::XABRInterpolationImpl<I1, I2, detail::SABRSpecs>>(
                 xBegin, xEnd, yBegin, t, forward,
                 std::vector<Real>{alpha, beta, nu, rho},
                 std::vector<bool>{alphaIsFixed, betaIsFixed, nuIsFixed, rhoIsFixed},
                 vegaWeighted, endCriteria, optMethod, errorAccept, useMaxError,
-                maxGuesses, std::vector<Real>{shift}));
+                maxGuesses, std::vector<Real>{shift});
         coeffs_ = std::dynamic_pointer_cast<
             detail::XABRCoeffHolder<detail::SABRSpecs> >(impl_);
     }

@@ -93,8 +93,7 @@ namespace QuantLib {
                         const bc_set& bcs) {
             evolvers_.reserve(L.size());
             for (Size i=0; i < L.size(); i++) {
-                evolvers_.emplace_back(std::shared_ptr<Evolver>(new
-                    Evolver(L[i], bcs[i])));
+                evolvers_.emplace_back(std::make_shared<Evolver>(L[i], bcs[i]));
             }
         }
         void step(array_type& a,

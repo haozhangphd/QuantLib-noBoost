@@ -73,8 +73,8 @@ namespace QuantLib {
                const DayCounter& dc,
                const Real shift)
     : SmileSection(optionDate, dc, Date(), ShiftedLognormal, shift),
-           forward_(Handle<Quote>(std::shared_ptr<Quote>(new SimpleQuote(forward)))),
-           atmVolatility_(Handle<Quote>(std::shared_ptr<Quote>(new SimpleQuote(atmVolatility)))),
+           forward_(Handle<Quote>(std::make_shared<SimpleQuote>(forward))),
+           atmVolatility_(Handle<Quote>(std::make_shared<SimpleQuote>(atmVolatility))),
            volHandles_(volHandles.size()), strikes_(strikes), actualStrikes_(strikes),
            hasFloatingStrikes_(hasFloatingStrikes), vols_(volHandles.size()),
            alpha_(alpha), beta_(beta), nu_(nu), rho_(rho),
@@ -85,18 +85,17 @@ namespace QuantLib {
            evaluationDate_(Settings::instance().evaluationDate()) {
 
             for (Size i=0; i<volHandles_.size(); ++i)
-                volHandles_[i] = Handle<Quote>(std::shared_ptr<Quote>(new
-                                        SimpleQuote(volHandles[i])));
+                volHandles_[i] = Handle<Quote>(std::make_shared<SimpleQuote>(volHandles[i]));
 
     }
 
     void SabrInterpolatedSmileSection::createInterpolation() const {
-         std::shared_ptr<SABRInterpolation> tmp(new SABRInterpolation(
+         std::shared_ptr<SABRInterpolation> tmp = std::make_shared<SABRInterpolation>(
                      actualStrikes_.begin(), actualStrikes_.end(), vols_.begin(),
                      exerciseTime(), forwardValue_,
                      alpha_, beta_, nu_, rho_,
                      isAlphaFixed_, isBetaFixed_, isNuFixed_, isRhoFixed_, vegaWeighted_,
-                     endCriteria_, method_, 0.0020, false, 50, shift()));
+                     endCriteria_, method_, 0.0020, false, 50, shift());
          swap(tmp, sabrInterpolation_);
     }
 

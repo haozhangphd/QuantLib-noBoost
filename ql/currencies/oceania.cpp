@@ -31,11 +31,11 @@ namespace QuantLib {
        It is divided into 100 cents.
     */
     AUDCurrency::AUDCurrency() {
-        static std::shared_ptr<Data> audData(
-                                  new Data("Australian dollar", "AUD", 36,
-                                           "A$", "", 100,
-                                           Rounding(),
-                                           "%3% %1$.2f"));
+        static std::shared_ptr<Data> audData =
+                std::make_shared<Data>("Australian dollar", "AUD", 36,
+                                       "A$", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = audData;
     }
 
@@ -44,11 +44,11 @@ namespace QuantLib {
        It is divided in 100 cents.
     */
     NZDCurrency::NZDCurrency() {
-        static std::shared_ptr<Data> nzdData(
-                                new Data("New Zealand dollar", "NZD", 554,
-                                         "NZ$", "", 100,
-                                         Rounding(),
-                                         "%3% %1$.2f"));
+        static std::shared_ptr<Data> nzdData =
+                std::make_shared<Data>("New Zealand dollar", "NZD", 554,
+                                       "NZ$", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = nzdData;
     }
 

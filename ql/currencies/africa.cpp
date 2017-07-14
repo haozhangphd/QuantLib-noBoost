@@ -31,11 +31,11 @@ namespace QuantLib {
        It is divided into 100 cents.
     */
     ZARCurrency::ZARCurrency() {
-        static std::shared_ptr<Data> zarData(
-                                new Data("South-African rand", "ZAR", 710,
-                                         "R", "", 100,
-                                         Rounding(),
-                                         "%3% %1$.2f"));
+        static std::shared_ptr<Data> zarData =
+                std::make_shared<Data>("South-African rand", "ZAR", 710,
+                                       "R", "", 100,
+                                       Rounding(),
+                                       "%3% %1$.2f");
         data_ = zarData;
     }
 

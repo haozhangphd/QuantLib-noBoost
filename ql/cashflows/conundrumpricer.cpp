@@ -127,7 +127,7 @@ namespace QuantLib {
                     gFunction_ = GFunctionFactory::newGFunctionExactYield(*coupon_);
                     break;
                 case GFunctionFactory::ParallelShifts: {
-                    Handle<Quote> nullMeanReversionQuote(std::shared_ptr<Quote>(new SimpleQuote(0.0)));
+                    Handle<Quote> nullMeanReversionQuote(std::make_shared<SimpleQuote>(0.0));
                     gFunction_ = GFunctionFactory::newGFunctionWithShifts(*coupon_, nullMeanReversionQuote);
                     }
                     break;
@@ -137,9 +137,8 @@ namespace QuantLib {
                 default:
                     QL_FAIL("unknown/illegal gFunction type");
             }
-            vanillaOptionPricer_= std::shared_ptr<VanillaOptionPricer>(new
-                BlackVanillaOptionPricer(swapRateValue_, fixingDate_, swapTenor_,
-                                        *swaptionVolatility()));
+            vanillaOptionPricer_= std::make_shared<BlackVanillaOptionPricer>(swapRateValue_, fixingDate_, swapTenor_,
+                                                                             *swaptionVolatility());
          }
     }
 
@@ -315,10 +314,10 @@ namespace QuantLib {
     Real NumericHaganPricer::optionletPrice(
                                 Option::Type optionType, Real strike) const {
 
-        std::shared_ptr<ConundrumIntegrand> integrand(new
-            ConundrumIntegrand(vanillaOptionPricer_, rateCurve_, gFunction_,
+        std::shared_ptr<ConundrumIntegrand> integrand =
+            std::make_shared<ConundrumIntegrand>(vanillaOptionPricer_, rateCurve_, gFunction_,
                                fixingDate_, paymentDate_, annuity_,
-                               swapRateValue_, strike, optionType));
+                               swapRateValue_, strike, optionType);
         stdDeviationsForUpperLimit_= requiredStdDeviations_;
         Real a, b, integralValue;
         if (optionType==Option::Call) {
@@ -561,7 +560,7 @@ namespace QuantLib {
 
     std::shared_ptr<GFunction> GFunctionFactory::newGFunctionStandard(Size q,
                                                             Real delta, Size swapLength) {
-        return std::shared_ptr<GFunction>(new GFunctionStandard(q, delta, swapLength));
+        return std::make_shared<GFunctionStandard>(q, delta, swapLength);
     }
 
 //===========================================================================//
@@ -655,7 +654,7 @@ namespace QuantLib {
     }
 
     std::shared_ptr<GFunction> GFunctionFactory::newGFunctionExactYield(const CmsCoupon& coupon) {
-        return std::shared_ptr<GFunction>(new GFunctionExactYield(coupon));
+        return std::make_shared<GFunctionExactYield>(coupon);
     }
 
 
@@ -675,7 +674,7 @@ namespace QuantLib {
 
         swapRateValue_ = swap->fairRate();
 
-        objectiveFunction_ = std::shared_ptr<ObjectiveFunction>(new ObjectiveFunction(*this, swapRateValue_));
+        objectiveFunction_ = std::make_shared<ObjectiveFunction>(*this, swapRateValue_);
 
         const Schedule& schedule = swap->fixedSchedule();
         Handle<YieldTermStructure> rateCurve =
@@ -914,7 +913,7 @@ namespace QuantLib {
 
     std::shared_ptr<GFunction> GFunctionFactory::newGFunctionWithShifts(const CmsCoupon& coupon,
                                                                           const Handle<Quote>& meanReversion) {
-        return std::shared_ptr<GFunction>(new GFunctionWithShifts(coupon, meanReversion));
+        return std::make_shared<GFunctionWithShifts>(coupon, meanReversion);
     }
 
 }

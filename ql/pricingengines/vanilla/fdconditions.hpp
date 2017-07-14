@@ -43,8 +43,7 @@ namespace QuantLib {
       protected:
         void initializeStepCondition() const {
             baseEngine::stepCondition_ =
-                std::shared_ptr<StandardStepCondition>(
-                  new AmericanCondition(baseEngine::intrinsicValues_.values()));
+                std::make_shared<AmericanCondition>(baseEngine::intrinsicValues_.values());
         }
     };
 
@@ -63,10 +62,9 @@ namespace QuantLib {
                 ->zeroRate(residualTime, Continuous);
 
             baseEngine::stepCondition_ =
-                std::shared_ptr<StandardStepCondition>(
-                     new ShoutCondition(baseEngine::intrinsicValues_.values(),
+                std::make_shared<ShoutCondition>(baseEngine::intrinsicValues_.values(),
                                         residualTime,
-                                        riskFreeRate));
+                                        riskFreeRate);
         }
     };
 

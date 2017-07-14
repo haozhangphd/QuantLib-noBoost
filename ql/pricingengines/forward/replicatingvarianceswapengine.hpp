@@ -133,8 +133,8 @@ namespace QuantLib {
             slope = std::fabs((computeLogPayoff(*(k+1), f) -
                                computeLogPayoff(*k, f))/
                               (*(k+1) - *k));
-            std::shared_ptr<StrikedTypePayoff> payoff(
-                                            new PlainVanillaPayoff(type, *k));
+            std::shared_ptr<StrikedTypePayoff> payoff =
+                                            std::make_shared<PlainVanillaPayoff>(type, *k);
             if ( k == strikes.begin() )
                 optionWeights.emplace_back(std::make_pair(payoff,slope));
             else
@@ -157,10 +157,10 @@ namespace QuantLib {
     Real ReplicatingVarianceSwapEngine::computeReplicatingPortfolio(
                                     const weights_type& optionWeights) const {
 
-        std::shared_ptr<Exercise> exercise(
-                               new EuropeanExercise(arguments_.maturityDate));
-        std::shared_ptr<PricingEngine> optionEngine(
-                                        new AnalyticEuropeanEngine(process_));
+        std::shared_ptr<Exercise> exercise =
+                               std::make_shared<EuropeanExercise>(arguments_.maturityDate);
+        std::shared_ptr<PricingEngine> optionEngine =
+                                        std::make_shared<AnalyticEuropeanEngine>(process_);
         Real optionsValue = 0.0;
 
         for (weights_type::const_iterator i = optionWeights.begin();

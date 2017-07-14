@@ -66,10 +66,10 @@ namespace QuantLib {
 
     Real CapHelper::blackPrice(Volatility sigma) const {
         calculate();
-        std::shared_ptr<Quote> vol(new SimpleQuote(sigma));
-        std::shared_ptr<PricingEngine> black(
-                                 new BlackCapFloorEngine(termStructure_,
-                                                         Handle<Quote>(vol)));
+        std::shared_ptr<Quote> vol = std::make_shared<SimpleQuote>(sigma);
+        std::shared_ptr<PricingEngine> black =
+                                 std::make_shared<BlackCapFloorEngine>(termStructure_,
+                                                         Handle<Quote>(vol));
         cap_->setPricingEngine(black);
         Real value = cap_->NPV();
         cap_->setPricingEngine(engine_);
@@ -88,8 +88,8 @@ namespace QuantLib {
             startDate = termStructure_->referenceDate() + indexTenor;
             maturity = termStructure_->referenceDate() + length_;
         }
-        std::shared_ptr<IborIndex> dummyIndex(new
-            IborIndex("dummy",
+        std::shared_ptr<IborIndex> dummyIndex =
+            std::make_shared<IborIndex>("dummy",
                       indexTenor,
                       index_->fixingDays(),
                       index_->currency(),
@@ -97,7 +97,7 @@ namespace QuantLib {
                       index_->businessDayConvention(),
                       index_->endOfMonth(),
                       termStructure_->dayCounter(),
-                      termStructure_));
+                      termStructure_);
 
         std::vector<Real> nominals(1,1.0);
 
@@ -121,11 +121,10 @@ namespace QuantLib {
             .withPaymentAdjustment(index_->businessDayConvention());
 
         Swap swap(floatingLeg, fixedLeg);
-        swap.setPricingEngine(std::shared_ptr<PricingEngine>(
-                            new DiscountingSwapEngine(termStructure_, false)));
+        swap.setPricingEngine(std::make_shared<DiscountingSwapEngine>(termStructure_, false));
         Rate fairRate = fixedRate - swap.NPV()/(swap.legBPS(1)/1.0e-4);
-        cap_ = std::shared_ptr<Cap>(new Cap(floatingLeg,
-                                              std::vector<Rate>(1, fairRate)));
+        cap_ = std::make_shared<Cap>(floatingLeg,
+                                              std::vector<Rate>(1, fairRate));
 
         CalibrationHelper::performCalculations();
 

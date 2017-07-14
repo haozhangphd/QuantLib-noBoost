@@ -44,7 +44,7 @@ namespace QuantLib {
             bool isPutATMIncluded = false,
             Rate putDigitalPayoff = Null<Rate>(),
             const std::shared_ptr<DigitalReplication> &replication =
-                std::shared_ptr<DigitalReplication>(new DigitalReplication));
+                std::make_shared<DigitalReplication>());
 
         //! \name Visitability
         //@{
@@ -83,7 +83,7 @@ namespace QuantLib {
         DigitalCmsSpreadLeg& withPutPayoffs(const std::vector<Rate>& payoffs);
         DigitalCmsSpreadLeg& withReplication(
             const std::shared_ptr<DigitalReplication> &replication =
-                std::shared_ptr<DigitalReplication>(new DigitalReplication));
+                std::make_shared<DigitalReplication>());
 
         operator Leg() const;
       private:

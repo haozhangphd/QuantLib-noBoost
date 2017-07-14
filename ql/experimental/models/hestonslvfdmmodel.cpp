@@ -213,8 +213,8 @@ namespace QuantLib {
         template <class T>
         class FdmSchemeWrapper : public FdmScheme {
           public:
-            explicit FdmSchemeWrapper(T* scheme)
-            : scheme_(scheme) { }
+            explicit FdmSchemeWrapper(std::unique_ptr<T> && scheme)
+            : scheme_(std::move(scheme)) { }
 
             void step(Array& a, Time t) {
                 scheme_->step(a, t);
@@ -233,30 +233,24 @@ namespace QuantLib {
 
             switch (desc.type) {
               case FdmSchemeDesc::HundsdorferType:
-                  return std::shared_ptr<FdmScheme>(
-                      new FdmSchemeWrapper<HundsdorferScheme>(
-                          new HundsdorferScheme(desc.theta, desc.mu, op)));
+                  std::make_shared<FdmSchemeWrapper<HundsdorferScheme>>(
+                          std::make_unique<HundsdorferScheme>(desc.theta, desc.mu, op));
               case FdmSchemeDesc::DouglasType:
-                  return std::shared_ptr<FdmScheme>(
-                      new FdmSchemeWrapper<DouglasScheme>(
-                          new DouglasScheme(desc.theta, op)));
+                  std::make_shared<FdmSchemeWrapper<DouglasScheme>>(
+                          std::make_unique<DouglasScheme>(desc.theta, op));
               case FdmSchemeDesc::CraigSneydType:
-                  return std::shared_ptr<FdmScheme>(
-                      new FdmSchemeWrapper<CraigSneydScheme>(
-                          new CraigSneydScheme(desc.theta, desc.mu, op)));
+                  std::make_shared<FdmSchemeWrapper<CraigSneydScheme>>(
+                          std::make_unique<CraigSneydScheme>(desc.theta, desc.mu, op));
               case FdmSchemeDesc::ModifiedCraigSneydType:
-                  return std::shared_ptr<FdmScheme>(
-                     new FdmSchemeWrapper<ModifiedCraigSneydScheme>(
-                          new ModifiedCraigSneydScheme(
-                              desc.theta, desc.mu, op)));
+                  std::make_shared<FdmSchemeWrapper<ModifiedCraigSneydScheme>>(
+                          std::make_unique<ModifiedCraigSneydScheme>(
+                              desc.theta, desc.mu, op));
               case FdmSchemeDesc::ImplicitEulerType:
-                  return std::shared_ptr<FdmScheme>(
-                      new FdmSchemeWrapper<ImplicitEulerScheme>(
-                          new ImplicitEulerScheme(op)));
+                  std::make_shared<FdmSchemeWrapper<ImplicitEulerScheme>>(
+                          std::make_unique<ImplicitEulerScheme>(op));
               case FdmSchemeDesc::ExplicitEulerType:
-                  return std::shared_ptr<FdmScheme>(
-                      new FdmSchemeWrapper<ExplicitEulerScheme>(
-                          new ExplicitEulerScheme(op)));
+                  std::make_shared<FdmSchemeWrapper<ExplicitEulerScheme>>(
+                          std::make_unique<ExplicitEulerScheme>(op));
               default:
                   QL_FAIL("Unknown scheme type");
             }
@@ -347,8 +341,8 @@ namespace QuantLib {
                 dc.yearFraction(referenceDate, mandatoryDates_[i]));
         }
 
-        const std::shared_ptr<TimeGrid> timeGrid(
-            new TimeGrid(times.begin(), times.end()));
+        const std::shared_ptr<TimeGrid> timeGrid =
+            std::make_shared<TimeGrid>(times.begin(), times.end());
 
         // build 1d meshers
         const LocalVolRNDCalculator localVolRND(
@@ -400,7 +394,7 @@ namespace QuantLib {
         const Volatility lv0
             = localVol_->localVol(0.0, spot->value())/std::sqrt(v0);
 
-        std::shared_ptr<Matrix> L(new Matrix(xGrid, timeGrid->size()));
+        std::shared_ptr<Matrix> L = std::make_shared<Matrix>(xGrid, timeGrid->size());
 
         const Real l0 = lv0;
         std::fill(L->column_begin(0),L->column_end(0), l0);
@@ -418,18 +412,18 @@ namespace QuantLib {
                            [](Real x){return std::exp(x);});
         }
 
-        const std::shared_ptr<FixedLocalVolSurface> leverageFct(
-            new FixedLocalVolSurface(referenceDate, times, vStrikes, L, dc));
+        const std::shared_ptr<FixedLocalVolSurface> leverageFct =
+            std::make_shared<FixedLocalVolSurface>(referenceDate, times, vStrikes, L, dc);
 
-        std::shared_ptr<FdmLinearOpComposite> hestonFwdOp(
-            new FdmHestonFwdOp(mesher, hestonProcess, trafoType, leverageFct));
+        std::shared_ptr<FdmLinearOpComposite> hestonFwdOp =
+            std::make_shared<FdmHestonFwdOp>(mesher, hestonProcess, trafoType, leverageFct);
 
         Array p = FdmHestonGreensFct(mesher, hestonProcess, trafoType, lv0)
             .get(timeGrid->at(1), params_.greensAlgorithm);
 
         if (logging_) {
             const LogEntry entry = { timeGrid->at(1),
-                std::shared_ptr<Array>(new Array(p)), mesher };
+                std::make_shared<Array>(p), mesher };
             logEntries_.emplace_back(entry);
         }
 
@@ -439,17 +433,16 @@ namespace QuantLib {
 
             if (   mesher->getFdm1dMeshers()[0] != xMesher[i]
                 || mesher->getFdm1dMeshers()[1] != vMesher[i]) {
-                const std::shared_ptr<FdmMesherComposite> newMesher(
-                    new FdmMesherComposite(xMesher[i], vMesher[i]));
+                const std::shared_ptr<FdmMesherComposite> newMesher =
+                    std::make_shared<FdmMesherComposite>(xMesher[i], vMesher[i]);
 
                 p = reshapePDF<Bilinear>(p, mesher, newMesher);
                 mesher = newMesher;
 
                 p = rescalePDF(p, mesher, trafoType, alpha);
 
-                hestonFwdOp = std::shared_ptr<FdmLinearOpComposite>(
-                                new FdmHestonFwdOp(mesher, hestonProcess,
-                                               trafoType, leverageFct));
+                hestonFwdOp = std::make_shared<FdmHestonFwdOp>(mesher, hestonProcess,
+                                               trafoType, leverageFct);
             }
 
             Array pn = p;
@@ -525,7 +518,7 @@ namespace QuantLib {
 
             if (logging_) {
                 const LogEntry entry
-                    = { t, std::shared_ptr<Array>(new Array(p)), mesher };
+                    = { t, std::make_shared<Array>(p), mesher };
                 logEntries_.emplace_back(entry);
             }
         }

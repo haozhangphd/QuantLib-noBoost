@@ -89,11 +89,9 @@ namespace QuantLib {
         // N.B. the -1.0 is because swaps only exchange growth, not notionals as well
         Real fixedAmount = nominal * ( std::pow(1.0 + fixedRate, T) - 1.0 );
 
-        legs_[0].emplace_back(std::shared_ptr<CashFlow>(
-            new SimpleCashFlow(fixedAmount, fixedPayDate)));
+        legs_[0].emplace_back(std::make_shared<SimpleCashFlow>(fixedAmount, fixedPayDate));
         bool growthOnly = true;
-        legs_[1].emplace_back(std::shared_ptr<CashFlow>(
-            new IndexedCashFlow(nominal,infIndex,baseDate_,obsDate_,infPayDate,growthOnly)));
+        legs_[1].emplace_back(std::make_shared<IndexedCashFlow>(nominal,infIndex,baseDate_,obsDate_,infPayDate,growthOnly));
 
         for (Size j=0; j<2; ++j) {
             for (Leg::iterator i = legs_[j].begin(); i!= legs_[j].end(); ++i)

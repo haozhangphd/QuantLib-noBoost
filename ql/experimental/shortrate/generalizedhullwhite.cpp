@@ -65,8 +65,7 @@ namespace QuantLib {
                                         const Constraint& constraint =
                                                              NoConstraint())
             : Parameter(times.size(),
-                        std::shared_ptr<Parameter::Impl>(
-                                new PiecewiseConstantParameter2::Impl(times)),
+                        std::make_shared<PiecewiseConstantParameter2::Impl>(times),
                         constraint)
             {}
         };
@@ -281,12 +280,12 @@ namespace QuantLib {
                                                   const TimeGrid& grid) const{
 
         TermStructureFittingParameter phi(termStructure());
-        std::shared_ptr<ShortRateDynamics> numericDynamics(
-            new Dynamics(phi, speed(), vol(), f_, fInverse_));
-        std::shared_ptr<TrinomialTree> trinomial(
-            new TrinomialTree(numericDynamics->process(), grid));
-        std::shared_ptr<ShortRateTree> numericTree(
-            new ShortRateTree(trinomial, numericDynamics, grid));
+        std::shared_ptr<ShortRateDynamics> numericDynamics =
+            std::make_shared<Dynamics>(phi, speed(), vol(), f_, fInverse_);
+        std::shared_ptr<TrinomialTree> trinomial =
+            std::make_shared<TrinomialTree>(numericDynamics->process(), grid);
+        std::shared_ptr<ShortRateTree> numericTree =
+            std::make_shared<ShortRateTree>(trinomial, numericDynamics, grid);
         typedef TermStructureFittingParameter::NumericalImpl NumericalImpl;
         std::shared_ptr<NumericalImpl> impl =
             std::dynamic_pointer_cast<NumericalImpl>(phi.implementation());

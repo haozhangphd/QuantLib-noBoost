@@ -87,14 +87,11 @@ namespace QuantLib {
 
         // binomial trees with constant coefficient
         Handle<YieldTermStructure> flatRiskFree(
-            std::shared_ptr<YieldTermStructure>(
-                new FlatForward(referenceDate, r, rfdc)));
+                std::make_shared<FlatForward>(referenceDate, r, rfdc));
         Handle<YieldTermStructure> flatDividends(
-            std::shared_ptr<YieldTermStructure>(
-                new FlatForward(referenceDate, q, divdc)));
+                std::make_shared<FlatForward>(referenceDate, q, divdc));
         Handle<BlackVolTermStructure> flatVol(
-            std::shared_ptr<BlackVolTermStructure>(
-                new BlackConstantVol(referenceDate, volcal, v, voldc)));
+                std::make_shared<BlackConstantVol>(referenceDate, volcal, v, voldc));
 
         std::shared_ptr<StrikedTypePayoff> payoff =
             std::dynamic_pointer_cast<StrikedTypePayoff>(arguments_.payoff);
@@ -102,18 +99,18 @@ namespace QuantLib {
 
         Time maturity = rfdc.yearFraction(referenceDate, maturityDate);
 
-        std::shared_ptr<StochasticProcess1D> bs(
-                         new GeneralizedBlackScholesProcess(
+        std::shared_ptr<StochasticProcess1D> bs =
+                         std::make_shared<GeneralizedBlackScholesProcess>(
                                       process_->stateVariable(),
-                                      flatDividends, flatRiskFree, flatVol));
+                                      flatDividends, flatRiskFree, flatVol);
 
         TimeGrid grid(maturity, timeSteps_);
 
-        std::shared_ptr<T> tree(new T(bs, maturity, timeSteps_,
-                                        payoff->strike()));
+        std::shared_ptr<T> tree = std::make_shared<T>(bs, maturity, timeSteps_,
+                                        payoff->strike());
 
-        std::shared_ptr<BlackScholesLattice<T> > lattice(
-            new BlackScholesLattice<T>(tree, r, maturity, timeSteps_));
+        std::shared_ptr<BlackScholesLattice<T> > lattice =
+            std::make_shared<BlackScholesLattice<T>>(tree, r, maturity, timeSteps_);
         
         D option(arguments_, *process_, grid);
         option.initialize(lattice, maturity);

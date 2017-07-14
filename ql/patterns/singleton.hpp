@@ -27,18 +27,18 @@
 #include <ql/qldefines.hpp>
 
 #ifdef QL_ENABLE_SINGLETON_THREAD_SAFE_INIT
-    #if defined(QL_ENABLE_SESSIONS)
-            #warning \
+#if defined(QL_ENABLE_SESSIONS)
+#warning \
                 Thread-safe singleton initialization not supported \
                 when sessions are enabled.
-    #else
-        #include <atomic>
-        #include <mutex>
-                #warning \
+#else
+#include <atomic>
+#include <mutex>
+#warning \
                     Thread-safe singleton initialization \
                     may degrade performances.
-        #define QL_SINGLETON_THREAD_SAFE_INIT
-    #endif
+#define QL_SINGLETON_THREAD_SAFE_INIT
+#endif
 #endif
 
 #include <ql/types.hpp>
@@ -59,15 +59,15 @@
 
 namespace QuantLib {
 
-    #if defined(QL_ENABLE_SESSIONS)
+#if defined(QL_ENABLE_SESSIONS)
     // definition must be provided by the user
     Integer sessionId();
-    #endif
+#endif
 
     // this is required on VC++ when CLR support is enabled
-    #ifdef _MSC_VER
-        #pragma managed(push, off)
-    #endif
+#ifdef _MSC_VER
+#pragma managed(push, off)
+#endif
 
     //! Basic support for the singleton pattern.
     /*! The typical use of this class is:
@@ -87,51 +87,54 @@ namespace QuantLib {
 
         \ingroup patterns
     */
-    template <class T>
+    template<class T>
     class Singleton {
-    #if (QL_MANAGED == 1) && !defined(QL_SINGLETON_THREAD_SAFE_INIT)
-      private:
-        static std::map<Integer, std::shared_ptr<T> > instances_;
-    #endif
+#if (QL_MANAGED == 1) && !defined(QL_SINGLETON_THREAD_SAFE_INIT)
+        private:
+          static std::map<Integer, std::shared_ptr<T> > instances_;
+#endif
 
-    #if defined(QL_SINGLETON_THREAD_SAFE_INIT)
-      private:
-        static std::atomic<T*> instance_;
-        static std::mutex mutex_;
-    #endif
+#if defined(QL_SINGLETON_THREAD_SAFE_INIT)
+        private:
+          static std::atomic<std::shared_ptr<T>> instance_;
+          static std::mutex mutex_;
+#endif
 
-      public:
+    public:
         //! access to the unique instance
-        static T& instance();
-      protected:
+        static T &instance();
+
+    protected:
         Singleton() {}
-	Singleton( const Singleton& ) = delete;
-	Singleton& operator=( const Singleton& ) = delete;
+
+        Singleton(const Singleton &) = delete;
+
+        Singleton &operator=(const Singleton &) = delete;
     };
 
     // static member definitions
-    
-    #if (QL_MANAGED == 1) && !defined(QL_SINGLETON_THREAD_SAFE_INIT)
-      template <class T>
-      std::map<Integer, std::shared_ptr<T> > Singleton<T>::instances_;
-    #endif
 
-    #if defined(QL_SINGLETON_THREAD_SAFE_INIT) 
-    template <class T>  std::atomic<T*> Singleton<T>::instance_;
+#if (QL_MANAGED == 1) && !defined(QL_SINGLETON_THREAD_SAFE_INIT)
+    template <class T>
+    std::map<Integer, std::shared_ptr<T> > Singleton<T>::instances_;
+#endif
+
+#if defined(QL_SINGLETON_THREAD_SAFE_INIT)
+    template <class T>  std::atomic<std::shared_ptr<T>> Singleton<T>::instance_;
     template <class T> std::mutex Singleton<T>::mutex_;
-    #endif
-    
+#endif
+
     // template definitions
 
-    template <class T>
-    T& Singleton<T>::instance() {
+    template<class T>
+    T &Singleton<T>::instance() {
 
-        #if (QL_MANAGED == 0) && !defined(QL_SINGLETON_THREAD_SAFE_INIT)
+#if (QL_MANAGED == 0) && !defined(QL_SINGLETON_THREAD_SAFE_INIT)
         static std::map<Integer, std::shared_ptr<T> > instances_;
-        #endif
+#endif
 
         // thread safe double checked locking pattern with atomic memory calls
-        #if defined(QL_SINGLETON_THREAD_SAFE_INIT) 
+#if defined(QL_SINGLETON_THREAD_SAFE_INIT)
 
         T* instance =  instance_.load(std::memory_order_consume);
         
@@ -139,32 +142,32 @@ namespace QuantLib {
             std::scoped_lock guard(mutex_);
             instance = instance_.load(std::memory_order_consume);
             if (!instance) {
-                instance = new T();
+                instance = std::make_shared<T>();
                 instance_.store(instance, std::memory_order_release);
             }
         }
 
-        #else //this is not thread safe
+#else //this is not thread safe
 
-        #if defined(QL_ENABLE_SESSIONS)
+#if defined(QL_ENABLE_SESSIONS)
         Integer id = sessionId();
-        #else
+#else
         Integer id = 0;
-        #endif
+#endif
 
-        std::shared_ptr<T>& instance = instances_[id];
+        std::shared_ptr < T > &instance = instances_[id];
         if (!instance)
-            instance = std::shared_ptr<T>(new T);
+            instance = std::shared_ptr < T > (new T);
 
-        #endif
+#endif
 
         return *instance;
     }
 
     // reverts the change above
-    #ifdef _MSC_VER
-        #pragma managed(pop)
-    #endif
+#ifdef _MSC_VER
+#pragma managed(pop)
+#endif
 
 }
 

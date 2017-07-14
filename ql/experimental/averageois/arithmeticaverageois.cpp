@@ -85,8 +85,8 @@ namespace QuantLib {
             .withNotionals(nominals_)
             .withSpreads(spread_);
 
-        std::shared_ptr<FloatingRateCouponPricer> arithmeticPricer(
-                new ArithmeticAveragedOvernightIndexedCouponPricer(mrs_, vol_, byApprox_));
+        std::shared_ptr<FloatingRateCouponPricer> arithmeticPricer =
+                std::make_shared<ArithmeticAveragedOvernightIndexedCouponPricer>(mrs_, vol_, byApprox_);
 
         for (Size i = 0; i < legs_[1].size(); i++) {
             std::shared_ptr<OvernightIndexedCoupon> 

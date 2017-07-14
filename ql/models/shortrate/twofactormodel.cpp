@@ -30,13 +30,12 @@ namespace QuantLib {
     TwoFactorModel::tree(const TimeGrid& grid) const {
         std::shared_ptr<ShortRateDynamics> dyn = dynamics();
 
-        std::shared_ptr<TrinomialTree> tree1(
-                                    new TrinomialTree(dyn->xProcess(), grid));
-        std::shared_ptr<TrinomialTree> tree2(
-                                    new TrinomialTree(dyn->yProcess(), grid));
+        std::shared_ptr<TrinomialTree> tree1 =
+                                    std::make_shared<TrinomialTree>(dyn->xProcess(), grid);
+        std::shared_ptr<TrinomialTree> tree2 =
+                                    std::make_shared<TrinomialTree>(dyn->yProcess(), grid);
 
-        return std::shared_ptr<Lattice>(
-                        new TwoFactorModel::ShortRateTree(tree1, tree2, dyn));
+        return std::make_shared<TwoFactorModel::ShortRateTree>(tree1, tree2, dyn);
     }
 
     TwoFactorModel::ShortRateTree::ShortRateTree(
@@ -55,8 +54,7 @@ namespace QuantLib {
         std::vector<std::shared_ptr<StochasticProcess1D> > processes;
         processes[0] = xProcess_;
         processes[1] = yProcess_;
-        return std::shared_ptr<StochasticProcess>(
-                           new StochasticProcessArray(processes,correlation));
+        return std::make_shared<StochasticProcessArray>(processes,correlation);
     }
 
 }

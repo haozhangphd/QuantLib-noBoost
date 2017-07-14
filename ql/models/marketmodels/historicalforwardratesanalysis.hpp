@@ -76,34 +76,32 @@ namespace QuantLib {
         std::vector<std::shared_ptr<SimpleQuote> > iborQuotes;
         std::vector<std::shared_ptr<IborIndex> >::const_iterator ibor;
         for (ibor=iborIndexes.begin(); ibor!=iborIndexes.end(); ++ibor) {
-            std::shared_ptr<SimpleQuote> quote(new SimpleQuote);
+            std::shared_ptr<SimpleQuote> quote = std::make_shared<SimpleQuote>();
             iborQuotes.emplace_back(quote);
             Handle<Quote> quoteHandle(quote);
-            rateHelpers.emplace_back(std::shared_ptr<RateHelper> (new
-                DepositRateHelper(quoteHandle,
+            rateHelpers.emplace_back(std::make_shared<DepositRateHelper>(quoteHandle,
                                   (*ibor)->tenor(),
                                   (*ibor)->fixingDays(),
                                   (*ibor)->fixingCalendar(),
                                   (*ibor)->businessDayConvention(),
                                   (*ibor)->endOfMonth(),
-                                  (*ibor)->dayCounter())));
+                                  (*ibor)->dayCounter()));
         }
 
         // Create SwapRateHelper
         std::vector<std::shared_ptr<SimpleQuote> > swapQuotes;
         std::vector<std::shared_ptr<SwapIndex> >::const_iterator swap;
         for (swap=swapIndexes.begin(); swap!=swapIndexes.end(); ++swap) {
-            std::shared_ptr<SimpleQuote> quote(new SimpleQuote);
+            std::shared_ptr<SimpleQuote> quote = std::make_shared<SimpleQuote>();
             swapQuotes.emplace_back(quote);
             Handle<Quote> quoteHandle(quote);
-            rateHelpers.emplace_back(std::shared_ptr<RateHelper> (new
-                SwapRateHelper(quoteHandle,
+            rateHelpers.emplace_back(std::make_shared<SwapRateHelper>(quoteHandle,
                                (*swap)->tenor(),
                                (*swap)->fixingCalendar(),
                                (*swap)->fixedLegTenor().frequency(),
                                (*swap)->fixedLegConvention(),
                                (*swap)->dayCounter(),
-                               (*swap)->iborIndex())));
+                               (*swap)->iborIndex()));
         }
 
         // Set up the forward rates time grid

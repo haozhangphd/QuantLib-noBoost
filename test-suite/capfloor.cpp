@@ -61,7 +61,7 @@ namespace {
         CommonVars()
         : nominals(1,100) {
             frequency = Semiannual;
-            index = std::shared_ptr<IborIndex>(new Euribor6M(termStructure));
+            index = std::make_shared<Euribor6M>(termStructure);
             calendar = index->fixingCalendar();
             convention = ModifiedFollowing;
             Date today = calendar.adjust(Date::todaysDate());
@@ -87,10 +87,8 @@ namespace {
         }
 
         std::shared_ptr<PricingEngine> makeEngine(Volatility volatility) {
-            Handle<Quote> vol(std::shared_ptr<Quote>(
-                                                new SimpleQuote(volatility)));
-            return std::shared_ptr<PricingEngine>(
-                                new BlackCapFloorEngine(termStructure, vol));
+            Handle<Quote> vol(std::make_shared<SimpleQuote>(volatility));
+            return std::make_shared<BlackCapFloorEngine>(termStructure, vol);
         }
 
         std::shared_ptr<CapFloor> makeCapFloor(CapFloor::Type type,
@@ -100,12 +98,10 @@ namespace {
             std::shared_ptr<CapFloor> result;
             switch (type) {
               case CapFloor::Cap:
-                result = std::shared_ptr<CapFloor>(
-                                  new Cap(leg, std::vector<Rate>(1, strike)));
+                result = std::make_shared<Cap>(leg, std::vector<Rate>(1, strike));
                 break;
               case CapFloor::Floor:
-                result = std::shared_ptr<CapFloor>(
-                                new Floor(leg, std::vector<Rate>(1, strike)));
+                result = std::make_shared<Floor>(leg, std::vector<Rate>(1, strike));
                 break;
               default:
                 QL_FAIL("unknown cap/floor type");
@@ -400,8 +396,7 @@ TEST_CASE("CapFloor_Parity", "[CapFloor]") {
                              schedule, strikes[j], vars.index->dayCounter(),
                              schedule, vars.index, 0.0,
                              vars.index->dayCounter());
-            swap.setPricingEngine(std::shared_ptr<PricingEngine>(
-                              new DiscountingSwapEngine(vars.termStructure)));
+            swap.setPricingEngine(std::make_shared<DiscountingSwapEngine>(vars.termStructure));
             // FLOATING_POINT_EXCEPTION
             if (std::fabs((cap->NPV()-floor->NPV()) - swap.NPV()) > 1.0e-10) {
                 FAIL(
@@ -463,8 +458,7 @@ TEST_CASE("CapFloor_ATMRate", "[CapFloor]") {
                                  vars.index->dayCounter(),
                                  schedule, vars.index, 0.0,
                                  vars.index->dayCounter());
-                swap.setPricingEngine(std::shared_ptr<PricingEngine>(
-                              new DiscountingSwapEngine(vars.termStructure)));
+                swap.setPricingEngine(std::make_shared<DiscountingSwapEngine>(vars.termStructure));
                 Real swapNPV = swap.NPV();
                 if (!checkAbsError(swapNPV, 0, 1.0e-10))
                     FAIL(

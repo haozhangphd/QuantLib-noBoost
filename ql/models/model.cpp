@@ -32,7 +32,7 @@ namespace QuantLib {
 
     CalibratedModel::CalibratedModel(Size nArguments)
     : arguments_(nArguments),
-      constraint_(new PrivateConstraint(arguments_)),
+      constraint_(std::make_shared<PrivateConstraint>(arguments_)),
       shortRateEndCriteria_(EndCriteria::None) {}
 
     class CalibratedModel::CalibrationFunction : public CostFunction {

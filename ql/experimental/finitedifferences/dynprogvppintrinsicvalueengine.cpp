@@ -85,15 +85,15 @@ namespace QuantLib {
     }
 
     void DynProgVPPIntrinsicValueEngine::calculate() const {
-        const std::shared_ptr<FdmInnerValueCalculator> fuelPrice(
-            new FuelPrice(fuelPrices_));
-        const std::shared_ptr<FdmInnerValueCalculator> sparkSpreadPrice(
-            new SparkSpreadPrice(arguments_.heatRate,fuelPrices_,powerPrices_));
+        const std::shared_ptr<FdmInnerValueCalculator> fuelPrice =
+            std::make_shared<FuelPrice>(fuelPrices_);
+        const std::shared_ptr<FdmInnerValueCalculator> sparkSpreadPrice =
+            std::make_shared<SparkSpreadPrice>(arguments_.heatRate,fuelPrices_,powerPrices_);
 
         const FdmVPPStepConditionFactory stepConditionFactory(arguments_);
 
-        const std::shared_ptr<FdmMesher> mesher(
-            new FdmMesherComposite(stepConditionFactory.stateMesher()));
+        const std::shared_ptr<FdmMesher> mesher =
+            std::make_shared<FdmMesherComposite>(stepConditionFactory.stateMesher());
 
         const FdmVPPStepConditionMesher mesh = { 0, mesher };
 

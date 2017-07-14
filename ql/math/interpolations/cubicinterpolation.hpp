@@ -162,14 +162,13 @@ namespace QuantLib {
                            Real leftConditionValue,
                            CubicInterpolation::BoundaryCondition rightCond,
                            Real rightConditionValue) {
-            impl_ = std::shared_ptr<Interpolation::Impl>(new
-                detail::CubicInterpolationImpl<I1,I2>(xBegin, xEnd, yBegin,
+            impl_ = std::make_shared<detail::CubicInterpolationImpl<I1,I2>>(xBegin, xEnd, yBegin,
                                                       da,
                                                       monotonic,
                                                       leftCond,
                                                       leftConditionValue,
                                                       rightCond,
-                                                      rightConditionValue));
+                                                      rightConditionValue);
             impl_->update();
             coeffs_ =
                 std::dynamic_pointer_cast<detail::CoefficientHolder>(impl_);

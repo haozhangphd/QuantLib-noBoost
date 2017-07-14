@@ -77,17 +77,16 @@ namespace QuantLib {
     : disModel_(disModel),
       fwdModel_(fwdModel),
       index_(swap->iborIndex()),
-      swap_(std::shared_ptr<VanillaSwap>(
-          new VanillaSwap(swap->type(),
-                          swap->nominal(),
-                          swap->fixedSchedule(),
-                          swap->fixedRate(),
-                          swap->fixedDayCount(),
-                          swap->floatingSchedule(),
-                          swap->iborIndex()->clone(fwdTs_),
-                          swap->spread(),
-                          swap->floatingDayCount(),
-                          swap->paymentConvention()))),
+      swap_(std::make_shared<VanillaSwap>(swap->type(),
+                                          swap->nominal(),
+                                          swap->fixedSchedule(),
+                                          swap->fixedRate(),
+                                          swap->fixedDayCount(),
+                                          swap->floatingSchedule(),
+                                          swap->iborIndex()->clone(fwdTs_),
+                                          swap->spread(),
+                                          swap->floatingDayCount(),
+                                          swap->paymentConvention())),
       exerciseDates_(exerciseDates),
       mesher_(mesher),
       direction_(direction) {
@@ -107,19 +106,17 @@ namespace QuantLib {
             const Handle<YieldTermStructure> discount
                 = disModel_->termStructure();
 
-            disTs_.linkTo(std::shared_ptr<YieldTermStructure>(
-                new FdmAffineModelTermStructure(disRate,
-                    discount->calendar(), discount->dayCounter(),
-                    iterExerciseDate, discount->referenceDate(),
-                    disModel_)));
+            disTs_.linkTo(std::make_shared<FdmAffineModelTermStructure>(disRate,
+                                                                        discount->calendar(), discount->dayCounter(),
+                                                                        iterExerciseDate, discount->referenceDate(),
+                                                                        disModel_));
 
             const Handle<YieldTermStructure> fwd = fwdModel_->termStructure();
 
-            fwdTs_.linkTo(std::shared_ptr<YieldTermStructure>(
-                new FdmAffineModelTermStructure(fwdRate,
-                    fwd->calendar(), fwd->dayCounter(),
-                    iterExerciseDate, fwd->referenceDate(),
-                    fwdModel_)));
+            fwdTs_.linkTo(std::make_shared<FdmAffineModelTermStructure>(fwdRate,
+                                                                        fwd->calendar(), fwd->dayCounter(),
+                                                                        iterExerciseDate, fwd->referenceDate(),
+                                                                        fwdModel_));
 
         }
         else {

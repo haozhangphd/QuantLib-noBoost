@@ -75,8 +75,7 @@ namespace QuantLib {
         : public BlackKarasinski::ShortRateDynamics {
       public:
         Dynamics(const Parameter& fitting, Real alpha, Real sigma)
-        : ShortRateDynamics(std::shared_ptr<StochasticProcess1D>(
-                                 new OrnsteinUhlenbeckProcess(alpha, sigma))),
+        : ShortRateDynamics(std::make_shared<OrnsteinUhlenbeckProcess>(alpha, sigma)),
           fitting_(fitting) {}
 
         Real variable(Time t, Rate r) const {

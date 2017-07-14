@@ -218,9 +218,8 @@ namespace QuantLib {
 
     std::shared_ptr<BrownianGenerator>
     SobolBrownianGeneratorFactory::create(Size factors, Size steps) const {
-        return std::shared_ptr<BrownianGenerator>(
-                         new SobolBrownianGenerator(factors, steps, ordering_,
-                                                    seed_, integers_));
+        return std::make_shared<SobolBrownianGenerator>(factors, steps, ordering_,
+                                                    seed_, integers_);
     }
 
 }

@@ -33,9 +33,9 @@ TEST_CASE("VarianceOption_IntegralHeston", "[VarianceOption]") {
     DayCounter dc = Actual360();
     Date today = Settings::instance().evaluationDate();
 
-    Handle<Quote> s0(std::shared_ptr<SimpleQuote>(new SimpleQuote(1.0)));
+    Handle<Quote> s0(std::make_shared<SimpleQuote>(1.0));
     Handle<YieldTermStructure> qTS;
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     Handle<YieldTermStructure> rTS(flatRate(today, rRate, dc));
 
     Real v0 = 2.0;
@@ -44,19 +44,18 @@ TEST_CASE("VarianceOption_IntegralHeston", "[VarianceOption]") {
     Real sigma = 0.1;
     Real rho = -0.5;
 
-    std::shared_ptr<HestonProcess> process(new HestonProcess(rTS, qTS, s0,
+    std::shared_ptr<HestonProcess> process = std::make_shared<HestonProcess>(rTS, qTS, s0,
                                                                v0, kappa, theta,
-                                                               sigma, rho));
-    std::shared_ptr<PricingEngine> engine(
-                               new IntegralHestonVarianceOptionEngine(process));
+                                                               sigma, rho);
+    std::shared_ptr<PricingEngine> engine =
+                               std::make_shared<IntegralHestonVarianceOptionEngine>(process);
 
     Real strike = 0.05;
     Real nominal = 1.0;
     Time T = 1.5;
     Date exDate = today + int(360*T);
 
-    std::shared_ptr<Payoff> payoff(new PlainVanillaPayoff(Option::Call,
-                                                            strike));
+    std::shared_ptr<Payoff> payoff = std::make_shared<PlainVanillaPayoff>(Option::Call, strike);
 
     VarianceOption varianceOption1(payoff, nominal, today, exDate);
     varianceOption1.setPricingEngine(engine);
@@ -79,18 +78,15 @@ TEST_CASE("VarianceOption_IntegralHeston", "[VarianceOption]") {
     sigma = 0.1;
     rho = -0.5;
 
-    process = std::shared_ptr<HestonProcess>(
-               new HestonProcess(rTS, qTS, s0, v0, kappa, theta, sigma, rho));
-    engine = std::shared_ptr<PricingEngine>(
-                               new IntegralHestonVarianceOptionEngine(process));
+    process = std::make_shared<HestonProcess>(rTS, qTS, s0, v0, kappa, theta, sigma, rho);
+    engine = std::make_shared<IntegralHestonVarianceOptionEngine>(process);
 
     strike = 0.7;
     nominal = 1.0;
     T = 1.0;
     exDate = today + int(360*T);
 
-    payoff = std::shared_ptr<Payoff>(new PlainVanillaPayoff(Option::Put,
-                                                              strike));
+    payoff = std::make_shared<PlainVanillaPayoff>(Option::Put, strike);
 
     VarianceOption varianceOption2(payoff, nominal, today, exDate);
     varianceOption2.setPricingEngine(engine);

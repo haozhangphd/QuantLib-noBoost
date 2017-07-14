@@ -42,8 +42,7 @@ namespace QuantLib {
         static const Spread basisPoint = 1.0e-4;
 
         VanillaSwap swap = *arguments_.swap;
-        swap.setPricingEngine(std::shared_ptr<PricingEngine>(
-                           new DiscountingSwapEngine(discountCurve_, false)));
+        swap.setPricingEngine(std::make_shared<DiscountingSwapEngine>(discountCurve_, false));
 
         Spread correction = swap.spread() *
             std::fabs(swap.floatingLegBPS()/swap.fixedLegBPS());

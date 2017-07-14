@@ -29,7 +29,6 @@ namespace QuantLib {
 
     ConstantRecoveryModel::ConstantRecoveryModel(Real recovery,
                                                  Seniority sen)
-    : quote_(Handle<RecoveryRateQuote>(std::shared_ptr<RecoveryRateQuote>(
-                                    new RecoveryRateQuote(recovery, sen)))) {}
+    : quote_(Handle<RecoveryRateQuote>(std::make_shared<RecoveryRateQuote>(recovery, sen))) {}
 
 }

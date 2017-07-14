@@ -141,8 +141,8 @@ namespace QuantLib {
     class LotUnitOfMeasure : public UnitOfMeasure {
       public:
         LotUnitOfMeasure() {
-            static std::shared_ptr<Data> data(
-                new Data("Lot", "Lot", UnitOfMeasure::Quantity));
+            static std::shared_ptr<Data> data =
+                std::make_shared<Data>("Lot", "Lot", UnitOfMeasure::Quantity);
             data_ = data;
         }
     };

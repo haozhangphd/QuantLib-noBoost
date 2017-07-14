@@ -54,8 +54,8 @@ namespace QuantLib {
         Real underlying = process_->stateVariable()->value();
         QL_REQUIRE(underlying > 0.0, "negative or null underlying");
 
-        std::shared_ptr<StrikedTypePayoff> payoff(
-                        new PlainVanillaPayoff(moneyness->optionType(), 1.0));
+        std::shared_ptr<StrikedTypePayoff> payoff =
+                        std::make_shared<PlainVanillaPayoff>(moneyness->optionType(), 1.0);
 
         results_.value = 0.0;
         results_.delta = results_.gamma = 0.0;

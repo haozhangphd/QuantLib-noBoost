@@ -83,7 +83,7 @@ namespace QuantLib {
         HelperProcess(Real theta, Real k, Real sigma, Real y0)
         : y0_(y0), theta_(theta), k_(k), sigma_(sigma) {
             discretization_ =
-                std::shared_ptr<discretization>(new EulerDiscretization);
+                std::make_shared<EulerDiscretization>();
         }
 
         Real x0() const {
@@ -117,8 +117,7 @@ namespace QuantLib {
                  Real k,
                  Real sigma,
                  Real x0)
-        : ShortRateDynamics(std::shared_ptr<StochasticProcess1D>(
-                        new HelperProcess(theta, k, sigma, std::sqrt(x0)))) {}
+        : ShortRateDynamics(std::make_shared<HelperProcess>(theta, k, sigma, std::sqrt(x0))) {}
 
         virtual Real variable(Time, Rate r) const {
             return std::sqrt(r);

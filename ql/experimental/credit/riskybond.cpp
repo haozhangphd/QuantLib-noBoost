@@ -100,12 +100,12 @@ namespace QuantLib {
                 Real recovery = notional(defaultDate) * recoveryRate_
                     * (defaultTS_->survivalProbability(d1)
                        -defaultTS_->survivalProbability(d2));
-                std::shared_ptr<CashFlow>
-                    flow1(new SimpleCashFlow(coupon, d2));
+                std::shared_ptr<CashFlow> flow1 =
+                    std::make_shared<SimpleCashFlow>(coupon, d2);
                 expected.emplace_back(flow1);
 
-                std::shared_ptr<CashFlow>
-                    flow2(new SimpleCashFlow(recovery, defaultDate));
+                std::shared_ptr<CashFlow> flow2 =
+                    std::make_shared<SimpleCashFlow>(recovery, defaultDate);
                 expected.emplace_back(flow2);
             }
             d1 = d2;
@@ -138,11 +138,11 @@ namespace QuantLib {
             Real currentNotional = (i < notionals_.size() ?
                              notionals_[i] :
                              notionals_.back());
-            std::shared_ptr<CashFlow> interest (new
-                   FixedRateCoupon(dates[i], previousNotional,
-                                   rate_, dayCounter_, dates[i-1], dates[i]));
-            std::shared_ptr<CashFlow> amortization(new
-                 AmortizingPayment(previousNotional - currentNotional, dates[i]));
+            std::shared_ptr<CashFlow> interest  =
+                   std::make_shared<FixedRateCoupon>(dates[i], previousNotional,
+                                   rate_, dayCounter_, dates[i-1], dates[i]);
+            std::shared_ptr<CashFlow> amortization =
+                   std::make_shared<AmortizingPayment>(previousNotional - currentNotional, dates[i]);
             previousNotional = currentNotional;
 
             leg_.emplace_back(interest);
@@ -153,8 +153,8 @@ namespace QuantLib {
             }
         }
 
-        std::shared_ptr<CashFlow> redemption(new
-                 Redemption(previousNotional, schedule_.dates().back()));
+        std::shared_ptr<CashFlow> redemption =
+                 std::make_shared<Redemption>(previousNotional, schedule_.dates().back());
         leg_.emplace_back(redemption);
         redemptionLeg_.emplace_back(redemption);
     }
@@ -216,11 +216,11 @@ namespace QuantLib {
             Real currentNotional = (i < notionals_.size() ?
                              notionals_[i] :
                              notionals_.back());
-            std::shared_ptr<CashFlow> interest (new
-                   IborCoupon(dates[i], previousNotional, dates[i-1], dates[i],
-                              fixingDays_, index_, 1.0, spread_));
-            std::shared_ptr<CashFlow> amortization(new
-                 AmortizingPayment(previousNotional - currentNotional, dates[i]));
+            std::shared_ptr<CashFlow> interest =
+                   std::make_shared<IborCoupon>(dates[i], previousNotional, dates[i-1], dates[i],
+                              fixingDays_, index_, 1.0, spread_);
+            std::shared_ptr<CashFlow> amortization =
+                 std::make_shared<AmortizingPayment>(previousNotional - currentNotional, dates[i]);
             previousNotional = currentNotional;
 
             leg_.emplace_back(interest);
@@ -231,14 +231,13 @@ namespace QuantLib {
             }
         }
 
-        std::shared_ptr<CashFlow> redemption(new
-                 Redemption(previousNotional, schedule_.dates().back()));
+        std::shared_ptr<CashFlow> redemption =
+                 std::make_shared<Redemption>(previousNotional, schedule_.dates().back());
         leg_.emplace_back(redemption);
         redemptionLeg_.emplace_back(redemption);
 
-        std::shared_ptr<IborCouponPricer>
-            fictitiousPricer(new
-                BlackIborCouponPricer(Handle<OptionletVolatilityStructure>()));
+        std::shared_ptr<IborCouponPricer> fictitiousPricer =
+                std::make_shared<BlackIborCouponPricer>(Handle<OptionletVolatilityStructure>());
         setCouponPricer(leg_,fictitiousPricer);
     }
 

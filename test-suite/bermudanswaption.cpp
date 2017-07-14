@@ -68,7 +68,7 @@ namespace {
             fixedFrequency = Annual;
             floatingFrequency = Semiannual;
             fixedDayCount = Thirty360();
-            index = std::shared_ptr<IborIndex>(new Euribor6M(termStructure));
+            index = std::make_shared<Euribor6M>(termStructure);
             calendar = index->fixingCalendar();
             today = calendar.adjust(Date::todaysDate());
             settlement = calendar.advance(today,settlementDays,Days);
@@ -90,13 +90,12 @@ namespace {
                                    floatingConvention,
                                    floatingConvention,
                                    DateGeneration::Forward, false);
-            std::shared_ptr<VanillaSwap> swap(
-                      new VanillaSwap(type, nominal,
+            std::shared_ptr<VanillaSwap> swap =
+                      std::make_shared<VanillaSwap>(type, nominal,
                                       fixedSchedule, fixedRate, fixedDayCount,
                                       floatSchedule, index, 0.0,
-                                      index->dayCounter()));
-            swap->setPricingEngine(std::shared_ptr<PricingEngine>(
-                                   new DiscountingSwapEngine(termStructure)));
+                                      index->dayCounter());
+            swap->setPricingEngine(std::make_shared<DiscountingSwapEngine>(termStructure));
             return swap;
         }
     };
@@ -128,8 +127,7 @@ TEST_CASE("BermudanSwaption_CachedValues", "[BermudanSwaption]") {
     std::shared_ptr<VanillaSwap> otmSwap = vars.makeSwap(1.2*atmRate);
 
     Real a = 0.048696, sigma = 0.0058904;
-    std::shared_ptr<HullWhite> model(new HullWhite(vars.termStructure,
-                                                     a, sigma));
+    std::shared_ptr<HullWhite> model = std::make_shared<HullWhite>(vars.termStructure, a, sigma);
     std::vector<Date> exerciseDates;
     const Leg& leg = atmSwap->fixedLeg();
     for (Size i=0; i<leg.size(); i++) {
@@ -137,12 +135,12 @@ TEST_CASE("BermudanSwaption_CachedValues", "[BermudanSwaption]") {
             std::dynamic_pointer_cast<Coupon>(leg[i]);
             exerciseDates.emplace_back(coupon->accrualStartDate());
     }
-    std::shared_ptr<Exercise> exercise(new BermudanExercise(exerciseDates));
+    std::shared_ptr<Exercise> exercise = std::make_shared<BermudanExercise>(exerciseDates);
 
-    std::shared_ptr<PricingEngine> treeEngine(
-                                            new TreeSwaptionEngine(model, 50));
-    std::shared_ptr<PricingEngine> fdmEngine(
-                                         new FdHullWhiteSwaptionEngine(model));
+    std::shared_ptr<PricingEngine> treeEngine =
+                                            std::make_shared<TreeSwaptionEngine>(model, 50);
+    std::shared_ptr<PricingEngine> fdmEngine =
+                                         std::make_shared<FdHullWhiteSwaptionEngine>(model);
 
     #if defined(QL_USE_INDEXED_COUPON)
     Real itmValue = 42.2413, atmValue = 12.8789, otmValue = 2.4759;
@@ -198,7 +196,7 @@ TEST_CASE("BermudanSwaption_CachedValues", "[BermudanSwaption]") {
     for (Size j=0; j<exerciseDates.size(); j++)
         exerciseDates[j] = vars.calendar.adjust(exerciseDates[j]-10);
     exercise =
-        std::shared_ptr<Exercise>(new BermudanExercise(exerciseDates));
+        std::make_shared<BermudanExercise>(exerciseDates);
 
     #if defined(QL_USE_INDEXED_COUPON)
     itmValue = 42.1917; atmValue = 12.7788; otmValue = 2.4388;

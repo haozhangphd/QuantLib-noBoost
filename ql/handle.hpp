@@ -74,7 +74,7 @@ namespace QuantLib {
         //@{
         explicit Handle(const std::shared_ptr<T>& p = std::shared_ptr<T>(),
                         bool registerAsObserver = true)
-        : link_(new Link(p,registerAsObserver)) {}
+        : link_(std::make_shared<Link>(p,registerAsObserver)) {}
         //@}
         //! dereferencing
         const std::shared_ptr<T>& currentLink() const;

@@ -107,14 +107,13 @@ namespace QuantLib {
                     times.emplace_back(*x);
                     blackVols.emplace_back(*y);
                 }
-                abcdCalibrator_ = std::shared_ptr<AbcdCalibration>(
-                    new AbcdCalibration(times, blackVols,
-                                        a_, b_, c_, d_,
-                                        aIsFixed_, bIsFixed_,
-                                        cIsFixed_, dIsFixed_,
-                                        vegaWeighted_,
-                                        endCriteria_,
-                                        optMethod_));
+                abcdCalibrator_ = std::make_shared<AbcdCalibration>(times, blackVols,
+                                                                    a_, b_, c_, d_,
+                                                                    aIsFixed_, bIsFixed_,
+                                                                    cIsFixed_, dIsFixed_,
+                                                                    vegaWeighted_,
+                                                                    endCriteria_,
+                                                                    optMethod_);
                 abcdCalibrator_->compute();
                 a_ = abcdCalibrator_->a();
                 b_ = abcdCalibrator_->b();
@@ -177,14 +176,13 @@ namespace QuantLib {
                           const std::shared_ptr<OptimizationMethod>& optMethod
                               = std::shared_ptr<OptimizationMethod>()) {
 
-            impl_ = std::shared_ptr<Interpolation::Impl>(new
-                detail::AbcdInterpolationImpl<I1,I2>(xBegin, xEnd, yBegin,
+            impl_ = std::make_shared<detail::AbcdInterpolationImpl<I1,I2>>(xBegin, xEnd, yBegin,
                                                      a, b, c, d,
                                                      aIsFixed, bIsFixed,
                                                      cIsFixed, dIsFixed,
                                                      vegaWeighted,
                                                      endCriteria,
-                                                     optMethod));
+                                                     optMethod);
             impl_->update();
             coeffs_ =
                 std::dynamic_pointer_cast<detail::AbcdCoeffHolder>(impl_);

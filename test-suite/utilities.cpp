@@ -61,26 +61,24 @@ namespace QuantLib {
     flatRate(const Date& today,
              const std::shared_ptr<Quote>& forward,
              const DayCounter& dc) {
-        return std::shared_ptr<YieldTermStructure>(
-                          new FlatForward(today, Handle<Quote>(forward), dc));
+        return std::make_shared<FlatForward>(today, Handle<Quote>(forward), dc);
     }
 
     std::shared_ptr<YieldTermStructure>
     flatRate(const Date& today, Rate forward, const DayCounter& dc) {
         return flatRate(
-               today, std::shared_ptr<Quote>(new SimpleQuote(forward)), dc);
+               today, std::make_shared<SimpleQuote>(forward), dc);
     }
 
     std::shared_ptr<YieldTermStructure>
     flatRate(const std::shared_ptr<Quote>& forward,
              const DayCounter& dc) {
-        return std::shared_ptr<YieldTermStructure>(
-              new FlatForward(0, NullCalendar(), Handle<Quote>(forward), dc));
+        return std::make_shared<FlatForward>(0, NullCalendar(), Handle<Quote>(forward), dc);
     }
 
     std::shared_ptr<YieldTermStructure>
     flatRate(Rate forward, const DayCounter& dc) {
-        return flatRate(std::shared_ptr<Quote>(new SimpleQuote(forward)),
+        return flatRate(std::make_shared<SimpleQuote>(forward),
                         dc);
     }
 
@@ -89,29 +87,26 @@ namespace QuantLib {
     flatVol(const Date& today,
             const std::shared_ptr<Quote>& vol,
             const DayCounter& dc) {
-        return std::shared_ptr<BlackVolTermStructure>(new
-            BlackConstantVol(today, NullCalendar(), Handle<Quote>(vol), dc));
+        return std::make_shared<BlackConstantVol>(today, NullCalendar(), Handle<Quote>(vol), dc);
     }
 
     std::shared_ptr<BlackVolTermStructure>
     flatVol(const Date& today, Volatility vol,
             const DayCounter& dc) {
         return flatVol(today,
-                       std::shared_ptr<Quote>(new SimpleQuote(vol)),
-                       dc);
+                       std::make_shared<SimpleQuote>(vol), dc);
     }
 
     std::shared_ptr<BlackVolTermStructure>
     flatVol(const std::shared_ptr<Quote>& vol,
             const DayCounter& dc) {
-        return std::shared_ptr<BlackVolTermStructure>(new
-            BlackConstantVol(0, NullCalendar(), Handle<Quote>(vol), dc));
+        return std::make_shared<BlackConstantVol>(0, NullCalendar(), Handle<Quote>(vol), dc);
     }
 
     std::shared_ptr<BlackVolTermStructure>
     flatVol(Volatility vol,
             const DayCounter& dc) {
-        return flatVol(std::shared_ptr<Quote>(new SimpleQuote(vol)), dc);
+        return flatVol(std::make_shared<SimpleQuote>(vol), dc);
     }
 
 

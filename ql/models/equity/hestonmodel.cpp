@@ -42,11 +42,11 @@ namespace QuantLib {
     }
 
     void HestonModel::generateArguments() {
-        process_.reset(new HestonProcess(process_->riskFreeRate(),
+        process_ = std::make_shared<HestonProcess>(process_->riskFreeRate(),
                                          process_->dividendYield(),
                                          process_->s0(),
                                          v0(), kappa(), theta(),
-                                         sigma(), rho()));
+                                         sigma(), rho());
     }
 
 }

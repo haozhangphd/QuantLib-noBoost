@@ -156,14 +156,13 @@ namespace QuantLib {
         vvec_[1] = guess;
         vvec_[0] = guess - slope_ * (tvec_[1] - tvec_[0]) * guess;
         // could have Interpolator1D instead of Linear
-        std::shared_ptr<InterpolatedYoYOptionletVolatilityCurve<Linear> >
-        vCurve(
-            new InterpolatedYoYOptionletVolatilityCurve<Linear>(
+        std::shared_ptr<InterpolatedYoYOptionletVolatilityCurve<Linear>> vCurve =
+            std::make_shared<InterpolatedYoYOptionletVolatilityCurve<Linear>>(
                                                0, TARGET(), ModifiedFollowing,
                                                Actual365Fixed(), lag_,
                                                frequency_, indexIsInterpolated_,
                                                dvec_, vvec_,
-                                               -1.0, 3.0) ); // strike limits
+                                               -1.0, 3.0); // strike limits
         Handle<YoYOptionletVolatilitySurface> hCurve(vCurve);
         p_->setVolatility(hCurve);
         // hopefully this gets to the pricer ... then
@@ -196,10 +195,10 @@ namespace QuantLib {
         // provided that the lag and frequency are correct
         RelinkableHandle<YoYInflationTermStructure> hYoY(
                                        YoYCapFloorTermPriceSurface_->YoYTS());
-        std::shared_ptr<YoYInflationIndex> anIndex(
-                                           new YYGenericCPI(frequency_, false,
+        std::shared_ptr<YoYInflationIndex> anIndex =
+                                           std::make_shared<YYGenericCPI>(frequency_, false,
                                                             false, lag_,
-                                                            Currency(), hYoY));
+                                                            Currency(), hYoY);
 
         // strip each K separatly
         for (Size i=0; i<YoYCapFloorTermPriceSurface_->strikes().size(); i++) {
@@ -240,25 +239,23 @@ namespace QuantLib {
                      YoYCapFloorTermPriceSurface_->capPrice(Tp, K) :
                      YoYCapFloorTermPriceSurface_->floorPrice(Tp, K));
 
-                Handle<Quote> quote1(std::shared_ptr<Quote>(
-                                               new SimpleQuote( nextPrice )));
+                Handle<Quote> quote1(std::make_shared<SimpleQuote>( nextPrice ));
                 // helper should be an integer number of periods away,
                 // this is enforced by rounding
                 Size nT = (Size)floor(s->timeFromReference(s->yoyOptionDateFromTenor(Tp))+0.5);
-                helpers.emplace_back(std::shared_ptr<YoYOptionletHelper>(
-                          new YoYOptionletHelper(quote1, notional, useType,
+                helpers.emplace_back(std::make_shared<YoYOptionletHelper>(quote1, notional, useType,
                                                  lag_,
                                                  dc, cal,
                                                  fixingDays_,
-                                                 anIndex, K, nT, p_)));
+                                                 anIndex, K, nT, p_));
 
-                std::shared_ptr<ConstantYoYOptionletVolatility> yoyVolBLACK(
-                          new ConstantYoYOptionletVolatility(found, settlementDays,
+                std::shared_ptr<ConstantYoYOptionletVolatility> yoyVolBLACK =
+                          std::make_shared<ConstantYoYOptionletVolatility>(found, settlementDays,
                                                              cal, bdc, dc,
                                                              lag_, frequency_,
                                                              false,
                                                              // -100% to +300%
-                                                             -1.0,3.0));
+                                                             -1.0,3.0);
 
                 helpers[j]->setTermStructure(
                        // gets underlying pointer & removes const
@@ -274,13 +271,13 @@ namespace QuantLib {
             Rate minStrike = K-eps;
             Rate maxStrike = K+eps;
             std::shared_ptr<
-                PiecewiseYoYOptionletVolatilityCurve<Interpolator1D> > testPW(
-                new PiecewiseYoYOptionletVolatilityCurve<Interpolator1D>(
+                PiecewiseYoYOptionletVolatilityCurve<Interpolator1D> > testPW =
+                std::make_shared<PiecewiseYoYOptionletVolatilityCurve<Interpolator1D>>(
                                             settlementDays, cal, bdc, dc, lag_,
                                             frequency_, indexIsInterpolated_,
                                             minStrike, maxStrike,
                                             baseYoYVolatility,
-                                            helperInstruments) );
+                                            helperInstruments);
             testPW->recalculate();
             volCurves_.emplace_back(testPW);
         }

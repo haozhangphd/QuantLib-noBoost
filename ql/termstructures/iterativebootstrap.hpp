@@ -133,8 +133,7 @@ namespace QuantLib {
             if (dates[i] != latestRelevantDate)
                 loopRequired_ = true;
 
-            errors_[i] = std::shared_ptr<BootstrapError<Curve> >(new
-                BootstrapError<Curve>(ts_, helper, i));
+            errors_[i] = std::make_shared<BootstrapError<Curve>>(ts_, helper, i);
         }
         ts_->maxDate_ = maxDate;
 

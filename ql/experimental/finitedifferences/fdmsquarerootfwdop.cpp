@@ -44,13 +44,13 @@ namespace QuantLib {
       sigma_(sigma),
       transform_(transform),
       mapX_(transform == Plain ?
-          new ModTripleBandLinearOp(FirstDerivativeOp(direction_, mesher)
+          std::make_shared<ModTripleBandLinearOp>(FirstDerivativeOp(direction_, mesher)
               .mult(kappa*(mesher->locations(direction_)-theta) + sigma*sigma)
               .add(SecondDerivativeOp(direction_, mesher)
                    .mult(0.5*sigma*sigma*mesher->locations(direction_)))
                 .add(Array(mesher->layout()->size(), kappa)))
 
-        : transform == Power ? new ModTripleBandLinearOp(
+        : transform == Power ? std::make_shared<ModTripleBandLinearOp>(
             SecondDerivativeOp(direction_, mesher)
                .mult(0.5*sigma*sigma*mesher->locations(direction_))
                .add(FirstDerivativeOp(direction_, mesher)
@@ -58,7 +58,7 @@ namespace QuantLib {
                .add(Array(mesher->layout()->size(),
                           2*kappa*kappa*theta/(sigma*sigma))))
 
-            : new ModTripleBandLinearOp(FirstDerivativeOp(direction_, mesher)
+            : std::make_shared<ModTripleBandLinearOp>(FirstDerivativeOp(direction_, mesher)
                     .mult(Exp(-mesher->locations(direction))
                         *( -0.5*sigma*sigma - kappa*theta) + kappa)
                     .add(SecondDerivativeOp(direction_, mesher)

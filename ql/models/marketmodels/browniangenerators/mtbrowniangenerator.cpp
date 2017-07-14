@@ -62,8 +62,7 @@ namespace QuantLib {
 
     std::shared_ptr<BrownianGenerator>
     MTBrownianGeneratorFactory::create(Size factors, Size steps) const {
-        return std::shared_ptr<BrownianGenerator>(
-                              new MTBrownianGenerator(factors, steps, seed_));
+        return std::make_shared<MTBrownianGenerator>(factors, steps, seed_);
     }
 
 }

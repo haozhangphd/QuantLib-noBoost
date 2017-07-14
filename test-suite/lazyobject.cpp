@@ -30,8 +30,8 @@ TEST_CASE("LazyObject_DiscardingNotifications", "[LazyObject]") {
     INFO(
         "Testing that lazy objects discard notifications after the first...");
 
-    std::shared_ptr<SimpleQuote> q(new SimpleQuote(0.0));
-    std::shared_ptr<Instrument> s(new Stock(Handle<Quote>(q)));
+    std::shared_ptr<SimpleQuote> q = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<Instrument> s = std::make_shared<Stock>(Handle<Quote>(q));
 
     Flag f;
     f.registerWith(s);
@@ -59,8 +59,8 @@ TEST_CASE("LazyObject_ForwardingNotifications", "[LazyObject]") {
     INFO(
         "Testing that lazy objects forward all notifications when told...");
 
-    std::shared_ptr<SimpleQuote> q(new SimpleQuote(0.0));
-    std::shared_ptr<Instrument> s(new Stock(Handle<Quote>(q)));
+    std::shared_ptr<SimpleQuote> q = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<Instrument> s = std::make_shared<Stock>(Handle<Quote>(q));
 
     s->alwaysForwardNotifications();
 

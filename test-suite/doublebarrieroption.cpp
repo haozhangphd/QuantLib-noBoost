@@ -260,31 +260,31 @@ TEST_CASE("DoubleBarrierOption_EuropeanHaugValues", "[DoubleBarrierOption]") {
     DayCounter dc = Actual360();
     Date today = Date::todaysDate();
 
-    std::shared_ptr<SimpleQuote> spot(new SimpleQuote(0.0));
-    std::shared_ptr<SimpleQuote> qRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
+    std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS = flatRate(today, qRate, dc);
-    std::shared_ptr<SimpleQuote> rRate(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> rRate = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, rRate, dc);
-    std::shared_ptr<SimpleQuote> vol(new SimpleQuote(0.0));
+    std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, vol, dc);
 
     for (Size i=0; i<LENGTH(values); i++) {
         Date exDate = today + Integer(values[i].t*360+0.5);
-        std::shared_ptr<Exercise> exercise(new EuropeanExercise(exDate));
+        std::shared_ptr<Exercise> exercise = std::make_shared<EuropeanExercise>(exDate);
 
         spot ->setValue(values[i].s);
         qRate->setValue(values[i].q); 
         rRate->setValue(values[i].r);
         vol  ->setValue(values[i].v);
 
-        std::shared_ptr<StrikedTypePayoff> payoff(new
-            PlainVanillaPayoff(values[i].type, values[i].strike));
+        std::shared_ptr<StrikedTypePayoff> payoff =
+            std::make_shared<PlainVanillaPayoff>(values[i].type, values[i].strike);
 
-        std::shared_ptr<BlackScholesMertonProcess> stochProcess(new
-            BlackScholesMertonProcess(Handle<Quote>(spot),
+        std::shared_ptr<BlackScholesMertonProcess> stochProcess =
+            std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
                                       Handle<YieldTermStructure>(qTS),
                                       Handle<YieldTermStructure>(rTS),
-                                      Handle<BlackVolTermStructure>(volTS)));
+                                      Handle<BlackVolTermStructure>(volTS));
 
         DoubleBarrierOption opt(
                 values[i].barrierType,
@@ -295,8 +295,8 @@ TEST_CASE("DoubleBarrierOption_EuropeanHaugValues", "[DoubleBarrierOption]") {
                 exercise);
 
         // Ikeda/Kunitomo engine
-        std::shared_ptr<PricingEngine> engine(
-                                     new AnalyticDoubleBarrierEngine(stochProcess));
+        std::shared_ptr<PricingEngine> engine =
+                                     std::make_shared<AnalyticDoubleBarrierEngine>(stochProcess);
         opt.setPricingEngine(engine);
 
         Real calculated = opt.NPV();
@@ -310,8 +310,7 @@ TEST_CASE("DoubleBarrierOption_EuropeanHaugValues", "[DoubleBarrierOption]") {
         }
 
         // Wulin Suo/Yong Wang engine
-        engine = std::shared_ptr<PricingEngine>(
-                                     new WulinYongDoubleBarrierEngine(stochProcess));
+        engine = std::make_shared<WulinYongDoubleBarrierEngine>(stochProcess);
         opt.setPricingEngine(engine);
 
         calculated = opt.NPV();
@@ -324,10 +323,7 @@ TEST_CASE("DoubleBarrierOption_EuropeanHaugValues", "[DoubleBarrierOption]") {
                            expected, calculated, error, values[i].tol);
         }
 
-        engine = std::shared_ptr<PricingEngine>(
-              new BinomialDoubleBarrierEngine<CoxRossRubinstein,
-                              DiscretizedDoubleBarrierOption>(stochProcess, 
-                                                                 300));
+        engine = std::make_shared<BinomialDoubleBarrierEngine<CoxRossRubinstein, DiscretizedDoubleBarrierOption>>(stochProcess, 300);
         opt.setPricingEngine(engine);
         calculated = opt.NPV();
         expected = values[i].result;
@@ -341,10 +337,7 @@ TEST_CASE("DoubleBarrierOption_EuropeanHaugValues", "[DoubleBarrierOption]") {
                            tol);
         }
 
-        engine = std::shared_ptr<PricingEngine>(
-              new BinomialDoubleBarrierEngine<CoxRossRubinstein,
-                           DiscretizedDermanKaniDoubleBarrierOption>(
-                                                stochProcess, 300));
+        engine = std::make_shared<BinomialDoubleBarrierEngine<CoxRossRubinstein, DiscretizedDermanKaniDoubleBarrierOption>>(stochProcess, 300);
         opt.setPricingEngine(engine);
         calculated = opt.NPV();
         expected = values[i].result;

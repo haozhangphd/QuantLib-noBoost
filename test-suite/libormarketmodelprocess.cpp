@@ -47,10 +47,9 @@ namespace {
         rates.emplace_back(0.08);
 
         RelinkableHandle<YieldTermStructure> termStructure(
-                      std::shared_ptr<YieldTermStructure>(
-                                      new ZeroCurve(dates,rates,dayCounter)));
+                      std::make_shared<ZeroCurve>(dates,rates,dayCounter));
 
-        std::shared_ptr<IborIndex> index(new Euribor1Y(termStructure));
+        std::shared_ptr<IborIndex> index = std::make_shared<Euribor1Y>(termStructure);
 
         Date todaysDate =
             index->fixingCalendar().adjust(Date(4,September,2005));
@@ -59,8 +58,7 @@ namespace {
         dates[0] = index->fixingCalendar().advance(todaysDate,
                                                    index->fixingDays(), Days);
 
-        termStructure.linkTo(std::shared_ptr<YieldTermStructure>(
-                                    new ZeroCurve(dates, rates, dayCounter)));
+        termStructure.linkTo(std::make_shared<ZeroCurve>(dates, rates, dayCounter));
 
         return index;
     }
@@ -72,17 +70,16 @@ namespace {
 
         std::vector<Date> dates;
         std::vector<Volatility> capletVols;
-        std::shared_ptr<LiborForwardModelProcess> process(
-                            new LiborForwardModelProcess(len+1, makeIndex()));
+        std::shared_ptr<LiborForwardModelProcess> process =
+                            std::make_shared<LiborForwardModelProcess>(len+1, makeIndex());
 
         for (Size i=0; i < len; ++i) {
             capletVols.emplace_back(vols[i]/100);
             dates.emplace_back(process->fixingDates()[i+1]);
         }
 
-        return std::shared_ptr<CapletVarianceCurve>(
-                         new CapletVarianceCurve(todaysDate, dates,
-                                                 capletVols, ActualActual()));
+        return std::make_shared<CapletVarianceCurve>(todaysDate, dates,
+                                                 capletVols, ActualActual());
     }
 
     std::shared_ptr<LiborForwardModelProcess>
@@ -90,14 +87,14 @@ namespace {
         Size factors = (volaComp.empty() ? 1 : volaComp.columns());
 
         std::shared_ptr<IborIndex> index = makeIndex();
-        std::shared_ptr<LiborForwardModelProcess> process(
-                                    new LiborForwardModelProcess(len, index));
+        std::shared_ptr<LiborForwardModelProcess> process =
+                                    std::make_shared<LiborForwardModelProcess>(len, index);
 
-        std::shared_ptr<LfmCovarianceParameterization> fct(
-                new LfmHullWhiteParameterization(
+        std::shared_ptr<LfmCovarianceParameterization> fct =
+                std::make_shared<LfmHullWhiteParameterization>(
                     process,
                     makeCapVolCurve(Settings::instance().evaluationDate()),
-                    volaComp * transpose(volaComp), factors));
+                    volaComp * transpose(volaComp), factors);
 
         process->setCovarParam(fct);
 
@@ -116,13 +113,13 @@ TEST_CASE("LiborMarketModelProcess_Initialisation", "[LiborMarketModelProcess]")
     RelinkableHandle<YieldTermStructure> termStructure(
         flatRate(Date::todaysDate(), 0.04, dayCounter));
 
-    std::shared_ptr<IborIndex> index(new Euribor6M(termStructure));
-    std::shared_ptr<OptionletVolatilityStructure> capletVol(new
-        ConstantOptionletVolatility(termStructure->referenceDate(),
+    std::shared_ptr<IborIndex> index = std::make_shared<Euribor6M>(termStructure);
+    std::shared_ptr<OptionletVolatilityStructure> capletVol =
+        std::make_shared<ConstantOptionletVolatility>(termStructure->referenceDate(),
                                     termStructure->calendar(),
                                     Following,
                                     0.2,
-                                    termStructure->dayCounter()));
+                                    termStructure->dayCounter());
 
     Calendar calendar = index->fixingCalendar();
 

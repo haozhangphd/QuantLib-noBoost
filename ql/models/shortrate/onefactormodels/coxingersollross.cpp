@@ -36,8 +36,7 @@ namespace QuantLib {
         };
       public:
         VolatilityConstraint(Real k, Real theta)
-        : Constraint(std::shared_ptr<Constraint::Impl>(
-                                 new VolatilityConstraint::Impl(k, theta))) {}
+        : Constraint(std::make_shared<VolatilityConstraint::Impl>(k, theta)) {}
     };
 
     CoxIngersollRoss::CoxIngersollRoss(Rate r0, Real theta,
@@ -57,8 +56,7 @@ namespace QuantLib {
 
     std::shared_ptr<OneFactorModel::ShortRateDynamics>
     CoxIngersollRoss::dynamics() const {
-        return std::shared_ptr<ShortRateDynamics>(
-                                  new Dynamics(theta(), k() , sigma(), x0()));
+        return std::make_shared<Dynamics>(theta(), k() , sigma(), x0());
     }
 
     Real CoxIngersollRoss::A(Time t, Time T) const {
@@ -124,10 +122,9 @@ namespace QuantLib {
 
     std::shared_ptr<Lattice>
     CoxIngersollRoss::tree(const TimeGrid& grid) const {
-        std::shared_ptr<TrinomialTree> trinomial(
-                        new TrinomialTree(dynamics()->process(), grid, true));
-        return std::shared_ptr<Lattice>(
-                              new ShortRateTree(trinomial, dynamics(), grid));
+        std::shared_ptr<TrinomialTree> trinomial =
+                        std::make_shared<TrinomialTree>(dynamics()->process(), grid, true);
+        return std::make_shared<ShortRateTree>(trinomial, dynamics(), grid);
     }
 
 }

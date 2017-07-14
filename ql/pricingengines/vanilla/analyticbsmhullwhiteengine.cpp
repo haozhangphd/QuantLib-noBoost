@@ -108,18 +108,17 @@ namespace QuantLib {
         }
 
         Handle<BlackVolTermStructure> volTS(
-             std::shared_ptr<BlackVolTermStructure>(
-              new ShiftedBlackVolTermStructure(varianceOffset,
-                                               process_->blackVolatility())));
+             std::make_shared<ShiftedBlackVolTermStructure>(varianceOffset,
+                                               process_->blackVolatility()));
 
-        std::shared_ptr<GeneralizedBlackScholesProcess> adjProcess(
-                new GeneralizedBlackScholesProcess(process_->stateVariable(),
+        std::shared_ptr<GeneralizedBlackScholesProcess> adjProcess =
+                std::make_shared<GeneralizedBlackScholesProcess>(process_->stateVariable(),
                                                    process_->dividendYield(),
                                                    process_->riskFreeRate(),
-                                                   volTS));
+                                                   volTS);
 
-        std::shared_ptr<AnalyticEuropeanEngine> bsmEngine(
-                                      new AnalyticEuropeanEngine(adjProcess));
+        std::shared_ptr<AnalyticEuropeanEngine> bsmEngine =
+                                      std::make_shared<AnalyticEuropeanEngine>(adjProcess);
 
         VanillaOption(payoff, exercise).setupArguments(
                                                    bsmEngine->getArguments());

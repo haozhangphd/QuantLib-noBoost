@@ -129,7 +129,7 @@ namespace QuantLib {
     : GenericModelEngine<PiecewiseTimeDependentHestonModel,
                          VanillaOption::arguments,
                          VanillaOption::results>(model),
-      integration_(new AnalyticHestonEngine::Integration(
+      integration_(std::make_shared<AnalyticHestonEngine::Integration>(
         AnalyticHestonEngine::Integration::gaussLaguerre(integrationOrder))) {
     }
                          
@@ -139,7 +139,7 @@ namespace QuantLib {
     : GenericModelEngine<PiecewiseTimeDependentHestonModel,
                          VanillaOption::arguments,
                          VanillaOption::results>(model),
-      integration_(new AnalyticHestonEngine::Integration(
+      integration_(std::make_shared<AnalyticHestonEngine::Integration>(
         AnalyticHestonEngine::Integration::gaussLobatto(
                                relTolerance, Null<Real>(), maxEvaluations))) {
     }

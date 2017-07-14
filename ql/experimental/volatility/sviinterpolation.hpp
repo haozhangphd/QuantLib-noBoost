@@ -161,13 +161,12 @@ class SviInterpolation : public Interpolation {
                      const bool useMaxError = false,
                      const Size maxGuesses = 50) {
 
-        impl_ = std::shared_ptr<Interpolation::Impl>(
-            new detail::XABRInterpolationImpl<I1, I2, detail::SviSpecs>(
+        impl_ = std::make_shared<detail::XABRInterpolationImpl<I1, I2, detail::SviSpecs>>(
                 xBegin, xEnd, yBegin, t, forward,
                 std::vector<Real>{a, b, sigma, rho, m},
 		std::vector<bool>{aIsFixed, bIsFixed, sigmaIsFixed, rhoIsFixed, mIsFixed},
                 vegaWeighted, endCriteria, optMethod, errorAccept, useMaxError,
-                maxGuesses));
+                maxGuesses);
         coeffs_ = std::dynamic_pointer_cast<
             detail::XABRCoeffHolder<detail::SviSpecs> >(impl_);
     }

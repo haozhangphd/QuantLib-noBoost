@@ -40,8 +40,7 @@ namespace QuantLib {
                                                  const Period& swapT) const {
         std::shared_ptr<SmileSection> baseSmile =
             baseVol_->smileSection(d, swapT, true);
-        return std::shared_ptr<SmileSection>(new
-            SpreadedSmileSection(baseSmile, spread_));
+        return std::make_shared<SpreadedSmileSection>(baseSmile, spread_);
     }
 
     std::shared_ptr<SmileSection>
@@ -49,8 +48,7 @@ namespace QuantLib {
                                                  Time swapLength) const {
         std::shared_ptr<SmileSection> baseSmile =
             baseVol_->smileSection(optionTime, swapLength, true);
-        return std::shared_ptr<SmileSection>(new
-            SpreadedSmileSection(baseSmile, spread_));
+        return std::make_shared<SpreadedSmileSection>(baseSmile, spread_);
     }
 
     Volatility SpreadedSwaptionVolatility::volatilityImpl(const Date& d,

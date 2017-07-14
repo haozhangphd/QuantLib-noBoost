@@ -26,12 +26,12 @@ namespace QuantLib {
         switch (c) {
           case USA:
           case BondBasis:
-            return std::shared_ptr<DayCounter::Impl>(new US_Impl);
+            return std::make_shared<US_Impl>();
           case European:
           case EurobondBasis:
-            return std::shared_ptr<DayCounter::Impl>(new EU_Impl);
+            return std::make_shared<EU_Impl>();
           case Italian:
-            return std::shared_ptr<DayCounter::Impl>(new IT_Impl);
+            return std::make_shared<IT_Impl>();
           default:
             QL_FAIL("unknown 30/360 convention");
         }
