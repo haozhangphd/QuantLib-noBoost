@@ -49,8 +49,7 @@ namespace QuantLib {
 
         SparseMatrixGeneral(int row_size, int column_size, int non_zeroes = 0)
                 : values_(), columns_(), rowIndex_(row_size + 1, 1),
-                  column_size_(column_size), row_size_(row_size), filled_row_until_(1)
-        {
+                  column_size_(column_size), row_size_(row_size), filled_row_until_(1) {
             values_.reserve(non_zeroes);
             columns_.reserve(non_zeroes);
         }
@@ -62,21 +61,25 @@ namespace QuantLib {
                   column_size_(column_size), row_size_(row_size), filled_row_until_(filled_row_until) {}
 
         //copying these vectors are too expensive
-        SparseMatrixGeneral(int row_size, int column_size, const std::vector<T>& values, const std::vector<int>& columns,
-                            const std::vector<int>& rowIndex, int filled_row_until) = delete;
+        SparseMatrixGeneral(int row_size, int column_size, const std::vector<T> &values,
+                            const std::vector<int> &columns,
+                            const std::vector<int> &rowIndex, int filled_row_until) = delete;
 
         //matrix info
-	int filled_size() const {return values_.size();}
-        int row_size() const {return row_size_;}
-        int column_size() const {return column_size_;}
+        int filled_size() const { return values_.size(); }
+
+        int row_size() const { return row_size_; }
+
+        int column_size() const { return column_size_; }
 
         //element access
-        element_proxy<T> operator() (int m, int n){
+        element_proxy<T> operator()(int m, int n) {
             return element_proxy<T>(m, n, this);
         }
-        const T operator() (int m, int n) const{
+
+        const T operator()(int m, int n) const {
             std::pair<int, int> index = findIndex(m, n);
-            return index.first == 0? 0: values_[index.second];
+            return index.first == 0 ? 0 : values_[index.second];
         }
 
         //Matrix-scaler oprations
@@ -118,15 +121,16 @@ namespace QuantLib {
         //of the element would be inserted
         const std::pair<int, int> findIndex(int row, int column) const;
 
-        void insert(int index, int row, int column, const T&x);
+        void insert(int index, int row, int column, const T &x);
+
         friend class element_proxy<T>;
     };
 
     //Matrix-scaler oprations
     template<typename T>
     SparseMatrixGeneral<T> &SparseMatrixGeneral<T>::operator*=(const T &x) {
-        std::for_each(values_.begin(), values_.end(), [x](T& y) {  y *= x; });
-	return *this;
+        std::for_each(values_.begin(), values_.end(), [x](T &y) { y *= x; });
+        return *this;
     }
 
     template<typename T>
@@ -144,7 +148,7 @@ namespace QuantLib {
     template<typename T>
     SparseMatrixGeneral<T> SparseMatrixGeneral<T>::operator-() const {
         SparseMatrixGeneral<T> ret(*this);
-        std::for_each(ret.values_.begin(), ret.values_.end(), [](T& x) {  x = -x; });
+        std::for_each(ret.values_.begin(), ret.values_.end(), [](T &x) { x = -x; });
         return ret;
     }
 
@@ -163,11 +167,9 @@ namespace QuantLib {
         return ret;
 #else
         Array ret(row_size_);
-        for (int i = 0; i < filled_row_until_ - 1; ++i)
-        {
+        for (int i = 0; i < filled_row_until_ - 1; ++i) {
             Real sum = 0.0;
-            for (int j = rowIndex_[i] - 1; j < rowIndex_[i+1] - 1; ++j)
-            {
+            for (int j = rowIndex_[i] - 1; j < rowIndex_[i + 1] - 1; ++j) {
                 sum += values_[j] * x[columns_[j] - 1];
             }
             ret[i] = sum;
@@ -207,7 +209,9 @@ namespace QuantLib {
                     ic.data(), &nzmax,  &info);
         QL_REQUIRE(info == 0, "Matrix addition cannot be performed.");
         jc.erase(std::find(jc.begin(), jc.end(), 0), jc.end());
+        jc.shrink_to_fit();
         c.erase(c.begin() + jc.size(), c.end());
+        c.shrink_to_fit();
         std::vector<int>::iterator last = std::find(ic.begin(), ic.end(), jc.size() + 1);
         filled_row_until_ = std::distance(ic.begin(), last) + 1;
 
@@ -273,13 +277,16 @@ namespace QuantLib {
         }
         if (filled_row_until_ > x.filled_row_until_) {
             values_ret.insert(values_ret.end(), values_.begin() + rowIndex_[x.filled_row_until_] - 1, values_.end());
-            columns_ret.insert(columns_ret.end(), columns_.begin() + rowIndex_[x.filled_row_until_] - 1, columns_.end());
+            columns_ret.insert(columns_ret.end(), columns_.begin() + rowIndex_[x.filled_row_until_] - 1,
+                               columns_.end());
             int new_elements = rowIndex_[x.filled_row_until_ - 1] - original_elements;
-            std::for_each(rowIndex_.begin()+x.filled_row_until_, rowIndex_.begin() + filled_row_until_, [&new_elements](int & x){x += new_elements;} );
-        }
-        else if (filled_row_until_ < x.filled_row_until_) {
-            values_ret.insert(values_ret.end(), x.values_.begin() + x.rowIndex_[filled_row_until_] - 1, x.values_.end());
-            columns_ret.insert(columns_ret.end(), x.columns_.begin() + x.rowIndex_[filled_row_until_] - 1, x.columns_.end());
+            std::for_each(rowIndex_.begin() + x.filled_row_until_, rowIndex_.begin() + filled_row_until_,
+                          [&new_elements](int &x) { x += new_elements; });
+        } else if (filled_row_until_ < x.filled_row_until_) {
+            values_ret.insert(values_ret.end(), x.values_.begin() + x.rowIndex_[filled_row_until_] - 1,
+                              x.values_.end());
+            columns_ret.insert(columns_ret.end(), x.columns_.begin() + x.rowIndex_[filled_row_until_] - 1,
+                               x.columns_.end());
             int new_elements = rowIndex_[filled_row_until_ - 1] - original_elements;
             std::transform(x.rowIndex_.begin() + filled_row_until_, x.rowIndex_.begin() + x.filled_row_until_,
                            rowIndex_.begin() + filled_row_until_, [&new_elements](int x) { return x + new_elements; });
@@ -287,7 +294,7 @@ namespace QuantLib {
         }
         values_ = std::move(values_ret);
         columns_ = std::move(columns_ret);
-	return *this;
+        return *this;
 #endif
     }
 
@@ -324,7 +331,9 @@ namespace QuantLib {
         QL_REQUIRE(info == 0, "Matrix addition cannot be performed.");
 
         jc.erase(std::find(jc.begin(), jc.end(), 0), jc.end());
+        jc.shrink_to_fit();
         c.erase(c.begin() + jc.size(), c.end());
+        c.shrink_to_fit();
         std::vector<int>::iterator last = std::find(ic.begin(), ic.end(), jc.size() + 1);
         int filled_row_until = std::distance(ic.begin(), last) + 1;
 
@@ -390,23 +399,24 @@ namespace QuantLib {
         int filled_row_until_ret;
         if (filled_row_until_ > x.filled_row_until_) {
             values_ret.insert(values_ret.end(), values_.begin() + rowIndex_[x.filled_row_until_] - 1, values_.end());
-            columns_ret.insert(columns_ret.end(), columns_.begin() + rowIndex_[x.filled_row_until_] - 1, columns_.end());
+            columns_ret.insert(columns_ret.end(), columns_.begin() + rowIndex_[x.filled_row_until_] - 1,
+                               columns_.end());
             int new_elements = rowIndex_ret[x.filled_row_until_ - 1] - original_elements;
-            std::transform(rowIndex_.begin()+x.filled_row_until_, rowIndex_.begin() + filled_row_until_,
+            std::transform(rowIndex_.begin() + x.filled_row_until_, rowIndex_.begin() + filled_row_until_,
                            std::back_inserter(rowIndex_ret), [&new_elements](int x) { return x + new_elements; });
             filled_row_until_ret = filled_row_until_;
-        }
-        else if (filled_row_until_ < x.filled_row_until_) {
-            values_ret.insert(values_ret.end(), x.values_.begin() + x.rowIndex_[filled_row_until_] - 1, x.values_.end());
-            columns_ret.insert(columns_ret.end(), x.columns_.begin() + x.rowIndex_[filled_row_until_] - 1, x.columns_.end());
+        } else if (filled_row_until_ < x.filled_row_until_) {
+            values_ret.insert(values_ret.end(), x.values_.begin() + x.rowIndex_[filled_row_until_] - 1,
+                              x.values_.end());
+            columns_ret.insert(columns_ret.end(), x.columns_.begin() + x.rowIndex_[filled_row_until_] - 1,
+                               x.columns_.end());
             int new_elements = rowIndex_[filled_row_until_ - 1] - original_elements;
             std::transform(x.rowIndex_.begin() + filled_row_until_, x.rowIndex_.begin() + x.filled_row_until_,
                            std::back_inserter(rowIndex_ret), [&new_elements](int x) { return x + new_elements; });
             filled_row_until_ret = x.filled_row_until_;
-        }
-        else
+        } else
             filled_row_until_ret = filled_row_until_;
-	return SparseMatrixGeneral<T>(row_size_, column_size_, std::move(values_ret), std::move(columns_ret),
+        return SparseMatrixGeneral<T>(row_size_, column_size_, std::move(values_ret), std::move(columns_ret),
                                       std::move(rowIndex_ret), filled_row_until_ret);
 #endif
     }
@@ -510,14 +520,16 @@ namespace QuantLib {
         }
         if (filled_row_until_ > x.filled_row_until_) {
             values_ret.insert(values_ret.end(), values_.begin() + rowIndex_[x.filled_row_until_] - 1, values_.end());
-            columns_ret.insert(columns_ret.end(), columns_.begin() + rowIndex_[x.filled_row_until_] - 1, columns_.end());
+            columns_ret.insert(columns_ret.end(), columns_.begin() + rowIndex_[x.filled_row_until_] - 1,
+                               columns_.end());
             int new_elements = rowIndex_[x.filled_row_until_ - 1] - original_elements;
-            std::for_each(rowIndex_.begin()+x.filled_row_until_, rowIndex_.begin() + filled_row_until_, [&new_elements](int & x){x += new_elements;} );
-        }
-        else if (filled_row_until_ < x.filled_row_until_) {
+            std::for_each(rowIndex_.begin() + x.filled_row_until_, rowIndex_.begin() + filled_row_until_,
+                          [&new_elements](int &x) { x += new_elements; });
+        } else if (filled_row_until_ < x.filled_row_until_) {
             std::transform(x.values_.begin() + x.rowIndex_[filled_row_until_] - 1, x.values_.end(),
                            std::back_inserter(values_ret), [](Real &x) { return -x; });
-            columns_ret.insert(columns_ret.end(), x.columns_.begin() + x.rowIndex_[filled_row_until_] - 1, x.columns_.end());
+            columns_ret.insert(columns_ret.end(), x.columns_.begin() + x.rowIndex_[filled_row_until_] - 1,
+                               x.columns_.end());
             int new_elements = rowIndex_[filled_row_until_ - 1] - original_elements;
             std::transform(x.rowIndex_.begin() + filled_row_until_, x.rowIndex_.begin() + x.filled_row_until_,
                            rowIndex_.begin() + filled_row_until_, [&new_elements](int x) { return x + new_elements; });
@@ -525,7 +537,7 @@ namespace QuantLib {
         }
         values_ = std::move(values_ret);
         columns_ = std::move(columns_ret);
-	return *this;
+        return *this;
 #endif
     }
 
@@ -563,7 +575,9 @@ namespace QuantLib {
         QL_REQUIRE(info == 0, "Matrix addition cannot be performed.");
 
         jc.erase(std::find(jc.begin(), jc.end(), 0), jc.end());
+        jc.shrink_to_fit();
         c.erase(c.begin() + jc.size(), c.end());
+        c.shrink_to_fit();
         std::vector<int>::iterator last = std::find(ic.begin(), ic.end(), jc.size() + 1);
         int filled_row_until = std::distance(ic.begin(), last) + 1;
 
@@ -614,7 +628,7 @@ namespace QuantLib {
                 values_ret.insert(values_ret.end(), values_.begin() + column_left, values_.begin() + column_left_end);
                 columns_ret.insert(columns_ret.end(), columns_.begin() + column_left,
                                    columns_.begin() + column_left_end);
-            } else if (column_right < column_right_end) { 
+            } else if (column_right < column_right_end) {
                 int size = values_ret.size() + column_right_end - column_right;
                 values_ret.reserve(size);
                 columns_ret.reserve(size);
@@ -630,22 +644,22 @@ namespace QuantLib {
         int filled_row_until_ret;
         if (filled_row_until_ > x.filled_row_until_) {
             values_ret.insert(values_ret.end(), values_.begin() + rowIndex_[x.filled_row_until_] - 1, values_.end());
-            columns_ret.insert(columns_ret.end(), columns_.begin() + rowIndex_[x.filled_row_until_] - 1, columns_.end());
+            columns_ret.insert(columns_ret.end(), columns_.begin() + rowIndex_[x.filled_row_until_] - 1,
+                               columns_.end());
             int new_elements = rowIndex_ret[x.filled_row_until_ - 1] - original_elements;
-            std::transform(rowIndex_.begin()+x.filled_row_until_, rowIndex_.begin() + filled_row_until_,
+            std::transform(rowIndex_.begin() + x.filled_row_until_, rowIndex_.begin() + filled_row_until_,
                            std::back_inserter(rowIndex_ret), [&new_elements](int x) { return x + new_elements; });
             filled_row_until_ret = filled_row_until_;
-        }
-        else if (filled_row_until_ < x.filled_row_until_) {
+        } else if (filled_row_until_ < x.filled_row_until_) {
             std::transform(x.values_.begin() + x.rowIndex_[filled_row_until_] - 1, x.values_.end(),
                            std::back_inserter(values_ret), [](Real &x) { return -x; });
-            columns_ret.insert(columns_ret.end(), x.columns_.begin() + x.rowIndex_[filled_row_until_] - 1, x.columns_.end());
+            columns_ret.insert(columns_ret.end(), x.columns_.begin() + x.rowIndex_[filled_row_until_] - 1,
+                               x.columns_.end());
             int new_elements = rowIndex_ret[filled_row_until_ - 1] - original_elements;
             std::transform(x.rowIndex_.begin() + filled_row_until_, x.rowIndex_.begin() + x.filled_row_until_,
                            std::back_inserter(rowIndex_ret), [&new_elements](int x) { return x + new_elements; });
             filled_row_until_ret = x.filled_row_until_;
-        }
-        else
+        } else
             filled_row_until_ret = filled_row_until_;
         return SparseMatrixGeneral<T>(row_size_, column_size_, std::move(values_ret), std::move(columns_ret),
                                       std::move(rowIndex_ret), filled_row_until_ret);
@@ -657,7 +671,8 @@ namespace QuantLib {
         // in a non-filled row
         if (row + 1 >= filled_row_until_)
             return std::make_pair(0, rowIndex_[filled_row_until_ - 1] - 1);
-        auto index = std::equal_range(columns_.begin() + rowIndex_[row] - 1, columns_.begin() + rowIndex_[row+1] - 1, column + 1);
+        auto index = std::equal_range(columns_.begin() + rowIndex_[row] - 1, columns_.begin() + rowIndex_[row + 1] - 1,
+                                      column + 1);
         int i = std::distance(columns_.begin(), index.first);
         if (index.first == index.second)
             return std::make_pair(0, i);
@@ -673,11 +688,12 @@ namespace QuantLib {
         //if brand new row
         if (row + 1 >= filled_row_until_) {
             int temp = rowIndex_[filled_row_until_ - 1];
-            std::for_each(rowIndex_.begin() + filled_row_until_, rowIndex_.begin() + row + 1, [&temp](int &a) { a = temp; });
+            std::for_each(rowIndex_.begin() + filled_row_until_, rowIndex_.begin() + row + 1,
+                          [&temp](int &a) { a = temp; });
             filled_row_until_ = row + 2;
             rowIndex_[row + 1] = columns_.size() + 1;
         }
-        //insert into existing row
+            //insert into existing row
         else
             std::for_each(rowIndex_.begin() + row + 1, rowIndex_.begin() + filled_row_until_, [](int &a) { ++a; });
     }
@@ -687,7 +703,8 @@ namespace QuantLib {
     template<typename T>
     class element_proxy {
     public:
-        element_proxy(int m, int n, SparseMatrixGeneral<T> *parent) : m_(m), n_(n), index_(parent->findIndex(m, n)), parent_(parent) {}
+        element_proxy(int m, int n, SparseMatrixGeneral<T> *parent) : m_(m), n_(n), index_(parent->findIndex(m, n)),
+                                                                      parent_(parent) {}
 
         const element_proxy &operator=(const T &x) {
             //if value not already present
@@ -726,14 +743,14 @@ namespace QuantLib {
         }
 
         operator const T() const {
-            return index_.first == 0? 0: parent_->values_[index_.second];
+            return index_.first == 0 ? 0 : parent_->values_[index_.second];
         }
 
     private:
         const int m_;
         const int n_;
         const std::pair<int, int> index_;
-        SparseMatrixGeneral <T> *parent_;
+        SparseMatrixGeneral<T> *parent_;
     };
 
     using SparseMatrix = SparseMatrixGeneral<Real>;
@@ -765,6 +782,7 @@ namespace QuantLib {
         Array operator*(const Array &A) {
             return data_ * A;
         }
+
     private:
         SparseMatrix &data_;
 
