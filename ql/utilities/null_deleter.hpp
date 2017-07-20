@@ -28,10 +28,10 @@
 
 namespace QuantLib {
 #ifndef _MSC_VER
-    inline auto null_deleter = [](auto*)noexcept {};
+    inline auto null_deleter = [](auto *) noexcept {};
 #else
     //Visual Studio does not support inline variable
-    static auto null_deleter = [](auto*)noexcept {};	
+    static auto null_deleter = [](auto*) noexcept {};
 #endif
 }
 

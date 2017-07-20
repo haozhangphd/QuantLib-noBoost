@@ -75,7 +75,7 @@ namespace QuantLib {
         message_ = std::make_shared<std::string>(format(file, line, function, message));
     }
 
-    const char* Error::what() const throw () {
+    const char* Error::what() const noexcept {
         return message_->c_str();
     }
 

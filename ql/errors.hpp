@@ -44,12 +44,8 @@ namespace QuantLib {
               long line,
               const std::string& functionName,
               const std::string& message = "");
-        /*! the automatically generated destructor would
-            not have the throw specifier.
-        */
-        ~Error() throw() {}
         //! returns the error message.
-        const char* what() const throw ();
+        const char* what() const noexcept;
       private:
         std::shared_ptr<std::string> message_;
     };
