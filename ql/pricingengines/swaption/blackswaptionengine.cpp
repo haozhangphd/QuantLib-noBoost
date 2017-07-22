@@ -27,6 +27,11 @@
 
 namespace QuantLib {
 
+    namespace detail {
+        const VolatilityType Black76Spec::type;
+        const VolatilityType BachelierSpec::type;
+    }
+
     BlackSwaptionEngine::BlackSwaptionEngine(
                         const Handle<YieldTermStructure> &discountCurve,
                         Volatility vol, const DayCounter &dc,
