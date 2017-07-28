@@ -233,23 +233,23 @@ namespace QuantLib {
 
             switch (desc.type) {
               case FdmSchemeDesc::HundsdorferType:
-                  std::make_shared<FdmSchemeWrapper<HundsdorferScheme>>(
+                  return std::make_shared<FdmSchemeWrapper<HundsdorferScheme>>(
                           std::make_unique<HundsdorferScheme>(desc.theta, desc.mu, op));
               case FdmSchemeDesc::DouglasType:
-                  std::make_shared<FdmSchemeWrapper<DouglasScheme>>(
+                  return std::make_shared<FdmSchemeWrapper<DouglasScheme>>(
                           std::make_unique<DouglasScheme>(desc.theta, op));
               case FdmSchemeDesc::CraigSneydType:
-                  std::make_shared<FdmSchemeWrapper<CraigSneydScheme>>(
+                  return std::make_shared<FdmSchemeWrapper<CraigSneydScheme>>(
                           std::make_unique<CraigSneydScheme>(desc.theta, desc.mu, op));
               case FdmSchemeDesc::ModifiedCraigSneydType:
-                  std::make_shared<FdmSchemeWrapper<ModifiedCraigSneydScheme>>(
+                  return std::make_shared<FdmSchemeWrapper<ModifiedCraigSneydScheme>>(
                           std::make_unique<ModifiedCraigSneydScheme>(
                               desc.theta, desc.mu, op));
               case FdmSchemeDesc::ImplicitEulerType:
-                  std::make_shared<FdmSchemeWrapper<ImplicitEulerScheme>>(
+                  return std::make_shared<FdmSchemeWrapper<ImplicitEulerScheme>>(
                           std::make_unique<ImplicitEulerScheme>(op));
               case FdmSchemeDesc::ExplicitEulerType:
-                  std::make_shared<FdmSchemeWrapper<ExplicitEulerScheme>>(
+                  return std::make_shared<FdmSchemeWrapper<ExplicitEulerScheme>>(
                           std::make_unique<ExplicitEulerScheme>(op));
               default:
                   QL_FAIL("Unknown scheme type");
