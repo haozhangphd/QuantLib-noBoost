@@ -146,7 +146,7 @@ namespace {
             nominalTS.linkTo(nominalFF);
 
             // now build the YoY inflation curve
-            Period observationLag = Period(2,Months);
+            Period observationLag_temp = Period(2,Months);
 
             Datum yyData[] = {
                 { Date(13, August, 2008), 2.95 },
@@ -170,13 +170,13 @@ namespace {
             std::vector<std::shared_ptr<BootstrapHelper<YoYInflationTermStructure> > > helpers =
             makeHelpers<YoYInflationTermStructure,YearOnYearInflationSwapHelper,
             YoYInflationIndex>(yyData, LENGTH(yyData), iir,
-                               observationLag,
+                               observationLag_temp,
                                calendar, convention, dc);
 
             Rate baseYYRate = yyData[0].rate/100.0;
             std::shared_ptr<PiecewiseYoYInflationCurve<Linear> > pYYTS =
                 std::make_shared<PiecewiseYoYInflationCurve<Linear>>(
-                        evaluationDate, calendar, dc, observationLag,
+                        evaluationDate, calendar, dc, observationLag_temp,
                         iir->frequency(),iir->interpolated(), baseYYRate,
                         Handle<YieldTermStructure>(nominalTS), helpers);
             pYYTS->recalculate();
@@ -222,13 +222,10 @@ namespace {
             switch (which) {
                 case 0:
                     return std::make_shared<YoYInflationBlackCapFloorEngine>(iir, vol);
-                    break;
                 case 1:
                     return std::make_shared<YoYInflationUnitDisplacedBlackCapFloorEngine>(iir, vol);
-                    break;
                 case 2:
                     return std::make_shared<YoYInflationBachelierCapFloorEngine>(iir, vol);
-                    break;
                 default:
                     FAIL("unknown engine request: which = "<<which
                                <<"should be 0=Black,1=DD,2=Bachelier");

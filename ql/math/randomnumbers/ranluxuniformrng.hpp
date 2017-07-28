@@ -23,10 +23,10 @@
 
 #ifndef quantlib_ranlux_uniform_rng_h
 #define quantlib_ranlux_uniform_rng_h
+#if !(defined(__clang__) || defined(_MSC_VER))
 
 #include <ql/methods/montecarlo/sample.hpp>
 #include <tr1/random.h>
-
 
 using ranlux64_3_01 = std::tr1::discard_block<std::tr1::ranlux64_base_01, 223, 24>;
 using ranlux64_4_01 = std::tr1::discard_block<std::tr1::ranlux64_base_01, 389, 24>;
@@ -78,4 +78,5 @@ namespace QuantLib {
 }
 
 
+#endif
 #endif

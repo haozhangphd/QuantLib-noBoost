@@ -133,7 +133,7 @@ ZabrModel::fdPrice(const std::vector<Real> &strikes) const {
     const Size size = 500;                    // grid points
     const Real density = 0.1; // density for concentrating mesher
     const Size steps =
-        (Size)std::ceil(expiryTime_ * 24); // number of steps in dimension t
+    static_cast<Size>(std::ceil(expiryTime_ * 24)); // number of steps in dimension t
     const Size dampingSteps = 5;           // thereof damping steps
 
     // Layout
@@ -237,7 +237,7 @@ Real ZabrModel::fullFdPrice(const Real strike) const {
     const Real x0 = std::min(forward_, strike);
     const Real x1 = std::max(forward_, strike);
     const Size sizefa = std::max<Size>(
-        4, (Size)std::ceil(((x0 + x1) / 2.0 - f0) / (f1 - f0) * (Real)sizef));
+        4, static_cast<Size>(std::ceil(((x0 + x1) / 2.0 - f0) / (f1 - f0) * static_cast<Real>(sizef))));
     const Size sizefb = sizef - sizefa + 1; // common point, so we can spend
     // one more here
     const std::shared_ptr<Fdm1dMesher> mfa =
@@ -347,8 +347,8 @@ ZabrModel::x(const std::vector<Real> &strikes) const {
         for (int dir = 1; dir >= -1; dir -= 2) {
             Real y0 = 0.0, u0 = 0.0;
             for (int m = ynz + (dir == -1 ? -1 : 0);
-                 dir == -1 ? m >= 0 : m < (int)y.size(); m += dir) {
-                Real u = rk([this](Real x, Real y){return F(x, y);}, u0, y0, y[m]);
+                 dir == -1 ? m >= 0 : m < static_cast<int>(y.size()); m += dir) {
+                Real u = rk([this](Real x, Real z){return F(x, z);}, u0, y0, y[m]);
                 result[y.size() - 1 - m] = u * pow(alpha_, 1.0 - gamma_);
                 u0 = u;
                 y0 = y[m];

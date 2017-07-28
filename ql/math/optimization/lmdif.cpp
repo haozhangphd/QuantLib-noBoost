@@ -67,14 +67,10 @@ or guarantee.
 
 namespace QuantLib {
   namespace MINPACK {
-#define BUG 0
 /* resolution of arithmetic */
-double MACHEP = 1.2e-16;
+static const double MACHEP = 1.2e-16;
 /* smallest nonzero number */
-double DWARF = 1.0e-38;
-
-
-
+static const double DWARF = 1.0e-38;
 
 
 Real enorm(int n,Real* x)
@@ -911,8 +907,6 @@ Real sum,temp;
 static double zero = 0.0;
 static double p1 = 0.1;
 static double p001 = 0.001;
-
-extern double DWARF;
 
 /*
 *     compute and store in x the gauss-newton direction. if the

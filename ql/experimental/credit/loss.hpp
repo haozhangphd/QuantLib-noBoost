@@ -30,7 +30,7 @@ namespace QuantLib {
 
 class Loss {
     public:
-        Loss(Real t = 0.0, Real a = 0.0) : time(t), amount(a) {};
+        Loss(Real t = 0.0, Real a = 0.0) : time(t), amount(a) {}
         Real time, amount;
     };
 

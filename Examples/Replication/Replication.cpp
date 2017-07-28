@@ -214,9 +214,9 @@ int main(int, char *[]) {
             Date killDate = today + (i - 2) * Weeks;
             Settings::instance().evaluationDate() = killDate;
             underlying->setValue(barrier);
-            Real portfolioValue = portfolio2.NPV();
+            Real portfolioValue_temp = portfolio2.NPV();
             Real putValue = putn->NPV();
-            Real notional = portfolioValue / putValue;
+            Real notional = portfolioValue_temp / putValue;
             portfolio2.subtract(putn, notional);
         }
         Settings::instance().evaluationDate() = today;
@@ -245,9 +245,9 @@ int main(int, char *[]) {
             Date killDate = today + (i - 1) * Weeks;
             Settings::instance().evaluationDate() = killDate;
             underlying->setValue(barrier);
-            Real portfolioValue = portfolio3.NPV();
+            Real portfolioValue_temp = portfolio3.NPV();
             Real putValue = putn->NPV();
-            Real notional = portfolioValue / putValue;
+            Real notional = portfolioValue_temp / putValue;
             portfolio3.subtract(putn, notional);
         }
         Settings::instance().evaluationDate() = today;

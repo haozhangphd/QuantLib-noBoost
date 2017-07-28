@@ -34,7 +34,7 @@ namespace QuantLib {
         typedef std::shared_ptr<GeneralizedBlackScholesProcess>
                                                                 argument_type;
         typedef LogGrid grid_type;
-        PdeBSM(const argument_type & process) : process_(process) {};
+        PdeBSM(const argument_type & process) : process_(process) {}
         virtual Real diffusion(Time t, Real x) const {
             return process_->diffusion(t, x);
         }

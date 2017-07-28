@@ -134,7 +134,7 @@ namespace QuantLib {
                     Array& x   = x_[index];
                     Array& xR1 = x_[indexR1];
                     Array& xR2 = x_[indexR2];
-					Size rIndex = drawIndex_(nParam);
+                    Size rIndex = drawIndex_(nParam);
                     for (Size j = 0; j < N_; j++) {
                         if (j == rIndex || rng_.nextReal() <= crossover_) {
                             //Change x[j] according to crossover
@@ -194,8 +194,8 @@ namespace QuantLib {
                     }
                     Real val = P.value(z);
                     if(!std::isnan(val))
-					{
-						//Accept new point
+                    {
+                        //Accept new point
                         x = z;
                         values_[index].first = val;
                         //mark best
@@ -204,7 +204,7 @@ namespace QuantLib {
                             bestX = x;
                             iterationStat = 0;
                         }
-					}
+                    }
                 }
             }
         } while (true);
@@ -222,24 +222,23 @@ namespace QuantLib {
     void FireflyAlgorithm::Intensity::findBrightest() {
         //Brightest ignores all others
         Array& xI = (*xI_)[(*values_)[0].second];
-        for (Size j = 0; j < N_; j++) {
+        for (Size j = 0; j < N_; j++)
             xI[j] = 0.0;
-        }
 
         for (Size i = 1; i < Mfa_; i++) {
             //values_ is already sorted
             Size index = (*values_)[i].second;
             const Array& x = (*x_)[index];
-            Array& xI = (*xI_)[index];
+            Array& xI0 = (*xI_)[index];
             for (Size j = 0; j < N_; j++) {
-                xI[j] = 0.0;
+                xI0[j] = 0.0;
             }
             Real valueX = (*values_)[i].first;
             for (Size k = 0; k < i - 1; k++){
                 const Array& y = (*x_)[(*values_)[k].second];
                 Real valueY = (*values_)[k].first;
                 Real intensity = intensityImpl(valueX, valueY, distance(x, y));
-                xI += intensity*(y - x);
+                xI0 += intensity*(y - x);
             }
         }
     }

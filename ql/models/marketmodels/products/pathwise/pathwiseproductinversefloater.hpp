@@ -55,7 +55,12 @@ class MarketModelPathwiseInverseFloater : public MarketModelPathwiseMultiProduct
                       const std::vector<Time>& paymentTimes,
                       bool payer = true);
 
-        virtual ~MarketModelPathwiseInverseFloater() {}
+        MarketModelPathwiseInverseFloater() = default;
+        virtual ~MarketModelPathwiseInverseFloater() = default;
+        MarketModelPathwiseInverseFloater(const MarketModelPathwiseInverseFloater&) = default;
+        MarketModelPathwiseInverseFloater(MarketModelPathwiseInverseFloater&&) = default;
+        MarketModelPathwiseInverseFloater& operator=(const MarketModelPathwiseInverseFloater&) = default;
+        MarketModelPathwiseInverseFloater& operator=(MarketModelPathwiseInverseFloater&&) = default;
 
         virtual std::vector<Size> suggestedNumeraires() const;
         virtual const EvolutionDescription& evolution() const;

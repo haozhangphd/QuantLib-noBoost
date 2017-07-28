@@ -62,7 +62,7 @@ namespace QuantLib {
         Garch11(const time_series& qs, Mode mode = BestOfTwo)
         : alpha_(0), beta_(0), vl_(0), logLikelihood_(0), mode_(mode) {
             calibrate(qs);
-        };
+        }
         //@}
 
         //! \name Inspectors

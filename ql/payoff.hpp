@@ -35,7 +35,12 @@ namespace QuantLib {
     //! Abstract base class for option payoffs
     class Payoff {
       public:
-        virtual ~Payoff() {}
+        Payoff() = default;
+        virtual ~Payoff() = default;
+        Payoff(const Payoff&) = default;
+        Payoff(Payoff&&) = default;
+        Payoff& operator=(const Payoff&) = default;
+        Payoff& operator=(Payoff&&) = default;
         //! \name Payoff interface
         //@{
         /*! \warning This method is used for output and comparison between

@@ -55,13 +55,13 @@ namespace QuantLib {
 
     protected:
         CurveDependentStepCondition(Option::Type type, Real strike)
-                : curveItem_(std::make_shared<PayoffWrapper>(type, strike)) {};
+                : curveItem_(std::make_shared<PayoffWrapper>(type, strike)) {}
 
         CurveDependentStepCondition(const Payoff *p)
-                : curveItem_(std::make_shared<PayoffWrapper>(p)) {};
+                : curveItem_(std::make_shared<PayoffWrapper>(p)) {}
 
         CurveDependentStepCondition(const array_type &a)
-                : curveItem_(std::make_shared<ArrayWrapper>(a)) {};
+                : curveItem_(std::make_shared<ArrayWrapper>(a)) {}
 
         class CurveWrapper;
 
@@ -100,10 +100,10 @@ namespace QuantLib {
             std::shared_ptr<Payoff> payoff_;
         public:
             PayoffWrapper(Payoff *p)
-                    : payoff_(p) {};
+                    : payoff_(p) {}
 
             PayoffWrapper(Option::Type type, Real strike)
-                    : payoff_(std::make_shared<PlainVanillaPayoff>(type, strike)) {};
+                    : payoff_(std::make_shared<PlainVanillaPayoff>(type, strike)) {}
 
             Real getValue(const array_type &a,
                           int i) {

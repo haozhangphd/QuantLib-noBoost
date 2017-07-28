@@ -75,10 +75,10 @@ namespace QuantLib {
     };
 
     struct UnitOfMeasure::Data {
-        std::string name, code;
-        UnitOfMeasure::Type unitType;
-        UnitOfMeasure triangulationUnitOfMeasure;
-        Rounding rounding;
+        std::string name_, code_;
+        UnitOfMeasure::Type unitType_;
+        UnitOfMeasure triangulationUnitOfMeasure_;
+        Rounding rounding_;
 
         Data(const std::string& name,
              const std::string& code,
@@ -106,19 +106,19 @@ namespace QuantLib {
     inline UnitOfMeasure::UnitOfMeasure() {}
 
     inline const std::string& UnitOfMeasure::name() const {
-        return data_->name;
+        return data_->name_;
     }
 
     inline const std::string& UnitOfMeasure::code() const {
-        return data_->code;
+        return data_->code_;
     }
 
     inline UnitOfMeasure::Type UnitOfMeasure::unitType() const {
-        return data_->unitType;
+        return data_->unitType_;
     }
 
     inline const Rounding& UnitOfMeasure::rounding() const {
-        return data_->rounding;
+        return data_->rounding_;
     }
 
     inline bool UnitOfMeasure::empty() const {
@@ -127,7 +127,7 @@ namespace QuantLib {
 
     inline const UnitOfMeasure&
     UnitOfMeasure::triangulationUnitOfMeasure() const {
-        return data_->triangulationUnitOfMeasure;
+        return data_->triangulationUnitOfMeasure_;
     }
 
     inline bool operator==(const UnitOfMeasure& c1, const UnitOfMeasure& c2) {

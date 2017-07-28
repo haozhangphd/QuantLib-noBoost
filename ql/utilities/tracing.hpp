@@ -66,7 +66,7 @@ namespace QuantLib {
         private:
             Tracing();
         public:
-            void enable() {
+            [[noreturn]] void enable() {
                 #if defined(QL_ENABLE_TRACING)
                 enabled_ = true;
                 #else

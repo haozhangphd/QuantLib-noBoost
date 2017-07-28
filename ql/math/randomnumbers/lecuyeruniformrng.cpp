@@ -79,7 +79,7 @@ namespace QuantLib {
         double result = y/double(m1);
         // users don't expect endpoint values
         if (result > maxRandom)
-            result = (double) maxRandom;
+            result = static_cast<double>(maxRandom);
         return sample_type(result,1.0);
     }
 

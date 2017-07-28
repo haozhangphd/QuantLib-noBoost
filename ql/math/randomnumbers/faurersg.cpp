@@ -29,20 +29,20 @@ namespace QuantLib {
       sequence_(std::vector<Real> (dimensionality), 1.0),
       integerSequence_(dimensionality, 0) {
 
-      QL_REQUIRE(dimensionality>0, 
+        QL_REQUIRE(dimensionality>0,
                  "dimensionality must be greater than 0");
 
         // base is the lowest prime number >= dimensionality_
         Size i, j, k=1;
         base_=2;
         while (base_<dimensionality_) {
-            base_ = (Size)PrimeNumbers::get(k);
+            base_ = static_cast<Size>(PrimeNumbers::get(k));
             k++;
         }
 
 
-        mbit_=(Size)(std::log((double)std::numeric_limits<long int>::max())/
-            std::log((double)base_));
+        mbit_= static_cast<Size>(std::log(static_cast<double>(std::numeric_limits<long int>::max()))/
+            std::log(static_cast<double>(base_)));
         gray_ = std::vector<std::vector<long int> >(dimensionality_,
             std::vector<long int>(mbit_+1, 0));
         bary_ = std::vector<long int>(mbit_+1, 0);
@@ -54,8 +54,8 @@ namespace QuantLib {
         powBase_[mbit_-1][base_] = 1;
         for (int i2=mbit_-2; i2>=0; --i2)
             powBase_[i2][base_] = powBase_[i2+1][base_] * base_;
-        for (int ii=0; ii<(int)mbit_; ii++) {
-            for (int j1=base_+1; j1<2*(int)base_-1; j1++ )
+        for (int ii=0; ii< static_cast<int>(mbit_); ii++) {
+            for (int j1=base_+1; j1<2* static_cast<int>(base_)-1; j1++ )
                 powBase_[ii][j1] = powBase_[ii][j1-1] + powBase_[ii][base_];
             for (int j2=base_-1; j2>=0; --j2)
                 powBase_[ii][j2] = powBase_[ii][j2+1] - powBase_[ii][base_];
@@ -100,7 +100,7 @@ namespace QuantLib {
         }
 
 
-        normalizationFactor_ = (double)base_ * (double)powBase_[0][base_];
+        normalizationFactor_ = static_cast<double>(base_) * static_cast<double>(powBase_[0][base_]);
         // std::cout << IntegerFormatter::toString(dimensionality_) << ", " ;
         // std::cout << IntegerFormatter::toString(normalizationFactor_);
         // std::cout << std::endl;

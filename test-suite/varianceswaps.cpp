@@ -178,8 +178,8 @@ TEST_CASE("VarianceSwap_ReplicatingVarianceSwap", "[VarianceSwap]") {
         }
 
         for (Size k=1; k<callVols.size(); k++) {
-            Size j = putVols.size()-1;
-            vols[j+k][0] = callVols[k];
+            Size jj = putVols.size()-1;
+            vols[jj+k][0] = callVols[k];
             strikes.emplace_back(callStrikes[k]);
         }
 

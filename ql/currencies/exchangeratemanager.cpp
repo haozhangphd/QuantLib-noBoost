@@ -28,10 +28,10 @@ namespace QuantLib {
     namespace {
 
         struct valid_at {
-            Date d;
-            explicit valid_at(const Date& d) : d(d) {}
+            Date d_;
+            explicit valid_at(const Date& d) : d_(d) {}
             bool operator()(const ExchangeRateManager::Entry& e) {
-                return d >= e.startDate && d <= e.endDate;
+                return d_ >= e.startDate && d_ <= e.endDate;
             }
         };
 
@@ -164,8 +164,8 @@ namespace QuantLib {
                 // ...whose other currency is not forbidden...
                 const Entry& e = i->second.front();
                 const Currency& other =
-                    source == e.rate.source() ?
-                        e.rate.target() : e.rate.source();
+                    source == e.rate_.source() ?
+                        e.rate_.target() : e.rate_.source();
                 if (std::find(forbidden.begin(),forbidden.end(),
                               other.numericCode()) == forbidden.end()) {
                     // ...and which carries information for the requested date.
@@ -197,8 +197,8 @@ namespace QuantLib {
         std::list<Entry>::const_iterator i =
             std::find_if(rates.begin(), rates.end(), valid_at(date));
         return i == rates.end() ?
-            (const ExchangeRate*) 0 :
-            &(i->rate);
+               static_cast<const ExchangeRate*>(0):
+            &(i->rate_);
     }
 
 }

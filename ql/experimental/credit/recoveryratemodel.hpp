@@ -44,7 +44,12 @@ namespace QuantLib {
             the requested seniority.
         */
         virtual bool appliesToSeniority(Seniority) const = 0;
-        virtual ~RecoveryRateModel() {}
+        RecoveryRateModel() = default;
+        virtual ~RecoveryRateModel() = default;
+        RecoveryRateModel(const RecoveryRateModel&) = default;
+        RecoveryRateModel(RecoveryRateModel&&) = default;
+        RecoveryRateModel& operator=(const RecoveryRateModel&) = default;
+        RecoveryRateModel& operator=(RecoveryRateModel&&) = default;
       protected:
         /*! Returns Null<Real> if unable to produce a recovery for
             the requested seniority.

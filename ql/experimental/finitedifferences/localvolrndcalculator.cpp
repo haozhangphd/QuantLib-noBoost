@@ -163,13 +163,13 @@ namespace QuantLib {
         if (x > 0.5*(xr+xl)) {
             while (pdf(xr, t) > 0.01*localVolProbEps_) xr*=1.1;
             return 1.0-GaussLobattoIntegral(maxIter_, 0.1*localVolProbEps_)(
-                    [this, &t](Real x){return pdf(x, t);}, x, xr);
+                    [this, &t](Real s){return pdf(s, t);}, x, xr);
         }
         else {
             while (pdf(xl, t) > 0.01*localVolProbEps_) xl*=0.9;
 
             return GaussLobattoIntegral(maxIter_, 0.1*localVolProbEps_)(
-                    [this, &t](Real x){return pdf(x,t);}, xl, x);
+                    [this, &t](Real s){return pdf(s,t);}, xl, x);
         }
     }
 

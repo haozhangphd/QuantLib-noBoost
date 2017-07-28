@@ -178,8 +178,7 @@ namespace QuantLib {
     namespace {
 
         template<typename Iter>
-        Rate aggregateRate(const Leg& leg,
-                           Iter first,
+        Rate aggregateRate(Iter first,
                            Iter last) {
             if (first==last) return 0.0;
 
@@ -220,7 +219,7 @@ namespace QuantLib {
         Leg::const_reverse_iterator cf;
         cf = previousCashFlow(leg, includeSettlementDateFlows, settlementDate);
 
-        return aggregateRate<Leg::const_reverse_iterator>(leg, cf, leg.rend());
+        return aggregateRate<Leg::const_reverse_iterator>(cf, leg.rend());
     }
 
     Rate CashFlows::nextCouponRate(const Leg& leg,
@@ -228,7 +227,7 @@ namespace QuantLib {
                                    Date settlementDate) {
         Leg::const_iterator cf;
         cf = nextCashFlow(leg, includeSettlementDateFlows, settlementDate);
-        return aggregateRate<Leg::const_iterator>(leg, cf, leg.end());
+        return aggregateRate<Leg::const_iterator>(cf, leg.end());
     }
 
     Real CashFlows::nominal(const Leg& leg,

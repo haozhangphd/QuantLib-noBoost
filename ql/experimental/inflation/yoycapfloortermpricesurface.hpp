@@ -104,8 +104,8 @@ namespace QuantLib {
         virtual std::vector<Rate> capStrikes() const {return cStrikes_;}
         virtual std::vector<Rate> floorStrikes() const {return fStrikes_;}
         virtual std::vector<Period> maturities() const {return cfMaturities_;}
-        virtual Rate minStrike() const {return cfStrikes_.front();};
-        virtual Rate maxStrike() const {return cfStrikes_.back();};
+        virtual Rate minStrike() const {return cfStrikes_.front();}
+        virtual Rate maxStrike() const {return cfStrikes_.back();}
         virtual Date minMaturity() const {return referenceDate()+cfMaturities_.front();}// \TODO deal with index interpolation
         virtual Date maxMaturity() const {return referenceDate()+cfMaturities_.back();}
         //@}
@@ -374,7 +374,7 @@ namespace QuantLib {
         for (Size i = 0; i < cfMaturities_.size(); i++) {
             Time t = cfMaturityTimes_[i];
             // determine the sum of discount factors
-            Size numYears = (Size)(t + 0.5);
+            Size numYears = static_cast<Size>(t + 0.5);
             Real sumDiscount = 0.0;
             for (Size j=0; j<numYears; ++j)
                 sumDiscount += nominalTermStructure()->discount(j + 1.0);
@@ -398,7 +398,7 @@ namespace QuantLib {
 
             // find the interval where the intersection lies
             bool trialsExceeded = false;
-            int numTrials = (int)(maxSearchRange / searchStep);
+            int numTrials = static_cast<int>(maxSearchRange / searchStep);
             if ( floorPrice_(t,fStrikes_.back()) > capPrice_(t,fStrikes_.back()) ) {
                 int counter = 1;
                 bool stop = false;
@@ -510,7 +510,7 @@ namespace QuantLib {
 
         // which yoy-swap points to use in building the yoy-fwd curve?
         // for now pick every year
-        Size nYears = (Size)(0.5+timeFromReference(referenceDate()+cfMaturities_.back()));
+        Size nYears = static_cast<Size>(0.5+timeFromReference(referenceDate()+cfMaturities_.back()));
 
         std::vector<std::shared_ptr<BootstrapHelper<YoYInflationTermStructure> > > YYhelpers;
         for (Size i=1; i<=nYears; i++) {

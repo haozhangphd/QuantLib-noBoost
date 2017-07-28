@@ -158,7 +158,7 @@ namespace QuantLib {
             //@}
 
             //Destructor
-            virtual ~MultiplicativePriceSeasonality() {};
+            virtual ~MultiplicativePriceSeasonality() {}
 
         protected:
             virtual void validate() const;

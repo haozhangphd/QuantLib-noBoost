@@ -193,10 +193,10 @@ TEST_CASE("Observable_AsyncGarbagCollector", "[.]") {
 
 
 TEST_CASE("Observable_MultiThreadingGlobalSettings", "[.]") {
-	INFO("Testing observer global settings in a "
-		               "multithreading environment...");
-	
-	const std::shared_ptr<SimpleQuote> quote = std::make_shared<SimpleQuote>(-1.0);
+    INFO("Testing observer global settings in a "
+                       "multithreading environment...");
+
+    const std::shared_ptr<SimpleQuote> quote = std::make_shared<SimpleQuote>(-1.0);
 
     ObservableSettings::instance().disableUpdates(true);
 
@@ -221,7 +221,7 @@ TEST_CASE("Observable_MultiThreadingGlobalSettings", "[.]") {
     gc.terminate();
     workerThread.join();
 
-    if (localList.size() != MTUpdateCounter::instanceCounter()) {
+    if (static_cast<int>(localList.size()) != MTUpdateCounter::instanceCounter()) {
         FAIL("garbage collection does not work.");
     }
 

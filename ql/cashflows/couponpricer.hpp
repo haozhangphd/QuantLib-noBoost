@@ -105,7 +105,7 @@ namespace QuantLib {
                        "unknown timing adjustment (code " << timingAdjustment_
                                                           << ")");
             registerWith(correlation_);
-        };
+        }
         virtual void initialize(const FloatingRateCoupon& coupon);
         Real swapletPrice() const;
         Rate swapletRate() const;

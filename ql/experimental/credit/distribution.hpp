@@ -38,7 +38,7 @@ namespace QuantLib {
     public:
         friend class ManipulateDistribution;
         Distribution (int nBuckets, Real xmin, Real xmax);
-        Distribution() {};
+        Distribution() {}
 
         void add (Real value);
         void addDensity (int bucket, Real value);

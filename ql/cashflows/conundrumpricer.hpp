@@ -212,7 +212,7 @@ namespace QuantLib {
             meanReversion_ = meanReversion;
             registerWith(meanReversion_);
             update();
-        };
+        }
       protected:
         HaganPricer(
                 const Handle<SwaptionVolatilityStructure>& swaptionVol,
@@ -263,7 +263,9 @@ namespace QuantLib {
       //private:
         class Function {
           public:
-            virtual ~Function() {}
+            Function() = default;
+            virtual ~Function() = default;
+            Function(const Function&) = default;
             virtual Real operator()(Real x) const = 0;
         };
 

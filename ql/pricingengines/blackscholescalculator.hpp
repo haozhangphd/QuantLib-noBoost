@@ -43,7 +43,11 @@ namespace QuantLib {
                                DiscountFactor growth,
                                Real stdDev,
                                DiscountFactor discount);
-        virtual ~BlackScholesCalculator() {}
+        virtual ~BlackScholesCalculator() = default;
+        BlackScholesCalculator(const BlackScholesCalculator&) = default;
+        BlackScholesCalculator(BlackScholesCalculator&&) = default;
+        BlackScholesCalculator& operator=(const BlackScholesCalculator&) = default;
+        BlackScholesCalculator& operator=(BlackScholesCalculator&&) = default;
         /*! Sensitivity to change in the underlying spot price. */
         Real delta() const;
         /*! Sensitivity in percent to a percent change in the

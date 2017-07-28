@@ -37,10 +37,6 @@
 
 using namespace QuantLib;
 
-
-#define BEGIN(x) (x+0)
-#define END(x) (x+LENGTH(x))
-
 namespace {
 
     struct CommonVars {

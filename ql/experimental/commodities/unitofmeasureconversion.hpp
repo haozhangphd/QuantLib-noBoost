@@ -83,11 +83,11 @@ namespace QuantLib {
         std::shared_ptr<Data> data_;
 
         struct Data {
-            CommodityType commodityType;
-            UnitOfMeasure source, target;
-            Real conversionFactor;
-            Type type;
-            std::string code;
+            CommodityType commodityType_;
+            UnitOfMeasure source_, target_;
+            Real conversionFactor_;
+            Type type_;
+            std::string code_;
             std::pair<std::shared_ptr<UnitOfMeasureConversion>,
                       std::shared_ptr<UnitOfMeasureConversion> >
             conversionFactorChain;
@@ -108,27 +108,27 @@ namespace QuantLib {
     inline UnitOfMeasureConversion::UnitOfMeasureConversion() {}
 
     inline const CommodityType& UnitOfMeasureConversion::commodityType() const {
-        return data_->commodityType;
+        return data_->commodityType_;
     }
 
     inline const UnitOfMeasure& UnitOfMeasureConversion::source() const {
-        return data_->source;
+        return data_->source_;
     }
 
     inline const UnitOfMeasure& UnitOfMeasureConversion::target() const {
-        return data_->target;
+        return data_->target_;
     }
 
     inline Real UnitOfMeasureConversion::conversionFactor() const {
-        return data_->conversionFactor;
+        return data_->conversionFactor_;
     }
 
     inline UnitOfMeasureConversion::Type UnitOfMeasureConversion::type() const {
-        return data_->type;
+        return data_->type_;
     }
 
     inline const std::string& UnitOfMeasureConversion::code() const {
-        return data_->code;
+        return data_->code_;
     }
 
 }

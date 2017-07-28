@@ -282,36 +282,36 @@ namespace QuantLib {
     namespace detail {
 
         struct short_date_holder {
-            explicit short_date_holder(const Date d) : d(d) {}
-            Date d;
+            explicit short_date_holder(const Date d) : d_(d) {}
+            Date d_;
         };
         std::ostream& operator<<(std::ostream&, const short_date_holder&);
 
         struct long_date_holder {
-            explicit long_date_holder(const Date& d) : d(d) {}
-            Date d;
+            explicit long_date_holder(const Date& d) : d_(d) {}
+            Date d_;
         };
         std::ostream& operator<<(std::ostream&, const long_date_holder&);
 
         struct iso_date_holder {
-            explicit iso_date_holder(const Date& d) : d(d) {}
-            Date d;
+            explicit iso_date_holder(const Date& d) : d_(d) {}
+            Date d_;
         };
         std::ostream& operator<<(std::ostream&, const iso_date_holder&);
 
         struct formatted_date_holder {
             formatted_date_holder(const Date& d, const std::string& f)
-            : d(d), f(f) {}
-            Date d;
-            std::string f;
+            : d_(d), f_(f) {}
+            Date d_;
+            std::string f_;
         };
         std::ostream& operator<<(std::ostream&,
                                  const formatted_date_holder&);
 
 #ifdef QL_HIGH_RESOLUTION_DATE
         struct iso_datetime_holder {
-            explicit iso_datetime_holder(const Date& d) : d(d) {}
-            Date d;
+            explicit iso_datetime_holder(const Date& d) : d_(d) {}
+            Date d_;
         };
         std::ostream& operator<<(std::ostream&, const iso_datetime_holder&);
 #endif

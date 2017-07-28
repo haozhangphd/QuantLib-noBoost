@@ -320,11 +320,6 @@ namespace QuantLib {
     Real Basket::percentile(const Date& d, Probability prob) const {
         calculate();
         return lossModel_->percentile(d, prob);
-
-        Real percLiveFract = lossModel_->percentile(d, prob);     
-        return (percLiveFract*(detachmentAmount_-evalDateAttachAmount_) 
-            + attachmentAmount_ - evalDateAttachAmount_)
-            /(detachmentAmount_-attachmentAmount_);
     }
 
     Real Basket::expectedTrancheLoss(const Date& d) const {

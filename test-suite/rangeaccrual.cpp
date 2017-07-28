@@ -343,11 +343,9 @@ namespace {
             fixedLegFrequency = Annual;
             fixedLegConvention = Unadjusted;
             fixedLegDayCounter = Thirty360();
-            std::shared_ptr < SwapIndex > swapIndexBase =
-                    std::make_shared<EuriborSwapIsdaFixA>(2 * Years, termStructure);
+            swapIndexBase = std::make_shared<EuriborSwapIsdaFixA>(2 * Years, termStructure);
 
-            std::shared_ptr < SwapIndex > shortSwapIndexBase =
-                    std::make_shared<EuriborSwapIsdaFixA>(1 * Years, termStructure);
+            shortSwapIndexBase = std::make_shared<EuriborSwapIsdaFixA>(1 * Years, termStructure);
 
             vegaWeightedSmileFit = false;
 

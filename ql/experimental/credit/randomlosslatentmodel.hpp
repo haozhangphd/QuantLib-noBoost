@@ -68,6 +68,11 @@ namespace QuantLib {
 
     /*! Random spot recovery rate loss model simulation for an arbitrary copula.
     */
+//making DefaultLossModel virtually inheriting from Observable SEVERELY degrades performance!!!
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wextra"
+#endif 
     template<class copulaPolicy, class USNG = SobolRsg>
     class RandomLossLM : public RandomLM<RandomLossLM, copulaPolicy, USNG>
     {
@@ -148,7 +153,9 @@ namespace QuantLib {
         //   horizon date. Cached for perf.
         mutable std::vector<Probability> horizonDefaultPs_;
     };
-
+#if defined(__GNUG__)
+#pragma GCC diagnostic pop
+#endif
 
     // --------------------------------------------------------------
 

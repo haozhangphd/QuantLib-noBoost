@@ -52,7 +52,7 @@ namespace QuantLib {
         }
         std::vector<Real> xx(n);
         std::copy(x_.begin(), x_.end(), xx.data());
-	std::vector<Real> fvec(m);
+        std::vector<Real> fvec(m);
         std::vector<Real> diag(n);
         int mode = 1;
         Real factor = 1;
@@ -61,7 +61,7 @@ namespace QuantLib {
         int nfev =0;
         std::vector<Real> fjac(m*n);
         int ldfjac = m;
-	std::vector<int> ipvt(n);
+        std::vector<int> ipvt(n);
         std::vector<Real> qtf(n);
         std::vector<Real> wa1(n);
         std::vector<Real> wa2(n);
@@ -82,10 +82,10 @@ namespace QuantLib {
         // call lmdif to minimize the sum of the squares of m functions
         // in n variables by the Levenberg-Marquardt algorithm.
         MINPACK::LmdifCostFunction lmdifCostFunction =
-            [this](int m, int n, Real* x, Real* fvec, int* iflag ){this->fcn(m, n, x, fvec, iflag);};
+            [this](int m0, int n0, Real* x, Real* fvec0, int* iflag ){this->fcn(m0, n0, x, fvec0, iflag);};
         MINPACK::LmdifCostFunction lmdifJacFunction =
             useCostFunctionsJacobian_
-                ? [this](int m, int n, Real* x, Real* fvec, int* iflag){this->jacFcn(m,n,x,fvec,iflag);}
+                ? [this](int m0, int n0, Real* x, Real* fvec0, int* iflag){this->jacFcn(m0, n0 ,x,fvec0,iflag);}
                 : MINPACK::LmdifCostFunction(NULL);
         MINPACK::lmdif(m, n, xx.data(), fvec.data(),
                        endCriteria.functionEpsilon(),

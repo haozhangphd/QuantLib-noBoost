@@ -64,9 +64,9 @@ namespace QuantLib {
             Array compute(Rate lambda = 0.0) const;
             Real operator()(Rate x) const;
             std::shared_ptr<VanillaSwap> component(Size i) const;
-            Array weights() const { return compute(lambda_);};
-            Real& lambda() const { return lambda_;};
-            std::shared_ptr<IrregularSwap> swap() const { return swap_;};
+            Array weights() const { return compute(lambda_);}
+            Real& lambda() const { return lambda_;}
+            std::shared_ptr<IrregularSwap> swap() const { return swap_;}
         private:
             std::shared_ptr<IrregularSwap> swap_;
             Handle<YieldTermStructure>          termStructure_;

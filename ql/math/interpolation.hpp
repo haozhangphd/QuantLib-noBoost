@@ -109,8 +109,12 @@ namespace QuantLib {
             I2 yBegin_;
         };
       public:
-        Interpolation() {}
-        virtual ~Interpolation() {}
+        Interpolation() = default;
+        virtual ~Interpolation() = default;
+        Interpolation(const Interpolation&) = default;
+        Interpolation(Interpolation&&) = default;
+        Interpolation& operator=(const Interpolation&) = default;
+        Interpolation& operator=(Interpolation&&) = default;
         bool empty() const { return !impl_; }
         Real operator()(Real x, bool allowExtrapolation = false) const {
             checkRange(x,allowExtrapolation);

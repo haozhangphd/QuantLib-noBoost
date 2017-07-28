@@ -29,6 +29,7 @@
 #include <ql/termstructures/yield/flatforward.hpp>
 #include <ql/termstructures/volatility/equityfx/blackconstantvol.hpp>
 #include <ql/utilities/dataformatters.hpp>
+#include <optional>
 
 using namespace QuantLib;
 
@@ -70,12 +71,12 @@ namespace {
         Time tMother;  // time to maturity
         Time tDaughter;// time to maturity
         Volatility v;  // volatility
-        Real npv;   // expected result
-        Real tol;      // tolerance
-        Real delta;
-        Real gamma;
-        Real vega;
-        Real theta;
+        std::optional<Real> npv;   // expected result
+        std::optional<Real> tol;      // tolerance
+        std::optional<Real> delta;
+        std::optional<Real> gamma;
+        std::optional<Real> vega;
+        std::optional<Real> theta;
     };
 
 }
@@ -91,18 +92,18 @@ TEST_CASE("CompoundOption_PutCallParity", "[CompoundOption]"){
 
 
     CompoundOptionData values[] = {
-        // type Mother, typeDaughter, strike Mother, strike Daughter,  spot,    q,    r,    t Mother, t Daughter,  vol
-        { Option::Put, Option::Call,  50.0,            520.0   ,      500.0,   0.03, 0.08,  0.25,     0.5,        0.35},
-        { Option::Call, Option::Call,  50.0,           520.0   ,      500.0,   0.03, 0.08,  0.25,     0.5,        0.35},
-        { Option::Call, Option::Put,  50.0,            520.0   ,      500.0,   0.03, 0.08,  0.25,     0.5,        0.35},
-        { Option::Call, Option::Call,  0.05,           1.14   ,      1.20,  0.0, 0.01,  0.5,     2.0,         0.11},
-        { Option::Call, Option::Put ,  0.05,           1.14   ,      1.20,  0.0, 0.01,  0.5,     2.0,         0.11},
-        { Option::Call, Option::Call,  10.0,           122.0   ,      120.0,    0.06, 0.02,  0.1,     0.7,        0.22},
-        { Option::Call, Option::Put,  10.0,           122.0   ,      120.0,     0.06, 0.02,  0.1,     0.7,        0.22},
-        { Option::Call, Option::Call,  0.4,           8.2   ,      8.0,     0.05, 0.00,  2.0,     3.0,        0.08},
-        { Option::Call, Option::Put,  0.4,           8.2   ,      8.0,  0.05, 0.00,  2.0,     3.0,        0.08},
-        { Option::Call, Option::Call,  0.02,           1.6   ,      1.6,    0.013, 0.022,  0.45,     0.5,        0.17},
-        { Option::Call, Option::Put,  0.02,           1.6   ,      1.6,     0.013, 0.022,  0.45,     0.5,         0.17},
+            // type Mother, typeDaughter, strike Mother, strike Daughter,  spot,    q,    r,    t Mother, t Daughter,  vol
+            {Option::Put,  Option::Call, 50.0, 520.0, 500.0, 0.03,  0.08,  0.25, 0.5, 0.35, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
+            {Option::Call, Option::Call, 50.0, 520.0, 500.0, 0.03,  0.08,  0.25, 0.5, 0.35, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
+            {Option::Call, Option::Put,  50.0, 520.0, 500.0, 0.03,  0.08,  0.25, 0.5, 0.35, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
+            {Option::Call, Option::Call, 0.05, 1.14,  1.20,  0.0,   0.01,  0.5,  2.0, 0.11, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
+            {Option::Call, Option::Put,  0.05, 1.14,  1.20,  0.0,   0.01,  0.5,  2.0, 0.11, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
+            {Option::Call, Option::Call, 10.0, 122.0, 120.0, 0.06,  0.02,  0.1,  0.7, 0.22, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
+            {Option::Call, Option::Put,  10.0, 122.0, 120.0, 0.06,  0.02,  0.1,  0.7, 0.22, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
+            {Option::Call, Option::Call, 0.4,  8.2,   8.0,   0.05,  0.00,  2.0,  3.0, 0.08, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
+            {Option::Call, Option::Put,  0.4,  8.2,   8.0,   0.05,  0.00,  2.0,  3.0, 0.08, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
+            {Option::Call, Option::Call, 0.02, 1.6,   1.6,   0.013, 0.022, 0.45, 0.5, 0.17, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
+            {Option::Call, Option::Put,  0.02, 1.6,   1.6,   0.013, 0.022, 0.45, 0.5, 0.17, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt, std::nullopt},
     };
 
     SavedSettings backup;
@@ -194,7 +195,7 @@ TEST_CASE("CompoundOption_PutCallParity", "[CompoundOption]"){
             REPORT_FAILURE("put call parity", payoffMotherCall, payoffDaughter,
                            exerciseCompound, exerciseDaughter, values[i].s,
                            values[i].q, values[i].r, todaysDate,
-                           values[i].v, values[i].delta, calculated,
+                           values[i].v, values[i].delta.value(), calculated,
                            error, tolerance);
         }
     }
@@ -301,62 +302,62 @@ TEST_CASE("CompoundOption_Values", "[CompoundOption]"){
         compoundOption.setPricingEngine(engineCompound);
 
         Real calculated = compoundOption.NPV();
-        Real error= std::fabs(calculated-values[i].npv); //-values[i].npv
-        Real tolerance = values[i].tol;
+        Real error= std::fabs(calculated-values[i].npv.value()); //-values[i].npv
+        Real tolerance = values[i].tol.value();
 
         if (error>tolerance) {
             REPORT_FAILURE("value", payoffMother, payoffDaughter,
                            exerciseMother, exerciseDaughter, values[i].s,
                            values[i].q, values[i].r, todaysDate,
-                           values[i].v, values[i].npv, calculated,
+                           values[i].v, values[i].npv.value(), calculated,
                            error, tolerance);
         }
 
         calculated = compoundOption.delta();
-        error= std::fabs(calculated-values[i].delta);
-        tolerance = values[i].tol;
+        error= std::fabs(calculated-values[i].delta.value());
+        tolerance = values[i].tol.value();
 
         if (error>tolerance) {
             REPORT_FAILURE("delta", payoffMother, payoffDaughter,
                            exerciseMother, exerciseDaughter, values[i].s,
                            values[i].q, values[i].r, todaysDate,
-                           values[i].v, values[i].delta, calculated,
+                           values[i].v, values[i].delta.value(), calculated,
                            error, tolerance);
         }
 
         calculated = compoundOption.gamma();
-        error= std::fabs(calculated-values[i].gamma);
-        tolerance = values[i].tol;
+        error= std::fabs(calculated-values[i].gamma.value());
+        tolerance = values[i].tol.value();
 
         if (error>tolerance) {
             REPORT_FAILURE("gamma", payoffMother, payoffDaughter,
                            exerciseMother, exerciseDaughter, values[i].s,
                            values[i].q, values[i].r, todaysDate,
-                           values[i].v, values[i].gamma, calculated,
+                           values[i].v, values[i].gamma.value(), calculated,
                            error, tolerance);
         }
 
         calculated = compoundOption.vega();
-        error= std::fabs(calculated-values[i].vega);
-        tolerance = values[i].tol;
+        error= std::fabs(calculated-values[i].vega.value());
+        tolerance = values[i].tol.value();
 
         if (error>tolerance) {
             REPORT_FAILURE("vega", payoffMother, payoffDaughter,
                            exerciseMother, exerciseDaughter, values[i].s,
                            values[i].q, values[i].r, todaysDate,
-                           values[i].v, values[i].vega, calculated,
+                           values[i].v, values[i].vega.value(), calculated,
                            error, tolerance);
         }
 
         calculated = compoundOption.theta();
-        error= std::fabs(calculated-values[i].theta);
-        tolerance = values[i].tol;
+        error= std::fabs(calculated-values[i].theta.value());
+        tolerance = values[i].tol.value();
 
         if (error>tolerance) {
             REPORT_FAILURE("theta", payoffMother, payoffDaughter,
                            exerciseMother, exerciseDaughter, values[i].s,
                            values[i].q, values[i].r, todaysDate,
-                           values[i].v, values[i].theta, calculated,
+                           values[i].v, values[i].theta.value(), calculated,
                            error, tolerance);
         }
     }

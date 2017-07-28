@@ -67,14 +67,14 @@ namespace QuantLib {
             const std::shared_ptr<FdmLinearOpLayout> layout=mesher_->layout();
             const FdmLinearOpIterator endIter = layout->end();
 
-            for (FdmLinearOpIterator iter = layout->begin(); iter != endIter;
-                 ++iter) {
+            for (FdmLinearOpIterator iter0 = layout->begin(); iter0 != endIter;
+                 ++iter0) {
 
-                const std::vector<Size>& coor = iter.coordinates();
+                const std::vector<Size>& coor = iter0.coordinates();
                 const Real x = x_[coor[0]];
                 const Real y = y_[coor[1]];
 
-                const Real price = calculator_->innerValue(iter, t);
+                const Real price = calculator_->innerValue(iter0, t);
 
                 const Real maxWithDraw = std::min(y-y_.front(), changeRate_);
                 const Real sellPrice   = interpl(x, y-maxWithDraw);
@@ -83,7 +83,7 @@ namespace QuantLib {
                 const Real buyPrice  = interpl(x, y+maxInject);
 
                 // bang-bang-wait strategy
-                Real currentValue = std::max(a[iter.index()],
+                Real currentValue = std::max(a[iter0.index()],
                     std::max(buyPrice - price*maxInject,
                              sellPrice + price*maxWithDraw));
 
@@ -102,7 +102,7 @@ namespace QuantLib {
                     ++yIter;
                 }
 
-                retVal[iter.index()] = currentValue;
+                retVal[iter0.index()] = currentValue;
             }
             a = retVal;
         }

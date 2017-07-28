@@ -96,12 +96,12 @@ namespace {
 
                 std::shared_ptr < FdmLinearOpLayout > layout = mesher_->layout();
                 const FdmLinearOpIterator endIter = layout->end();
-                for (FdmLinearOpIterator iter = layout->begin();
-                     iter != endIter; ++iter) {
-                    const Real s = std::exp(mesher_->location(iter, 0));
+                for (FdmLinearOpIterator iter2 = layout->begin();
+                     iter2 != endIter; ++iter2) {
+                    const Real s = std::exp(mesher_->location(iter2, 0));
 
                     if (s > triggerLevels_[index]) {
-                        a[iter.index()] = redemptions_[index];
+                        a[iter2.index()] = redemptions_[index];
                     }
                 }
             }

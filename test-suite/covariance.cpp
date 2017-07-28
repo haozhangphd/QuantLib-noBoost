@@ -217,8 +217,8 @@ TEST_CASE("Covariance_Covariance", "[Covariance]") {
 
     for (i=0; i<n; i++) {
         for (j=0; j<n; j++) {
-            Real calculated = calcCov[i][j],
-                 expected   = expCov[i][j];
+            calculated = calcCov[i][j];
+            expected   = expCov[i][j];
             if (std::fabs(calculated-expected) > 1.0e-10) {
                 FAIL_CHECK("getCovariance "
                             << "cov[" << i << "][" << j << "]:\n"

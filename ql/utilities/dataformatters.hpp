@@ -33,36 +33,36 @@ namespace QuantLib {
     namespace detail {
 
         template <typename T> struct null_checker {
-            explicit null_checker(T value) : value(value) {}
-            T value;
+            explicit null_checker(T value) : value_(value) {}
+            T value_;
         };
         template <typename T>
         std::ostream& operator<<(std::ostream&, const null_checker<T>&);
 
         struct ordinal_holder {
-            explicit ordinal_holder(Size n) : n(n) {}
-            Size n;
+            explicit ordinal_holder(Size n) : n_(n) {}
+            Size n_;
         };
         std::ostream& operator<<(std::ostream&, const ordinal_holder&);
 
         template <typename T> struct power_of_two_holder {
-            explicit power_of_two_holder(T n) : n(n) {}
-            T n;
+            explicit power_of_two_holder(T n) : n_(n) {}
+            T n_;
         };
         template <typename T>
         std::ostream& operator<<(std::ostream&,
                                  const power_of_two_holder<T>&);
 
         struct percent_holder {
-            explicit percent_holder(Real value) : value(value) {}
-            Real value;
+            explicit percent_holder(Real value) : value_(value) {}
+            Real value_;
         };
         std::ostream& operator<<(std::ostream&, const percent_holder&);
 
         template <typename InputIterator> struct sequence_holder {
             sequence_holder(InputIterator begin, InputIterator end)
-            : begin(begin), end(end) {}
-            InputIterator begin, end;
+            : begin_(begin), end_(end) {}
+            InputIterator begin_, end_;
         };
         template <typename I>
         std::ostream& operator<<(std::ostream&, const sequence_holder<I>&);
@@ -149,19 +149,19 @@ namespace QuantLib {
         template <typename T>
         inline std::ostream& operator<<(std::ostream& out,
                                         const null_checker<T>& checker) {
-            if (checker.value == Null<T>())
+            if (checker.value_ == Null<T>())
                 return out << "null";
             else
-                return out << checker.value;
+                return out << checker.value_;
         }
 
         template <typename T>
         inline std::ostream& operator<<(std::ostream& out,
                                         const power_of_two_holder<T>& holder) {
-            if (holder.n == Null<T>())
+            if (holder.n_ == Null<T>())
                 return out << "null";
 
-            T n = holder.n;
+            T n = holder.n_;
             Integer power = 0;
             if (n != 0) {
                 while (!(n & 1UL)) {
@@ -176,7 +176,7 @@ namespace QuantLib {
         inline std::ostream& operator<<(std::ostream& out,
                                         const sequence_holder<I>& holder) {
             out << "( ";
-            for (I i = holder.begin; i != holder.end; ++i)
+            for (I i = holder.begin_; i != holder.end_; ++i)
                 out << *i << " ";
             out << ")";
             return out;

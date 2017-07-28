@@ -37,7 +37,7 @@ namespace QuantLib {
 
         std::ostream& operator<<(std::ostream& out,
                                  const long_weekday_holder& holder) {
-            switch (holder.d) {
+            switch (holder.d_) {
               case Sunday:
                 return out << "Sunday";
               case Monday:
@@ -59,7 +59,7 @@ namespace QuantLib {
 
         std::ostream& operator<<(std::ostream& out,
                                  const short_weekday_holder& holder) {
-            switch (holder.d) {
+            switch (holder.d_) {
               case Sunday:
                 return out << "Sun";
               case Monday:
@@ -81,7 +81,7 @@ namespace QuantLib {
 
         std::ostream& operator<<(std::ostream& out,
                                  const shortest_weekday_holder& holder) {
-            switch (holder.d) {
+            switch (holder.d_) {
               case Sunday:
                 return out << "Su";
               case Monday:

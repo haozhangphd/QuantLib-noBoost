@@ -50,7 +50,12 @@ class MarketModelPathwiseSwap : public MarketModelPathwiseMultiProduct
                           Real multiplier = 1.0 // easy way to swtich between payer and receiver
                           );
 
-        virtual ~MarketModelPathwiseSwap() {}
+        MarketModelPathwiseSwap() = default;
+        virtual ~MarketModelPathwiseSwap() = default;
+        MarketModelPathwiseSwap(const MarketModelPathwiseSwap&) = default;
+        MarketModelPathwiseSwap(MarketModelPathwiseSwap&&) = default;
+        MarketModelPathwiseSwap& operator=(const MarketModelPathwiseSwap&) = default;
+        MarketModelPathwiseSwap& operator=(MarketModelPathwiseSwap&&) = default;
 
         virtual std::vector<Size> suggestedNumeraires() const;
         virtual const EvolutionDescription& evolution() const;

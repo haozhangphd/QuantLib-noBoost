@@ -27,6 +27,7 @@
 #include <ql/instruments/vanillaswap.hpp>
 #include <ql/pricingengines/swap/discountingswapengine.hpp>
 #include <ql/models/shortrate/onefactormodels/hullwhite.hpp>
+#include <ql/models/shortrate/twofactormodels/g2.hpp>
 #include <ql/methods/finitedifferences/meshers/fdmmesher.hpp>
 #include <ql/methods/finitedifferences/utilities/fdminnervaluecalculator.hpp>
 #include <ql/methods/finitedifferences/utilities/fdmaffinemodeltermstructure.hpp>
@@ -91,6 +92,16 @@ namespace QuantLib {
       mesher_(mesher),
       direction_(direction) {
     }
+
+    template<>
+    Array FdmAffineModelSwapInnerValue<HullWhite>::getState(
+        const std::shared_ptr<HullWhite>& model, Time t,
+        const FdmLinearOpIterator& iter) const;
+
+    template<>
+    Array FdmAffineModelSwapInnerValue<G2>::getState(
+        const std::shared_ptr<G2>& model, Time t,
+        const FdmLinearOpIterator& iter) const;
 
     template <class ModelType> inline
     Real FdmAffineModelSwapInnerValue<ModelType>::innerValue(

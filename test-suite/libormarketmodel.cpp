@@ -159,11 +159,11 @@ TEST_CASE("LiborMarketModel_SimpleCovarianceModels", "[LiborMarketModel]") {
         recon = covarProxy->covariance(t)
                 - covarProxy->diffusion(t) * transpose(covarProxy->diffusion(t));
 
-        for (Size i = 0; i < size; ++i) {
+        for (Size ii = 0; ii < size; ++ii) {
             for (Size j = 0; j < size; ++j) {
-                if (std::fabs(recon[i][j]) > tolerance)
+                if (std::fabs(recon[ii][j]) > tolerance)
                     FAIL_CHECK("Failed to reproduce correlation matrix"
-                                       << "\n    calculated: " << recon[i][j]
+                                       << "\n    calculated: " << recon[ii][j]
                                        << "\n    expected:   " << 0);
             }
         }
@@ -457,18 +457,18 @@ TEST_CASE("LiborMarketModel_SwaptionPricing", "[LiborMarketModel]") {
                     sample_type path = (n % 2) ? generator.antithetic()
                                                : generator.next();
 
-                    std::vector<Rate> rates(size);
+                    std::vector<Rate> rates_temp(size);
                     for (Size k = 0; k < process->size(); ++k) {
-                        rates[k] = path.value[k][location[i]];
+                        rates_temp[k] = path.value[k][location[i]];
                     }
                     std::vector<DiscountFactor> dis =
-                            process->discountBond(rates);
+                            process->discountBond(rates_temp);
 
                     Real npv = 0.0;
-                    for (Size m = i; m < i + j; ++m) {
-                        npv += (swapRate - rates[m])
-                               * (process->accrualEndTimes()[m]
-                                  - process->accrualStartTimes()[m]) * dis[m];
+                    for (Size l = i; l < i + j; ++l) {
+                        npv += (swapRate - rates_temp[l])
+                               * (process->accrualEndTimes()[l]
+                                  - process->accrualStartTimes()[l]) * dis[l];
                     }
                     stat.add(std::max(npv, 0.0));
                 }

@@ -48,7 +48,7 @@ namespace QuantLib {
                 return BSMTermOperator(grid, process, residualTime);
             else
                 return BSMOperator(grid, process, residualTime);
-        };
+        }
         static TridiagonalOperator getOperator(
           const std::shared_ptr<OneFactorModel::ShortRateDynamics> &process,
           const Array &grid) {

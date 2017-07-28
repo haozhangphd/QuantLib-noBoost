@@ -1256,7 +1256,7 @@ TEST_CASE("HybridHestonHullWhiteProcess_HestonHullWhiteCalibration", "[HybridHes
     std::vector<std::shared_ptr<CalibrationHelper> > options;
 
     for (Size i = 0; i < LENGTH(maturities); ++i) {
-        const Period maturity((int) (maturities[i] * 12.0 + 0.5), Months);
+        const Period maturity(static_cast<int>(maturities[i] * 12.0 + 0.5), Months);
         std::shared_ptr < Exercise > exercise =
                 std::make_shared<EuropeanExercise>(today + maturity);
 
@@ -1318,7 +1318,7 @@ TEST_CASE("HybridHestonHullWhiteProcess_HestonHullWhiteCalibration", "[HybridHes
         engine->enableMultipleStrikesCaching(
                 std::vector<Real>(strikes, strikes + LENGTH(strikes)));
 
-        const Period maturity((int) (maturities[i] * 12.0 + 0.5), Months);
+        const Period maturity(static_cast<int>(maturities[i] * 12.0 + 0.5), Months);
 
         for (Size j = 0; j < LENGTH(strikes); ++j) {
             // multiple strikes engine works best if the first option

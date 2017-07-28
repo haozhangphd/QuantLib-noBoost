@@ -142,7 +142,7 @@ namespace QuantLib {
     }
 
     Observable::Observable()
-            : settings_(ObservableSettings::instance()), observers_(1000) {}
+            :observers_(1000), settings_(ObservableSettings::instance()) {}
 
     Observable::Observable(const Observable &)
             : settings_(ObservableSettings::instance()) {

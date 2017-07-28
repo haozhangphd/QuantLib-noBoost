@@ -41,15 +41,15 @@ namespace QuantLib {
     struct PricingError {
         enum Level { Info, Warning, Error, Fatal };
 
-        Level errorLevel;
-        std::string tradeId;
-        std::string error;
-        std::string detail;
+        Level errorLevel_;
+        std::string tradeId_;
+        std::string error_;
+        std::string detail_;
 
         PricingError(Level errorLevel,
                      const std::string& error,
                      const std::string& detail)
-        : errorLevel(errorLevel), error(error), detail(detail) {}
+        : errorLevel_(errorLevel), error_(error), detail_(detail) {}
     };
 
     typedef std::vector<PricingError> PricingErrors;

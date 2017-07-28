@@ -37,10 +37,10 @@ namespace QuantLib {
 template <class M> void laplaceInterpolation(M &A, Real relTol = 1E-6) {
 
     struct f_A {
-        const SparseMatrix &g;
-        explicit f_A(const SparseMatrix &g) : g(g) {}
+        const SparseMatrix &g_;
+        explicit f_A(const SparseMatrix &g) : g_(g) {}
         Array operator()(const Array &x) const {
-            return g * x;
+            return g_ * x;
         }
     };
 
@@ -158,7 +158,7 @@ template <class M> void laplaceInterpolation(M &A, Real relTol = 1E-6) {
     }
 
     return;
-};
+}
 
 } // namespace QuantLib
 

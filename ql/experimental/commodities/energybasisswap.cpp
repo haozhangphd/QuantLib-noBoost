@@ -239,11 +239,11 @@ namespace QuantLib {
                      dpi != dailyPositions_.end() &&
                          dpi->first <= pricingPeriod->endDate(); ++dpi) {
                     EnergyDailyPosition& dailyPosition = dpi->second;
-                    dailyPosition.quantityAmount = avgDailyQuantityAmount;
-                    dailyPosition.riskDelta =
-                        (-dailyPosition.payLegPrice + dailyPosition.receiveLegPrice) * avgDailyQuantityAmount;
-                    payLegValue += -dailyPosition.payLegPrice * avgDailyQuantityAmount;
-                    receiveLegValue += dailyPosition.receiveLegPrice * avgDailyQuantityAmount;
+                    dailyPosition.quantityAmount_ = avgDailyQuantityAmount;
+                    dailyPosition.riskDelta_ =
+                        (-dailyPosition.payLegPrice_ + dailyPosition.receiveLegPrice_) * avgDailyQuantityAmount;
+                    payLegValue += -dailyPosition.payLegPrice_ * avgDailyQuantityAmount;
+                    receiveLegValue += dailyPosition.receiveLegPrice_ * avgDailyQuantityAmount;
                 }
 
                 Real discountFactor = 1;

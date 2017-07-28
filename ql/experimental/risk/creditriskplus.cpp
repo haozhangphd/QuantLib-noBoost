@@ -123,7 +123,7 @@ namespace QuantLib {
         std::map<unsigned long, Real, std::less<unsigned long> >::iterator iter;
 
         for (Size k = 0; k < m_; ++k) {
-            unsigned long exUnit = (unsigned long)(std::floor(0.5 + exposure_[k] / unit_)); // round
+            unsigned long exUnit = static_cast<unsigned long>(std::floor(0.5 + exposure_[k] / unit_)); // round
             if (exposure_[k] > 0 && exUnit == 0)
                 exUnit = 1; // but avoid zero exposure
             if (exUnit > maxNu_)
@@ -225,11 +225,11 @@ namespace QuantLib {
                 if (iter != epsNuC_.end()) {
                     res += (*iter).second * loss_[n - j] * alphaC_;
                     if (j <= n - 1)
-                        res += (*iter).second / ((Real)(j + 1)) *
-                               ((Real)(n - j)) * loss_[n - j];
+                        res += (*iter).second / (static_cast<Real>(j + 1)) *
+                               (static_cast<Real>(n - j)) * loss_[n - j];
                 }
             }
-            loss_.emplace_back(res * pC_ / (pdSum_ * ((Real)(n + 1))));
+            loss_.emplace_back(res * pC_ / (pdSum_ * (static_cast<Real>(n + 1))));
         }
     }
 }

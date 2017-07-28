@@ -298,7 +298,7 @@ namespace QuantLib {
             for (Size coIter = 0;coIter< currGenCrossover_.size(); coIter++){
                 mutationProbabilities[coIter] =
                     (1.0 - std::pow(currGenCrossover_[coIter],
-                                    (int) population.front().values.size()))
+                                    static_cast<int>(population.front().values.size())))
                     / (population.front().values.size()
                        * (1.0 - currGenCrossover_[coIter]));
             }

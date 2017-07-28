@@ -183,9 +183,9 @@ TEST_CASE("Operator_BSMOperatorConsistency", "[Operator]") {
     Real dx = std::log(factor);
     Rate r = 0.05;
     Rate q = 0.01;
-    Volatility sigma = 0.5;
+    Volatility sigma_BSM = 0.5;
 
-    BSMOperator ref(grid.size(), dx, r, q, sigma);
+    BSMOperator ref(grid.size(), dx, r, q, sigma_BSM);
 
     DayCounter dc = Actual360();
     Date today = Date::todaysDate();
@@ -195,7 +195,7 @@ TEST_CASE("Operator_BSMOperatorConsistency", "[Operator]") {
     std::shared_ptr<SimpleQuote> spot = std::make_shared<SimpleQuote>(0.0);
     std::shared_ptr<YieldTermStructure> qTS = flatRate(today, q, dc);
     std::shared_ptr<YieldTermStructure> rTS = flatRate(today, r, dc);
-    std::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, sigma, dc);
+    std::shared_ptr<BlackVolTermStructure> volTS = flatVol(today, sigma_BSM, dc);
     std::shared_ptr<GeneralizedBlackScholesProcess> stochProcess =
         std::make_shared<GeneralizedBlackScholesProcess>(
                                        Handle<Quote>(spot),

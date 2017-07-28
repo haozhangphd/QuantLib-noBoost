@@ -346,8 +346,8 @@ int Bermudan() {
 
         std::cout << " price estimate, " << values[r++] << "\n";
 
-        for (Size i = 0; i < numberRates; ++i, ++r)
-            std::cout << " Delta, " << i << ", " << values[r] << ", " << errors[r] << "\n";
+        for (Size j = 0; j < numberRates; ++j, ++r)
+            std::cout << " Delta, " << j << ", " << values[r] << ", " << errors[r] << "\n";
 
         Real totalVega = 0.0;
 
@@ -682,8 +682,8 @@ int InverseFloater(Real rateLevel) {
 
         std::cout << " price estimate, " << values[r++] << "\n";
 
-        for (Size i = 0; i < numberRates; ++i, ++r)
-            std::cout << " Delta, " << i << ", " << values[r] << ", " << errors[r] << "\n";
+        for (Size j = 0; j < numberRates; ++j, ++r)
+            std::cout << " Delta, " << j << ", " << values[r] << ", " << errors[r] << "\n";
 
         Real totalVega = 0.0;
 

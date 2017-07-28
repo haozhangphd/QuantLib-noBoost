@@ -35,7 +35,12 @@ namespace QuantLib {
 
     class MarketModelExerciseValue {
       public:
-        virtual ~MarketModelExerciseValue() {}
+        MarketModelExerciseValue() = default;
+        virtual ~MarketModelExerciseValue() = default;
+        MarketModelExerciseValue(const MarketModelExerciseValue&) = default;
+        MarketModelExerciseValue(MarketModelExerciseValue&&) = default;
+        MarketModelExerciseValue& operator=(const MarketModelExerciseValue&) = default;
+        MarketModelExerciseValue& operator=(MarketModelExerciseValue&&) = default;
         virtual Size numberOfExercises() const = 0;
         // including any time at which state should be updated
         virtual const EvolutionDescription& evolution() const = 0;

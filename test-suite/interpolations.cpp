@@ -218,8 +218,8 @@ TEST_CASE("Interpolation_SplineErrorOnGaussianValues", "[Interpolation]") {
 
     for (Size i = 0; i < LENGTH(points); i++) {
         Size n = points[i];
-        std::vector<Real> x = xRange(-1.7, 1.9, n);
-        std::vector<Real> y = gaussian(x);
+        x = xRange(-1.7, 1.9, n);
+        y = gaussian(x);
 
         // Not-a-knot
         CubicInterpolation f(x.begin(), x.end(), y.begin(),
@@ -1021,8 +1021,8 @@ TEST_CASE("Interpolation_BackwardFlat", "[Interpolation]") {
     Real sum = 0.0;
     for (i = 1; i < N; i++) {
         sum += (x[i] - x[i - 1]) * y[i];
-        Real calculated = f.primitive(x[i]);
-        Real expected = sum;
+        calculated = f.primitive(x[i]);
+        expected = sum;
         if (std::fabs(expected - calculated) > tolerance)
             FAIL_CHECK(
                     "failed to calculate primitive at " << x[i]
@@ -1036,10 +1036,10 @@ TEST_CASE("Interpolation_BackwardFlat", "[Interpolation]") {
     // primitive at middle points
     sum = 0.0;
     for (i = 0; i < N - 1; i++) {
-        Real p = (x[i] + x[i + 1]) / 2;
+        p = (x[i] + x[i + 1]) / 2;
         sum += (x[i + 1] - x[i]) * y[i + 1] / 2;
-        Real calculated = f.primitive(p);
-        Real expected = sum;
+        calculated = f.primitive(p);
+        expected = sum;
         sum += (x[i + 1] - x[i]) * y[i + 1] / 2;
         if (std::fabs(expected - calculated) > tolerance)
             FAIL_CHECK(
@@ -1139,8 +1139,8 @@ TEST_CASE("Interpolation_ForwardFlat", "[Interpolation]") {
     Real sum = 0.0;
     for (i = 1; i < N; i++) {
         sum += (x[i] - x[i - 1]) * y[i - 1];
-        Real calculated = f.primitive(x[i]);
-        Real expected = sum;
+        calculated = f.primitive(x[i]);
+        expected = sum;
         if (std::fabs(expected - calculated) > tolerance)
             FAIL_CHECK(
                     "failed to calculate primitive at " << x[i]
@@ -1154,10 +1154,10 @@ TEST_CASE("Interpolation_ForwardFlat", "[Interpolation]") {
     // primitive at middle points
     sum = 0.0;
     for (i = 0; i < N - 1; i++) {
-        Real p = (x[i] + x[i + 1]) / 2;
+        p = (x[i] + x[i + 1]) / 2;
         sum += (x[i + 1] - x[i]) * y[i] / 2;
-        Real calculated = f.primitive(p);
-        Real expected = sum;
+        calculated = f.primitive(p);
+        expected = sum;
         sum += (x[i + 1] - x[i]) * y[i] / 2;
         if (std::fabs(expected - calculated) > tolerance)
             FAIL_CHECK(
@@ -2279,16 +2279,16 @@ TEST_CASE("Interpolation_LagrangeInterpolationDerivative", "[Interpolation]") {
     LagrangeInterpolation interpl(x.begin(), x.end(), y.begin());
 
     const Real eps = std::sqrt(QL_EPSILON);
-    for (Real x = -1.0; x <= 0.9; x += 0.01) {
-        const Real calculated = interpl.derivative(x, true);
-        const Real expected = (interpl(x + eps, true)
-                               - interpl(x - eps, true)) / (2 * eps);
+    for (Real s = -1.0; s <= 0.9; s += 0.01) {
+        const Real calculated = interpl.derivative(s, true);
+        const Real expected = (interpl(s + eps, true)
+                               - interpl(s - eps, true)) / (2 * eps);
 
         if (std::isnan(calculated)
             || std::fabs(expected - calculated) > 25 * eps) {
             FAIL("failed to reproduce the Lagrange"
                          " interplation derivative"
-                         << "\n    x         : " << x
+                         << "\n    s         : " << x
                          << "\n    calculated: " << calculated
                          << "\n    expected  : " << expected);
         }
@@ -2315,28 +2315,28 @@ TEST_CASE("Interpolation_LagrangeInterpolationOnChebyshevPoints", "[Interpolatio
 
     const Real tol = 1e-13;
 
-    for (Real x = -1.0; x <= 1.0; x += 0.01) {
-        const Real calculated = interpl(x, true);
-        const Real expected = std::exp(x) / std::cos(x);
+    for (Real s = -1.0; s <= 1.0; s += 0.01) {
+        const Real calculated = interpl(s, true);
+        const Real expected = std::exp(s) / std::cos(s);
 
         if (std::isnan(calculated)
             || std::fabs(expected - calculated) > tol) {
             FAIL("failed to reproduce the Lagrange"
                          " interplation on Chebyshev points"
-                         << "\n    x         : " << x
+                         << "\n    s         : " << x
                          << "\n    calculated: " << calculated
                          << "\n    expected  : " << expected);
         }
 
-        const Real calculatedDeriv = interpl.derivative(x, true);
-        const Real expectedDeriv = std::exp(x) * (std::cos(x) + std::sin(x))
-                                   / square(std::cos(x));
+        const Real calculatedDeriv = interpl.derivative(s, true);
+        const Real expectedDeriv = std::exp(s) * (std::cos(s) + std::sin(s))
+                                   / square(std::cos(s));
 
         if (std::isnan(calculated)
             || std::fabs(expected - calculated) > tol) {
             FAIL("failed to reproduce the Lagrange"
                          " interplation derivative on Chebyshev points"
-                         << "\n    x         : " << x
+                         << "\n    s         : " << x
                          << "\n    calculated: " << calculatedDeriv
                          << "\n    expected  : " << expectedDeriv);
         }

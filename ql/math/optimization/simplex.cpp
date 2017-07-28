@@ -105,9 +105,9 @@ namespace QuantLib {
         // Loop looking for minimum
         do {
             sum_ = Array(n, 0.0);
-            Size i;
-            for (i=0; i<=n; i++)
-                sum_ += vertices_[i];
+            Size ii;
+            for (ii=0; ii<=n; ii++)
+                sum_ += vertices_[ii];
             // Determine the best (iLowest), worst (iHighest)
             // and 2nd worst (iNextHighest) vertices
             Size iLowest = 0;
@@ -119,16 +119,16 @@ namespace QuantLib {
                 iHighest = 0;
                 iNextHighest = 1;
             }
-            for (i=1;i<=n; i++) {
-                if (values_[i]>values_[iHighest]) {
+            for (ii=1;ii<=n; ii++) {
+                if (values_[ii]>values_[iHighest]) {
                     iNextHighest = iHighest;
-                    iHighest = i;
+                    iHighest = ii;
                 } else {
-                    if ((values_[i]>values_[iNextHighest]) && i!=iHighest)
-                        iNextHighest = i;
+                    if ((values_[ii]>values_[iNextHighest]) && ii!=iHighest)
+                        iNextHighest = ii;
                 }
-                if (values_[i]<values_[iLowest])
-                    iLowest = i;
+                if (values_[ii]<values_[iLowest])
+                    iLowest = ii;
             }
             // Now compute accuracy, update iteration number and check end criteria
             //// Numerical Recipes exit strategy on fx (see NR in C++, p.410)
@@ -165,11 +165,11 @@ namespace QuantLib {
                     factor = 0.5;
                     vTry = extrapolate(P, iHighest, factor);
                     if (vTry >= vSave && std::fabs(factor) > QL_EPSILON) {
-                        for (Size i=0; i<=n; i++) {
-                            if (i!=iLowest) {
-                                vertices_[i] =
-                                    0.5*(vertices_[i] + vertices_[iLowest]);
-                                values_[i] = P.value(vertices_[i]);
+                        for (Size j=0; j<=n; j++) {
+                            if (j!=iLowest) {
+                                vertices_[j] =
+                                    0.5*(vertices_[j] + vertices_[iLowest]);
+                                values_[j] = P.value(vertices_[j]);
                             }
                         }
                     }

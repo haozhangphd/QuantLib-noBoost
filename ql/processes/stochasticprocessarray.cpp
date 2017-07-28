@@ -63,7 +63,7 @@ namespace QuantLib {
             Real sigma = processes_[i]->diffusion(t, x[i]);
             std::transform(tmp.row_begin(i), tmp.row_end(i),
                            tmp.row_begin(i),
-                           [&sigma](Real x){return x * sigma;});
+                           [&sigma](Real s){return s * sigma;});
         }
         return tmp;
     }

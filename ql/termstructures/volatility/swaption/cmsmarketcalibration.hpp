@@ -70,7 +70,7 @@ namespace QuantLib {
                           const Real meanReversionGuess = Null<Real>());
 
         Real error() { return error_; }
-        EndCriteria::Type endCriteria() { return endCriteria_; };
+        EndCriteria::Type endCriteria() { return endCriteria_; }
 
         static Real betaTransformInverse(Real beta) {
             return std::sqrt(-std::log(beta));

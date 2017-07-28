@@ -55,12 +55,12 @@ namespace QuantLib {
 
 //Number of swaptions to be calibrated to...
 
-Size numRows = 5;
-Size numCols = 5;
+static const Size numRows = 5;
+static const Size numCols = 5;
 
-Integer swapLenghts[] = {
+static const Integer swapLenghts[] = {
         1, 2, 3, 4, 5};
-Volatility swaptionVols[] = {
+static const Volatility swaptionVols[] = {
         0.1490, 0.1340, 0.1228, 0.1189, 0.1148,
         0.1290, 0.1201, 0.1146, 0.1108, 0.1040,
         0.1149, 0.1112, 0.1070, 0.1010, 0.0957,

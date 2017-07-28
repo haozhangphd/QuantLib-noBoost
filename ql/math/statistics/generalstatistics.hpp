@@ -62,7 +62,7 @@ namespace QuantLib {
         }
 
         //! collected data
-        const std::vector<std::pair<Real, Real> > &data() const { return samples_; };
+        const std::vector<std::pair<Real, Real> > &data() const { return samples_; }
 
         //! sum of data weights
         Real weightSum() const {
@@ -126,7 +126,7 @@ namespace QuantLib {
                        "sample number <=2, unsufficient");
 
             Real mean_ = mean();
-            Real x = expectationValue([mean_](Real x) { return std::pow(x - mean_, 3); });
+            Real x = expectationValue([&mean_](Real s) { return std::pow(s - mean_, 3); });
 
             Real sigma = standardDeviation();
 
@@ -147,7 +147,7 @@ namespace QuantLib {
 
             Real mean_ = mean();
 
-            Real x = expectationValue([mean_](Real x) { return std::pow(x - mean_, 4); });
+            Real x = expectationValue([&mean_](Real s) { return std::pow(s - mean_, 4); });
 
             Real sigma2 = variance();
 
@@ -312,7 +312,7 @@ namespace QuantLib {
                 std::sort(samples_.begin(), samples_.end());
                 sorted_ = true;
             }
-        };
+        }
         //@}
     private:
         mutable std::vector<std::pair<Real, Real> > samples_;

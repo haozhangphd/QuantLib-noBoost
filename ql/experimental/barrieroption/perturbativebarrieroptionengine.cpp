@@ -31,8 +31,7 @@
 using namespace std;
 
 #define SIGN(a,b) ((b) >= 0.0 ? fabs(a) : -fabs(a))
-#define ABS(x) (((x) < 0) ? -(x) : (x))
-#define POW(x,y) pow( (Real) (x), (Real) (y))
+#define POW(x,y) pow( static_cast<Real>(x), static_cast<Real>(y))
 #define PI 3.14159265358979324
 
 namespace QuantLib {
@@ -227,13 +226,13 @@ namespace QuantLib {
 
         for(i=1;i<=npoint;i++) {
             v2p=0.0;
-            tmp=taumin+dt*(double)(2*i-1)*0.5;
+            tmp=taumin+dt*static_cast<double>(2*i-1)*0.5;
             p=0.5*integs(tmp,taumax);
 
-            dtp=(taumax-tmp)/(double)(npoint2);
+            dtp=(taumax-tmp)/static_cast<double>(npoint2);
 
             for(j=1;j<=npoint2; j++) {
-                tmp1=tmp+dtp*(double)(2*j-1)*0.50;
+                tmp1=tmp+dtp*static_cast<double>(2*j-1)*0.50;
                 s=0.50*integs(tmp1,taumax);
 
                 caux=dll(s,p,tt,-x,-1.0+gm,-xstar,gm)-dll(s,p,tt,x,-1.0+gm,-xstar,gm);
@@ -897,8 +896,8 @@ namespace QuantLib {
     Real PNTGND(int , Real ,Real ,Real ,
                   Real ,Real ,Real ,Real );
 
-    Real TVTMFN(Real X, Real H1, Real H2, Real H3, Real R23,
-                  Real RUA, Real RUB, Real AR,Real RUC, int NUC ){
+    Real TVTMFN(Real X, Real H10, Real H20, Real H30, Real R230,
+                  Real RUA0, Real RUB0, Real AR0,Real RUC0, int NUC0 ){
         /*
           Computes Plackett formula integrands
         */
@@ -907,15 +906,15 @@ namespace QuantLib {
         const Real ZRO = 0.0;
         Real result = 0.0;
 
-        SINCS( RUA*X, R12, RR2 );
-        SINCS( RUB*X, R13, RR3 );
+        SINCS( RUA0*X, R12, RR2 );
+        SINCS( RUB0*X, R13, RR3 );
 
-        if ( fabs(RUA)> 0 )  result += RUA*PNTGND( NUC, H1,H2,H3, R13,R23,R12,RR2);
-        if( fabs(RUB)>0 ) result += RUB*PNTGND( NUC, H1,H3,H2, R12,R23,R13,RR3 ) ;
-        if ( NUC > 0 )
+        if ( fabs(RUA0)> 0 )  result += RUA0*PNTGND( NUC0, H10, H20, H30, R13,R230,R12,RR2);
+        if( fabs(RUB0)>0 ) result += RUB0*PNTGND( NUC0, H10, H30, H20, R12,R230,R13,RR3 ) ;
+        if ( NUC0 > 0 )
             {
-                SINCS( AR + RUC*X, R, RR );
-                result -= RUC*PNTGND( NUC, H2, H3, H1, ZRO, ZRO, R, RR );
+                SINCS( AR0 + RUC0*X, R, RR );
+                result -= RUC0*PNTGND( NUC0, H20, H30, H10, ZRO, ZRO, R, RR );
             }
         return(result);
     }
@@ -1091,11 +1090,11 @@ namespace QuantLib {
         else
             {
                 TT = T*T;
-                CSSTHE = 1/( 1 + TT/double(NU) );
+                CSSTHE = 1/( 1 + TT/static_cast<double>(NU) );
                 POLYN = 1;
                 for( J = NU-2; J>= 2; J=J-2)
                     {
-                        POLYN = 1.0 + ( J - 1.0 )*CSSTHE*POLYN/(double)J;
+                        POLYN = 1.0 + ( J - 1.0 )*CSSTHE*POLYN/static_cast<double>(J);
                     }
                 if ((NU-2*int(NU/2) ) == 1 )
                     {
@@ -1163,7 +1162,7 @@ namespace QuantLib {
         else
             {
                 TPI = 2.0*PI;
-                SNU = (double)NU;
+                SNU = static_cast<double>(NU);
                 SNU = POW(SNU,0.5);
                 ORS = 1.0 - R*R;
                 HRK = DH - R*DK;
@@ -1179,9 +1178,9 @@ namespace QuantLib {
                         XNKH = 0.0;
                     }
 
-                HS =(int)SIGN( ONE, DH - R*DK );
-                KS =(int)SIGN( ONE, DK - R*DH );
-                if((NU-2*(int)(NU/2))==0 )
+                HS =static_cast<int>(SIGN( ONE, DH - R*DK ));
+                KS =static_cast<int>(SIGN( ONE, DK - R*DH ));
+                if((NU-2*static_cast<int>(NU/2))==0 )
                     {
                         BVT = atan2( POW(ORS,0.5), -R )/TPI;
                         GMPH = DH/POW( 16*( NU + DH*DH ),0.5 );
@@ -1238,24 +1237,24 @@ namespace QuantLib {
 
 
 
-      Real PNTGND(int NUC, Real BA, Real BB, Real BC, Real RA, Real RB, Real R, Real RR) {
+      Real PNTGND(int NUC0, Real BA0, Real BB0, Real BC0, Real RA0, Real RB0, Real R, Real RR0) {
           /*
             Computes Plackett formula integrand
           */
           static Real DT, FT, BT,result;
 
           result = 0.0;
-          DT = RR*( RR - POW(( RA - RB ),2) - 2*RA*RB*( 1 - R ) );
+          DT = RR0*( RR0 - POW(( RA0 - RB0 ),2) - 2*RA0*RB0*( 1 - R ) );
           if( DT > 0 ) {
-              BT = ( BC*RR + BA*( R*RB - RA ) + BB*( R*RA -RB ) )/POW(DT,0.5);
-              FT = POW(( BA - R*BB ),0.5)/RR + BB*BB;
-              if( NUC<1 ) {
+              BT = ( BC0*RR0 + BA0*( R*RB0 - RA0 ) + BB0*( R*RA0 -RB0 ) )/POW(DT,0.5);
+              FT = POW(( BA0 - R*BB0 ),0.5)/RR0 + BB0*BB0;
+              if( NUC0<1 ) {
                   if ( (BT > -10) && (FT <100) ) {
                       result = exp( -FT/2 );
                       if ( BT <10 ) result= result*PHID(BT);
                   } else {
-                      FT = POW((1 + FT/NUC),0.5);
-                      result = STUDNT( NUC, BT/FT )/POW(FT,NUC);
+                      FT = POW((1 + FT/NUC0),0.5);
+                      result = STUDNT( NUC0, BT/FT )/POW(FT,NUC0);
                   }
               }
           }

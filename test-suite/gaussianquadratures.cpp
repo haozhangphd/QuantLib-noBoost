@@ -98,13 +98,13 @@ namespace {
 
     template<class F>
     void testSingleTabulated(const F &f, const std::string &tag,
-                             Real expected, Real tolerance) {
+                             Real expected, Real tolerance0) {
         const Size order[] = {6, 7, 12, 20};
         TabulatedGaussLegendre quad;
         for (Size i = 0; i < LENGTH(order); i++) {
             quad.order(order[i]);
             Real realised = quad(f);
-            if (std::fabs(realised - expected) > tolerance) {
+            if (std::fabs(realised - expected) > tolerance0) {
                 FAIL_CHECK(" integrating " << tag << "\n"
                                            << "    order " << order[i] << "\n"
                                            << "    realised: " << realised << "\n"

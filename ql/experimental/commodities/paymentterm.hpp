@@ -54,10 +54,10 @@ namespace QuantLib {
         std::shared_ptr<Data> data_;
 
         struct Data {
-            std::string name;
-            EventType eventType;
-            Integer offsetDays;
-            Calendar calendar;
+            std::string name_;
+            EventType eventType_;
+            Integer offsetDays_;
+            Calendar calendar_;
 
             Data(const std::string& name, EventType eventType, Integer offsetDays,
                  const Calendar& calendar);
@@ -83,25 +83,25 @@ namespace QuantLib {
                                    PaymentTerm::EventType eventType,
                                    Integer offsetDays,
                                    const Calendar& calendar)
-    : name(name), eventType(eventType),
-      offsetDays(offsetDays), calendar(calendar) {}
+    : name_(name), eventType_(eventType),
+      offsetDays_(offsetDays), calendar_(calendar) {}
 
     inline PaymentTerm::PaymentTerm() {}
 
     inline const std::string& PaymentTerm::name() const {
-        return data_->name;
+        return data_->name_;
     }
 
     inline PaymentTerm::EventType PaymentTerm::eventType() const {
-        return data_->eventType;
+        return data_->eventType_;
     }
 
     inline Integer PaymentTerm::offsetDays() const {
-        return data_->offsetDays;
+        return data_->offsetDays_;
     }
 
     inline Date PaymentTerm::getPaymentDate(const Date& date) const {
-        return data_->calendar.adjust(date + data_->offsetDays);
+        return data_->calendar_.adjust(date + data_->offsetDays_);
     }
 
     inline bool PaymentTerm::empty() const {

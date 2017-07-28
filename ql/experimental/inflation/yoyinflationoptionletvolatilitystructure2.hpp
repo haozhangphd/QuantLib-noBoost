@@ -72,7 +72,7 @@ namespace QuantLib {
         virtual Real maxStrike() const {return maxStrike_;}
         virtual Date maxDate() const {
             //FIXME approx
-            return optionDateFromTenor(Period((int)ceil(this->interpolation_.xMax()),Years));
+            return optionDateFromTenor(Period(static_cast<int>(ceil(this->interpolation_.xMax())),Years));
         }
         //@}
 
@@ -139,10 +139,10 @@ namespace QuantLib {
         QL_REQUIRE(d.size() > 1,
                    "must have at least two dates: " << d.size());
 
-        for (Size i = 0; i < d.size(); i++ ){
-            this->times_.emplace_back( this->timeFromReference(dates_[i]) );
-            this->data_.emplace_back(v[i]),
-            nodes_.emplace_back( std::make_pair( dates_[i], this->data_[i]) );
+        for (Size ii = 0; ii < d.size(); ii++ ){
+            this->times_.emplace_back( this->timeFromReference(dates_[ii]) );
+            this->data_.emplace_back(v[ii]),
+            nodes_.emplace_back( std::make_pair( dates_[ii], this->data_[ii]) );
         }
 
         this->setupInterpolation();

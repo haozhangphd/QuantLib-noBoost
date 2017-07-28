@@ -47,9 +47,13 @@ namespace QuantLib {
                      const DayCounter& dc = DayCounter(),
                      const VolatilityType type = ShiftedLognormal,
                      const Rate shift = 0.0);
-        SmileSection() {}
+        SmileSection() = default;
 
-        virtual ~SmileSection() {}
+        virtual ~SmileSection() = default;
+        SmileSection(const SmileSection&) = default;
+        SmileSection(SmileSection&&) = default;
+        SmileSection& operator=(const SmileSection&) = default;
+        SmileSection& operator=(SmileSection&&) = default;
 
         virtual void update();
         virtual Real minStrike() const = 0;

@@ -159,8 +159,7 @@ TEST_CASE("Inflation_ZeroIndex", "[Inflation]") {
     // -1 because last value not yet available,
     // (no TS so can't forecast).
     for (Size i=0; i<rpiSchedule.size()-1;i++) {
-        std::pair<Date,Date> lim = inflationPeriod(rpiSchedule[i],
-                                                   iir->frequency());
+        lim = inflationPeriod(rpiSchedule[i], iir->frequency());
         for (Date d=lim.first; d<=lim.second; d++) {
             if (d < inflationPeriod(todayMinusLag,iir->frequency()).first) {
                 if (std::fabs(iir->fixing(d) - fixData[i]) > eps)
@@ -762,8 +761,7 @@ TEST_CASE("Inflation_YYIndex", "[Inflation]") {
     //--------------------
     // (no TS so can't forecast).
     for (Size i=13; i<rpiSchedule.size();i++) {
-        std::pair<Date,Date> lim = inflationPeriod(rpiSchedule[i],
-                                                   iir->frequency());
+        lim = inflationPeriod(rpiSchedule[i], iir->frequency());
         std::pair<Date,Date> limBef = inflationPeriod(rpiSchedule[i-12],
                                                       iir->frequency());
         for (Date d=lim.first; d<=lim.second; d++) {

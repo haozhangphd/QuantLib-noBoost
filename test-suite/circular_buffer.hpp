@@ -75,7 +75,7 @@ namespace {
             return data_.size() == size_;
         }
 
-        bool operator==(const circular_buffer &other) const { return data_ == other.data_; };
+        bool operator==(const circular_buffer &other) const { return data_ == other.data_; }
 
         friend std::ostream &operator<<(std::ostream &os, const circular_buffer &c) {
             os << "{ ";
@@ -87,9 +87,8 @@ namespace {
 
 
     private:
-        size_t size_;
         std::deque<Real> data_;
-
+        size_t size_;
     };
 
 

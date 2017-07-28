@@ -107,7 +107,7 @@ namespace QuantLib {
 
     template <class RNG>
     void SimulatedAnnealing<RNG>::amotsa(Problem &P, Real fac) {
-        fac1_ = (1.0 - fac) / ((Real)n_);
+        fac1_ = (1.0 - fac) / static_cast<Real>(n_);
         fac2_ = fac1_ - fac;
         for (j_ = 0; j_ < n_; j_++) {
             ptry_[j_] = sum_[j_] * fac1_ - vertices_[ihi_][j_] * fac2_;
@@ -262,7 +262,7 @@ namespace QuantLib {
             case ConstantBudget:
                 if (iteration_ <= K_)
                     T_ = T0_ *
-                         std::pow(1.0 - (Real)iteration_ / (Real)K_, alpha_);
+                         std::pow(1.0 - static_cast<Real>(iteration_) / static_cast<Real>(K_), alpha_);
                 else
                     T_ = 0.0;
                 break;

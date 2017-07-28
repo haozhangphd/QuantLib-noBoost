@@ -46,20 +46,20 @@ namespace {
                    const Date& refStart,
                    const Date& refEnd,
                    Time result)
-        : convention(convention), start(start), end(end),
-          refStart(refStart), refEnd(refEnd), result(result) {}
+        : convention_(convention), start_(start), end_(end),
+          refStart_(refStart), refEnd_(refEnd), result_(result) {}
         SingleCase(ActualActual::Convention convention,
                    const Date& start,
                    const Date& end,
                    Time result)
-        : convention(convention), start(start), end(end),
-          refStart(Date()), refEnd(Date()), result(result) {}
-        ActualActual::Convention convention;
-        Date start;
-        Date end;
-        Date refStart;
-        Date refEnd;
-        Time result;
+        : convention_(convention), start_(start), end_(end),
+          refStart_(Date()), refEnd_(Date()), result_(result) {}
+        ActualActual::Convention convention_;
+        Date start_;
+        Date end_;
+        Date refStart_;
+        Date refEnd_;
+        Time result_;
     };
 
 }
@@ -152,23 +152,23 @@ TEST_CASE("DayCounter_ActualActual", "[DayCounter]") {
 
     Size n = sizeof(testCases)/sizeof(SingleCase);
     for (Size i=0; i<n; i++) {
-        ActualActual dayCounter(testCases[i].convention);
-        Date d1 = testCases[i].start,
-            d2 = testCases[i].end,
-            rd1 = testCases[i].refStart,
-            rd2 = testCases[i].refEnd;
+        ActualActual dayCounter(testCases[i].convention_);
+        Date d1 = testCases[i].start_,
+            d2 = testCases[i].end_,
+            rd1 = testCases[i].refStart_,
+            rd2 = testCases[i].refEnd_;
         Time calculated = dayCounter.yearFraction(d1,d2,rd1,rd2);
 
-        if (std::fabs(calculated-testCases[i].result) > 1.0e-10) {
+        if (std::fabs(calculated-testCases[i].result_) > 1.0e-10) {
             std::ostringstream period, refPeriod;
             period << "period: " << d1 << " to " << d2;
-            if (testCases[i].convention == ActualActual::ISMA)
+            if (testCases[i].convention_ == ActualActual::ISMA)
                 refPeriod << "referencePeriod: " << rd1 << " to " << rd2;
             FAIL(dayCounter.name() << ":\n"
                        << period.str() << "\n" << refPeriod.str() << "\n"
                        << std::setprecision(10)
                        << "    calculated: " << calculated << "\n"
-                       << "    expected:   " << testCases[i].result);
+                       << "    expected:   " << testCases[i].result_);
         }
     }
 }
@@ -527,10 +527,10 @@ TEST_CASE("DayCounter_Intraday", "[DayCounter]") {
                              + dc.yearFraction(d1, d1+2);
 
         if (std::fabs(dc.yearFraction(d1, d2) - expected) >= tol)
-		FAIL_CHECK("can not reproduce result for day counter " << dc.name());
+        FAIL_CHECK("can not reproduce result for day counter " << dc.name());
 
         if (std::fabs(dc.yearFraction(d2, d1) + expected) >= tol)
-		FAIL_CHECK("can not reproduce result for day counter " << dc.name());
+        FAIL_CHECK("can not reproduce result for day counter " << dc.name());
     }
 #endif
 }

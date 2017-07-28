@@ -90,7 +90,7 @@ namespace QuantLib {
             long double xtermb = xtermf * (f2 + k) / x2;
             long double gamb = gamf - xtermb;
 
-            int i;
+            Size i;
             long double sum = -1;
             for (i = k; i - k < itrmax; ++i) {
                 long double term = poisf * gamf;
@@ -104,11 +104,11 @@ namespace QuantLib {
             QL_REQUIRE(i - k < itrmax, "CumulativeNonCentralChiSquareDistribution does not converge for degree of freedom = "
             << df_ <<", non-centrality = " << ncp_ <<", x = " << x );
 
-            for (i = k - 1; i >= 0; --i) {
+            for (i = k; i > 0; --i) {
                 long double term = poisb * gamb;
                 sum += term;
-                poisb *= i / lam;
-                xtermb *= (f2 + i) / x2;
+                poisb *= (i - 1) / lam;
+                xtermb *= (f2 + i - 1) / x2;
                 gamb -= xtermb;
                 if ((sum == 0) || (fabs(term / sum) < errmax))
                     break;

@@ -49,12 +49,12 @@ namespace QuantLib {
             std::shared_ptr<FixedRateCoupon> coupon =
                 std::dynamic_pointer_cast<FixedRateCoupon>(
                     arguments_.premiumLeg[i]);
-            Date d = arguments_.premiumLeg[i]->date();
-            if (d > discountCurve_->referenceDate()) {
+            Date dtemp = arguments_.premiumLeg[i]->date();
+            if (dtemp > discountCurve_->referenceDate()) {
                 /*
                 std::vector<Probability> probsTriggering =
                     arguments_.basket->probsBeingNthEvent(arguments_.ntdOrder, 
-                        d);
+                        dtemp);
                 Probability defaultProb = 
                     std::accumulate(probsTriggering.begin(), 
                     probsTriggering.end(), Real(0.));
@@ -64,21 +64,21 @@ namespace QuantLib {
                 // prob of contract not having been triggered by date of payment
                 Probability probNonTriggered = 
                     1. - arguments_.basket->probAtLeastNEvents(
-                        arguments_.ntdOrder, d);
+                        arguments_.ntdOrder, dtemp);
 
                 results_.premiumValue += arguments_.premiumLeg[i]->amount()
-                    * discountCurve_->discount(d)
+                    * discountCurve_->discount(dtemp)
                     * probNonTriggered;
                  ////   * (1.0 - defaultProb);
 
                 if (coupon->accrualStartDate() >= 
                     discountCurve_->referenceDate())
-                    d = coupon->accrualStartDate();
+                    dtemp = coupon->accrualStartDate();
                 else
-                    d = discountCurve_->referenceDate();
+                    dtemp = discountCurve_->referenceDate();
 
                 // do steps of specified size
-                d0 = d;
+                d0 = dtemp;
                 Period stepSize = integrationStepSize_;
 /*
                 probsTriggering =
@@ -93,22 +93,22 @@ namespace QuantLib {
                         arguments_.ntdOrder, d0);
                 std::vector<Probability> probsTriggering, probsTriggering1;
                 do {
-                    DiscountFactor disc = discountCurve_->discount(d);
+                    DiscountFactor disc = discountCurve_->discount(dtemp);
 
                     Probability defProb1;
                     if(basketIsHomogeneous) {//take test out of the while loop
                         defProb1 = arguments_.basket->probAtLeastNEvents(
-                            arguments_.ntdOrder, d);
+                            arguments_.ntdOrder, dtemp);
                         claimValue -= (defProb1-defProb0)
-                            * arguments_.basket->claim()->amount(d, 
+                            * arguments_.basket->claim()->amount(dtemp,
                                 arguments_.notional, 
-                                arguments_.basket->recoveryRate(d, 0))
+                                arguments_.basket->recoveryRate(dtemp, 0))
                             * disc;
 
                     }else{
                         probsTriggering1 =
                             arguments_.basket->probsBeingNthEvent(
-                                arguments_.ntdOrder, d);
+                                arguments_.ntdOrder, dtemp);
                         defProb1 = std::accumulate(probsTriggering1.begin(), 
                             probsTriggering1.end(), Real(0.));
                         /*Recoveries might differ along names, depending on 
@@ -130,9 +130,9 @@ namespace QuantLib {
                         {
                             claimValue -= (probsTriggering1[iName]-
                                 probsTriggering[iName])
-                                * arguments_.basket->claim()->amount(d, 
+                                * arguments_.basket->claim()->amount(dtemp,
                                     arguments_.notional,// [iName]! 
-                                    arguments_.basket->recoveryRate(d, iName))
+                                    arguments_.basket->recoveryRate(dtemp, iName))
                                 * disc;
                         }
                         probsTriggering = probsTriggering1;
@@ -142,17 +142,17 @@ namespace QuantLib {
                     defProb0 = defProb1;
 
                     if (arguments_.settlePremiumAccrual)
-                        accrualValue += coupon->accruedAmount(d)*disc*dcfdd;
+                        accrualValue += coupon->accruedAmount(dtemp)*disc*dcfdd;
 
-                    d0 = d;
-                    d = d0 + stepSize;
+                    d0 = dtemp;
+                    dtemp = d0 + stepSize;
                     // reduce step size ?
-                    if (stepSize != 1*Days && d > coupon->accrualEndDate()) {
+                    if (stepSize != 1*Days && dtemp > coupon->accrualEndDate()) {
                         stepSize = 1*Days;
-                        d = d0 + stepSize;
+                        dtemp = d0 + stepSize;
                     }
                 }
-                while (d <= coupon->accrualEndDate());
+                while (dtemp <= coupon->accrualEndDate());
             }
         }
 

@@ -155,7 +155,7 @@ namespace {
             nominalTS.linkTo(nominalFF);
 
             // now build the YoY inflation curve
-            Period observationLag = Period(2, Months);
+            observationLag = Period(2, Months);
 
             Datum yyData[] = {
                     {Date(13, August, 2008), 2.95},
@@ -197,18 +197,18 @@ namespace {
         }
 
         // utilities
-        Leg makeYoYLeg(const Date &startDate, Integer length,
+        Leg makeYoYLeg(const Date &startDate0, Integer length0,
                        const Rate gearing = 1.0,
                        const Rate spread = 0.0) {
             std::shared_ptr < YoYInflationIndex > ii =
                     std::dynamic_pointer_cast<YoYInflationIndex>(iir);
-            Date endDate = calendar.advance(startDate, length * Years, Unadjusted);
-            Schedule schedule(startDate, endDate, Period(frequency), calendar,
+            Date endDate = calendar.advance(startDate0, length0 * Years, Unadjusted);
+            Schedule schedule(startDate0, endDate, Period(frequency), calendar,
                               Unadjusted, Unadjusted,// ref periods & acc periods
                               DateGeneration::Forward, false);
 
-            std::vector<Rate> gearingVector(length, gearing);
-            std::vector<Spread> spreadVector(length, spread);
+            std::vector<Rate> gearingVector(length0, gearing);
+            std::vector<Spread> spreadVector(length0, spread);
 
             return yoyInflationLeg(schedule, calendar, ii, observationLag)
                     .withNotionals(nominals)
@@ -218,31 +218,31 @@ namespace {
                     .withPaymentAdjustment(convention);
         }
 
-        Leg makeFixedLeg(const Date &startDate,
-                         Integer length) {
+        Leg makeFixedLeg(const Date &startDate0,
+                         Integer length0) {
 
-            Date endDate = calendar.advance(startDate, length, Years,
+            Date endDate = calendar.advance(startDate0, length0, Years,
                                             convention);
-            Schedule schedule(startDate, endDate, Period(frequency), calendar,
+            Schedule schedule(startDate0, endDate, Period(frequency), calendar,
                               convention, convention,
                               DateGeneration::Forward, false);
-            std::vector<Rate> coupons(length, 0.0);
+            std::vector<Rate> coupons(length0, 0.0);
             return FixedRateLeg(schedule)
                     .withNotionals(nominals)
                     .withCouponRates(coupons, dc);
         }
 
 
-        Leg makeYoYCapFlooredLeg(Size which, const Date &startDate,
-                                 Integer length,
+        Leg makeYoYCapFlooredLeg(Size which, const Date &startDate0,
+                                 Integer length0,
                                  const std::vector<Rate> &caps,
                                  const std::vector<Rate> &floors,
-                                 Volatility volatility,
+                                 Volatility volatility0,
                                  const Rate gearing = 1.0,
                                  const Rate spread = 0.0) {
 
             Handle<YoYOptionletVolatilitySurface>
-                    vol(std::make_shared<ConstantYoYOptionletVolatility>(volatility,
+                    vol(std::make_shared<ConstantYoYOptionletVolatility>(volatility0,
                                                                          settlementDays,
                                                                          calendar,
                                                                          convention,
@@ -269,13 +269,13 @@ namespace {
             }
 
 
-            std::vector<Rate> gearingVector(length, gearing);
-            std::vector<Spread> spreadVector(length, spread);
+            std::vector<Rate> gearingVector(length0, gearing);
+            std::vector<Spread> spreadVector(length0, spread);
 
             std::shared_ptr < YoYInflationIndex > ii =
                     std::dynamic_pointer_cast<YoYInflationIndex>(iir);
-            Date endDate = calendar.advance(startDate, length * Years, Unadjusted);
-            Schedule schedule(startDate, endDate, Period(frequency), calendar,
+            Date endDate = calendar.advance(startDate0, length0 * Years, Unadjusted);
+            Schedule schedule(startDate0, endDate, Period(frequency), calendar,
                               Unadjusted, Unadjusted,// ref periods & acc periods
                               DateGeneration::Forward, false);
 
@@ -298,13 +298,13 @@ namespace {
         }
 
 
-        std::shared_ptr<PricingEngine> makeEngine(Volatility volatility, Size which) {
+        std::shared_ptr<PricingEngine> makeEngine(Volatility volatility0, Size which) {
 
             std::shared_ptr < YoYInflationIndex >
             yyii = std::dynamic_pointer_cast<YoYInflationIndex>(iir);
 
             Handle<YoYOptionletVolatilitySurface>
-                    vol(std::make_shared<ConstantYoYOptionletVolatility>(volatility,
+                    vol(std::make_shared<ConstantYoYOptionletVolatility>(volatility0,
                                                                          settlementDays,
                                                                          calendar,
                                                                          convention,
@@ -317,17 +317,13 @@ namespace {
             switch (which) {
                 case 0:
                     return std::make_shared<YoYInflationBlackCapFloorEngine>(iir, vol);
-                    break;
                 case 1:
                     return std::make_shared<YoYInflationUnitDisplacedBlackCapFloorEngine>(iir, vol);
-                    break;
                 case 2:
                     return std::make_shared<YoYInflationBachelierCapFloorEngine>(iir, vol);
-                    break;
                 default:
                     FAIL("unknown engine request: which = " << which
                                                             << "should be 0=Black,1=DD,2=Bachelier");
-                    break;
             }
             // make compiler happy
             QL_FAIL("never get here - no engine resolution");
@@ -337,7 +333,7 @@ namespace {
         std::shared_ptr<YoYInflationCapFloor> makeYoYCapFloor(YoYInflationCapFloor::Type type,
                                                               const Leg &leg,
                                                               Rate strike,
-                                                              Volatility volatility,
+                                                              Volatility volatility0,
                                                               Size which) {
             std::shared_ptr < YoYInflationCapFloor > result;
             switch (type) {
@@ -350,7 +346,7 @@ namespace {
                 default:
                     QL_FAIL("unknown YoYInflation cap/floor type");
             }
-            result->setPricingEngine(makeEngine(volatility, which));
+            result->setPricingEngine(makeEngine(volatility0, which));
             return result;
         }
 

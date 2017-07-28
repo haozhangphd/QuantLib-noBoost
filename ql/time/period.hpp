@@ -109,14 +109,14 @@ namespace QuantLib {
     namespace detail {
 
         struct long_period_holder {
-            explicit long_period_holder(const Period& p) : p(p) {}
-            Period p;
+            explicit long_period_holder(const Period& p) : p_(p) {}
+            Period p_;
         };
         std::ostream& operator<<(std::ostream&, const long_period_holder&);
 
         struct short_period_holder {
-            explicit short_period_holder(Period p) : p(p) {}
-            Period p;
+            explicit short_period_holder(const Period& p) : p_(p) {}
+            Period p_;
         };
         std::ostream& operator<<(std::ostream&, const short_period_holder&);
 

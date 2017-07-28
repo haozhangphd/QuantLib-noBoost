@@ -227,7 +227,7 @@ namespace QuantLib {
       public:
         AdaptiveInertia(Real minInertia, Real maxInertia, Size sh = 5, Size sl = 2)
             :minInertia_(minInertia), maxInertia_(maxInertia),
-            sh_(sh), sl_(sl) {};
+            sh_(sh), sl_(sl) {}
         inline void setSize(Size M, Size N, Real c0, const EndCriteria &endCriteria) {
             M_ = M;
             c0_ = c0;
@@ -258,7 +258,7 @@ namespace QuantLib {
                           unsigned long seed = SeedGenerator::instance().get())
             :rng_(seed), flight_(base_generator_type(seed), LevyFlightDistribution(1.0, alpha),
                 1, Array(1, 1.0), seed),
-            threshhold_(threshhold) {};
+            threshhold_(threshhold) {}
         inline void setSize(Size M, Size N, Real c0, const EndCriteria &endCriteria) {
             M_ = M;
             N_ = N;

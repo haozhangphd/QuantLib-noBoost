@@ -88,7 +88,6 @@ namespace QuantLib {
                     return std::make_shared<Concentrating1dMesher>(
                         lowerBound, upperBound, vGrid, cPoints, 1e-8);
                   }
-                break;
                 case FdmSquareRootFwdOp::Plain:
                   {
                       const Real v0Center = v0;
@@ -101,7 +100,6 @@ namespace QuantLib {
                       return std::make_shared<Concentrating1dMesher>(
                           lowerBound, upperBound, vGrid, cPoints, 1e-8);
                   }
-                break;
                 case FdmSquareRootFwdOp::Power:
                 {
                     const Real v0Center = v0;
@@ -114,7 +112,6 @@ namespace QuantLib {
                     return std::make_shared<Concentrating1dMesher>(
                         lowerBound, upperBound, vGrid, cPoints, 1e-8);
                 }
-                break;
                 default:
                     QL_FAIL("transformation type is not implemented");
             }

@@ -172,7 +172,7 @@ namespace QuantLib {
         std::function<Real(Real)> _f_;
         std::function<Real(Real)> _fInverse_;
         struct identity {
-            Real operator()(Real x) const {return x;};
+            Real operator()(Real x) const {return x;}
         };
     };
 

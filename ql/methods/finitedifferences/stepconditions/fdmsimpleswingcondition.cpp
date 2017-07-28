@@ -48,22 +48,22 @@ namespace QuantLib {
             const std::shared_ptr<FdmLinearOpLayout> layout=mesher_->layout();
             const FdmLinearOpIterator endIter = layout->end();
             
-            for (FdmLinearOpIterator iter = layout->begin(); iter != endIter;
-                 ++iter) {
+            for (FdmLinearOpIterator iter0 = layout->begin(); iter0 != endIter;
+                 ++iter0) {
                 
-                const std::vector<Size>& coor = iter.coordinates();
+                const std::vector<Size>& coor = iter0.coordinates();
                 
                 const Size exercisesUsed = coor[swingDirection_];
                 
                 if (exercisesUsed < maxExerciseValue) {
-                    const Real cashflow = calculator_->innerValue(iter, t);
-                    const Real currentValue = a[iter.index()];
+                    const Real cashflow = calculator_->innerValue(iter0, t);
+                    const Real currentValue = a[iter0.index()];
                     const Real valuePlusOneExercise
-                         = a[layout->neighbourhood(iter, swingDirection_, 1)];
+                         = a[layout->neighbourhood(iter0, swingDirection_, 1)];
                     
                     if (   currentValue < valuePlusOneExercise + cashflow
                         || exercisesUsed + d <=  minExercises_) {
-                        retVal[iter.index()] = valuePlusOneExercise + cashflow;
+                        retVal[iter0.index()] = valuePlusOneExercise + cashflow;
                     }
                 }
             }

@@ -34,7 +34,7 @@ namespace {
             : smileAndCms_(smileAndCms), volCube_(smileAndCms->volCube_),
               cmsMarket_(smileAndCms->cmsMarket_),
               weights_(smileAndCms->weights_),
-              calibrationType_(smileAndCms->calibrationType_) {};
+              calibrationType_(smileAndCms->calibrationType_) {}
 
         Real value(const Array &x) const;
         Array values(const Array &x) const;
@@ -58,7 +58,7 @@ namespace {
         ObjectiveFunction2(CmsMarketCalibration *smileAndCms,
                            Real fixedMeanReversion)
             : ObjectiveFunction(smileAndCms),
-              fixedMeanReversion_(fixedMeanReversion) {};
+              fixedMeanReversion_(fixedMeanReversion) {}
 
       private:
         virtual void updateVolatilityCubeAndCmsMarket(const Array &x) const;
@@ -68,7 +68,7 @@ namespace {
     class ObjectiveFunction3 : public ObjectiveFunction {
       public:
         explicit ObjectiveFunction3(CmsMarketCalibration *smileAndCms)
-            : ObjectiveFunction(smileAndCms) {};
+            : ObjectiveFunction(smileAndCms) {}
 
       private:
         virtual void updateVolatilityCubeAndCmsMarket(const Array &x) const;
@@ -79,7 +79,7 @@ namespace {
         ObjectiveFunction4(CmsMarketCalibration *smileAndCms,
                            Real fixedMeanReversion)
             : ObjectiveFunction(smileAndCms),
-              fixedMeanReversion_(fixedMeanReversion) {};
+              fixedMeanReversion_(fixedMeanReversion) {}
 
       private:
         virtual void updateVolatilityCubeAndCmsMarket(const Array &x) const;
@@ -91,7 +91,7 @@ namespace {
         ObjectiveFunction5(CmsMarketCalibration *smileAndCms,
                            Real fixedMeanReversion)
             : ObjectiveFunction(smileAndCms),
-              fixedMeanReversion_(fixedMeanReversion) {};
+              fixedMeanReversion_(fixedMeanReversion) {}
 
       private:
         virtual void updateVolatilityCubeAndCmsMarket(const Array &x) const;
@@ -101,7 +101,7 @@ namespace {
     class ObjectiveFunction6 : public ObjectiveFunction {
       public:
         explicit ObjectiveFunction6(CmsMarketCalibration *smileAndCms)
-            : ObjectiveFunction(smileAndCms) {};
+            : ObjectiveFunction(smileAndCms) {}
 
       private:
         virtual void updateVolatilityCubeAndCmsMarket(const Array &x) const;

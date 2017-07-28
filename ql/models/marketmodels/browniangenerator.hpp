@@ -31,7 +31,13 @@ namespace QuantLib {
     class BrownianGenerator {
       public:
 
-        virtual ~BrownianGenerator() {}
+        BrownianGenerator() = default;
+        virtual ~BrownianGenerator() = default;
+        BrownianGenerator(const BrownianGenerator&) = default;
+        BrownianGenerator(BrownianGenerator&&) = default;
+        BrownianGenerator& operator=(const BrownianGenerator&) = default;
+        BrownianGenerator& operator=(BrownianGenerator&&) = default;
+
 
         virtual Real nextStep(std::vector<Real>&) = 0;
         virtual Real nextPath() = 0;

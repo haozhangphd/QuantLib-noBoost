@@ -48,7 +48,11 @@ namespace QuantLib {
                         Real forward,
                         Real stdDev,
                         Real discount = 1.0);
-        virtual ~BlackCalculator() {}
+        virtual ~BlackCalculator() = default;
+        BlackCalculator(const BlackCalculator&) = default;
+        BlackCalculator(BlackCalculator&&) = default;
+        BlackCalculator& operator=(const BlackCalculator&) = default;
+        BlackCalculator& operator=(BlackCalculator&&) = default;
 
         Real value() const;
 

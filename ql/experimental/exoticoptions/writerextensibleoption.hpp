@@ -48,7 +48,7 @@ namespace QuantLib {
             const std::shared_ptr<Exercise>& exercise2);
         // inspectors
         std::shared_ptr<Payoff> payoff2() { return payoff2_; }
-        std::shared_ptr<Exercise> exercise2() { return exercise2_; };
+        std::shared_ptr<Exercise> exercise2() { return exercise2_; }
         // Instrument interface
         bool isExpired() const;
         void setupArguments(PricingEngine::arguments*) const;

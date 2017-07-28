@@ -58,7 +58,7 @@ namespace QuantLib {
         SparseMatrix toMatrix() const;
 
       protected:
-        TripleBandLinearOp() {}
+        TripleBandLinearOp() = default;
 
         Size direction_;
         std::vector<Size> i0_, i2_;

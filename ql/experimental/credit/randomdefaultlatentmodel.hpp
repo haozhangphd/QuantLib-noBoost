@@ -91,6 +91,12 @@ namespace QuantLib {
     are very expensive.
     \todo: consider another design, taking the statistics outside the models.
     */
+    
+//making DefaultLossModel virtually inheriting from Observable SEVERELY degrades performance!!!
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wextra"
+#endif
     template<template <class, class> class derivedRandomLM, class copulaPolicy,
         class USNG = SobolRsg>
     class RandomLM : public virtual LazyObject,
@@ -225,7 +231,9 @@ namespace QuantLib {
         static const Size maxHorizon_ = 4050; // over 11 years
         // Inversion probability limits are computed by children in initdates()
     };
-
+#if defined(__GNUG__)
+#pragma GCC diagnostic pop
+#endif
 
     /* ---- Statistics ---------------------------------------------------  */
 
@@ -250,7 +258,7 @@ namespace QuantLib {
             for(Size iEvt=0; iEvt < events.size(); iEvt++)
                 // duck type on the members:
                 if(val > events[iEvt].dayFromRef) simCount++;
-                if(simCount >= n) counts++;
+            if(simCount >= n) counts++;
         }
         return counts/nSims_;
         // \todo Provide confidence interval
@@ -367,7 +375,7 @@ namespace QuantLib {
             for(Size iEvt=0; iEvt < events.size(); iEvt++) {
                 // if event is within time horizon...
                 if(val > static_cast<Date::serial_type>(
-					   events[iEvt].dayFromRef)) {
+                       events[iEvt].dayFromRef)) {
                     Size iName = events[iEvt].nameIdx;
                     // ...and is contained in the basket.
                         portfSimLoss +=
@@ -425,7 +433,7 @@ namespace QuantLib {
             Real portfSimLoss=0.;
             for(Size iEvt=0; iEvt < events.size(); iEvt++) {
                 if(val > static_cast<Date::serial_type>(
-					 events[iEvt].dayFromRef)) {
+                     events[iEvt].dayFromRef)) {
                     Size iName = events[iEvt].nameIdx;
           // test needed (here and the others) to reuse simulations:
           //          if(basket_->pool()->has(copula_->pool()->names()[iName]))
@@ -468,7 +476,7 @@ namespace QuantLib {
             Real portfSimLoss=0.;
             for(Size iEvt=0; iEvt < events.size(); iEvt++) {
                 if(val > static_cast<Date::serial_type>(
-					  events[iEvt].dayFromRef)) {
+                      events[iEvt].dayFromRef)) {
                     Size iName = events[iEvt].nameIdx;
                     // ...and is contained in the basket.
                     //if(basket_->pool()->has(copula_->pool()->names()[iName]))
@@ -497,7 +505,7 @@ namespace QuantLib {
 
         return ( perctlInf * (1.-percent-probOverQ) +//<-correction term
             std::accumulate(losses.begin() + position, losses.end(), 
-			    Real(0.))/nSims_
+                Real(0.))/nSims_
                 )/(1.-percent);
 
         /* Alternative ESF definition; find the first loss larger than the
@@ -561,7 +569,7 @@ namespace QuantLib {
             Real portfSimLoss=0.;
             for(Size iEvt=0; iEvt < events.size(); iEvt++) {
                 if(val > static_cast<Date::serial_type>(
-					 events[iEvt].dayFromRef)) {
+                     events[iEvt].dayFromRef)) {
                     Size iName = events[iEvt].nameIdx;
                  //   if(basket_->pool()->has(copula_->pool()->names()[iName]))
                         portfSimLoss +=
@@ -668,7 +676,7 @@ namespace QuantLib {
 
             for(Size iEvt=0; iEvt < events.size(); iEvt++) {
                 if(val > static_cast<Date::serial_type>(
-					 events[iEvt].dayFromRef)) {
+                     events[iEvt].dayFromRef)) {
                     Size iName = events[iEvt].nameIdx;
                 // if(basket_->pool()->has(copula_->pool()->names()[iName])) {
                         portfSimLoss +=
@@ -765,7 +773,7 @@ namespace QuantLib {
             /* The cast I am forcing here comes from the requirement of 1D
             solvers to take in a target (cost) function of Real domain. It could
             be possible to change the template arg F in the 1D solvers to a
-	    std::function and then use the (template arg) domain argument type
+            std::function and then use the (template arg) domain argument type
             of the function for use with the 'guess' and operator() ?
              */
             Real operator()(Real t) const {
@@ -812,6 +820,11 @@ namespace QuantLib {
     /*! Default only latent model simulation with trivially fixed recovery
         amounts.
     */
+//making DefaultLossModel virtually inheriting from Observable SEVERELY degrades performance!!!
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wextra"
+#endif
     template<class copulaPolicy, class USNG = SobolRsg>
     class RandomDefaultLM : public RandomLM<RandomDefaultLM, copulaPolicy, USNG>
     {
@@ -926,10 +939,9 @@ namespace QuantLib {
         //   horizon date. Cached for perf.
         mutable std::vector<Probability> horizonDefaultPs_;
     };
-
-
-
-
+#if defined(__GNUG__)
+#pragma GCC diagnostic pop
+#endif 
 
     template<class C, class URNG>
     void RandomDefaultLM<C, URNG>::nextSample(

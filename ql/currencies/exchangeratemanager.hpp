@@ -73,8 +73,8 @@ namespace QuantLib {
             Entry() {}
             Entry(const ExchangeRate& rate,
                   const Date& start, const Date& end)
-            : rate(rate), startDate(start), endDate(end) {}
-            ExchangeRate rate;
+            : rate_(rate), startDate(start), endDate(end) {}
+            ExchangeRate rate_;
             Date startDate, endDate;
         };
       private:

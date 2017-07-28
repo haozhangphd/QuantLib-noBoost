@@ -231,7 +231,7 @@ namespace QuantLib {
                 : section_(section), targetVega_(targetVega) {}
             Real operator()(Real strike) const {
                 return section_->vega(strike) - targetVega_;
-            };
+            }
             const SmileSection *section_;
             const Real targetVega_;
         };
@@ -243,7 +243,7 @@ namespace QuantLib {
                 : section_(section), targetPrice_(targetPrice), type_(type) {}
             Real operator()(Real strike) const {
                 return section_->optionPrice(strike, type_) - targetPrice_;
-            };
+            }
             const SmileSection *section_;
             const Real targetPrice_;
             const Option::Type type_;

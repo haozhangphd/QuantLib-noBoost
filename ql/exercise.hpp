@@ -39,7 +39,12 @@ namespace QuantLib {
         };
         // constructor
         explicit Exercise(Type type) : type_(type) {}
-        virtual ~Exercise() {}
+        Exercise() = default;
+        virtual ~Exercise() = default;
+        Exercise(const Exercise&) = default;
+        Exercise(Exercise&&) = default;
+        Exercise& operator=(const Exercise&) = default;
+        Exercise& operator=(Exercise&&) = default;
         // inspectors
         Type type() const { return type_; }
         Date date(Size index) const { return dates_[index]; }

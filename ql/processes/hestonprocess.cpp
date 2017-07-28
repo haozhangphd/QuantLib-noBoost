@@ -181,7 +181,7 @@ namespace QuantLib {
             const Real x0    = std::log(process.s0()->value());
 
             return gaussLaguerreIntegration(
-                    [&process,y, nu_0, nu_t, t](Real x){return ph(process, y, x, nu_0, nu_t, t);})
+                    [&process,y, nu_0, nu_t, t](Real s){return ph(process, y, s, nu_0, nu_t, t);})
                 / std::sqrt(2*M_PI*(1-rho*rho)*y)
                 * std::exp(-0.5*square(  x - x0 - a
                                                + y*(0.5-rho*kappa/sigma))

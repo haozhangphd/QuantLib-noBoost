@@ -22,6 +22,7 @@
 #define quantlib_market_model_differences_hpp
 
 #include <ql/types.hpp>
+#include <ql/math/matrix.hpp>
 #include <memory>
 #include <algorithm>
 #include <vector>
@@ -44,6 +45,11 @@ namespace QuantLib {
             const PiecewiseConstantCorrelation&,
             const std::vector<std::shared_ptr<PiecewiseConstantVariance> >&,
             const std::vector<Time>&);
+
+    std::vector<Matrix> coterminalSwapPseudoRoots(
+        const PiecewiseConstantCorrelation& piecewiseConstantCorrelation,
+        const std::vector<std::shared_ptr<PiecewiseConstantVariance> >&
+                                                 piecewiseConstantVariances);
 }
 
 #endif

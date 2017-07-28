@@ -45,8 +45,8 @@ namespace QuantLib {
     public:
         DigitalReplication(Replication::Type t = Replication::Central,
                            Real gap = 1e-4);
-        Replication::Type replicationType() const { return replicationType_;};
-        Real gap() const { return gap_;};
+        Replication::Type replicationType() const { return replicationType_;}
+        Real gap() const { return gap_;}
     private:
         Real gap_;
         Replication::Type replicationType_;

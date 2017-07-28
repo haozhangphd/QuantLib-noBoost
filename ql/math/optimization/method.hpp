@@ -35,7 +35,12 @@ namespace QuantLib {
     //! Abstract class for constrained optimization method
     class OptimizationMethod {
       public:
-        virtual ~OptimizationMethod() {}
+        OptimizationMethod() = default;
+        virtual ~OptimizationMethod() = default;
+        OptimizationMethod(const OptimizationMethod&) = default;
+        OptimizationMethod(OptimizationMethod&&) = default;
+        OptimizationMethod& operator=(const OptimizationMethod&) = default;
+        OptimizationMethod& operator=(OptimizationMethod&&) = default;
 
         //! minimize the optimization problem P
         virtual EndCriteria::Type minimize(Problem& P,

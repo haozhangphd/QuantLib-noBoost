@@ -186,7 +186,13 @@ namespace QuantLib {
         // internal class
         class FittingCost;
       public:
-        virtual ~FittingMethod() {}
+        FittingMethod() = default;
+        virtual ~FittingMethod() = default;
+        FittingMethod(const FittingMethod&) = default;
+        FittingMethod(FittingMethod&&) = default;
+        FittingMethod& operator=(const FittingMethod&) = default;
+        FittingMethod& operator=(FittingMethod&&) = default;
+
         //! total number of coefficients to fit/solve for
         virtual Size size() const = 0;
         //! output array of results of optimization problem

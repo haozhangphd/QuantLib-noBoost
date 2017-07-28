@@ -52,9 +52,9 @@ namespace QuantLib {
                               UnitOfMeasure::Type unitType,
                               const UnitOfMeasure& triangulationUnitOfMeasure,
                               const Rounding& rounding)
-    : name(name), code(code), unitType(unitType),
-      triangulationUnitOfMeasure(triangulationUnitOfMeasure),
-      rounding(rounding) {}
+    : name_(name), code_(code), unitType_(unitType),
+      triangulationUnitOfMeasure_(triangulationUnitOfMeasure),
+      rounding_(rounding) {}
 
 }
 

@@ -118,7 +118,7 @@ TEST_CASE("Matrices_Eigenvectors", "[Matrices]") {
         SymmetricSchurDecomposition dec(M);
         Array eigenValues = dec.eigenvalues();
         Matrix eigenVectors = dec.eigenvectors();
-	Real minHolder = QL_MAX_REAL;
+    Real minHolder = QL_MAX_REAL;
 
         for (Size i=0; i<N; i++) {
             Array v(N);
@@ -320,8 +320,8 @@ TEST_CASE("Matrices_QRSolve", "[Matrices]") {
                                                           U.column_end(i),
                                                           b.begin(), 0.0)/w[i];
 
-                        for (Size j=0; j<n; ++j) {
-                            xr[j]  +=u*V[j][i];
+                        for (Size l=0; l<n; ++l) {
+                            xr[l]  +=u*V[l][i];
                         }
                     }
                 }
@@ -407,14 +407,14 @@ TEST_CASE("Matrices_Determinant", "[Matrices]") {
         Real h=m[2][1];
         Real i=m[2][2];
 
-        const Real expected = a*e*i+b*f*g+c*d*h-(g*e*c+h*f*a+i*d*b);
+        const Real expected_temp = a*e*i+b*f*g+c*d*h-(g*e*c+h*f*a+i*d*b);
         const Real calculated = determinant(m);
 
-        if (std::fabs(expected-calculated) > tol)
+        if (std::fabs(expected_temp-calculated) > tol)
             FAIL_CHECK("determinant calculation failed "
                        << "\n matrix     :\n" << m
                        << "\n calculated : " << calculated
-                       << "\n expected   : " << expected);
+                       << "\n expected   : " << expected_temp);
     }
 }
 

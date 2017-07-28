@@ -281,10 +281,10 @@ Real ReplicationPathPricer::operator()(const Path &path) const {
         qDiscount = std::exp(-stockDividendYield * (maturity_ - t));
         forward = stock * qDiscount / rDiscount;
         stdDev = std::sqrt(sigma_ * sigma_ * (maturity_ - t));
-        BlackCalculator black(payoff, forward, stdDev, rDiscount);
+        BlackCalculator black_temp(payoff, forward, stdDev, rDiscount);
 
         // recalculate delta
-        delta = black.delta(stock);
+        delta = black_temp.delta(stock);
 
         // re-hedging
         money_account -= (delta - stockAmount) * stock;

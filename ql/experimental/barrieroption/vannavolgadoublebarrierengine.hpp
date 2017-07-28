@@ -178,13 +178,13 @@ namespace QuantLib {
                        //set up BS barrier option pricing
                        //only calculate out barrier option price
                        // in barrier price = vanilla - out barrier
-                       std::shared_ptr<StrikedTypePayoff> payoff
+                       std::shared_ptr<StrikedTypePayoff> payoff_temp
                            = std::static_pointer_cast<StrikedTypePayoff> (arguments_.payoff);
                        DoubleBarrierOption doubleBarrierOption(arguments_.barrierType,
                                                    arguments_.barrier_lo,
                                                    arguments_.barrier_hi,
                                                    arguments_.rebate,
-                                                   payoff,
+                                                   payoff_temp,
                                                    arguments_.exercise);
 
                        doubleBarrierOption.setPricingEngine(engineBS);

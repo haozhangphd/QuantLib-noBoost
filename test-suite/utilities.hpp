@@ -172,14 +172,14 @@ namespace QuantLib {
 
     template<class T>
     struct vector_streamer {
-        explicit vector_streamer(const std::vector<T> &v) : v(v) {}
+        explicit vector_streamer(const std::vector<T> &v0) : v(v0) {}
 
         std::vector<T> v;
     };
 
     template<class T>
-    vector_streamer<T> to_stream(const std::vector<T> &v) {
-        return vector_streamer<T>(v);
+    vector_streamer<T> to_stream(const std::vector<T> &v0) {
+        return vector_streamer<T>(v0);
     }
 
     template<class T>

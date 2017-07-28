@@ -42,7 +42,6 @@ TEST_CASE("PermutationIterator_Iteration", "[.]") {
     permIter end(v.begin(), index.end());
 
     std::vector<int> ret(begin, end);
-    std::vector<int> expected{4, 2, 5, 2, 6, 10, 3, 7, 6, 5};
 
     SECTION("Elements at even i in the permutation : ") {
         it = begin;

@@ -117,7 +117,13 @@ namespace QuantLib {
         StatsHolder(Real mean,
                     Real standardDeviation)
                     : mean_(mean), standardDeviation_(standardDeviation) {}
-        ~StatsHolder() {}
+        StatsHolder() = default;
+        ~StatsHolder() = default;
+        StatsHolder(const StatsHolder&) = default;
+        StatsHolder(StatsHolder&&) = default;
+        StatsHolder& operator=(const StatsHolder&) = default;
+        StatsHolder& operator=(StatsHolder&&) = default;
+
         Real mean() const { return mean_; }
         Real standardDeviation() const { return standardDeviation_; }
       private:

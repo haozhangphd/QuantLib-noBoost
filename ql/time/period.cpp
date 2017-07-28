@@ -395,9 +395,9 @@ namespace QuantLib {
 
         std::ostream& operator<<(std::ostream& out,
                                  const long_period_holder& holder) {
-            Integer n = holder.p.length();
+            Integer n = holder.p_.length();
             Integer m = 0;
-            switch (holder.p.units()) {
+            switch (holder.p_.units()) {
               case Days:
                 if (n>=7) {
                     m = n/7;
@@ -423,15 +423,15 @@ namespace QuantLib {
               case Years:
                 return out << n << (n == 1 ? " year" : " years");
               default:
-                QL_FAIL("unknown time unit (" << Integer(holder.p.units()) << ")");
+                QL_FAIL("unknown time unit (" << Integer(holder.p_.units()) << ")");
             }
         }
 
         std::ostream& operator<<(std::ostream& out,
                                  const short_period_holder& holder) {
-            Integer n = holder.p.length();
+            Integer n = holder.p_.length();
             Integer m = 0;
-            switch (holder.p.units()) {
+            switch (holder.p_.units()) {
               case Days:
                 if (n>=7) {
                     m = n/7;
@@ -457,7 +457,7 @@ namespace QuantLib {
               case Years:
                 return out << n << "Y";
               default:
-                QL_FAIL("unknown time unit (" << Integer(holder.p.units()) << ")");
+                QL_FAIL("unknown time unit (" << Integer(holder.p_.units()) << ")");
             }
         }
 

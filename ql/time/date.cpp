@@ -695,7 +695,7 @@ namespace QuantLib {
 
         std::ostream &operator<<(std::ostream &out,
                                  const short_date_holder &holder) {
-            const Date &d = holder.d;
+            const Date &d = holder.d_;
             if (d == Date()) {
                 out << "null date";
             } else {
@@ -713,7 +713,7 @@ namespace QuantLib {
 
         std::ostream &operator<<(std::ostream &out,
                                  const long_date_holder &holder) {
-            const Date &d = holder.d;
+            const Date &d = holder.d_;
             if (d == Date()) {
                 out << "null date";
             } else {
@@ -727,7 +727,7 @@ namespace QuantLib {
 
         std::ostream &operator<<(std::ostream &out,
                                  const iso_date_holder &holder) {
-            const Date &d = holder.d;
+            const Date &d = holder.d_;
             if (d == Date()) {
                 out << "null date";
             } else {
@@ -746,7 +746,7 @@ namespace QuantLib {
 
         std::ostream &operator<<(std::ostream &out,
                                  const iso_datetime_holder &holder) {
-            const Date &d = holder.d;
+            const Date &d = holder.d_;
 
             out << io::iso_date(d) << "T";
             FormatResetter resetter(out);
@@ -767,7 +767,7 @@ namespace QuantLib {
 
         std::ostream &operator<<(std::ostream &out,
                                  const formatted_date_holder &holder) {
-            const Date &d = holder.d;
+            const Date &d = holder.d_;
             if (d == Date()) {
                 out << "null date";
             } else {
@@ -775,7 +775,7 @@ namespace QuantLib {
                 out.imbue(std::locale());
                 std::time_t t{system_clock::to_time_t(d.dateTime())};
                 std::tm *tm = std::gmtime(&t);
-                out << std::put_time(tm, holder.f.c_str());
+                out << std::put_time(tm, holder.f_.c_str());
             }
             return out;
         }
@@ -784,7 +784,7 @@ namespace QuantLib {
 
         std::ostream &operator<<(std::ostream &out,
                                  const formatted_date_holder &holder) {
-            const Date &d = holder.d;
+            const Date &d = holder.d_;
             if (d == Date()) {
                 out << "null date";
             } else {
@@ -794,7 +794,7 @@ namespace QuantLib {
                 tm.tm_year = d.year() - 1900;
                 tm.tm_mon = static_cast<Integer>(d.month()) - 1;
                 tm.tm_mday = d.dayOfMonth();
-                out << std::put_time(&tm, holder.f.c_str());
+                out << std::put_time(&tm, holder.f_.c_str());
             }
             return out;
         }

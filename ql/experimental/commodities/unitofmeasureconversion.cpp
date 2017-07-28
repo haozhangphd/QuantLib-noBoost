@@ -45,9 +45,9 @@ namespace QuantLib {
                                         const UnitOfMeasure& source,
                                         const UnitOfMeasure& target,
                                         Real conversionFactor, Type type)
-    : commodityType(commodityType), source(source), target(target),
-      conversionFactor(conversionFactor), type(type) {
-        code = commodityType.name() + source.code() + target.code();
+    : commodityType_(commodityType), source_(source), target_(target),
+      conversionFactor_(conversionFactor), type_(type) {
+        code_ = commodityType.name() + source.code() + target.code();
     }
 
     UnitOfMeasureConversion::Data::Data(const UnitOfMeasureConversion& r1,
@@ -58,16 +58,16 @@ namespace QuantLib {
     }
 
     Quantity UnitOfMeasureConversion::convert(const Quantity& quantity) const {
-        switch (data_->type) {
+        switch (data_->type_) {
           case Direct:
-            if (quantity.unitOfMeasure() == data_->source)
+            if (quantity.unitOfMeasure() == data_->source_)
                 return Quantity(quantity.commodityType(),
-                                data_->target,
-                                quantity.amount()*data_->conversionFactor);
-            else if (quantity.unitOfMeasure() == data_->target)
+                                data_->target_,
+                                quantity.amount()*data_->conversionFactor_);
+            else if (quantity.unitOfMeasure() == data_->target_)
                 return Quantity(quantity.commodityType(),
-                                data_->source,
-                                quantity.amount()/data_->conversionFactor);
+                                data_->source_,
+                                quantity.amount()/data_->conversionFactor_);
             else
                 QL_FAIL("direct conversion not applicable");
           case Derived:
@@ -94,27 +94,27 @@ namespace QuantLib {
                                             const UnitOfMeasureConversion& r1,
                                             const UnitOfMeasureConversion& r2) {
         UnitOfMeasureConversion result(r1, r2);
-        result.data_->type = Derived;
-        if (r1.data_->source == r2.data_->source) {
-            result.data_->source = r1.data_->target;
-            result.data_->target = r2.data_->target;
-            result.data_->conversionFactor =
-                r2.data_->conversionFactor/r1.data_->conversionFactor;
-        } else if (r1.data_->source == r2.data_->target) {
-            result.data_->source = r1.data_->target;
-            result.data_->target = r2.data_->source;
-            result.data_->conversionFactor =
-                1.0/(r1.data_->conversionFactor*r2.data_->conversionFactor);
-        } else if (r1.data_->target == r2.data_->source) {
-            result.data_->source = r1.data_->source;
-            result.data_->target = r2.data_->target;
-            result.data_->conversionFactor =
-                r1.data_->conversionFactor*r2.data_->conversionFactor;
-        } else if (r1.data_->target == r2.data_->target) {
-            result.data_->source = r1.data_->source;
-            result.data_->target = r2.data_->source;
-            result.data_->conversionFactor =
-                r1.data_->conversionFactor/r2.data_->conversionFactor;
+        result.data_->type_ = Derived;
+        if (r1.data_->source_ == r2.data_->source_) {
+            result.data_->source_ = r1.data_->target_;
+            result.data_->target_ = r2.data_->target_;
+            result.data_->conversionFactor_ =
+                r2.data_->conversionFactor_/r1.data_->conversionFactor_;
+        } else if (r1.data_->source_ == r2.data_->target_) {
+            result.data_->source_ = r1.data_->target_;
+            result.data_->target_ = r2.data_->source_;
+            result.data_->conversionFactor_ =
+                1.0/(r1.data_->conversionFactor_*r2.data_->conversionFactor_);
+        } else if (r1.data_->target_ == r2.data_->source_) {
+            result.data_->source_ = r1.data_->source_;
+            result.data_->target_ = r2.data_->target_;
+            result.data_->conversionFactor_ =
+                r1.data_->conversionFactor_*r2.data_->conversionFactor_;
+        } else if (r1.data_->target_ == r2.data_->target_) {
+            result.data_->source_ = r1.data_->source_;
+            result.data_->target_ = r2.data_->source_;
+            result.data_->conversionFactor_ =
+                r1.data_->conversionFactor_/r2.data_->conversionFactor_;
         } else {
             QL_FAIL("conversion factors not chainable");
         }

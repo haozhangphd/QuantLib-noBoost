@@ -28,13 +28,13 @@
 namespace QuantLib {
 
 class NoArbSabrModel::integrand {
-    const NoArbSabrModel* model;
-    Real strike;
+    const NoArbSabrModel* model_;
+    Real strike_;
   public:
     integrand(const NoArbSabrModel* model, Real strike)
-    : model(model), strike(strike) {}
+    : model_(model), strike_(strike) {}
     Real operator()(Real f) const {
-        return std::max(f - strike, 0.0) * model->p(f);
+        return std::max(f - strike_, 0.0) * model_->p(f);
     }
 };
 
@@ -289,7 +289,7 @@ Real D0Interpolator::operator()() const {
                                 QL_REQUIRE(ind >= 0 && ind < 1209600,
                                            "absorption matrix index ("
                                                << ind << ") invalid");
-                                phiTmp = phi((Real)sabrabsprob[ind] /
+                                phiTmp = phi(static_cast<Real>(sabrabsprob[ind]) /
                                              detail::NoArbSabrModel::nsim);
                             }
                         }

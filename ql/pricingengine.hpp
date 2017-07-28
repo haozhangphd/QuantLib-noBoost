@@ -44,13 +44,24 @@ namespace QuantLib {
 
     class PricingEngine::arguments {
       public:
-        virtual ~arguments() {}
+        arguments() = default;
+        virtual ~arguments() = default;
+        arguments(const arguments&) = default;
+        arguments(arguments&&) = default;
+        arguments& operator=(const arguments&) = default;
+        arguments& operator=(arguments&&) = default;
+
         virtual void validate() const = 0;
     };
 
     class PricingEngine::results {
       public:
-        virtual ~results() {}
+        results() = default;
+        virtual ~results() = default;
+        results(const results&) = default;
+        results(results&&) = default;
+        results& operator=(const results&) = default;
+        results& operator=(results&&) = default;
         virtual void reset() = 0;
     };
 

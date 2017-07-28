@@ -252,7 +252,7 @@ TEST_CASE("GJRGARCHModel_DAXCalibration", "[GJRGARCHModel]") {
         for (Size m = 0; m < 3; ++m) {
             Handle<Quote> vol(std::make_shared<SimpleQuote>(v[s*8+m]));
 
-            Period maturity((int)((t[m]+3)/7.), Weeks); // round to weeks
+            Period maturity(static_cast<int>((t[m]+3)/7.), Weeks); // round to weeks
             options.emplace_back(std::make_shared<HestonModelHelper>(maturity, calendar,
                                           s0->value(), strike[s], vol,
                                           riskFreeTS, dividendTS, 

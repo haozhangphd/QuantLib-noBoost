@@ -30,10 +30,10 @@ namespace QuantLib {
 
     AnalyticPDFHestonEngine::AnalyticPDFHestonEngine(
         const std::shared_ptr<HestonModel>& model,
-        Real integrationEps_,
+        Real integrationEps,
         Size maxIntegrationIterations)
     : maxIntegrationIterations_(maxIntegrationIterations),
-      integrationEps_(integrationEps_),
+      integrationEps_(integrationEps),
       model_(model) {  }
 
     void AnalyticPDFHestonEngine::calculate() const {

@@ -172,13 +172,13 @@ namespace QuantLib {
 
         for (Size j = 0; j < n; ++j) {
             const Real payoff = paths_[j].payments[len - 1];
-            const Real exercise = paths_[j].exercises[len - 1];
+            const Real exercise0 = paths_[j].exercises[len - 1];
             const Array & states = paths_[j].states[len - 1];
             const bool canExercise = !states.empty();
 
             // at the end the continuation value is 0.0
-            if (canExercise && exercise > 0.0)
-                prices[j] += exercise;
+            if (canExercise && exercise0 > 0.0)
+                prices[j] += exercise0;
             prices[j] += payoff;
         }
 

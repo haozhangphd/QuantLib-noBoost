@@ -57,7 +57,13 @@ namespace QuantLib {
       \todo Bugging on tranched baskets with upper limit over maximum 
         attainable loss?
      */
-    class GaussianLHPLossModel : public DefaultLossModel, 
+
+//making DefaultLossModel virtually inheriting from Observable SEVERELY degrades performance!!!
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wextra"
+#endif
+    class GaussianLHPLossModel : public DefaultLossModel,
         public LatentModel<GaussianCopulaPolicy> {
     public:
         typedef GaussianCopulaPolicy copulaType;
@@ -209,6 +215,10 @@ namespace QuantLib {
         BivariateCumulativeNormalDistribution biphi_;
         static CumulativeNormalDistribution const phi_;
     };
+
+#if defined(__GNUG__)
+#pragma GCC diagnostic pop
+#endif
 
 }
 

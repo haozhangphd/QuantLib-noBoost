@@ -503,7 +503,7 @@ namespace QuantLib {
 
                     Real integral = 0.0;
 
-                    if (j == (int)(y_.size() - 1)) {
+                    if (j == static_cast<int>(y_.size() - 1)) {
                         if ((modelSettings_.adjustments_ &
                              ModelSettings::NoPayoffExtrapolation) == 0) {
                             if ((modelSettings_.adjustments_ &
@@ -555,7 +555,7 @@ namespace QuantLib {
                             swapRate = marketSwapRate(
                                 i->first, i->second, digital, swapRate0,
                                 i->second.rawSmileSection_->shift());
-                            if (j < (int)y_.size() - 1 &&
+                            if (j < static_cast<int>(y_.size()) - 1 &&
                                 swapRate > swapRate0) {
                                 QL_MFMESSAGE(
                                     modelOutputs_,

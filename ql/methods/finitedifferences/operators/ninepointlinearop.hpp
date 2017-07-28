@@ -46,7 +46,7 @@ namespace QuantLib {
         SparseMatrix toMatrix() const;
 
       protected:
-        NinePointLinearOp() {}
+        NinePointLinearOp() = default;
 
         Size d0_, d1_;
         std::vector<Size> i00_, i10_, i20_;

@@ -458,14 +458,14 @@ TEST_CASE("BatesModel_DAXCalibration", "[BatesModel]") {
 
     for (Size s = 0; s < 13; ++s) {
         for (Size m = 0; m < 8; ++m) {
-            Handle<Quote> vol(std::make_shared<SimpleQuote>(v[s*8+m]));
+            Handle<Quote> vol_temp(std::make_shared<SimpleQuote>(v[s*8+m]));
 
-            Period maturity((int)((t[m]+3)/7.), Weeks); // round to weeks
+            Period maturity(static_cast<int>((t[m]+3)/7.), Weeks); // round to weeks
 
             // this is the calibration helper for the bates models
             // FLOATING_POINT_EXCEPTION
             options.emplace_back(std::make_shared<HestonModelHelper>(maturity, calendar,
-                                          s0->value(), strike[s], vol,
+                                          s0->value(), strike[s], vol_temp,
                                           riskFreeTS, dividendTS, 
                                           CalibrationHelper::ImpliedVolError));
             options.back()->setPricingEngine(batesEngine);
@@ -514,7 +514,7 @@ TEST_CASE("BatesModel_DAXCalibration", "[BatesModel]") {
             options[j]->setPricingEngine(pricingEngines[i]);
         }
 
-        Real calculated = std::fabs(getCalibrationError(options));
+        calculated = std::fabs(getCalibrationError(options));
         if (std::fabs(calculated - expectedValues[i]) > tolerance)
             FAIL_CHECK("failed to calculated prices for derived Bates models"
                         << "\n    calculated: " << calculated

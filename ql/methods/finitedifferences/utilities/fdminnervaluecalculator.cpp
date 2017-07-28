@@ -58,12 +58,12 @@ namespace QuantLib {
 
             const std::shared_ptr<FdmLinearOpLayout> layout=mesher_->layout();
             const FdmLinearOpIterator endIter = layout->end();
-            for (FdmLinearOpIterator iter = layout->begin(); iter != endIter;
-                 ++iter) {
-                const Size xn = iter.coordinates()[direction_];
+            for (FdmLinearOpIterator iter0 = layout->begin(); iter0 != endIter;
+                 ++iter0) {
+                const Size xn = iter0.coordinates()[direction_];
                 if (!initialized[xn]) {
                     initialized[xn]     = true;
-                    avgInnerValues_[xn] = avgInnerValueCalc(iter, t);
+                    avgInnerValues_[xn] = avgInnerValueCalc(iter0, t);
                 }
             }
         }

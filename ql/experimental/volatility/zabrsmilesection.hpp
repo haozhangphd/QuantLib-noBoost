@@ -173,7 +173,7 @@ void ZabrSmileSection<Evaluation>::init(const std::vector<Real> &moneyness,
             if (!firstStrike) {
                 for (Size j = 1; j <= fdRefinement_; ++j) {
                     strikes_.emplace_back(lastF +
-                                       ((double)j) * (f - lastF) /
+                                       static_cast<double>(j) * (f - lastF) /
                                            (fdRefinement_ + 1));
                 }
             }

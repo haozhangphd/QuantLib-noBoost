@@ -38,7 +38,7 @@ namespace QuantLib {
 }
 #endif
 
-unsigned long seed = 127;
+static const unsigned long seed = 127;
 
 /*
     Some benchmark functions taken from

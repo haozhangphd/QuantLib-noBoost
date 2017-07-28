@@ -91,7 +91,7 @@ namespace QuantLib {
                 Real indexEnd = cpiIndex()->fixing(dd.second + Period(1, Days));
                 // linear interpolation
                 I1 = indexStart + (indexEnd - indexStart) * (d - dd.first)
-                                  / (Real) ((dd.second + Period(1, Days)) -
+                                  / static_cast<Real> ((dd.second + Period(1, Days)) -
                                             dd.first); // can't get to next period's value within current period
             } else {
                 // no interpolation, i.e. flat = constant, so use start-of-period value

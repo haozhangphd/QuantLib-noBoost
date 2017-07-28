@@ -48,7 +48,7 @@ namespace QuantLib {
     //! Intermediate class for put/call payoffs
     class TypePayoff : public Payoff {
       public:
-        Option::Type optionType() const { return type_; };
+        Option::Type optionType() const { return type_; }
         //! \name Payoff interface
         //@{
         std::string description() const;
@@ -62,7 +62,7 @@ namespace QuantLib {
     //class StrikedPayoff : public Payoff {
     //  public:
     //    StrikedPayoff(Real strike) : strike_(strike) {}
-    //    Real strike() const { return strike_; };
+    //    Real strike() const { return strike_; }
     //    //! \name Payoff interface
     //    //@{
     //    std::string description() const;
@@ -92,7 +92,7 @@ namespace QuantLib {
         //@{
         std::string description() const;
         //@}
-        Real strike() const { return strike_; };
+        Real strike() const { return strike_; }
       protected:
         StrikedTypePayoff(Option::Type type,
                           Real strike)

@@ -85,13 +85,13 @@ namespace QuantLib {
     };
 
     struct Currency::Data {
-        std::string name, code;
-        Integer numeric;
-        std::string symbol, fractionSymbol;
-        Integer fractionsPerUnit;
-        Rounding rounding;
-        Currency triangulated;
-        std::string formatString;
+        std::string name_, code_;
+        Integer numeric_;
+        std::string symbol_, fractionSymbol_;
+        Integer fractionsPerUnit_;
+        Rounding rounding_;
+        Currency triangulated_;
+        std::string formatString_;
 
         Data(const std::string &name,
              const std::string &code,
@@ -124,35 +124,35 @@ namespace QuantLib {
     inline Currency::Currency() {}
 
     inline const std::string &Currency::name() const {
-        return data_->name;
+        return data_->name_;
     }
 
     inline const std::string &Currency::code() const {
-        return data_->code;
+        return data_->code_;
     }
 
     inline Integer Currency::numericCode() const {
-        return data_->numeric;
+        return data_->numeric_;
     }
 
     inline const std::string &Currency::symbol() const {
-        return data_->symbol;
+        return data_->symbol_;
     }
 
     inline const std::string &Currency::fractionSymbol() const {
-        return data_->fractionSymbol;
+        return data_->fractionSymbol_;
     }
 
     inline Integer Currency::fractionsPerUnit() const {
-        return data_->fractionsPerUnit;
+        return data_->fractionsPerUnit_;
     }
 
     inline const Rounding &Currency::rounding() const {
-        return data_->rounding;
+        return data_->rounding_;
     }
 
     inline std::string Currency::format() const {
-        return data_->formatString;
+        return data_->formatString_;
     }
 
     inline bool Currency::empty() const {
@@ -160,7 +160,7 @@ namespace QuantLib {
     }
 
     inline const Currency &Currency::triangulationCurrency() const {
-        return data_->triangulated;
+        return data_->triangulated_;
     }
 
     inline bool operator==(const Currency &c1, const Currency &c2) {

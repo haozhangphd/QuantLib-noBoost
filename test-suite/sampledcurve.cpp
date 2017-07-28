@@ -27,7 +27,7 @@ using namespace QuantLib;
 
 class FSquared {
 public:
-    Real operator()(Real x) const { return x*x;};
+    Real operator()(Real x) const { return x*x;}
 };
 
 TEST_CASE("SampledCurve_Construction", "[SampledCurve]") {
@@ -66,12 +66,12 @@ TEST_CASE("SampledCurve_Construction", "[SampledCurve]") {
     Real tolerance = 1.0e-2;
     for (Size i=0; i < curve.size(); i++) {
         Real grid = curve.gridValue(i);
-        Real value = curve.value(i);
-        Real expected = f2(grid);
-        if (std::fabs(value - expected) > tolerance) {
+        Real value_temp = curve.value(i);
+        expected = f2(grid);
+        if (std::fabs(value_temp - expected) > tolerance) {
             FAIL_CHECK("sample curve regriding failed" <<
                         "\n    at " << io::ordinal(i+1) << " point " << "(x = " << grid << ")" <<
-                        "\n    grid value: " << value <<
+                        "\n    grid value: " << value_temp <<
                         "\n    expected:   " << expected);
         }
     }

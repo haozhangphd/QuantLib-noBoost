@@ -81,7 +81,7 @@ namespace QuantLib {
                     // default are all linked together.
                     volsHandle[i][j] = Handle<Quote>(std::make_shared<SimpleQuote>(vols[i][j]));
             }
-        };
+        }
     };
     struct VolatilityCube {
         SwaptionTenors tenors;
@@ -140,7 +140,7 @@ namespace QuantLib {
                     volSpreadsHandle[i][j] = Handle<Quote>(std::make_shared<SimpleQuote>(volSpreads[i][j]));
                 }
             }
-        };
+        }
     };
 
 

@@ -32,14 +32,14 @@ namespace {
                    const Period& period,
                    const bool endOfMonth,
                    Date result)
-        : calendar(calendar), convention(convention), start(start), 
-          period(period), endOfMonth(endOfMonth), result(result) {}
-        Calendar calendar;
-        BusinessDayConvention convention;
-        Date start;
-        Period period;
-        bool endOfMonth;
-        Date result;
+        : calendar_(calendar), convention_(convention), start_(start),
+          period_(period), endOfMonth_(endOfMonth), result_(result) {}
+        Calendar calendar_;
+        BusinessDayConvention convention_;
+        Date start_;
+        Period period_;
+        bool endOfMonth_;
+        Date result_;
     };
 
 }
@@ -101,19 +101,19 @@ TEST_CASE("BusinessDayConvention_Conventions", "[BusinessDayConvention]") {
 
     Size n = sizeof(testCases)/sizeof(SingleCase);
     for (Size i=0; i<n; i++) {
-        Calendar calendar(testCases[i].calendar);
+        Calendar calendar(testCases[i].calendar_);
         Date result = calendar.advance(
-            testCases[i].start,
-            testCases[i].period,
-            testCases[i].convention,
-            testCases[i].endOfMonth);
+            testCases[i].start_,
+            testCases[i].period_,
+            testCases[i].convention_,
+            testCases[i].endOfMonth_);
 
-        if (result != testCases[i].result)
+        if (result != testCases[i].result_)
 		FAIL_CHECK( "\ncase " << i << ":\n" //<< j << " ("<< desc << "): "
-                            << "start date: " << testCases[i].start << "\n"
+                            << "start date: " << testCases[i].start_ << "\n"
                             << "calendar: " << calendar << "\n"
-                            << "period: " << testCases[i].period << ", end of month: " << testCases[i].endOfMonth << "\n"
-                            << "convention: " << testCases[i].convention << "\n"
-                            << "expected: " << testCases[i].result << " vs. actual: " << result);
+                            << "period: " << testCases[i].period_ << ", end of month: " << testCases[i].endOfMonth_ << "\n"
+                            << "convention: " << testCases[i].convention_ << "\n"
+                            << "expected: " << testCases[i].result_ << " vs. actual: " << result);
     }
 }

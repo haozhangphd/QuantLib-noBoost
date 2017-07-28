@@ -38,9 +38,9 @@ namespace QuantLib {
     public:
         AmericanCondition(Option::Type type,
                           Real strike)
-            : StandardCurveDependentStepCondition(type, strike) {};
+            : StandardCurveDependentStepCondition(type, strike) {}
         AmericanCondition(const Array& intrinsicValues)
-            : StandardCurveDependentStepCondition(intrinsicValues) {};
+            : StandardCurveDependentStepCondition(intrinsicValues) {}
     private:
         Real applyToValue(Real current, Real intrinsic) const {
             return std::max(current, intrinsic);

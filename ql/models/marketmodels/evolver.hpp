@@ -34,7 +34,12 @@ namespace QuantLib {
     */
     class MarketModelEvolver {
       public:
-        virtual ~MarketModelEvolver() {}
+        MarketModelEvolver() = default;
+        virtual ~MarketModelEvolver() = default;
+        MarketModelEvolver(const MarketModelEvolver&) = default;
+        MarketModelEvolver(MarketModelEvolver&&) = default;
+        MarketModelEvolver& operator=(const MarketModelEvolver&) = default;
+        MarketModelEvolver& operator=(MarketModelEvolver&&) = default;
 
         virtual const std::vector<Size>& numeraires() const = 0;
         virtual Real startNewPath() = 0;

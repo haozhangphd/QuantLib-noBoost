@@ -84,9 +84,9 @@ namespace QuantLib {
                 delta_theta -= arguments_.cashFlow[i]->amount() *
                   process_->riskFreeRate()->zeroRate(d,rfdc,Continuous,Annual)*
                   process_->riskFreeRate()->discount(d);
-                Time t = process_->time(d);
-                delta_rho += arguments_.cashFlow[i]->amount() * t *
-                             process_->riskFreeRate()->discount(t);
+                Time tt = process_->time(d);
+                delta_rho += arguments_.cashFlow[i]->amount() * tt *
+                             process_->riskFreeRate()->discount(tt);
             }
         }
         t = process_->time(arguments_.exercise->lastDate());

@@ -112,14 +112,14 @@ namespace QuantLib {
 
         // compute all the other cmas rates and cms annuities
         for (Size i=firstValidIndex+1; i<nConstMatSwapRates; ++i) {
-            Size lastIndex = std::min(i+spanningForwards,nConstMatSwapRates);
+            Size lastIndex0 = std::min(i+spanningForwards,nConstMatSwapRates);
             constMatSwapAnnuities[i] = constMatSwapAnnuities[i-1]
                                        - taus[i-1] * ds[i];
-            if (lastIndex!=oldLastIndex)
-               constMatSwapAnnuities[i] += taus[lastIndex-1] * ds[lastIndex];
-            constMatSwapRates[i] = (ds[i]-ds[lastIndex])
+            if (lastIndex0!=oldLastIndex)
+               constMatSwapAnnuities[i] += taus[lastIndex0-1] * ds[lastIndex0];
+            constMatSwapRates[i] = (ds[i]-ds[lastIndex0])
                 /constMatSwapAnnuities[i];
-            oldLastIndex = lastIndex;
+            oldLastIndex = lastIndex0;
         }
     }
 

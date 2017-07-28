@@ -450,7 +450,7 @@ namespace QuantLib {
                 Real modelPrice = model_->marketDigitalPrice(
                     expiry_, p_, Option::Call, strike);
                 return modelPrice - marketPrice_;
-            };
+            }
             const MarkovFunctional *model_;
             const Real marketPrice_;
             const Date &expiry_;

@@ -81,7 +81,6 @@ namespace QuantLib {
           case StartLimit:
               return std::make_shared<FdmVPPStartLimitStepCondition>(params, args_.nStarts,
                           mesh, fuel, spark);
-              break;
           default:
             QL_FAIL("vpp type is not supported");
         }

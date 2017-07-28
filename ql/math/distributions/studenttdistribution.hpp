@@ -100,7 +100,7 @@ namespace QuantLib {
 
     inline long double quantile(const std::student_t_distribution<long double> &dist, long double p) {
         return InverseCumulativeStudent(static_cast<int>(dist.n()))(p);
-    };
+    }
 
     inline long double cdf(const std::student_t_distribution<long double> &dist, long double p) {
         return CumulativeStudentDistribution(dist.n())(p);

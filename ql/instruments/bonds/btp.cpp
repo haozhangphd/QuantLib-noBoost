@@ -201,21 +201,21 @@ namespace QuantLib {
             Duration::Modified, bondSettlementDate);
         for (Size i=1; i<nSwaps_; ++i) {
             swapRates_[i]= swaps_[i]->fairRate();
-            FixedRateBond swapBond(settlDays,
+            FixedRateBond swapBond_temp(settlDays,
                                    100.0,      // faceAmount
                                    swaps_[i]->fixedSchedule(),
                                    std::vector<Rate>(1, swapRates_[i]),
                                    fixedDayCount,
                                    Following, // paymentConvention
                                    100.0);    // redemption
-            swapBondYields_[i] = BondFunctions::yield(swapBond,
+            swapBondYields_[i] = BondFunctions::yield(swapBond_temp,
                 100.0, // floating leg NPV including end payment
                 ActualActual(ActualActual::ISMA), Compounded, Annual,
                 bondSettlementDate,
                 // accuracy, maxIterations, guess
                 1.0e-10, 100, swapBondYields_[i]);
             swapBondDurations_[i] = BondFunctions::duration(
-                swapBond, swapBondYields_[i],
+                swapBond_temp, swapBondYields_[i],
                 ActualActual(ActualActual::ISMA), Compounded, Annual,
                 Duration::Modified, bondSettlementDate);
             if (swapBondDurations_[i] > duration_) {

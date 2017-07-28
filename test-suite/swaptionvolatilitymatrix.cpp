@@ -36,31 +36,31 @@ namespace {
 
     struct CommonVars {
         // global data
-        Date referenceDate;
-        SwaptionMarketConventions conventions;
-        AtmVolatility atm;
-        RelinkableHandle<YieldTermStructure> termStructure;
-        RelinkableHandle<SwaptionVolatilityStructure> atmVolMatrix;
-        Real tolerance;
+        Date referenceDate_;
+        SwaptionMarketConventions conventions_;
+        AtmVolatility atm_;
+        RelinkableHandle<YieldTermStructure> termStructure_;
+        RelinkableHandle<SwaptionVolatilityStructure> atmVolMatrix_;
+        Real tolerance_;
 
         // cleanup
-        SavedSettings backup;
+        SavedSettings backup_;
 
         // setup
         CommonVars() {
-            conventions.setConventions();
-            atm.setMarketData();
+            conventions_.setConventions();
+            atm_.setMarketData();
             Settings::instance().evaluationDate() =
-                conventions.calendar.adjust(Date::todaysDate());
-            atmVolMatrix = RelinkableHandle<SwaptionVolatilityStructure>(
-                std::make_shared<SwaptionVolatilityMatrix>(conventions.calendar,
-                                             conventions.optionBdc,
-                                             atm.tenors.options,
-                                             atm.tenors.swaps,
-                                             atm.volsHandle,
-                                             conventions.dayCounter));
-            termStructure.linkTo(
-                std::make_shared<FlatForward>(0, conventions.calendar,
+                conventions_.calendar.adjust(Date::todaysDate());
+            atmVolMatrix_ = RelinkableHandle<SwaptionVolatilityStructure>(
+                std::make_shared<SwaptionVolatilityMatrix>(conventions_.calendar,
+                                             conventions_.optionBdc,
+                                             atm_.tenors.options,
+                                             atm_.tenors.swaps,
+                                             atm_.volsHandle,
+                                             conventions_.dayCounter));
+            termStructure_.linkTo(
+                std::make_shared<FlatForward>(0, conventions_.calendar,
                                 0.05, Actual365Fixed()));
         }
 
@@ -73,14 +73,14 @@ namespace {
             Rate dummyStrike = .02;
             Date referenceDate = Settings::instance().evaluationDate();
             Volatility initialVol = vol->volatility(
-                        referenceDate + atm.tenors.options[0],
-                        atm.tenors.swaps[0], dummyStrike, false);
+                        referenceDate + atm_.tenors.options[0],
+                        atm_.tenors.swaps[0], dummyStrike, false);
             // testing evaluation date change ...
             Settings::instance().evaluationDate() =
                 referenceDate - Period(1, Years);
             Volatility newVol =  vol->volatility(
-                        referenceDate + atm.tenors.options[0],
-                        atm.tenors.swaps[0], dummyStrike, false);
+                        referenceDate + atm_.tenors.options[0],
+                        atm_.tenors.swaps[0], dummyStrike, false);
             Settings::instance().evaluationDate() = referenceDate;
             if (referenceDateFloating && (initialVol == newVol))
                 FAIL_CHECK(description <<
@@ -91,14 +91,14 @@ namespace {
 
             // test market data change...
             if (mktDataFloating){
-                Volatility initialVolatility = atm.volsHandle[0][0]->value();
+                Volatility initialVolatility = atm_.volsHandle[0][0]->value();
                 std::dynamic_pointer_cast<SimpleQuote>(
-                              atm.volsHandle[0][0].currentLink())->setValue(10);
+                              atm_.volsHandle[0][0].currentLink())->setValue(10);
                 newVol = vol->volatility(
-                    referenceDate + atm.tenors.options[0],
-                    atm.tenors.swaps[0], dummyStrike, false);
+                    referenceDate + atm_.tenors.options[0],
+                    atm_.tenors.swaps[0], dummyStrike, false);
                 std::dynamic_pointer_cast<SimpleQuote>(
-                    atm.volsHandle[0][0].currentLink())
+                    atm_.volsHandle[0][0].currentLink())
                     ->setValue(initialVolatility);
                 if (initialVol == newVol)
                     FAIL_CHECK(description << " the volatility should change when"
@@ -110,14 +110,14 @@ namespace {
                 const std::string& description,
                 const std::shared_ptr<SwaptionVolatilityDiscrete>& vol) {
 
-            for (Size i=0; i<atm.tenors.options.size(); ++i) {
+            for (Size i=0; i<atm_.tenors.options.size(); ++i) {
                 Date optionDate =
-                    vol->optionDateFromTenor(atm.tenors.options[i]);
+                    vol->optionDateFromTenor(atm_.tenors.options[i]);
                 if (optionDate!=vol->optionDates()[i])
                     FAIL(
                          "optionDateFromTenor failure for " <<
                          description << ":"
-                         "\n       option tenor: " << atm.tenors.options[i] <<
+                         "\n       option tenor: " << atm_.tenors.options[i] <<
                          "\nactual option date : " << optionDate <<
                          "\n  exp. option date : " << vol->optionDates()[i]);
                 Time optionTime = vol->timeFromReference(optionDate);
@@ -125,58 +125,58 @@ namespace {
                     FAIL(
                          "timeFromReference failure for " <<
                          description << ":"
-                         "\n       option tenor: " << atm.tenors.options[i] <<
+                         "\n       option tenor: " << atm_.tenors.options[i] <<
                          "\n       option date : " << optionDate <<
                          "\nactual option time : " << optionTime <<
                          "\n  exp. option time : " << vol->optionTimes()[i]);
             }
 
             std::shared_ptr<BlackSwaptionEngine> engine =
-                std::make_shared<BlackSwaptionEngine>(termStructure,
+                std::make_shared<BlackSwaptionEngine>(termStructure_,
                                     Handle<SwaptionVolatilityStructure>(vol));
 
-            for (Size j=0; j<atm.tenors.swaps.size(); j++) {
-                Time swapLength = vol->swapLength(atm.tenors.swaps[j]);
-                if (!close(swapLength,years(atm.tenors.swaps[j])))
+            for (Size j=0; j<atm_.tenors.swaps.size(); j++) {
+                Time swapLength = vol->swapLength(atm_.tenors.swaps[j]);
+                if (!close(swapLength,years(atm_.tenors.swaps[j])))
                     FAIL("convertSwapTenor failure for " <<
                                description << ":"
-                               "\n        swap tenor : " << atm.tenors.swaps[j] <<
+                               "\n        swap tenor : " << atm_.tenors.swaps[j] <<
                                "\n actual swap length: " << swapLength <<
-                               "\n   exp. swap length: " << years(atm.tenors.swaps[j]));
+                               "\n   exp. swap length: " << years(atm_.tenors.swaps[j]));
 
                 std::shared_ptr<SwapIndex> swapIndex =
-                    std::make_shared<EuriborSwapIsdaFixA>(atm.tenors.swaps[j], termStructure);
+                    std::make_shared<EuriborSwapIsdaFixA>(atm_.tenors.swaps[j], termStructure_);
 
-                for (Size i=0; i<atm.tenors.options.size(); ++i) {
+                for (Size i=0; i<atm_.tenors.options.size(); ++i) {
                     Real error, tolerance = 1.0e-16;
-                    Volatility actVol, expVol = atm.vols[i][j];
+                    Volatility actVol, expVol = atm_.vols[i][j];
 
-                    actVol = vol->volatility(atm.tenors.options[i],
-                                             atm.tenors.swaps[j], 0.05, true);
+                    actVol = vol->volatility(atm_.tenors.options[i],
+                                             atm_.tenors.swaps[j], 0.05, true);
                     error = std::abs(expVol-actVol);
                     if (error>tolerance)
                         FAIL(
                               "recovery of atm vols failed for " <<
                               description << ":"
-                              "\noption tenor = " << atm.tenors.options[i] <<
-                              "\n swap length = " << atm.tenors.swaps[j] <<
+                              "\noption tenor = " << atm_.tenors.options[i] <<
+                              "\n swap length = " << atm_.tenors.swaps[j] <<
                               "\nexpected vol = " << io::volatility(expVol) <<
                               "\n  actual vol = " << io::volatility(actVol) <<
                               "\n       error = " << io::volatility(error) <<
                               "\n   tolerance = " << tolerance);
 
                     Date optionDate =
-                        vol->optionDateFromTenor(atm.tenors.options[i]);
+                        vol->optionDateFromTenor(atm_.tenors.options[i]);
                     actVol = vol->volatility(optionDate,
-                                             atm.tenors.swaps[j], 0.05, true);
+                                             atm_.tenors.swaps[j], 0.05, true);
                     error = std::abs(expVol-actVol);
                     if (error>tolerance)
                         FAIL(
                              "recovery of atm vols failed for " <<
                              description << ":"
-                             "\noption tenor: " << atm.tenors.options[i] <<
+                             "\noption tenor: " << atm_.tenors.options[i] <<
                              "\noption date : " << optionDate <<
-                             "\n  swap tenor: " << atm.tenors.swaps[j] <<
+                             "\n  swap tenor: " << atm_.tenors.swaps[j] <<
                              "\n   exp. vol: " << io::volatility(expVol) <<
                              "\n actual vol: " << io::volatility(actVol) <<
                              "\n      error: " << io::volatility(error) <<
@@ -190,9 +190,9 @@ namespace {
                         FAIL(
                              "recovery of atm vols failed for " <<
                              description << ":"
-                             "\noption tenor: " << atm.tenors.options[i] <<
+                             "\noption tenor: " << atm_.tenors.options[i] <<
                              "\noption time : " << optionTime <<
-                             "\n  swap tenor: " << atm.tenors.swaps[j] <<
+                             "\n  swap tenor: " << atm_.tenors.swaps[j] <<
                              "\n swap length: " << swapLength <<
                              "\n    exp. vol: " << io::volatility(expVol) <<
                              "\n  actual vol: " << io::volatility(actVol) <<
@@ -201,7 +201,7 @@ namespace {
 
                     // ATM swaption
                     Swaption swaption =
-                        MakeSwaption(swapIndex, atm.tenors.options[i])
+                        MakeSwaption(swapIndex, atm_.tenors.options[i])
                         .withPricingEngine(engine);
 
                     Date exerciseDate = swaption.exercise()->dates().front();
@@ -209,7 +209,7 @@ namespace {
                         FAIL(
                              "\noptionDateFromTenor mismatch for " <<
                              description << ":"
-                             "\n      option tenor: " << atm.tenors.options[i] <<
+                             "\n      option tenor: " << atm_.tenors.options[i] <<
                              "\nactual option date: " << exerciseDate <<
                              "\n  exp. option date: " << vol->optionDates()[i]);
 
@@ -221,7 +221,7 @@ namespace {
                                    description << ":"
                                    "\n   exp. swap length: " << swapLength <<
                                    "\n actual swap length: " << swapLength2 <<
-                                   "\n        swap tenor : " << atm.tenors.swaps[j] <<
+                                   "\n        swap tenor : " << atm_.tenors.swaps[j] <<
                                    "\n  swap index tenor : " << swapIndex->tenor() <<
                                    "\n        option date: " << exerciseDate <<
                                    "\n         start date: " << start <<
@@ -229,7 +229,7 @@ namespace {
                                    );
 
                     Real npv = swaption.NPV();
-                    actVol = swaption.impliedVolatility(npv, termStructure,
+                    actVol = swaption.impliedVolatility(npv, termStructure_,
                                                         expVol*0.98, 1e-6,
                                                         100, 10.0e-7, 4.0,
                                                         ShiftedLognormal, 0.0);
@@ -239,9 +239,9 @@ namespace {
                         FAIL(
                              "recovery of atm vols through BlackSwaptionEngine failed for " <<
                              description << ":"
-                             "\noption tenor: " << atm.tenors.options[i] <<
+                             "\noption tenor: " << atm_.tenors.options[i] <<
                              "\noption time : " << optionTime <<
-                             "\n  swap tenor: " << atm.tenors.swaps[j] <<
+                             "\n  swap tenor: " << atm_.tenors.swaps[j] <<
                              "\n swap length: " << swapLength <<
                              "\n   exp. vol: " << io::volatility(expVol) <<
                              "\n actual vol: " << io::volatility(actVol) <<
@@ -266,44 +266,44 @@ TEST_CASE("SwaptionVolatilityMatrix_SwaptionVolMatrixObservability", "[SwaptionV
 
     //floating reference date, floating market data
     description = "floating reference date, floating market data";
-    vol = std::make_shared<SwaptionVolatilityMatrix>(vars.conventions.calendar,
-                                 vars.conventions.optionBdc,
-                                 vars.atm.tenors.options,
-                                 vars.atm.tenors.swaps,
-                                 vars.atm.volsHandle,
-                                 vars.conventions.dayCounter);
+    vol = std::make_shared<SwaptionVolatilityMatrix>(vars.conventions_.calendar,
+                                 vars.conventions_.optionBdc,
+                                 vars.atm_.tenors.options,
+                                 vars.atm_.tenors.swaps,
+                                 vars.atm_.volsHandle,
+                                 vars.conventions_.dayCounter);
     vars.makeObservabilityTest(description, vol, true, true);
 
     //fixed reference date, floating market data
     description = "fixed reference date, floating market data";
     vol = std::make_shared<SwaptionVolatilityMatrix>(Settings::instance().evaluationDate(),
-                                 vars.conventions.calendar,
-                                 vars.conventions.optionBdc,
-                                 vars.atm.tenors.options,
-                                 vars.atm.tenors.swaps,
-                                 vars.atm.volsHandle,
-                                 vars.conventions.dayCounter);
+                                 vars.conventions_.calendar,
+                                 vars.conventions_.optionBdc,
+                                 vars.atm_.tenors.options,
+                                 vars.atm_.tenors.swaps,
+                                 vars.atm_.volsHandle,
+                                 vars.conventions_.dayCounter);
     vars.makeObservabilityTest(description, vol, true, false);
 
     // floating reference date, fixed market data
     description = "floating reference date, fixed market data";
-    vol = std::make_shared<SwaptionVolatilityMatrix>(vars.conventions.calendar,
-                                 vars.conventions.optionBdc,
-                                 vars.atm.tenors.options,
-                                 vars.atm.tenors.swaps,
-                                 vars.atm.volsHandle,
-                                 vars.conventions.dayCounter);
+    vol = std::make_shared<SwaptionVolatilityMatrix>(vars.conventions_.calendar,
+                                 vars.conventions_.optionBdc,
+                                 vars.atm_.tenors.options,
+                                 vars.atm_.tenors.swaps,
+                                 vars.atm_.volsHandle,
+                                 vars.conventions_.dayCounter);
     vars.makeObservabilityTest(description, vol, false, true);
 
     // fixed reference date, fixed market data
     description = "fixed reference date, fixed market data";
     vol = std::make_shared<SwaptionVolatilityMatrix>(Settings::instance().evaluationDate(),
-                                 vars.conventions.calendar,
-                                 vars.conventions.optionBdc,
-                                 vars.atm.tenors.options,
-                                 vars.atm.tenors.swaps,
-                                 vars.atm.volsHandle,
-                                 vars.conventions.dayCounter);
+                                 vars.conventions_.calendar,
+                                 vars.conventions_.optionBdc,
+                                 vars.atm_.tenors.options,
+                                 vars.atm_.tenors.swaps,
+                                 vars.atm_.volsHandle,
+                                 vars.conventions_.dayCounter);
     vars.makeObservabilityTest(description, vol, false, false);
 
    // fixed reference date and fixed market data, option dates
@@ -326,43 +326,43 @@ TEST_CASE("SwaptionVolatilityMatrix_SwaptionVolMatrixCoherence", "[SwaptionVolat
 
     //floating reference date, floating market data
     description = "floating reference date, floating market data";
-    vol = std::make_shared<SwaptionVolatilityMatrix>(vars.conventions.calendar,
-                                 vars.conventions.optionBdc,
-                                 vars.atm.tenors.options,
-                                 vars.atm.tenors.swaps,
-                                 vars.atm.volsHandle,
-                                 vars.conventions.dayCounter);
+    vol = std::make_shared<SwaptionVolatilityMatrix>(vars.conventions_.calendar,
+                                 vars.conventions_.optionBdc,
+                                 vars.atm_.tenors.options,
+                                 vars.atm_.tenors.swaps,
+                                 vars.atm_.volsHandle,
+                                 vars.conventions_.dayCounter);
     vars.makeCoherenceTest(description, vol);
 
     //fixed reference date, floating market data
     description = "fixed reference date, floating market data";
     vol = std::make_shared<SwaptionVolatilityMatrix>(Settings::instance().evaluationDate(),
-                                 vars.conventions.calendar,
-                                 vars.conventions.optionBdc,
-                                 vars.atm.tenors.options,
-                                 vars.atm.tenors.swaps,
-                                 vars.atm.volsHandle,
-                                 vars.conventions.dayCounter);
+                                 vars.conventions_.calendar,
+                                 vars.conventions_.optionBdc,
+                                 vars.atm_.tenors.options,
+                                 vars.atm_.tenors.swaps,
+                                 vars.atm_.volsHandle,
+                                 vars.conventions_.dayCounter);
     vars.makeCoherenceTest(description, vol);
 
     // floating reference date, fixed market data
     description = "floating reference date, fixed market data";
-    vol = std::make_shared<SwaptionVolatilityMatrix>(vars.conventions.calendar,
-                                 vars.conventions.optionBdc,
-                                 vars.atm.tenors.options,
-                                 vars.atm.tenors.swaps,
-                                 vars.atm.volsHandle,
-                                 vars.conventions.dayCounter);
+    vol = std::make_shared<SwaptionVolatilityMatrix>(vars.conventions_.calendar,
+                                 vars.conventions_.optionBdc,
+                                 vars.atm_.tenors.options,
+                                 vars.atm_.tenors.swaps,
+                                 vars.atm_.volsHandle,
+                                 vars.conventions_.dayCounter);
     vars.makeCoherenceTest(description, vol);
 
     // fixed reference date, fixed market data
     description = "fixed reference date, fixed market data";
     vol = std::make_shared<SwaptionVolatilityMatrix>(Settings::instance().evaluationDate(),
-                                 vars.conventions.calendar,
-                                 vars.conventions.optionBdc,
-                                 vars.atm.tenors.options,
-                                 vars.atm.tenors.swaps,
-                                 vars.atm.volsHandle,
-                                 vars.conventions.dayCounter);
+                                 vars.conventions_.calendar,
+                                 vars.conventions_.optionBdc,
+                                 vars.atm_.tenors.options,
+                                 vars.atm_.tenors.swaps,
+                                 vars.atm_.volsHandle,
+                                 vars.conventions_.dayCounter);
     vars.makeCoherenceTest(description, vol);
 }

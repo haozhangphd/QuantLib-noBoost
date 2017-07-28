@@ -135,7 +135,7 @@ TEST_CASE("SquareRootCLVModel_SquareRootCLVVanillaPricing", "[SquareRootCLVModel
         const CLVModelPayoff clvModelPayoff(optionType, strike, g);
 
         const std::function<Real(Real)> f =
-		[&clvModelPayoff, df, ncp](Real x){return clvModelPayoff(x) * NonCentralChiSquareDistribution(df, ncp)(x);};
+        [&clvModelPayoff, df, ncp](Real s){return clvModelPayoff(s) * NonCentralChiSquareDistribution(df, ncp)(s);};
 
         const Real calculated = GaussLobattoIntegral(1000, 1e-6)(
             f, x.front(), x.back()) * rTS->discount(maturity);
@@ -232,7 +232,7 @@ TEST_CASE("SquareRootCLVModel_SquareRootCLVMappingFunction", "[.]") {
                 optionType, strike, [g, t](Real x){return g(t, x);});
 
             const std::function<Real(Real)> f =
-	    [clvModelPayoff, df, ncp](Real x){return clvModelPayoff(x) * NonCentralChiSquareDistribution(df, ncp)(x);};
+                [clvModelPayoff, df, ncp](Real x){return clvModelPayoff(x) * NonCentralChiSquareDistribution(df, ncp)(x);};
             const Array x = model.collocationPointsX(m);
             const Real calculated = GaussLobattoIntegral(1000, 1e-3)(
                 f, x.front(), x.back()) * rTS->discount(m);
@@ -768,9 +768,9 @@ TEST_CASE("SquareRootCLVModel_ForwardSkew", "[.]") {
             const Real s = gSqrt(t1, X);
 
             if (t1 > 0.05) {
-                for (Size u=0; u < n; ++u) {
-                    if (s <= barrier_lo[u] || s >= barrier_hi[u]) {
-                        touch[u] = true;
+                for (Size v=0; v < n; ++v) {
+                    if (s <= barrier_lo[v] || s >= barrier_hi[v]) {
+                        touch[v] = true;
                     }
                 }
             }
@@ -791,9 +791,9 @@ TEST_CASE("SquareRootCLVModel_ForwardSkew", "[.]") {
         const Real error = stats[u].errorEstimate();
         const Real expected = slvNPV[u];
 
-        const Real tol = 2.35*error;
+        const Real tol2 = 2.35*error;
 
-        if (std::fabs(calculated-expected) > tol) {
+        if (std::fabs(calculated-expected) > tol2) {
             FAIL("failed to reproduce CLV double no touch barrier price"
                     << "\n    CLV value:   " << calculated
                     << "\n    error    :   " << error

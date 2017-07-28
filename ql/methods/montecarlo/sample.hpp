@@ -34,8 +34,8 @@ namespace QuantLib {
     struct Sample {
       public:
         typedef T value_type;
-        Sample(const T& value, Real weight)
-        : value(value), weight(weight) {}
+        Sample(const T& value0, Real weight0)
+        : value(value0), weight(weight0) {}
         T value;
         Real weight;
     };

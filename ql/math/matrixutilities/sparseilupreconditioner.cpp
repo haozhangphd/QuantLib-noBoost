@@ -34,7 +34,7 @@ namespace QuantLib {
         QL_REQUIRE(A.row_size() == A.column_size(),
                    "sparse ILU preconditioner works only with square matrices");
 
-        for (SparseMatrix::size_type i=0; i < L_.row_size(); ++i)
+        for (size_t i=0; i < L_.row_size(); ++i)
             L_(i,i) = 1.0;
 
         const Integer n = A.row_size();
@@ -79,10 +79,10 @@ namespace QuantLib {
                     std::set<Integer>::const_iterator iter=uBandSet.begin();
                     std::set<Integer>::const_iterator end =uBandSet.end();
                     for (; iter != end; ++iter) {
-                        const Real entry = U_(jj,jj+*iter);
-                        if(entry > QL_EPSILON || entry < -1.0*QL_EPSILON) {
+                        const Real entry0 = U_(jj,jj+*iter);
+                        if(entry0 > QL_EPSILON || entry < -1.0*QL_EPSILON) {
                             nonZeros.emplace_back(jj+*iter);
-                            nonZeroEntries.emplace_back(entry);
+                            nonZeroEntries.emplace_back(entry0);
                         }
                     }
                     Real fact = w[jj];

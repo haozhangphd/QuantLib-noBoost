@@ -60,20 +60,20 @@ namespace QuantLib {
     namespace detail {
 
         struct long_weekday_holder {
-            explicit long_weekday_holder(Weekday d) : d(d) {}
-            Weekday d;
+            explicit long_weekday_holder(Weekday d) : d_(d) {}
+            Weekday d_;
         };
         std::ostream& operator<<(std::ostream&, const long_weekday_holder&);
 
         struct short_weekday_holder {
-            explicit short_weekday_holder(Weekday d) : d(d) {}
-            Weekday d;
+            explicit short_weekday_holder(Weekday d) : d_(d) {}
+            Weekday d_;
         };
         std::ostream& operator<<(std::ostream&, const short_weekday_holder&);
 
         struct shortest_weekday_holder {
-            explicit shortest_weekday_holder(Weekday d) : d(d) {}
-            Weekday d;
+            explicit shortest_weekday_holder(Weekday d) : d_(d) {}
+            Weekday d_;
         };
         std::ostream& operator<<(std::ostream&,
                                  const shortest_weekday_holder&);

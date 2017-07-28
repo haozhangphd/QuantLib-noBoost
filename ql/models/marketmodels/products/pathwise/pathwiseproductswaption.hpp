@@ -46,7 +46,12 @@ class MarketModelPathwiseCoterminalSwaptionsDeflated : public MarketModelPathwis
                           const std::vector<Time>& rateTimes,
                           const std::vector<Rate>& strikes);
 
-        virtual ~MarketModelPathwiseCoterminalSwaptionsDeflated() {}
+        MarketModelPathwiseCoterminalSwaptionsDeflated() = default;
+        virtual ~MarketModelPathwiseCoterminalSwaptionsDeflated() = default;
+        MarketModelPathwiseCoterminalSwaptionsDeflated(const MarketModelPathwiseCoterminalSwaptionsDeflated&) = default;
+        MarketModelPathwiseCoterminalSwaptionsDeflated(MarketModelPathwiseCoterminalSwaptionsDeflated&&) = default;
+        MarketModelPathwiseCoterminalSwaptionsDeflated& operator=(const MarketModelPathwiseCoterminalSwaptionsDeflated&) = default;
+        MarketModelPathwiseCoterminalSwaptionsDeflated& operator=(MarketModelPathwiseCoterminalSwaptionsDeflated&&) = default;
 
         virtual std::vector<Size> suggestedNumeraires() const;
         virtual const EvolutionDescription& evolution() const;
@@ -93,7 +98,13 @@ class MarketModelPathwiseCoterminalSwaptionsNumericalDeflated : public MarketMod
                           const std::vector<Rate>& strikes,
                           Real bumpSize_);
 
-        virtual ~MarketModelPathwiseCoterminalSwaptionsNumericalDeflated() {}
+        MarketModelPathwiseCoterminalSwaptionsNumericalDeflated() = default;
+        virtual ~MarketModelPathwiseCoterminalSwaptionsNumericalDeflated() = default;
+        MarketModelPathwiseCoterminalSwaptionsNumericalDeflated(const MarketModelPathwiseCoterminalSwaptionsNumericalDeflated&) = default;
+        MarketModelPathwiseCoterminalSwaptionsNumericalDeflated(MarketModelPathwiseCoterminalSwaptionsNumericalDeflated&&) = default;
+        MarketModelPathwiseCoterminalSwaptionsNumericalDeflated& operator=(const MarketModelPathwiseCoterminalSwaptionsNumericalDeflated&) = default;
+        MarketModelPathwiseCoterminalSwaptionsNumericalDeflated& operator=(MarketModelPathwiseCoterminalSwaptionsNumericalDeflated&&) = default;
+
 
         virtual std::vector<Size> suggestedNumeraires() const;
         virtual const EvolutionDescription& evolution() const;

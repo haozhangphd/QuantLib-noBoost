@@ -31,26 +31,44 @@
 namespace QuantLib {
 
     namespace MINPACK {
-        typedef std::function<void (int,
-                                      int, 
-                                      Real*,
-                                      Real*,
-                                      int*)> LmdifCostFunction;
+        typedef std::function<void(int,
+                                   int,
+                                   Real *,
+                                   Real *,
+                                   int *)> LmdifCostFunction;
 
-        void lmdif(int m,int n,Real* x,Real* fvec,Real ftol,
-                   Real xtol,Real gtol,int maxfev,Real epsfcn,
-                   Real* diag, int mode, Real factor,
-                   int nprint, int* info,int* nfev,Real* fjac,
-                   int ldfjac,int* ipvt,Real* qtf,
-                   Real* wa1,Real* wa2,Real* wa3,Real* wa4,
-                   const LmdifCostFunction& fcn,
-                   const LmdifCostFunction& jacFcn);
-        
-        void qrsolv(int n,Real* r,int ldr,int* ipvt,
-                    Real* diag,Real* qtb, Real* x,
-                    Real* sdiag,Real* wa);
-        void qrfac(int m,int n,Real* a,int, int pivot,int* ipvt,
-                   int,Real* rdiag,Real* acnorm,Real* wa);
+        void lmdif(int m, int n, Real *x, Real *fvec, Real ftol,
+                   Real xtol, Real gtol, int maxfev, Real epsfcn,
+                   Real *diag, int mode, Real factor,
+                   int nprint, int *info, int *nfev, Real *fjac,
+                   int ldfjac, int *ipvt, Real *qtf,
+                   Real *wa1, Real *wa2, Real *wa3, Real *wa4,
+                   const LmdifCostFunction &fcn,
+                   const LmdifCostFunction &jacFcn);
+
+        void qrsolv(int n, Real *r, int ldr, int *ipvt,
+                    Real *diag, Real *qtb, Real *x,
+                    Real *sdiag, Real *wa);
+
+        void qrfac(int m, int n, Real *a, int, int pivot, int *ipvt,
+                   int, Real *rdiag, Real *acnorm, Real *wa);
+
+        Real enorm(int n, Real *x);
+
+        Real dmax1(Real a, Real b);
+
+        Real dmin1(Real a, Real b);
+
+        int min0(int a, int b);
+
+        int mod(int k, int m);
+
+        void fdjac2(int m, int n, Real *x, Real *fvec, Real *fjac, int, int *iflag, Real epsfcn, Real *wa,
+                    const QuantLib::MINPACK::LmdifCostFunction &fcn);
+
+        void
+        lmpar(int n, Real *r, int ldr, int *ipvt, Real *diag, Real *qtb, Real delta, Real *par, Real *x, Real *sdiag,
+              Real *wa1, Real *wa2);
     }
 }
 #endif

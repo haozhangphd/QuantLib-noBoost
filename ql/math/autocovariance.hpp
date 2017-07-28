@@ -85,7 +85,7 @@ namespace QuantLib {
         std::size_t nData = std::distance(begin, end);
         QL_REQUIRE(maxLag < nData, "maxLag must be less than data size");
         const std::vector<std::complex<Real> >& ft = double_ft(begin, end);
-        Real w = 1.0 / (Real)ft.size();
+        Real w = 1.0 / static_cast<Real>(ft.size());
         for (std::size_t k = 0; k <= maxLag; ++k)
             *out++ = ft[k].real() * w;
     }
@@ -104,7 +104,7 @@ namespace QuantLib {
         QL_REQUIRE(maxLag < nData,
                    "number of covariances must be less than data size");
         const std::vector<std::complex<Real> >& ft = double_ft(begin, end);
-        Real w1 = 1.0 / (Real)ft.size(), w2 = (Real)nData;
+        Real w1 = 1.0 / static_cast<Real>(ft.size()), w2 = static_cast<Real>(nData);
         for (std::size_t k = 0; k <= maxLag; ++k, w2 -= 1.0) {
             *out++ = ft[k].real() * w1 / w2;
         }
@@ -152,7 +152,7 @@ namespace QuantLib {
         QL_REQUIRE(maxLag < nData,
                    "number of correlations must be less than data size");
         const std::vector<std::complex<Real> >& ft = double_ft(begin, end);
-        Real w1 = 1.0 / (Real)ft.size(), w2 = (Real)nData;
+        Real w1 = 1.0 / static_cast<Real>(ft.size()), w2 = static_cast<Real>(nData);
         Real variance = ft[0].real() * w1 / w2;
         *out++ = variance * w2 / (w2-1.0);
         w2 -= 1.0;

@@ -37,6 +37,9 @@ namespace QuantLib {
         SampledCurve(Size gridSize = 0);
         SampledCurve(const Array &grid);
         SampledCurve& operator=(const SampledCurve&);
+        SampledCurve& operator=(SampledCurve&&) = default;
+        SampledCurve(const SampledCurve&) = default;
+        SampledCurve(SampledCurve&&) = default;
 
         //! \name inspectors
         //@{

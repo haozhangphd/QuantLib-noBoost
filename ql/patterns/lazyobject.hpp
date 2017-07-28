@@ -34,7 +34,11 @@ namespace QuantLib {
                        public virtual Observer {
       public:
         LazyObject();
-        virtual ~LazyObject() {}
+        virtual ~LazyObject() = default;
+        LazyObject(const LazyObject&) = default;
+        LazyObject(LazyObject&&) = default;
+        LazyObject& operator=(const LazyObject&) = default;
+        LazyObject& operator=(LazyObject&&) = default;
         //! \name Observer interface
         //@{
         void update();

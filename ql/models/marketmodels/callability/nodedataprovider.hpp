@@ -32,7 +32,12 @@ namespace QuantLib {
 
     class MarketModelNodeDataProvider {
       public:
-        virtual ~MarketModelNodeDataProvider() {}
+        MarketModelNodeDataProvider() = default;
+        virtual ~MarketModelNodeDataProvider() = default;
+        MarketModelNodeDataProvider(const MarketModelNodeDataProvider&) = default;
+        MarketModelNodeDataProvider(MarketModelNodeDataProvider&&) = default;
+        MarketModelNodeDataProvider& operator=(const MarketModelNodeDataProvider&) = default;
+        MarketModelNodeDataProvider& operator=(MarketModelNodeDataProvider&&) = default;
         virtual Size numberOfExercises() const = 0;
         // possibly different for each exercise
         virtual std::vector<Size> numberOfData() const = 0;

@@ -65,7 +65,7 @@ namespace {
             return i.it_ - it_;
         }
 
-        bool operator==(const transformIterator &other) const { return it_ == other.it_; };
+        bool operator==(const transformIterator &other) const { return it_ == other.it_; }
 
         bool operator!=(const transformIterator &other) const { return it_ != other.it_; }
 
@@ -153,7 +153,7 @@ namespace {
             public transformIterator<std::function<typename BaseIter::reference(int)>, IndexIter> {
     public:
         explicit permutationIterator(const BaseIter &base, const IndexIter &index) :
-                baseIter_(base), transformIterator<std::function<typename BaseIter::reference(int)>, IndexIter>() {
+                transformIterator<std::function<typename BaseIter::reference(int)>, IndexIter>(), baseIter_(base)  {
             this->it_ = index;
             this->func_ = taking_index;
         }

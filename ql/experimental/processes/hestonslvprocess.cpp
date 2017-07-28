@@ -36,7 +36,7 @@ namespace QuantLib {
       leverageFct_(leverageFct) {
         registerWith(hestonProcess);
         update();
-    };
+    }
 
     void HestonSLVProcess::update() {
         v0_    = hestonProcess_->v0();

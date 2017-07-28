@@ -31,7 +31,13 @@ namespace QuantLib {
     // corrTimes must include all rateTimes but the last
     class PiecewiseConstantCorrelation {
       public:
-        virtual ~PiecewiseConstantCorrelation() {}
+        PiecewiseConstantCorrelation() = default;
+        virtual ~PiecewiseConstantCorrelation() = default;
+        PiecewiseConstantCorrelation(const PiecewiseConstantCorrelation&) = default;
+        PiecewiseConstantCorrelation(PiecewiseConstantCorrelation&&) = default;
+        PiecewiseConstantCorrelation& operator=(const PiecewiseConstantCorrelation&) = default;
+        PiecewiseConstantCorrelation& operator=(PiecewiseConstantCorrelation&&) = default;
+
         virtual const std::vector<Time>& times() const = 0;
         virtual const std::vector<Time>& rateTimes() const = 0;
         virtual const std::vector<Matrix>& correlations() const = 0;

@@ -73,14 +73,14 @@ namespace QuantLib {
                 long double sum = f_j * g_j;
                 if (n >= 4) {
                     // different formulas for j = 2:
-                    f_j *= 0.5 / divK; // (2 - 1.5) / (long double) (2 - 1) / divK;
+                    f_j *= 0.5 / divK; // (2 - 1.5) / static_cast<long double> (2 - 1) / divK;
                     long double dgj = gjM * std::sqrt(xHK * (1 - xHK));
                     g_j += dgj;
                     sum += f_j * g_j;
                     // and then the loop for the rest of the j's:
                     for (Natural j = 3; j <= n / 2; ++j) {
-                        f_j *= (j - 1.5) / (long double) (j - 1) / divK;
-                        dgj *= (long double) (j - 2) / (2 * j - 3) * dgM;
+                        f_j *= (j - 1.5) / static_cast<long double>(j - 1) / divK;
+                        dgj *= static_cast<long double>(j - 2) / (2 * j - 3) * dgM;
                         g_j += dgj;
                         sum += f_j * g_j;
                     }
@@ -96,14 +96,14 @@ namespace QuantLib {
                 sum = f_j * g_j;
                 if (n >= 4) {
                     // different formulas for j = 2:
-                    f_j *= 0.5 / divH; // (2 - 1.5) / (long double) (2 - 1) / divK;
+                    f_j *= 0.5 / divH; // (2 - 1.5) / static_cast<long double> (2 - 1) / divK;
                     long double dgj = gjM * std::sqrt(xKH * (1 - xKH));
                     g_j += dgj;
                     sum += f_j * g_j;
                     // and then the loop for the rest of the j's:
                     for (Natural j = 3; j <= n / 2; ++j) {
-                        f_j *= (j - 1.5) / (long double) (j - 1) / divH;
-                        dgj *= (long double) (j - 2) / (2 * j - 3) * dgM;
+                        f_j *= (j - 1.5) / static_cast<long double>(j - 1) / divH;
+                        dgj *= static_cast<long double>(j - 2) / (2 * j - 3) * dgM;
                         g_j += dgj;
                         sum += f_j * g_j;
                     }
@@ -129,8 +129,8 @@ namespace QuantLib {
                     long double sum = f_j * g_j;
                     // and then the loop for the rest of the j's:
                     for (Natural j = 2; j <= (n - 1) / 2; ++j) {
-                        f_j *= (long double) (j - 1) / (j - 0.5) / divK;
-                        dgj *= (long double) (2 * j - 3) / (j - 1) * mult;
+                        f_j *= static_cast<long double> (j - 1) / (j - 0.5) / divK;
+                        dgj *= static_cast<long double> (2 * j - 3) / (j - 1) * mult;
                         g_j += dgj;
                         sum += f_j * g_j;
                     }
@@ -145,8 +145,8 @@ namespace QuantLib {
                     sum = f_j * g_j;
                     // and then the loop for the rest of the j's:
                     for (Natural j = 2; j <= (n - 1) / 2; ++j) {
-                        f_j *= (long double) (j - 1) / (j - 0.5) / divH;
-                        dgj *= (long double) (2 * j - 3) / (j - 1) * mult;
+                        f_j *= static_cast<long double> (j - 1) / (j - 0.5) / divH;
+                        dgj *= static_cast<long double> (2 * j - 3) / (j - 1) * mult;
                         g_j += dgj;
                         sum += f_j * g_j;
                     }

@@ -476,8 +476,7 @@ namespace {
                 Date exDate = today + years[k]*Years;
                 std::shared_ptr<Exercise> exercise =
                                          std::make_shared<AmericanExercise>(today, exDate);
-                std::shared_ptr<StrikedTypePayoff> payoff =
-                                std::make_shared<PlainVanillaPayoff>(types[i], strikes[j]);
+                payoff = std::make_shared<PlainVanillaPayoff>(types[i], strikes[j]);
                 std::shared_ptr<BlackScholesMertonProcess> stochProcess =
                             std::make_shared<BlackScholesMertonProcess>(Handle<Quote>(spot),
                                                           qTS, rTS, volTS);

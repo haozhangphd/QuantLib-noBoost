@@ -161,7 +161,6 @@ TEST_CASE("DigitalCoupon_AssetOrNothing", "[DigitalCoupon]") {
                         std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
                         std::shared_ptr<YieldTermStructure> qTS
                              = flatRate(vars.today, qRate, Actual360());
-                        std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
                         std::shared_ptr<BlackVolTermStructure> volTS
                              = flatVol(vars.today, capletVol, Actual360());
                         std::shared_ptr<StrikedTypePayoff> callPayoff =
@@ -224,7 +223,6 @@ TEST_CASE("DigitalCoupon_AssetOrNothing", "[DigitalCoupon]") {
                         std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
                         std::shared_ptr<YieldTermStructure> qTS
                              = flatRate(vars.today, qRate, Actual360());
-                        std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
                         std::shared_ptr<BlackVolTermStructure> volTS
                              = flatVol(vars.today, capletVol, Actual360());
                         std::shared_ptr<BlackScholesMertonProcess> stochProcess =
@@ -559,7 +557,6 @@ TEST_CASE("DigitalCoupon_CashOrNothing", "[DigitalCoupon]") {
                 std::shared_ptr<SimpleQuote> fwd = std::make_shared<SimpleQuote>(effFwd*discountAtFixing);
                 std::shared_ptr<SimpleQuote> qRate = std::make_shared<SimpleQuote>(0.0);
                 std::shared_ptr<YieldTermStructure> qTS = flatRate(vars.today, qRate, Actual360());
-                std::shared_ptr<SimpleQuote> vol = std::make_shared<SimpleQuote>(0.0);
                 std::shared_ptr<BlackVolTermStructure> volTS = flatVol(vars.today, capletVol,
                                                                          Actual360());
                 std::shared_ptr<StrikedTypePayoff> callPayoff =

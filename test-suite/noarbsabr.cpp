@@ -34,7 +34,7 @@ void checkD0(const Real sigmaI, const Real beta, const Real rho, const Real nu,
 
     detail::D0Interpolator d(forward, tau, alpha, beta, nu, rho);
 
-    if (std::fabs(d() * detail::NoArbSabrModel::nsim - (Real)absorptions) > 0.1)
+    if (std::fabs(d() * detail::NoArbSabrModel::nsim - static_cast<Real>(absorptions)) > 0.1)
         FAIL_CHECK("failed to reproduce number of absorptions at sigmaI="
                     << sigmaI << ", beta=" << beta << ", rho=" << rho << ", nu="
                     << nu << " tau=" << tau << ": D0Interpolator says "

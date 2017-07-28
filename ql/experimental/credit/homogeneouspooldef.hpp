@@ -147,12 +147,12 @@ namespace QuantLib {
                 conditionalProbs.emplace_back(
                 copula_->conditionalDefaultProbabilityInvP(prob[iName], iName, 
                     mkft));
-            Distribution d = bucktLDistBuff(lgd, conditionalProbs);
+            Distribution d_temp = bucktLDistBuff(lgd, conditionalProbs);
             Real densitydm = delta_ * copula_->density(mkft);
             // also, instead of calling the static method it could be wrapped 
             // through an inlined call in the latent model
             for (Size j = 0; j < nBuckets_; j++)
-                dist.addDensity(j, d.density(j) * densitydm);
+                dist.addDensity(j, d_temp.density(j) * densitydm);
             mkft[0] += delta_;
         }
         return dist;

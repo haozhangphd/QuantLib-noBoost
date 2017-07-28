@@ -373,7 +373,7 @@ int main(int argc, char *argv[]) {
 
         std::vector<Real> nominalFixed, nominalFloating;
         for (Size i = 0; i < fixedSchedule.size() - 1; ++i) {
-            Real tmpNom = 1.0 - (Real) i / (fixedSchedule.size() - 1);
+            Real tmpNom = 1.0 - static_cast<Real>(i) / (fixedSchedule.size() - 1);
             nominalFixed.emplace_back(tmpNom);
             nominalFloating.emplace_back(tmpNom);
             nominalFloating.emplace_back(

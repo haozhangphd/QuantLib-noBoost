@@ -96,5 +96,9 @@ namespace QuantLib {
         Real v0_, kappa_, theta_, sigma_, rho_;
         Discretization discretization_;
     };
+    Real cdf_nu_ds_minus_x(const HestonProcess &process, Real x, Real nu_0,
+                           Real nu_t, Time dt,
+                           HestonProcess::Discretization discretization,
+                           Real x0);
 }
 #endif

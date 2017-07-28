@@ -90,7 +90,7 @@ namespace QuantLib {
         // constructors, assignment, destructor
         // set the bucket size to prevent unordered_set rehashing, which invalidates iterators if inserting into
         // unordered_set while iterating!!
-        Observable() : settings_(ObservableSettings::instance()), observers_(1000) {}
+        Observable() : observers_(1000), settings_(ObservableSettings::instance()) {}
 
         Observable(const Observable &);
 
@@ -395,7 +395,7 @@ namespace QuantLib {
 
         typedef std::set<std::weak_ptr<Observer::Proxy>,
                          std::owner_less<std::weak_ptr<Observer::Proxy> > >
-				 set_type;
+                 set_type;
         typedef set_type::iterator iterator;
 
         void registerDeferredObservers(const Observable::set_type& observers);
@@ -469,7 +469,7 @@ namespace QuantLib {
     }
 
 
-    inline Observer::Observer(const Observer& o) {
+    inline Observer::Observer(const Observer& o): std::enable_shared_from_this<Observer>() {
         proxy_ = std::make_shared<Proxy>(this);
 
         {
@@ -492,7 +492,7 @@ namespace QuantLib {
             (*i)->unregisterObserver(proxy_);
 
         {
-            std::scoped_lock<std::recursive_mutex> lock(o.mutex_);
+            std::scoped_lock<std::recursive_mutex> lock_temp(o.mutex_);
             observables_ = o.observables_;
         }
         for (i=observables_.begin(); i!=observables_.end(); ++i)

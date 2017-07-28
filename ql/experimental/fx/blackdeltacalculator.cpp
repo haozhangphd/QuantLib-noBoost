@@ -127,7 +127,7 @@ namespace QuantLib {
               // put delta doesn't have this property and can be
               // solved without any problems, but also numerically.
 
-              BlackDeltaPremiumAdjustedSolverClass f(
+              BlackDeltaPremiumAdjustedSolverClass f0(
                        ot_, dt , spot_,dDiscount_, fDiscount_, stdDev_,delta);
 
               Brent solver;
@@ -145,7 +145,7 @@ namespace QuantLib {
               }
 
               if (phi_<0) { // if put
-                  res=solver.solve(f, accuracy, rightLimit, 0.0, spot_*100.0);
+                  res=solver.solve(f0, accuracy, rightLimit, 0.0, spot_*100.0);
                   break;
               } else {
 
@@ -161,7 +161,7 @@ namespace QuantLib {
 
                   Real guess=leftLimit+(rightLimit-leftLimit)*0.5;
 
-                  res=solver.solve(f, accuracy, guess, leftLimit, rightLimit);
+                  res=solver.solve(f0, accuracy, guess, leftLimit, rightLimit);
               } // end if phi<0 else
 
               break;

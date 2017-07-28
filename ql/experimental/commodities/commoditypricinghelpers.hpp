@@ -87,7 +87,7 @@ namespace QuantLib {
                                                        evaluationDate,
                                                        ExchangeRate::Direct);
             if (fromCurrency != exchRate.source())
-                return (Real)1 / exchRate.rate();
+                return static_cast<Real>(1) / exchRate.rate();
             return exchRate.rate();
         }
         return 1;

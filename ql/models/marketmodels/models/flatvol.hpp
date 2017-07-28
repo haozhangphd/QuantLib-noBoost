@@ -34,6 +34,10 @@
 
 namespace QuantLib {
 
+    Real flatVolCovariance(Time t1,Time t2,
+                           Time T, Time S,
+                           Volatility v1, Volatility v2);
+
     class PiecewiseConstantCorrelation;
 
     class FlatVol : public MarketModel {

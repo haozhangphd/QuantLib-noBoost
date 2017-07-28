@@ -27,7 +27,7 @@ using namespace QuantLib;
 
 class PlusOne {
 public:
-    Real operator()(Real x) const { return x+1;};
+    Real operator()(Real x) const { return x+1;}
 };
 
 TEST_CASE("TransformedGrid_Construction", "[TransformedGrid]") {

@@ -107,8 +107,8 @@ namespace QuantLib {
         Real Pn = currentState.discountRatio(currentIndex_ + numberPeriods*period_, currentIndex_);
         for (unsigned long i=0; i < numberPeriods; ++i)
         {
-            Time tau = rateTimes_[currentIndex_+(i+1)*period_]- rateTimes_[currentIndex_+i*period_];
-            B+= tau*currentState.discountRatio(currentIndex_+(i+1)*period_,currentIndex_);
+            Time tau_temp = rateTimes_[currentIndex_+(i+1)*period_]- rateTimes_[currentIndex_+i*period_];
+            B+= tau_temp*currentState.discountRatio(currentIndex_+(i+1)*period_,currentIndex_);
         }
 
 

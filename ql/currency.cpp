@@ -70,11 +70,11 @@ namespace QuantLib {
                          const Rounding &rounding,
                          const std::string &formatString,
                          const Currency &triangulationCurrency)
-            : name(name), code(code), numeric(numericCode),
-              symbol(symbol), fractionSymbol(fractionSymbol),
-              fractionsPerUnit(fractionsPerUnit), rounding(rounding),
-              triangulated(triangulationCurrency),
-              formatString(formatString) {}
+            : name_(name), code_(code), numeric_(numericCode),
+              symbol_(symbol), fractionSymbol_(fractionSymbol),
+              fractionsPerUnit_(fractionsPerUnit), rounding_(rounding),
+              triangulated_(triangulationCurrency),
+              formatString_(formatString) {}
 
 }
 

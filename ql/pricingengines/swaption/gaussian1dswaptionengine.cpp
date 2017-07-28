@@ -176,7 +176,7 @@ namespace QuantLib {
                 // for probability computation
                 if (probabilities_ != None) {
                     for (Size m = 0; m < npvp0.size(); m++) {
-                        Real price = 0.0;
+                        Real price_temp = 0.0;
                         if (expiry1Time != Null<Real>()) {
                             Array yg = model_->yGrid(
                                 stddevs_, integrationPoints_, expiry1Time,
@@ -195,7 +195,7 @@ namespace QuantLib {
                                 CubicInterpolation::Lagrange, 0.0,
                                 CubicInterpolation::Lagrange, 0.0);
                             for (Size i = 0; i < z.size() - 1; i++) {
-                                price +=
+                                price_temp +=
                                     model_->gaussianShiftedPolynomialIntegral(
                                         0.0, payoff1.cCoefficients()[i],
                                         payoff1.bCoefficients()[i],
@@ -204,21 +204,21 @@ namespace QuantLib {
                             }
                             if (extrapolatePayoff_) {
                                 if (flatPayoffExtrapolation_) {
-                                    price +=
+                                    price_temp +=
                                         model_
                                             ->gaussianShiftedPolynomialIntegral(
                                                   0.0, 0.0, 0.0, 0.0,
                                                   p[z.size() - 2],
                                                   z[z.size() - 2],
                                                   z[z.size() - 1], 100.0);
-                                    price +=
+                                    price_temp +=
                                         model_
                                             ->gaussianShiftedPolynomialIntegral(
                                                   0.0, 0.0, 0.0, 0.0, p[0],
                                                   z[0], -100.0, z[0]);
                                 } else {
                                     if (type == Option::Call)
-                                        price +=
+                                        price_temp +=
                                             model_
                                                 ->gaussianShiftedPolynomialIntegral(
                                                       0.0,
@@ -232,7 +232,7 @@ namespace QuantLib {
                                                       z[z.size() - 2],
                                                       z[z.size() - 1], 100.0);
                                     if (type == Option::Put)
-                                        price +=
+                                        price_temp +=
                                             model_
                                                 ->gaussianShiftedPolynomialIntegral(
                                                       0.0,
@@ -247,7 +247,7 @@ namespace QuantLib {
                             }
                         }
 
-                        npvp0[m][k] = price;
+                        npvp0[m][k] = price_temp;
                     }
                 }
                 // end probability computation

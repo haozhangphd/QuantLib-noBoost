@@ -132,13 +132,13 @@ namespace QuantLib {
         if (arguments_.barrierType == Barrier::DownIn
             || arguments_.barrierType == Barrier::UpIn) {
             // Cast the payoff
-            std::shared_ptr < StrikedTypePayoff > payoff =
+            std::shared_ptr < StrikedTypePayoff > payoff_temp =
                     std::dynamic_pointer_cast<StrikedTypePayoff>(
                             arguments_.payoff);
             // Calculate the vanilla option
 
             std::shared_ptr < DividendVanillaOption > vanillaOption =
-                    std::make_shared<DividendVanillaOption>(payoff, arguments_.exercise,
+                    std::make_shared<DividendVanillaOption>(payoff_temp, arguments_.exercise,
                                                             dividendCondition->dividendDates(),
                                                             dividendCondition->dividends());
 
@@ -152,7 +152,7 @@ namespace QuantLib {
                     std::make_shared<DividendBarrierOption>(arguments_.barrierType,
                                                             arguments_.barrier,
                                                             arguments_.rebate,
-                                                            payoff, arguments_.exercise,
+                                                            payoff_temp, arguments_.exercise,
                                                             dividendCondition->dividendDates(),
                                                             dividendCondition->dividends());
 

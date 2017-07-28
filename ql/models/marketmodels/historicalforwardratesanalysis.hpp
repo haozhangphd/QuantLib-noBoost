@@ -144,13 +144,13 @@ namespace QuantLib {
 
             try {
                 // update the quotes...
-                for (Size i=0; i<iborIndexes.size(); ++i) {
-                    Rate fixing = iborIndexes[i]->fixing(currentDate, false);
-                    iborQuotes[i]->setValue(fixing);
+                for (Size j=0; j<iborIndexes.size(); ++j) {
+                    Rate fixing = iborIndexes[j]->fixing(currentDate, false);
+                    iborQuotes[j]->setValue(fixing);
                 }
-                for (Size i=0; i<swapIndexes.size(); ++i) {
-                    Rate fixing = swapIndexes[i]->fixing(currentDate, false);
-                    swapQuotes[i]->setValue(fixing);
+                for (Size j=0; j<swapIndexes.size(); ++j) {
+                    Rate fixing = swapIndexes[j]->fixing(currentDate, false);
+                    swapQuotes[j]->setValue(fixing);
                 }
             } catch (std::exception& e) {
                 skippedDates.emplace_back(currentDate);
@@ -159,10 +159,10 @@ namespace QuantLib {
             }
 
             try {
-                for (Size i=0; i<nRates; ++i) {
+                for (Size j=0; j<nRates; ++j) {
                     // Time-to-go forwards
-                    Date d = currentDate + fixingPeriods[i];
-                    fwdRates[i] = yc.forwardRate(d,
+                    Date d = currentDate + fixingPeriods[j];
+                    fwdRates[j] = yc.forwardRate(d,
                                                  indexTenor,
                                                  indexDayCounter,
                                                  Simple);
@@ -176,8 +176,8 @@ namespace QuantLib {
             // From 2nd step onwards, calculate forward rate
             // relative differences
             if (!isFirst){
-                for (Size i=0; i<nRates; ++i)
-                    fwdRatesDiff[i] = fwdRates[i]/prevFwdRates[i] -1.0;
+                for (Size j=0; j<nRates; ++j)
+                    fwdRatesDiff[j] = fwdRates[j]/prevFwdRates[j] -1.0;
                 // add observation
                 statistics.add(fwdRatesDiff.begin(), fwdRatesDiff.end());
             }
@@ -216,7 +216,7 @@ namespace QuantLib {
                 const std::vector<std::shared_ptr<SwapIndex> >& swapIndexes,
                 const DayCounter& yieldCurveDayCounter,
                 Real yieldCurveAccuracy);
-        HistoricalForwardRatesAnalysisImpl(){};
+        HistoricalForwardRatesAnalysisImpl(){}
         const std::vector<Date>& skippedDates() const;
         const std::vector<std::string>& skippedDatesErrorMessage() const;
         const std::vector<Date>& failedDates() const;

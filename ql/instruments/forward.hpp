@@ -149,8 +149,8 @@ namespace QuantLib {
         : type_(type),strike_(strike) {
             QL_REQUIRE(strike >= 0.0,"negative strike given");
         }
-        Position::Type forwardType() const { return type_; };
-        Real strike() const { return strike_; };
+        Position::Type forwardType() const { return type_; }
+        Real strike() const { return strike_; }
         //! \name Payoff interface
         //@{
         std::string name() const { return "Forward";}

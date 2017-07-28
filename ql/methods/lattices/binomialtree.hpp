@@ -161,7 +161,7 @@ namespace QuantLib {
         Real underlying(Size i, Size index) const {
             return x0_ * std::pow(down_, Real(BigInteger(i)-BigInteger(index)))
                        * std::pow(up_, Real(index));
-        };
+        }
         Real probability(Size, Size, Size branch) const {
             return (branch == 1 ? pu_ : pd_);
         }

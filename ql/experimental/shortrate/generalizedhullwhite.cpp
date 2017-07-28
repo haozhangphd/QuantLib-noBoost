@@ -104,7 +104,7 @@ namespace QuantLib {
             }
 
             return value;
-        };
+        }
 
       private:
         Size size_;

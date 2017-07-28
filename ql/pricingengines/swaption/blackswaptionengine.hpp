@@ -81,10 +81,10 @@ namespace QuantLib {
     // shifted lognormal type engine
     struct Black76Spec {
         static const VolatilityType type = ShiftedLognormal;
-        Real value(const Option::Type type, const Real strike,
+        Real value(const Option::Type type0, const Real strike,
                    const Real atmForward, const Real stdDev, const Real annuity,
                    const Real displacement) {
-            return blackFormula(type, strike, atmForward, stdDev, annuity,
+            return blackFormula(type0, strike, atmForward, stdDev, annuity,
                                 displacement);
         }
         Real vega(const Real strike, const Real atmForward, const Real stdDev,
@@ -99,10 +99,10 @@ namespace QuantLib {
     // normal type engine
     struct BachelierSpec {
         static const VolatilityType type = Normal;
-        Real value(const Option::Type type, const Real strike,
+        Real value(const Option::Type type0, const Real strike,
                    const Real atmForward, const Real stdDev, const Real annuity,
                    const Real) {
-            return bachelierBlackFormula(type, strike, atmForward, stdDev,
+            return bachelierBlackFormula(type0, strike, atmForward, stdDev,
                                          annuity);
         }
         Real vega(const Real strike, const Real atmForward, const Real stdDev,

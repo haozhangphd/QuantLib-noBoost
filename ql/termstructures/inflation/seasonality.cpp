@@ -52,7 +52,7 @@ namespace QuantLib {
                 QL_REQUIRE( (this->seasonalityFactors().size() %
                              this->frequency()) == 0,
                            "For frequency " << this->frequency()
-                           << " require multiple of " << ((int)this->frequency()) << " factors "
+                           << " require multiple of " << static_cast<int>(this->frequency()) << " factors "
                            << this->seasonalityFactors().size() << " were given.");
             break;
             default:

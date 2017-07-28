@@ -35,12 +35,12 @@
 namespace QuantLib {
 
     struct EnergyDailyPosition {
-        Date date;
-        Real quantityAmount;
-        Real payLegPrice;
-        Real receiveLegPrice;
-        Real riskDelta;
-        bool unrealized;
+        Date date_;
+        Real quantityAmount_;
+        Real payLegPrice_;
+        Real receiveLegPrice_;
+        Real riskDelta_;
+        bool unrealized_;
 
         EnergyDailyPosition();
         EnergyDailyPosition(const Date& date,

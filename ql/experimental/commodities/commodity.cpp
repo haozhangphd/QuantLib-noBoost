@@ -67,7 +67,7 @@ namespace QuantLib {
 
 
     std::ostream& operator<<(std::ostream& out, const PricingError& error) {
-        switch (error.errorLevel) {
+        switch (error.errorLevel_) {
           case PricingError::Info:
             out << "info: ";
             break;
@@ -81,9 +81,9 @@ namespace QuantLib {
             out << "*** fatal: ";
             break;
         }
-        out << error.error;
-        if (error.detail != "")
-            out << ": " << error.detail;
+        out << error.error_;
+        if (error.detail_ != "")
+            out << ": " << error.detail_;
         return out;
     }
 

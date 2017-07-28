@@ -23,15 +23,15 @@ option(MULTIPRECISION_NON_CENTRAL_CHI_SQUARED_QUADRATURE "if multiprecision libr
 if (CMAKE_CXX_COMPILER_ID STREQUAL GNU)
     set(release_flags -O3)
     set(debug_flags -g -O0 -fvar-tracking-assignments)
-    add_compile_options(-Werror -march=native -pipe -fstack-protector-strong)
+    add_compile_options(-Wall -Wextra -pedantic -Wno-empty-body -Wno-unused-parameter -Werror -march=native -pipe -fstack-protector-strong)
 
 # compiler flags for Clang
 elseif (CMAKE_CXX_COMPILER_ID STREQUAL Clang)
     set(release_flags -O3)
     set(debug_flags -g -O0)
-    add_compile_options(-Werror -march=native -pipe -fstack-protector-strong)
+    add_compile_options(-Weverything -Wno-c++98-compat -Wno-documentation-unknown-command -Wno-documentation -Wno-shorten-64-to-32 -Wno-padded -Wno-float-equal -Wno-undef -Wno-missing-braces -Wno-unused-parameter -Wno-exit-time-destructors -Wno-switch-enum -Wno-sign-conversion -Wno-global-constructors -Wno-weak-vtables -Wno-unused-member-function -Wno-double-promotion -Wno-covered-switch-default -Wno-conversion -Werror -march=native -pipe -fstack-protector-strong)
 
-endif()
+endif ()
 
 ################################################################
 # End of user configuration section                            #
@@ -43,22 +43,37 @@ if (CMAKE_CXX_COMPILER_ID STREQUAL Clang)
     add_compile_options(-stdlib=libc++)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
-endif()
+endif ()
 
 add_compile_options("$<$<CONFIG:Release>:${release_flags}>")
 add_compile_options("$<$<CONFIG:Debug>:${debug_flags}>")
 if (CMAKE_BUILD_TYPE MATCHES Release)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -s")
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -s")
-endif()
+endif ()
 
 if (QL_USE_MKL)
     file(GLOB_RECURSE MKLPATH /opt/intel/*/mkl.h)
     if (MKLPATH)
         string(REPLACE "/include/mkl.h" "" MKLROOT ${MKLPATH})
         include_directories(${MKLROOT}/include)
+        if (CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+            add_compile_options(-Wno-reserved-id-macro -Wno-c++98-compat-pedantic)
+        endif ()
     else ()
         message(FATAL_ERROR "MKL not found, build aborted!")
+    endif ()
+endif ()
+
+if (MULTIPRECISION_NON_CENTRAL_CHI_SQUARED_QUADRATURE)
+    if (CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+        file(GLOB_RECURSE QUADMATHINCLUDE /usr/lib/gcc/*/quadmath.h)
+        if (QUADMATHINCLUDE)
+            string(REPLACE "/quadmath.h" "" QUADMATHINCLUDE ${QUADMATHINCLUDE})
+            add_compile_options(-idirafter ${QUADMATHINCLUDE})
+        else ()
+            message(FATAL_ERROR "libquadmath not found, build aborted!")
+        endif ()
     endif ()
 endif ()
 

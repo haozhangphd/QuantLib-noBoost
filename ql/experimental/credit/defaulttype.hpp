@@ -109,7 +109,11 @@ namespace QuantLib {
                                                     AtomicDefault::Bankruptcy,
                              Restructuring::Type restType = Restructuring::XR);
 
-        virtual ~DefaultType() {}
+        virtual ~DefaultType() = default;
+        DefaultType(const DefaultType&) = default;
+        DefaultType(DefaultType&&) = default;
+        DefaultType& operator=(const DefaultType&) = default;
+        DefaultType& operator=(DefaultType&&) = default;
 
         AtomicDefault::Type defaultType() const {
             return defTypes_;

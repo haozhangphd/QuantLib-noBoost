@@ -12,6 +12,10 @@ set(BENCHMARK_FILES "quantlibbenchmark.cpp" "americanoption.cpp" "asianoptions.c
 
 list(REMOVE_ITEM TEST_SUITE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/quantlibbenchmark.cpp)
 
+if (CMAKE_CXX_COMPILER_ID STREQUAL Clang)
+    add_compile_options(-Wno-missing-prototypes)
+endif()
+
 add_executable(quantlib-test-suite ${TEST_SUITE_FILES})
 target_link_libraries(quantlib-test-suite PRIVATE QuantLib)
 add_executable(quantlib-benchmark ${BENCHMARK_FILES})

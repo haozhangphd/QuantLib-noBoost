@@ -47,10 +47,10 @@ namespace QuantLib {
     };
 
     struct Region::Data {
-        std::string name;
-        std::string code;
+        std::string name_;
+        std::string code_;
         Data(const std::string& name, const std::string& code)
-        : name(name), code(code) {}
+        : name_(name), code_(code) {}
     };
 
     //! \relates Region
@@ -112,11 +112,11 @@ namespace QuantLib {
     // inline definitions
 
     inline const std::string& Region::name() const {
-        return data_->name;
+        return data_->name_;
     }
 
     inline const std::string& Region::code() const {
-        return data_->code;
+        return data_->code_;
     }
 
     inline bool operator==(const Region& r1, const Region& r2) {

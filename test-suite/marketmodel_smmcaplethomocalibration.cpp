@@ -75,9 +75,6 @@ using namespace QuantLib;
 using std::fabs;
 using std::sqrt;
 
-#define BEGIN(x) (x+0)
-#define END(x) (x+LENGTH(x))
-
 namespace {
 
     Date todaysDate_, startDate_, endDate_;

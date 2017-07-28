@@ -182,21 +182,21 @@ namespace QuantLib {
             try {
                 Real k0 = k_[rightIndex_];
                 Real c0 = c_[rightIndex_];
-                Real cp0;
+                Real cp0_temp;
                 if (interpolate_)
-                    cp0 = 0.5 * (c_[rightIndex_] - c_[rightIndex_ - 1]) /
+                    cp0_temp = 0.5 * (c_[rightIndex_] - c_[rightIndex_ - 1]) /
                           (k_[rightIndex_] - k_[rightIndex_ - 1]);
                 else {
-                    cp0 = -source_->digitalOptionPrice(
+                    cp0_temp = -source_->digitalOptionPrice(
                         k0 - shift() - gap_ / 2.0, Option::Call, 1.0, gap_);
                 }
                 std::shared_ptr<cFunction> cFct;
                 if (exponentialExtrapolation_) {
-                    QL_REQUIRE(-cp0 / c0 > 0.0, "dummy"); // this is caught
+                    QL_REQUIRE(-cp0_temp / c0 > 0.0, "dummy"); // this is caught
                                                           // below
-                    cFct = std::make_shared<cFunction>(-cp0 / c0, std::log(c0) - cp0 / c0 * k0);
+                    cFct = std::make_shared<cFunction>(-cp0_temp / c0, std::log(c0) - cp0_temp / c0 * k0);
                 } else {
-                    sHelper sh(k0, c0, cp0);
+                    sHelper sh(k0, c0, cp0_temp);
                     Real s;
                     s = brent.solve(sh, QL_KAHALE_ACC, 0.20, 0.0,
                                     QL_KAHALE_SMAX); // numerical parameters
@@ -230,7 +230,7 @@ namespace QuantLib {
         Real shifted_strike = std::max(strike + shift(), QL_KAHALE_EPS);
         int i = index(shifted_strike);
         if (interpolate_ ||
-            (i == 0 || i == (int)(rightIndex_ - leftIndex_ + 1)))
+            (i == 0 || i == static_cast<int>(rightIndex_ - leftIndex_ + 1)))
             return discount *
                    (type == Option::Call
                         ? cFunctions_[i]->operator()(shifted_strike)
@@ -243,7 +243,7 @@ namespace QuantLib {
         Real shifted_strike = std::max(strike + shift(), QL_KAHALE_EPS);
         int i = index(shifted_strike);
         if (!interpolate_ &&
-            !(i == 0 || i == (int)(rightIndex_ - leftIndex_ + 1)))
+            !(i == 0 || i == static_cast<int>(rightIndex_ - leftIndex_ + 1)))
             return source_->volatility(strike);
         Real c = cFunctions_[i]->operator()(shifted_strike);
         Real vol = 0.0;

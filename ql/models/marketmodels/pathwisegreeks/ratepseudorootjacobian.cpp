@@ -196,52 +196,43 @@ namespace QuantLib
         }
 
 
-        for (Size f=0; f < factors_; ++f)
-            for (Size j=aliveIndex_; j < numberRates; ++j)
-            {
-                for (Size k= aliveIndex_; k < j ; ++k)
-                    allDerivatives_[j][k][f] = newRates[j]*ratios_[k]*taus_[k]*pseudoRoot_[j][f];
+        for (Size f=0; f < factors_; ++f) {
+            for (Size j = aliveIndex_; j < numberRates; ++j) {
+                for (Size k = aliveIndex_; k < j; ++k)
+                    allDerivatives_[j][k][f] = newRates[j] * ratios_[k] * taus_[k] * pseudoRoot_[j][f];
 
                 // GG don't seem to have the 2, this term is miniscule in any case
                 Real tmp = //2*
-                    2*ratios_[j]*taus_[j]*pseudoRoot_[j][f];
-                tmp -=  pseudoRoot_[j][f];
-                tmp += e_[j][f]*taus_[j];
+                        2 * ratios_[j] * taus_[j] * pseudoRoot_[j][f];
+                tmp -= pseudoRoot_[j][f];
+                tmp += e_[j][f] * taus_[j];
                 tmp += gaussians[f];
-                tmp *= (newRates[j]+displacements_[j]);
+                tmp *= (newRates[j] + displacements_[j]);
 
 
-                allDerivatives_[j][j][f] =tmp;
+                allDerivatives_[j][j][f] = tmp;
 
-                for (Size k= j+1; k < numberRates ; ++k)
-                    allDerivatives_[j][k][f]=0.0;
-
-
-            }
-
-
-
-            for (Size i =0; i < numberBumps_; ++i)
-            {
-                Size j=0;
-
-                for (; j < aliveIndex_; ++j)
-                {
-                    B[i][j]=0.0;
-                }
-                for (; j < numberRates; ++j)
-                {
-                    Real sum =0.0;
-
-                    for (Size k=aliveIndex_; k < numberRates; ++k)
-                        for (Size f=0; f < factors_; ++f)
-                            sum += pseudoBumps_[i][k][f]*allDerivatives_[j][k][f];
-                    B[i][j] =sum;
-
-                }
+                for (Size k = j + 1; k < numberRates; ++k)
+                    allDerivatives_[j][k][f] = 0.0;
 
             }
+        }
 
+        for (Size i =0; i < numberBumps_; ++i) {
+            Size j=0;
+
+            for (; j < aliveIndex_; ++j)
+                B[i][j]=0.0;
+            for (; j < numberRates; ++j) {
+                Real sum =0.0;
+
+                for (Size k=aliveIndex_; k < numberRates; ++k)
+                    for (Size f=0; f < factors_; ++f)
+                        sum += pseudoBumps_[i][k][f]*allDerivatives_[j][k][f];
+                B[i][j] =sum;
+
+            }
+        }
     }
 
     RatePseudoRootJacobianAllElements::RatePseudoRootJacobianAllElements(const Matrix& pseudoRoot,

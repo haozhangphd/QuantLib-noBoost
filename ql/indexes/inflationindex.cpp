@@ -232,24 +232,24 @@ namespace QuantLib {
 
             if(interpolated()){ // IS ratio, IS interpolated
 
-                std::pair<Date,Date> lim = inflationPeriod(fixingDate, frequency_);
+                std::pair<Date,Date> lim_temp = inflationPeriod(fixingDate, frequency_);
                 Date fixMinus1Y=NullCalendar().advance(fixingDate, -1*Years, ModifiedFollowing);
                 std::pair<Date,Date> limBef = inflationPeriod(fixMinus1Y, frequency_);
-                Real dp= lim.second + 1 - lim.first;
+                Real dp= lim_temp.second + 1 - lim_temp.first;
                 Real dpBef=limBef.second + 1 - limBef.first;
-                Real dl = fixingDate-lim.first;
+                Real dl = fixingDate-lim_temp.first;
                 // potentially does not work on 29th Feb
                 Real dlBef = fixMinus1Y - limBef.first;
                 // get the four relevant fixings
                 // recall that they are stored flat for every day
-                Rate limFirstFix = ts[lim.first];
+                Rate limFirstFix = ts[lim_temp.first];
                 QL_REQUIRE(limFirstFix != Null<Rate>(),
                             "Missing " << name() << " fixing for "
-                            << lim.first );
-                Rate limSecondFix = ts[lim.second+1];
+                            << lim_temp.first );
+                Rate limSecondFix = ts[lim_temp.second+1];
                 QL_REQUIRE(limSecondFix != Null<Rate>(),
                             "Missing " << name() << " fixing for "
-                            << lim.second+1 );
+                            << lim_temp.second+1 );
                 Rate limBefFirstFix = ts[limBef.first];
                 QL_REQUIRE(limBefFirstFix != Null<Rate>(),
                             "Missing " << name() << " fixing for "
@@ -284,17 +284,17 @@ namespace QuantLib {
 
             if (interpolated()) { // NOT ratio, IS interpolated
 
-                std::pair<Date,Date> lim = inflationPeriod(fixingDate, frequency_);
-                Real dp= lim.second + 1 - lim.first;
-                Real dl = fixingDate-lim.first;
-                Rate limFirstFix = ts[lim.first];
+                std::pair<Date,Date> lim_temp = inflationPeriod(fixingDate, frequency_);
+                Real dp= lim_temp.second + 1 - lim_temp.first;
+                Real dl = fixingDate-lim_temp.first;
+                Rate limFirstFix = ts[lim_temp.first];
                 QL_REQUIRE(limFirstFix != Null<Rate>(),
                             "Missing " << name() << " fixing for "
-                            << lim.first );
-                Rate limSecondFix = ts[lim.second+1];
+                            << lim_temp.first );
+                Rate limSecondFix = ts[lim_temp.second+1];
                 QL_REQUIRE(limSecondFix != Null<Rate>(),
                             "Missing " << name() << " fixing for "
-                            << lim.second+1 );
+                            << lim_temp.second+1 );
                 Real linearNow = limFirstFix + (limSecondFix-limFirstFix)*dl/dp;
 
                 return linearNow;

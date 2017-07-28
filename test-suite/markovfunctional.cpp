@@ -478,8 +478,7 @@ namespace {
         // the cap floor instruments created in OptionletStripper1
 #ifdef QL_ENABLE_THREAD_SAFE_OBSERVER_PATTERN
         return flatOptionletVts();
-#endif
-
+#else
         Size nOptTen = 16;
         Size nStrikes = 12; // leave out last strike 10% because it causes an
         // exception in bootstrapping
@@ -552,6 +551,7 @@ namespace {
 
         return Handle<OptionletVolatilityStructure>(
                 std::make_shared<StrippedOptionletAdapter>(stripper));
+#endif
     }
 
     // Calibration Basket 1: CMS10y Swaptions, 5 yearly fixings
@@ -787,16 +787,16 @@ TEST_CASE("MarkovFunctional_KahaleSmileSection", "[MarkovFunctional]") {
     k = 0.0010;
     dig00 = dig10 = 1.0;
     while (k <= 2.0 * strikes.back() + tol) {
-        Real dig0 = ksec21->digitalOptionPrice(k);
-        Real dig1 = ksec22->digitalOptionPrice(k);
-        if (!(dig0 <= dig00 + tol && dig0 >= 0.0))
-            FAIL_CHECK("arbitrage in digitals21 (" << dig00 << "," << dig0
+        Real dig0_temp = ksec21->digitalOptionPrice(k);
+        Real dig1_temp = ksec22->digitalOptionPrice(k);
+        if (!(dig0_temp <= dig00 + tol && dig0_temp >= 0.0))
+            FAIL_CHECK("arbitrage in digitals21 (" << dig00 << "," << dig0_temp
                                                    << ") at strike " << k);
-        if (!(dig1 <= dig10 + tol && dig1 >= 0.0))
-            FAIL_CHECK("arbitrage in digitals22 (" << dig10 << "," << dig1
+        if (!(dig1_temp <= dig10 + tol && dig1_temp >= 0.0))
+            FAIL_CHECK("arbitrage in digitals22 (" << dig10 << "," << dig1_temp
                                                    << ") at strike " << k);
-        dig00 = dig0;
-        dig10 = dig1;
+        dig00 = dig0_temp;
+        dig10 = dig1_temp;
         k += 0.0001;
     }
 
@@ -836,16 +836,16 @@ TEST_CASE("MarkovFunctional_KahaleSmileSection", "[MarkovFunctional]") {
     k = 0.0010;
     dig00 = dig10 = 1.0;
     while (k <= 2.0 * strikes.back() + tol) {
-        Real dig0 = ksec31->digitalOptionPrice(k);
-        Real dig1 = ksec32->digitalOptionPrice(k);
-        if (!(dig0 <= dig00 + tol && dig0 >= 0.0))
-            FAIL_CHECK("arbitrage in digitals31 (" << dig00 << "," << dig0
+        Real dig0_temp = ksec31->digitalOptionPrice(k);
+        Real dig1_temp = ksec32->digitalOptionPrice(k);
+        if (!(dig0_temp <= dig00 + tol && dig0_temp >= 0.0))
+            FAIL_CHECK("arbitrage in digitals31 (" << dig00 << "," << dig0_temp
                                                    << ") at strike " << k);
-        if (!(dig1 <= dig10 + tol && dig1 >= 0.0))
-            FAIL_CHECK("arbitrage in digitals32 (" << dig10 << "," << dig1
+        if (!(dig1_temp <= dig10 + tol && dig1_temp >= 0.0))
+            FAIL_CHECK("arbitrage in digitals32 (" << dig10 << "," << dig1_temp
                                                    << ") at strike " << k);
-        dig00 = dig0;
-        dig10 = dig1;
+        dig00 = dig0_temp;
+        dig10 = dig1_temp;
         k += 0.0001;
     }
 }

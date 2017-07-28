@@ -114,7 +114,7 @@ namespace {
             for (Size m = 0; m < 8; ++m) {
                 Handle<Quote> vol(std::make_shared<SimpleQuote>(v[s * 8 + m]));
 
-                Period maturity((int) ((t[m] + 3) / 7.), Weeks); // round to weeks
+                Period maturity(static_cast<int> ((t[m] + 3) / 7.), Weeks); // round to weeks
                 options.emplace_back(std::make_shared<HestonModelHelper>(maturity, calendar,
                                                                          s0, strike[s], vol,
                                                                          riskFreeTS, dividendYield,
@@ -411,25 +411,23 @@ TEST_CASE("HestonModel_AnalyticVsCached", "[HestonModel]") {
 
     Size i;
     for (i = 0; i < 6; ++i) {
-        Date exerciseDate(8 + i / 3, September, 2005);
+        exerciseDate = Date(8 + i / 3, September, 2005);
 
-        std::shared_ptr < StrikedTypePayoff > payoff =
-                std::make_shared<PlainVanillaPayoff>(Option::Call, K[i % 3]);
-        std::shared_ptr < Exercise > exercise =
-                std::make_shared<EuropeanExercise>(exerciseDate);
+        payoff = std::make_shared<PlainVanillaPayoff>(Option::Call, K[i % 3]);
+        exercise = std::make_shared<EuropeanExercise>(exerciseDate);
 
-        Handle<YieldTermStructure> riskFreeTS(flatRate(0.05, dayCounter));
-        Handle<YieldTermStructure> dividendTS(flatRate(0.02, dayCounter));
+        riskFreeTS = Handle<YieldTermStructure>(flatRate(0.05, dayCounter));
+        dividendTS = Handle<YieldTermStructure>(flatRate(0.02, dayCounter));
 
         Real s = riskFreeTS->discount(0.7) / dividendTS->discount(0.7);
-        Handle<Quote> s0(std::make_shared<SimpleQuote>(s));
+        s0 = Handle<Quote>(std::make_shared<SimpleQuote>(s));
 
-        std::shared_ptr < HestonProcess > process = std::make_shared<HestonProcess>(
+        process = std::make_shared<HestonProcess>(
                 riskFreeTS, dividendTS, s0, 0.09, 1.2, 0.08, 1.8, -0.45);
 
-        VanillaOption option(payoff, exercise);
+        option = VanillaOption(payoff, exercise);
 
-        std::shared_ptr < PricingEngine > engine = std::make_shared<AnalyticHestonEngine>(
+        engine = std::make_shared<AnalyticHestonEngine>(
                 std::make_shared<HestonModel>(process));
 
         option.setPricingEngine(engine);

@@ -34,12 +34,12 @@ namespace QuantLib {
     FdmHestonGreensFct::FdmHestonGreensFct(
         const std::shared_ptr<FdmMesher>& mesher,
         const std::shared_ptr<HestonProcess>& process,
-        FdmSquareRootFwdOp::TransformationType trafoType_,
+        FdmSquareRootFwdOp::TransformationType trafoType,
         const Real l0)
     : l0_(l0),
       mesher_(mesher),
       process_(process),
-      trafoType_(trafoType_) { }
+      trafoType_(trafoType) { }
 
     Array FdmHestonGreensFct::get(Time t, Algorithm algorithm)
     const {

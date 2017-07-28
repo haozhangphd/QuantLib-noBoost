@@ -60,12 +60,12 @@ namespace QuantLib {
         std::function<Real(Real)> f1, f2;
         switch(type_) {
           case Cosine:
-            f1 = [](Real x){return std::sin(x);};
-            f2 = [](Real x){return std::cos(x);};
+            f1 = [](Real s){return std::sin(s);};
+            f2 = [](Real s){return std::cos(s);};
             break;
           case Sine:
-            f1 = [](Real x){return std::cos(x);};
-            f2 = [](Real x){return std::sin(x);};
+            f1 = [](Real s){return std::cos(s);};
+            f2 = [](Real s){return std::sin(s);};
             break;
           default:
             QL_FAIL("unknown integration type");

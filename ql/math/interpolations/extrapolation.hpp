@@ -32,7 +32,11 @@ namespace QuantLib {
     class Extrapolator {
       public:
         Extrapolator() : extrapolate_(false) {}
-        virtual ~Extrapolator() {}
+        virtual ~Extrapolator() = default;
+        Extrapolator(const Extrapolator&) = default;
+        Extrapolator(Extrapolator&&) = default;
+        Extrapolator& operator=(const Extrapolator&) = default;
+        Extrapolator& operator=(Extrapolator&&) = default;
         //! \name modifiers
         //@{
         //! enable extrapolation in subsequent calls

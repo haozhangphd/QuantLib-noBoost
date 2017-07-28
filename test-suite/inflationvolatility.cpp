@@ -138,8 +138,8 @@ namespace {
         Size nTimesGBP = LENGTH(timesGBP);
         for (Size i = 0; i < nTimesEUR; i++) {
             r.emplace_back(ratesEUR[i]);
-            Size ys = (Size) floor(timesEUR[i]);
-            Size ds = (Size) ((timesEUR[i] - (Real) ys) * 365);
+            Size ys = static_cast<Size>(floor(timesEUR[i]));
+            Size ds = static_cast<Size>((timesEUR[i] - static_cast<Real>(ys)) * 365);
             Date dd = eval + Period(ys, Years) + Period(ds, Days);
             d.emplace_back(dd);
         }
@@ -153,8 +153,8 @@ namespace {
         r.clear();
         for (Size i = 0; i < nTimesGBP; i++) {
             r.emplace_back(ratesGBP[i]);
-            Size ys = (Size) floor(timesGBP[i]);
-            Size ds = (Size) ((timesGBP[i] - (Real) ys) * 365);
+            Size ys = static_cast<Size>(floor(timesGBP[i]));
+            Size ds = static_cast<Size>((timesGBP[i] - static_cast<Real>(ys)) * 365);
             Date dd = eval + Period(ys, Years) + Period(ds, Days);
             d.emplace_back(dd);
         }
@@ -375,7 +375,7 @@ TEST_CASE("InflationVol_YoYPriceSurfaceToATM", "[InflationVol]") {
     pair<vector<Time>, vector<Rate>> yyATMt = priceSurfEU->atmYoYSwapTimeRates();
     pair<vector<Date>, vector<Rate>> yyATMd = priceSurfEU->atmYoYSwapDateRates();
 
-    // Real dy = (Real)lag / 12.0;
+    // Real dy = static_cast<Real>(lag) / 12.0;
     const Real crv[] = {0.024586, 0.0247575, 0.0249396, 0.0252596,
                         0.0258498, 0.0262883, 0.0267915};
     const Real swaps[] = {0.024586, 0.0247575, 0.0249396, 0.0252596,

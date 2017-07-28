@@ -75,11 +75,11 @@ namespace {
     }
 
     class linear {
-        Real alpha, beta;
+        Real alpha_, beta_;
       public:
-        linear(Real alpha, Real beta) : alpha(alpha), beta(beta) {}
+        linear(Real alpha, Real beta) : alpha_(alpha), beta_(beta) {}
         Real operator()(Real x) const {
-            return alpha + beta*x;
+            return alpha_ + beta_*x;
         }
     };
 
@@ -771,17 +771,17 @@ TEST_CASE("VPP_VPPPricing", "[VPP]") {
         const sample_type& path = (i % 2) ? generator.antithetic()
                                           : generator.next();
 
-        const std::shared_ptr<FdmInnerValueCalculator> fuelPrices =
+        const std::shared_ptr<FdmInnerValueCalculator> fuelPrices_temp =
             std::make_shared<PathFuelPrice>(path.value, fuelShape);
 
-        const std::shared_ptr<FdmInnerValueCalculator> sparkSpreads =
+        const std::shared_ptr<FdmInnerValueCalculator> sparkSpreads_temp =
             std::make_shared<PathSparkSpreadPrice>(heatRate, path.value,
                                      fuelShape, powerShape);
 
         for (Size j=exercise->dates().size(); j > 0u; --j) {
             const Time t = grid.at(j);
-            const Real fuelPrice = fuelPrices->innerValue(iter, t);
-            const Real sparkSpread = sparkSpreads->innerValue(iter, t);
+            const Real fuelPrice = fuelPrices_temp->innerValue(iter, t);
+            const Real sparkSpread = sparkSpreads_temp->innerValue(iter, t);
             const Real startUpCost
                     = startUpFixCost + (fuelPrice + fuelCostAddon)*startUpFuel;
 
@@ -797,23 +797,23 @@ TEST_CASE("VPP_VPPPricing", "[VPP]") {
             const Real pMaxFlow = pMax*(sparkSpread - heatRate*fuelCostAddon);
 
             // rollback continuation states and the path states
-            for (Size i=0; i < 2*tMinUp; ++i) {
-                if (i < tMinUp) {
-                    state[i]    += pMinFlow;
-                    contState[i]+= pMinFlow;
+            for (Size k=0; k < 2*tMinUp; ++k) {
+                if (k < tMinUp) {
+                    state[k]    += pMinFlow;
+                    contState[k]+= pMinFlow;
                 }
                 else {
-                    state[i]    += pMaxFlow;
-                    contState[i]+= pMaxFlow;
+                    state[k]    += pMaxFlow;
+                    contState[k]+= pMaxFlow;
                 }
             }
 
             // dynamic programming using the continuation values
             Array retVal(nStates);
-            for (Size i=0; i < tMinUp-1; ++i) {
-                retVal[i] = retVal[tMinUp + i]
-                          = (contState[i+1] > contState[tMinUp + i+1])?
-                                          state[i+1] : state[tMinUp + i+1];
+            for (Size k=0; k < tMinUp-1; ++k) {
+                retVal[k] = retVal[tMinUp + k]
+                          = (contState[k+1] > contState[tMinUp + k+1])?
+                                          state[k+1] : state[tMinUp + k+1];
             }
 
             if (contState[2*tMinUp] >=
@@ -827,8 +827,8 @@ TEST_CASE("VPP_VPPPricing", "[VPP]") {
                 retVal[tMinUp-1] = retVal[2*tMinUp-1] = state[2*tMinUp-1];
             }
 
-            for (Size i=0; i < tMinDown-1; ++i) {
-                retVal[2*tMinUp + i] = state[2*tMinUp + i+1];
+            for (Size k=0; k < tMinDown-1; ++k) {
+                retVal[2*tMinUp + k] = state[2*tMinUp + k+1];
             }
 
             if (contState.back() >=

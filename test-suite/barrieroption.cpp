@@ -350,9 +350,9 @@ TEST_CASE("BarrierOption_HaugValues", "[BarrierOption]") {
 
            barrierOption.setPricingEngine(engine);
 
-           Real calculated = barrierOption.NPV();
-           Real expected = values[i].result;
-           Real error = std::fabs(calculated-expected);
+           calculated = barrierOption.NPV();
+           expected = values[i].result;
+           error = std::fabs(calculated-expected);
            if (error>values[i].tol) {
                REPORT_FAILURE("value", values[i].barrierType, values[i].barrier,
                               values[i].rebate, payoff, exercise, values[i].s,

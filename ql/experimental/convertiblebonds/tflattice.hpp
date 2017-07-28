@@ -43,7 +43,7 @@ namespace QuantLib {
                                     Volatility volatility,
                                     Spread divYield);
 
-        Spread creditSpread() const { return creditSpread_; };
+        Spread creditSpread() const { return creditSpread_; }
 
       protected:
         void stepback(Size i,

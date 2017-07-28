@@ -60,7 +60,7 @@ namespace QuantLib {
         bool isColumbusDay(Day d, Month m, Year y, Weekday w) {
             // second Monday in October
             return (d >= 8 && d <= 14) && w == Monday && m == October
-                && y >= 1971;
+                   && y >= 1971;
         }
 
         bool isVeteransDay(Day d, Month m, Year y, Weekday w) {
@@ -75,42 +75,43 @@ namespace QuantLib {
         }
 
     }
-    
+
     UnitedStates::UnitedStates(UnitedStates::Market market) {
         // all calendar instances on the same market share the same
         // implementation instance
         static std::shared_ptr<Calendar::Impl> settlementImpl =
-                                        std::make_shared<UnitedStates::SettlementImpl>();
+                std::make_shared<UnitedStates::SettlementImpl>();
         static std::shared_ptr<Calendar::Impl> liborImpactImpl =
-                                        std::make_shared<UnitedStates::LiborImpactImpl>();
+                std::make_shared<UnitedStates::LiborImpactImpl>();
         static std::shared_ptr<Calendar::Impl> nyseImpl =
-                                        std::make_shared<UnitedStates::NyseImpl>();
+                std::make_shared<UnitedStates::NyseImpl>();
         static std::shared_ptr<Calendar::Impl> governmentImpl =
-                                        std::make_shared<UnitedStates::GovernmentBondImpl>();
+                std::make_shared<UnitedStates::GovernmentBondImpl>();
         static std::shared_ptr<Calendar::Impl> nercImpl =
-                                        std::make_shared<UnitedStates::NercImpl>();
+                std::make_shared<UnitedStates::NercImpl>();
         switch (market) {
-          case Settlement:
-            impl_ = settlementImpl;
-            break;
-        case LiborImpact:
-            impl_ = liborImpactImpl;
-          case NYSE:
-            impl_ = nyseImpl;
-            break;
-          case GovernmentBond:
-            impl_ = governmentImpl;
-            break;
-          case NERC:
-            impl_ = nercImpl;
-            break;
-          default:
-            QL_FAIL("unknown market");
+            case Settlement:
+                impl_ = settlementImpl;
+                break;
+            case LiborImpact:
+                impl_ = liborImpactImpl;
+                break;
+            case NYSE:
+                impl_ = nyseImpl;
+                break;
+            case GovernmentBond:
+                impl_ = governmentImpl;
+                break;
+            case NERC:
+                impl_ = nercImpl;
+                break;
+            default:
+                QL_FAIL("unknown market");
         }
     }
 
 
-    bool UnitedStates::SettlementImpl::isBusinessDay(const Date& date) const {
+    bool UnitedStates::SettlementImpl::isBusinessDay(const Date &date) const {
         Weekday w = date.weekday();
         Day d = date.dayOfMonth();
         Month m = date.month();
@@ -145,7 +146,7 @@ namespace QuantLib {
         return true;
     }
 
-    bool UnitedStates::LiborImpactImpl::isBusinessDay(const Date& date) const {
+    bool UnitedStates::LiborImpactImpl::isBusinessDay(const Date &date) const {
         // Since 2015 Independence Day only impacts Libor if it falls
         // on a weekday
         Weekday w = date.weekday();
@@ -153,12 +154,12 @@ namespace QuantLib {
         Month m = date.month();
         Year y = date.year();
         if (((d == 5 && w == Monday) ||
-            (d == 3 && w == Friday)) && m == July && y >= 2015)
+             (d == 3 && w == Friday)) && m == July && y >= 2015)
             return true;
         return SettlementImpl::isBusinessDay(date);
     }
 
-    bool UnitedStates::NyseImpl::isBusinessDay(const Date& date) const {
+    bool UnitedStates::NyseImpl::isBusinessDay(const Date &date) const {
         Weekday w = date.weekday();
         Day d = date.dayOfMonth(), dd = date.dayOfYear();
         Month m = date.month();
@@ -170,7 +171,7 @@ namespace QuantLib {
             // Washington's birthday (third Monday in February)
             || isWashingtonBirthday(d, m, y, w)
             // Good Friday
-            || (dd == em-3)
+            || (dd == em - 3)
             // Memorial Day (last Monday in May)
             || isMemorialDay(d, m, y, w)
             // Independence Day (Monday if Sunday or Friday if Saturday)
@@ -183,7 +184,8 @@ namespace QuantLib {
             // Christmas (Monday if Sunday or Friday if Saturday)
             || ((d == 25 || (d == 26 && w == Monday) ||
                  (d == 24 && w == Friday)) && m == December)
-            ) return false;
+                )
+            return false;
 
         if (y >= 1998 && (d >= 15 && d <= 21) && w == Monday && m == January)
             // Martin Luther King's birthday (third Monday in January)
@@ -196,53 +198,54 @@ namespace QuantLib {
 
         // Special closings
         if (// Hurricane Sandy
-            (y == 2012 && m == October && (d == 29 || d == 30))
-            // President Ford's funeral
-            || (y == 2007 && m == January && d == 2)
-            // President Reagan's funeral
-            || (y == 2004 && m == June && d == 11)
-            // September 11-14, 2001
-            || (y == 2001 && m == September && (11 <= d && d <= 14))
-            // President Nixon's funeral
-            || (y == 1994 && m == April && d == 27)
-            // Hurricane Gloria
-            || (y == 1985 && m == September && d == 27)
-            // 1977 Blackout
-            || (y == 1977 && m == July && d == 14)
-            // Funeral of former President Lyndon B. Johnson.
-            || (y == 1973 && m == January && d == 25)
-            // Funeral of former President Harry S. Truman
-            || (y == 1972 && m == December && d == 28)
-            // National Day of Participation for the lunar exploration.
-            || (y == 1969 && m == July && d == 21)
-            // Funeral of former President Eisenhower.
-            || (y == 1969 && m == March && d == 31)
-            // Closed all day - heavy snow.
-            || (y == 1969 && m == February && d == 10)
-            // Day after Independence Day.
-            || (y == 1968 && m == July && d == 5)
-            // June 12-Dec. 31, 1968
-            // Four day week (closed on Wednesdays) - Paperwork Crisis
-            || (y == 1968 && dd >= 163 && w == Wednesday)
-            // Day of mourning for Martin Luther King Jr.
-            || (y == 1968 && m == April && d == 9)
-            // Funeral of President Kennedy
-            || (y == 1963 && m == November && d == 25)
-            // Day before Decoration Day
-            || (y == 1961 && m == May && d == 29)
-            // Day after Christmas
-            || (y == 1958 && m == December && d == 26)
-            // Christmas Eve
-            || ((y == 1954 || y == 1956 || y == 1965)
-                && m == December && d == 24)
-            ) return false;
+                (y == 2012 && m == October && (d == 29 || d == 30))
+                // President Ford's funeral
+                || (y == 2007 && m == January && d == 2)
+                // President Reagan's funeral
+                || (y == 2004 && m == June && d == 11)
+                // September 11-14, 2001
+                || (y == 2001 && m == September && (11 <= d && d <= 14))
+                // President Nixon's funeral
+                || (y == 1994 && m == April && d == 27)
+                // Hurricane Gloria
+                || (y == 1985 && m == September && d == 27)
+                // 1977 Blackout
+                || (y == 1977 && m == July && d == 14)
+                // Funeral of former President Lyndon B. Johnson.
+                || (y == 1973 && m == January && d == 25)
+                // Funeral of former President Harry S. Truman
+                || (y == 1972 && m == December && d == 28)
+                // National Day of Participation for the lunar exploration.
+                || (y == 1969 && m == July && d == 21)
+                // Funeral of former President Eisenhower.
+                || (y == 1969 && m == March && d == 31)
+                // Closed all day - heavy snow.
+                || (y == 1969 && m == February && d == 10)
+                // Day after Independence Day.
+                || (y == 1968 && m == July && d == 5)
+                // June 12-Dec. 31, 1968
+                // Four day week (closed on Wednesdays) - Paperwork Crisis
+                || (y == 1968 && dd >= 163 && w == Wednesday)
+                // Day of mourning for Martin Luther King Jr.
+                || (y == 1968 && m == April && d == 9)
+                // Funeral of President Kennedy
+                || (y == 1963 && m == November && d == 25)
+                // Day before Decoration Day
+                || (y == 1961 && m == May && d == 29)
+                // Day after Christmas
+                || (y == 1958 && m == December && d == 26)
+                // Christmas Eve
+                || ((y == 1954 || y == 1956 || y == 1965)
+                    && m == December && d == 24)
+                )
+            return false;
 
         return true;
     }
 
 
-    bool UnitedStates::GovernmentBondImpl::isBusinessDay(const Date& date)
-                                                                      const {
+    bool UnitedStates::GovernmentBondImpl::isBusinessDay(const Date &date)
+    const {
         Weekday w = date.weekday();
         Day d = date.dayOfMonth(), dd = date.dayOfYear();
         Month m = date.month();
@@ -257,7 +260,7 @@ namespace QuantLib {
             // Washington's birthday (third Monday in February)
             || isWashingtonBirthday(d, m, y, w)
             // Good Friday
-            || (dd == em-3)
+            || (dd == em - 3)
             // Memorial Day (last Monday in May)
             || isMemorialDay(d, m, y, w)
             // Independence Day (Monday if Sunday or Friday if Saturday)
@@ -279,7 +282,7 @@ namespace QuantLib {
     }
 
 
-    bool UnitedStates::NercImpl::isBusinessDay(const Date& date) const {
+    bool UnitedStates::NercImpl::isBusinessDay(const Date &date) const {
         Weekday w = date.weekday();
         Day d = date.dayOfMonth();
         Month m = date.month();

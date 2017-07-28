@@ -69,7 +69,7 @@ namespace QuantLib {
                        "greater than or equal to timeSteps, "
                        << maxTimeSteps << " not allowed");
             if (maxTimeSteps_==0)
-               maxTimeSteps_ = std::max( (Size)1000, timeSteps_*5);
+               maxTimeSteps_ = std::max(static_cast<Size>(1000), timeSteps_*5);
             registerWith(process_);
         }
         void calculate() const;

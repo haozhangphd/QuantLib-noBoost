@@ -630,10 +630,8 @@ TEST_CASE("FdHeston_FdmHestonIntradayPricing", "[FdHeston]") {
         const Date now(17, May, 2014, 15, i*15, 0);
         Settings::instance().evaluationDate() = now;
 
-        flatTermStructure.linkTo(std::shared_ptr<YieldTermStructure> =
-            std::make_shared<FlatForward>(now, riskFreeRate, dayCounter));
-        flatDividendTS.linkTo(std::shared_ptr<YieldTermStructure> =
-            std::make_shared<FlatForward>(now, dividendYield, dayCounter));
+        flatTermStructure.linkTo(std::make_shared<FlatForward>(now, riskFreeRate, dayCounter));
+        flatDividendTS.linkTo(std::make_shared<FlatForward>(now, dividendYield, dayCounter));
 
         const Real gammaCalculated = option.gamma();
         if (std::fabs(gammaCalculated - gammaExpected[i]) > 1e-4) {

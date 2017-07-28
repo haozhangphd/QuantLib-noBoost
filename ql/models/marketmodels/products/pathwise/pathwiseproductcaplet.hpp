@@ -52,7 +52,12 @@ namespace QuantLib {
                           const std::vector<Time>& paymentTimes,
                           const std::vector<Rate>& strikes);
 
-        virtual ~MarketModelPathwiseMultiCaplet() {}
+        MarketModelPathwiseMultiCaplet() = default;
+        virtual ~MarketModelPathwiseMultiCaplet() = default;
+        MarketModelPathwiseMultiCaplet(const MarketModelPathwiseMultiCaplet&) = default;
+        MarketModelPathwiseMultiCaplet(MarketModelPathwiseMultiCaplet&&) = default;
+        MarketModelPathwiseMultiCaplet& operator=(const MarketModelPathwiseMultiCaplet&) = default;
+        MarketModelPathwiseMultiCaplet& operator=(MarketModelPathwiseMultiCaplet&&) = default;
 
         virtual std::vector<Size> suggestedNumeraires() const;
         virtual const EvolutionDescription& evolution() const;
@@ -104,7 +109,12 @@ namespace QuantLib {
                                      const std::vector<Time>& paymentTimes,
                                      Rate strike);
 
-        virtual ~MarketModelPathwiseMultiDeflatedCaplet() {}
+        MarketModelPathwiseMultiDeflatedCaplet() = default;
+        virtual ~MarketModelPathwiseMultiDeflatedCaplet() = default;
+        MarketModelPathwiseMultiDeflatedCaplet(const MarketModelPathwiseMultiDeflatedCaplet&) = default;
+        MarketModelPathwiseMultiDeflatedCaplet(MarketModelPathwiseMultiDeflatedCaplet&&) = default;
+        MarketModelPathwiseMultiDeflatedCaplet& operator=(const MarketModelPathwiseMultiDeflatedCaplet&) = default;
+        MarketModelPathwiseMultiDeflatedCaplet& operator=(MarketModelPathwiseMultiDeflatedCaplet&&) = default;
 
         virtual std::vector<Size> suggestedNumeraires() const;
         virtual const EvolutionDescription& evolution() const;
@@ -159,7 +169,12 @@ namespace QuantLib {
 
 
 
-        virtual ~MarketModelPathwiseMultiDeflatedCap() {}
+        MarketModelPathwiseMultiDeflatedCap() = default;
+        virtual ~MarketModelPathwiseMultiDeflatedCap() = default;
+        MarketModelPathwiseMultiDeflatedCap(const MarketModelPathwiseMultiDeflatedCap&) = default;
+        MarketModelPathwiseMultiDeflatedCap(MarketModelPathwiseMultiDeflatedCap&&) = default;
+        MarketModelPathwiseMultiDeflatedCap& operator=(const MarketModelPathwiseMultiDeflatedCap&) = default;
+        MarketModelPathwiseMultiDeflatedCap& operator=(MarketModelPathwiseMultiDeflatedCap&&) = default;
 
         virtual std::vector<Size> suggestedNumeraires() const;
         virtual const EvolutionDescription& evolution() const;

@@ -34,7 +34,12 @@ namespace QuantLib {
     class FdmLinearOp {
       public:
         typedef Array array_type;
-        virtual ~FdmLinearOp() { }
+        FdmLinearOp() = default;
+        virtual ~FdmLinearOp() = default;
+        FdmLinearOp(const FdmLinearOp&) = default;
+        FdmLinearOp(FdmLinearOp&&) = default;
+        FdmLinearOp& operator=(const FdmLinearOp&) = default;
+        FdmLinearOp& operator=(FdmLinearOp&&) = default;
         virtual array_type apply(const array_type& r) const = 0;
 
         virtual SparseMatrix toMatrix() const = 0;

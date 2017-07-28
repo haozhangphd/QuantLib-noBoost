@@ -273,56 +273,56 @@ namespace QuantLib {
         Integer iter = 0;
         long double eps = std::pow(2.0,-52.0);
         while (p > 0) {
-            Integer k;
+            Integer k0;
             Integer kase;
 
             // Here is where a test for too many iterations would go.
 
             // This section of the program inspects for
             // negligible elements in the s and e arrays.  On
-            // completion the variables kase and k are set as follows.
+            // completion the variables kase and k0 are set as follows.
 
-            // kase = 1     if s(p) and e[k-1] are negligible and k<p
-            // kase = 2     if s(k) is negligible and k<p
-            // kase = 3     if e[k-1] is negligible, k<p, and
-            //              s(k), ..., s(p) are not negligible (qr step).
+            // kase = 1     if s(p) and e[k0-1] are negligible and k0<p
+            // kase = 2     if s(k0) is negligible and k0<p
+            // kase = 3     if e[k0-1] is negligible, k0<p, and
+            //              s(k0), ..., s(p) are not negligible (qr step).
             // kase = 4     if e(p-1) is negligible (convergence).
 
-            for (k = p-2; k >= -1; --k) {
-                if (k == -1) {
+            for (k0 = p-2; k0 >= -1; --k0) {
+                if (k0 == -1) {
                     break;
                 }
-                if (std::fabs(e[k]) <= eps*(std::fabs(s_[k]) +
-                                            std::fabs(s_[k+1]))) {
-                    e[k] = 0.0;
+                if (std::fabs(e[k0]) <= eps*(std::fabs(s_[k0]) +
+                                            std::fabs(s_[k0+1]))) {
+                    e[k0] = 0.0;
                     break;
                 }
             }
-            if (k == p-2) {
+            if (k0 == p-2) {
                 kase = 4;
             } else {
                 Integer ks;
-                for (ks = p-1; ks >= k; --ks) {
-                    if (ks == k) {
+                for (ks = p-1; ks >= k0; --ks) {
+                    if (ks == k0) {
                         break;
                     }
                     long double t = (ks != p ? std::fabs(e[ks]) : 0.) +
-                        (ks != k+1 ? std::fabs(e[ks-1]) : 0.);
+                        (ks != k0+1 ? std::fabs(e[ks-1]) : 0.);
                     if (std::fabs(s_[ks]) <= eps*t)  {
                         s_[ks] = 0.0;
                         break;
                     }
                 }
-                if (ks == k) {
+                if (ks == k0) {
                     kase = 3;
                 } else if (ks == p-1) {
                     kase = 1;
                 } else {
                     kase = 2;
-                    k = ks;
+                    k0 = ks;
                 }
             }
-            k++;
+            k0++;
 
             // Perform the task indicated by kase.
 
@@ -333,12 +333,12 @@ namespace QuantLib {
               case 1: {
                   long double f = e[p-2];
                   e[p-2] = 0.0;
-                  for (j = p-2; j >= k; --j) {
+                  for (j = p-2; j >= k0; --j) {
                       long double t = hypot(s_[j],f);
                       long double cs = s_[j]/t;
                       long double sn = f/t;
                       s_[j] = t;
-                      if (j != k) {
+                      if (j != k0) {
                           f = -sn*e[j-1];
                           e[j-1] = cs*e[j-1];
                       }
@@ -351,12 +351,12 @@ namespace QuantLib {
               }
                 break;
 
-                // Split at negligible s(k).
+                // Split at negligible s(k0).
 
               case 2: {
-                  long double f = e[k-1];
-                  e[k-1] = 0.0;
-                  for (j = k; j < p; j++) {
+                  long double f = e[k0-1];
+                  e[k0-1] = 0.0;
+                  for (j = k0; j < p; j++) {
                       long double t = hypot(s_[j],f);
                       long double cs = s_[j]/t;
                       long double sn = f/t;
@@ -364,8 +364,8 @@ namespace QuantLib {
                       f = -sn*e[j];
                       e[j] = cs*e[j];
                       for (i = 0; i < m_; i++) {
-                          t = cs*U_[i][j] + sn*U_[i][k-1];
-                          U_[i][k-1] = -sn*U_[i][j] + cs*U_[i][k-1];
+                          t = cs*U_[i][j] + sn*U_[i][k0-1];
+                          U_[i][k0-1] = -sn*U_[i][j] + cs*U_[i][k0-1];
                           U_[i][j] = t;
                       }
                   }
@@ -383,13 +383,13 @@ namespace QuantLib {
                                              std::max(std::fabs(s_[p-1]),
                                                     std::fabs(s_[p-2])),
                                              std::fabs(e[p-2])),
-                                         std::fabs(s_[k])),
-                                     std::fabs(e[k]));
+                                         std::fabs(s_[k0])),
+                                     std::fabs(e[k0]));
                   long double sp = s_[p-1]/scale;
                   long double spm1 = s_[p-2]/scale;
                   long double epm1 = e[p-2]/scale;
-                  long double sk = s_[k]/scale;
-                  long double ek = e[k]/scale;
+                  long double sk = s_[k0]/scale;
+                  long double ek = e[k0]/scale;
                   long double b = ((spm1 + sp)*(spm1 - sp) + epm1*epm1)/2.0;
                   long double c = (sp*epm1)*(sp*epm1);
                   long double shift = 0.0;
@@ -405,11 +405,11 @@ namespace QuantLib {
 
                   // Chase zeros.
 
-                  for (j = k; j < p-1; j++) {
+                  for (j = k0; j < p-1; j++) {
                       long double t = hypot(f,g);
                       long double cs = f/t;
                       long double sn = g/t;
-                      if (j != k) {
+                      if (j != k0) {
                           e[j-1] = t;
                       }
                       f = cs*s_[j] + sn*e[j];
@@ -448,31 +448,31 @@ namespace QuantLib {
 
                   // Make the singular values positive.
 
-                  if (s_[k] <= 0.0) {
-                      s_[k] = (s_[k] < 0.0 ? -s_[k] : 0.0);
+                  if (s_[k0] <= 0.0) {
+                      s_[k0] = (s_[k0] < 0.0 ? -s_[k0] : 0.0);
                       for (i = 0; i <= pp; i++) {
-                          V_[i][k] = -V_[i][k];
+                          V_[i][k0] = -V_[i][k0];
                       }
                   }
 
                   // Order the singular values.
 
-                  while (k < pp) {
-                      if (s_[k] >= s_[k+1]) {
+                  while (k0 < pp) {
+                      if (s_[k0] >= s_[k0+1]) {
                           break;
                       }
-                      swap(s_[k], s_[k+1]);
-                      if (k < n_-1) {
+                      swap(s_[k0], s_[k0+1]);
+                      if (k0 < n_-1) {
                           for (i = 0; i < n_; i++) {
-                              swap(V_[i][k], V_[i][k+1]);
+                              swap(V_[i][k0], V_[i][k0+1]);
                           }
                       }
-                      if (k < m_-1) {
+                      if (k0 < m_-1) {
                           for (i = 0; i < m_; i++) {
-                              swap(U_[i][k], U_[i][k+1]);
+                              swap(U_[i][k0], U_[i][k0+1]);
                           }
                       }
-                      k++;
+                      k0++;
                   }
                   iter = 0;
                   --p;

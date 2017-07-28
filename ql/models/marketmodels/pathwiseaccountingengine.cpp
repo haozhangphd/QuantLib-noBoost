@@ -587,13 +587,12 @@ namespace QuantLib {
                             // this corresponds to the \frac{\partial F_n}[\partial theta} term
                             // we add the indirect terms later
 
-                            for (Size k=0; k < numberBumps_; ++k)
-                                for (Size i=0; i < numberRates_; ++i)
-                                {
-                                    vegasThisPath_[j][k] +=  fullDerivatives_[i]*jacobiansThisPaths_[stepToUse-1][k][i];
+                            for (Size l=0; l < numberBumps_; ++l) {
+                                for (Size i = 0; i < numberRates_; ++i) {
+                                    vegasThisPath_[j][l] +=
+                                            fullDerivatives_[i] * jacobiansThisPaths_[stepToUse - 1][l][i];
                                 }
-
-
+                            }
                         } // end of (numberCashFlowsThisIndex_[j][cashFlowIndex] > 0)
                     } // end of (Size j=0; j < numberProducts_; ++j)
                 } // end of  if (!noFlows)

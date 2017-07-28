@@ -61,7 +61,7 @@ namespace QuantLib {
                                  CDS convention). */
             CDS,             /*!< Credit derivatives standard rule since 'Big
                                Bang' changes in 2009.  */
-            CDS2015,         /*!< Credit derivatives standard rule since
+            CDS2015         /*!< Credit derivatives standard rule since
                                December 20th, 2015.  */
         };
     };

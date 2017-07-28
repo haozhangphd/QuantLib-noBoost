@@ -31,13 +31,13 @@ namespace QuantLib {
 
         template <class F>
         struct remapper {
-            F f;
-            Time T;
-            remapper(const F& f, Time T) : f(f), T(T) {}
+            F f_;
+            Time T_;
+            remapper(const F& f, Time T) : f_(f), T_(T) {}
             // This remaps [-1,1] to [0,T]. No differential included.
             Real operator()(Real x) const {
-                const Real arg = (x+1.0)*T/2.0;
-                return f(arg);
+                const Real arg = (x+1.0)*T_/2.0;
+                return f_(arg);
             }
         };
 

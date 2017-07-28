@@ -57,17 +57,17 @@ namespace QuantLib
     public:
         explicit SamplerLogNormal(unsigned long seed = SeedGenerator::instance().get()) :
             generator_(seed),
-            distribution_(0.0, 1.0), gaussian_(generator_, distribution_) {};
+            distribution_(0.0, 1.0), gaussian_(generator_, distribution_) {}
         SamplerLogNormal(const SamplerLogNormal& sampler) : generator_(sampler.gaussian_.engine()),
             distribution_(sampler.gaussian_.distribution()),
-            gaussian_(generator_, distribution_) {};
+            gaussian_(generator_, distribution_) {}
 
         inline void operator()(Array &newPoint, const Array &currentPoint, const Array &temp) const {
             QL_REQUIRE(newPoint.size() == currentPoint.size(), "Incompatible input");
             QL_REQUIRE(newPoint.size() == temp.size(), "Incompatible input");
             for (Size i = 0; i < currentPoint.size(); i++)
                 newPoint[i] = currentPoint[i] * exp(sqrt(temp[i])*gaussian_());
-        };
+        }
     private:
         base_generator_type generator_;
         normal_random distribution_;
@@ -83,17 +83,17 @@ namespace QuantLib
     public:
         explicit SamplerGaussian(unsigned long seed = SeedGenerator::instance().get()) :
             generator_(seed),
-            distribution_(0.0, 1.0), gaussian_(generator_, distribution_) {};
+            distribution_(0.0, 1.0), gaussian_(generator_, distribution_) {}
         SamplerGaussian(const SamplerGaussian& sampler) : generator_(sampler.gaussian_.engine()),
             distribution_(sampler.gaussian_.distribution()),
-            gaussian_(generator_, distribution_) {};
+            gaussian_(generator_, distribution_) {}
 
         inline void operator()(Array &newPoint, const Array &currentPoint, const Array &temp) const {
             QL_REQUIRE(newPoint.size() == currentPoint.size(), "Incompatible input");
             QL_REQUIRE(newPoint.size() == temp.size(), "Incompatible input");
             for (Size i = 0; i < currentPoint.size(); i++)
                 newPoint[i] = currentPoint[i] + std::sqrt(temp[i])*gaussian_();
-        };
+        }
     private:
         base_generator_type generator_;
         normal_random distribution_;
@@ -112,12 +112,12 @@ namespace QuantLib
 				unsigned long seed = SeedGenerator::instance().get()) :
             generator_(seed), distribution_(0.0, 1.0), 
             gaussian_(generator_, distribution_),
-            lower_(lower), upper_(upper) {};
+            lower_(lower), upper_(upper) {}
         SamplerRingGaussian(const SamplerRingGaussian& sampler) : 
 			generator_(sampler.gaussian_.engine()),
             distribution_(sampler.gaussian_.distribution()),
             gaussian_(generator_, distribution_),
-            lower_(sampler.lower_), upper_(sampler.upper_) {};
+            lower_(sampler.lower_), upper_(sampler.upper_) {}
 
         inline void operator()(Array &newPoint, const Array &currentPoint, const Array &temp) const {
             QL_REQUIRE(newPoint.size() == currentPoint.size(), "Incompatible input");
@@ -132,7 +132,7 @@ namespace QuantLib
 					}
 				} 
             }
-        };
+        }
     private:
         base_generator_type generator_;
         normal_random distribution_;
@@ -152,12 +152,12 @@ namespace QuantLib
 				unsigned long seed = SeedGenerator::instance().get()) :
             generator_(seed), distribution_(0.0, 1.0), 
             gaussian_(generator_, distribution_),
-            lower_(lower), upper_(upper) {};
+            lower_(lower), upper_(upper) {}
         SamplerMirrorGaussian(const SamplerMirrorGaussian& sampler) : 
 			generator_(sampler.gaussian_.engine()),
             distribution_(sampler.gaussian_.distribution()),
             gaussian_(generator_, distribution_),
-            lower_(sampler.lower_), upper_(sampler.upper_) {};
+            lower_(sampler.lower_), upper_(sampler.upper_) {}
 
         inline void operator()(Array &newPoint, const Array &currentPoint, const Array &temp) const {
             QL_REQUIRE(newPoint.size() == currentPoint.size(), "Incompatible input");
@@ -172,7 +172,7 @@ namespace QuantLib
 					}
 				}
             }
-        };
+        }
     private:
         base_generator_type generator_;
         normal_random distribution_;
@@ -191,17 +191,17 @@ namespace QuantLib
     public:
         explicit SamplerCauchy(unsigned long seed = SeedGenerator::instance().get()) :
             generator_(seed),
-            distribution_(0.0, 1.0), cauchy_(generator_, distribution_) {};
+            distribution_(0.0, 1.0), cauchy_(generator_, distribution_) {}
         SamplerCauchy(const SamplerCauchy& sampler) : generator_(sampler.cauchy_.engine()),
             distribution_(sampler.cauchy_.distribution()),
-            cauchy_(generator_, distribution_) {};
+            cauchy_(generator_, distribution_) {}
 
         inline void operator()(Array &newPoint, const Array &currentPoint, const Array &temp) const {
             QL_REQUIRE(newPoint.size() == currentPoint.size(), "Incompatible input");
             QL_REQUIRE(newPoint.size() == temp.size(), "Incompatible input");
             for (Size i = 0; i < currentPoint.size(); i++)
                 newPoint[i] = currentPoint[i] + temp[i] * cauchy_();
-        };
+        }
     protected:
         base_generator_type generator_;
         cauchy_random distribution_;
@@ -220,13 +220,13 @@ namespace QuantLib
             generator_(seed),
             uniform_(generator_, distribution_) {
             QL_REQUIRE(lower_.size() == upper_.size(), "Incompatible input");
-        };
+        }
         SamplerVeryFastAnnealing(const SamplerVeryFastAnnealing& sampler) :
             lower_(sampler.lower_), upper_(sampler.upper_),
             generator_(sampler.uniform_.engine()), distribution_(sampler.uniform_.distribution()),
             uniform_(generator_, distribution_) {
             QL_REQUIRE(lower_.size() == upper_.size(), "Incompatible input");
-        };
+        }
 
         inline void operator()(Array &newPoint, const Array &currentPoint, const Array &temp) const {
             QL_REQUIRE(newPoint.size() == currentPoint.size(), "Incompatible input");
@@ -242,7 +242,7 @@ namespace QuantLib
                     newPoint[i] = currentPoint[i] + y*(upper_[i] - lower_[i]);
                 }
             }
-        };
+        }
     private:
         Array lower_, upper_;
         base_generator_type generator_;
@@ -270,10 +270,10 @@ namespace QuantLib
     public:
         explicit ProbabilityBoltzmann(unsigned long seed = SeedGenerator::instance().get()) :
             generator_(seed),
-            uniform_(generator_, distribution_) {};
+            uniform_(generator_, distribution_) {}
         ProbabilityBoltzmann(const ProbabilityBoltzmann &probability) :
             generator_(probability.uniform_.engine()), distribution_(probability.uniform_.distribution()),
-            uniform_(generator_, distribution_) {};
+            uniform_(generator_, distribution_) {}
         inline bool operator()(Real currentValue, Real newValue, const Array &temp) const {
             Real temperature = *std::max_element(temp.begin(), temp.end());
             return (1.0 / (1.0 + exp((newValue - currentValue) / temperature))) > uniform_();
@@ -292,10 +292,10 @@ namespace QuantLib
     public:
         explicit ProbabilityBoltzmannDownhill(unsigned long seed = SeedGenerator::instance().get()) :
             generator_(seed),
-            uniform_(generator_, distribution_) {};
+            uniform_(generator_, distribution_) {}
         ProbabilityBoltzmannDownhill(const ProbabilityBoltzmannDownhill& probability) :
             generator_(probability.uniform_.engine()), distribution_(probability.uniform_.distribution()),
-            uniform_(generator_, distribution_) {};
+            uniform_(generator_, distribution_) {}
         inline bool operator()(Real currentValue, Real newValue, const Array &temp) const {
             if (newValue < currentValue)
                 return true;
@@ -396,10 +396,10 @@ namespace QuantLib
     /*!    No reannealing is performed
     */
     struct ReannealingTrivial {
-        ReannealingTrivial() {};
-        inline void setProblem(Problem &P) {};
+        ReannealingTrivial() {}
+        inline void setProblem(Problem &P) {}
         inline void operator()(Array & steps, const Array &currentPoint,
-            Real aCurrentValue, const Array & currTemp) const {};
+            Real aCurrentValue, const Array & currTemp) const {}
     };
     //! Reannealing Finite Difference
     /*!    In multidimensional problems, different dimensions might have different
@@ -431,7 +431,7 @@ namespace QuantLib
                 }
             }
         }
-        inline void setProblem(Problem &P) { problem_ = &P; };
+        inline void setProblem(Problem &P) { problem_ = &P; }
         inline void operator()(Array & steps, const Array &currentPoint,
             Real currentValue, const Array & currTemp) const {
             QL_REQUIRE(currTemp.size() == N_, "Incompatible input");

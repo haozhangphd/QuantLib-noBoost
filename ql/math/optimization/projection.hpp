@@ -43,7 +43,12 @@ namespace QuantLib {
         // of projected parameters
         virtual Array
         include(const Array &projectedParameters) const;
-        virtual ~Projection() {}
+        virtual ~Projection() = default;
+        Projection(const Projection&) = default;
+        Projection(Projection&&) = default;
+        Projection& operator=(const Projection&) = default;
+        Projection& operator=(Projection&&) = default;
+
       protected:
         void mapFreeParameters(const Array &parameterValues) const;
         Size numberOfFreeParameters_;

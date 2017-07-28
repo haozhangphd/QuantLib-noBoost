@@ -232,8 +232,8 @@ namespace QuantLib {
         // in any of the recursive calls
         class base_cubic_spline {
           public:
-	    using argument_type = Real;
-	    using result_type = Real;
+        using argument_type = Real;
+        using result_type = Real;
             typedef base_data data;
             typedef base_data_table data_table;
             typedef base_output_data output_data;
@@ -244,7 +244,8 @@ namespace QuantLib {
                 Size j = 1, k = 2, l = 3;
                 result_type  &w = ((y2[dim] = y[1]) -= y[0]) /= d[0],
                     &u = ((y2[0] = y[2]) -= y[1]) /= d[1], &t = v[dim];
-                y2[1] = -d[1] / d2[0], v[1] = 6.0 * (u - w) / d2[0];
+                y2[1] = -d[1] / d2[0];
+                v[1] = 6.0 * (u - w) / d2[0];
                 for(; k < dim; u = w, j = k, k = l, ++l) {
                     w = (y[l]-y[k])/d[k];
                     u = (u-w)*6.0;
@@ -282,7 +283,7 @@ namespace QuantLib {
         class base_cubic_splint {
           public:
             using argument_type = base_arg_type;
-	    using result_type = Real;
+        using result_type = Real;
             typedef base_data data;
             typedef base_data_table data_table;
             typedef base_dimensions dimensions;
@@ -305,7 +306,7 @@ namespace QuantLib {
           public:
             using argument_type = Point<Real, typename X::argument_type>;
             using result_type = Real;
-	    typedef std::function<Real(Point<Real, typename X::argument_type>)> super;
+            typedef std::function<Real(Point<Real, typename X::argument_type>)> super;
             typedef Data<base_data, typename X::data> data;
             typedef DataTable<typename X::data_table> data_table;
             typedef Point<Size, typename X::dimensions> dimensions;

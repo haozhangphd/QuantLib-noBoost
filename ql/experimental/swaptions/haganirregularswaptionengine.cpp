@@ -80,30 +80,30 @@ namespace QuantLib {
                 floatCFS.clear();
 
                 for(Size j = 0; j < floatLeg.size(); ++j){
-                    //retrieve ibor coupon from floating leg
-                    std::shared_ptr<IborCoupon> coupon = std::dynamic_pointer_cast<IborCoupon>(floatLeg[j]);
-                    QL_REQUIRE(coupon,"dynamic cast of float leg coupon failed.");
+                    //retrieve ibor coupon_temp from floating leg
+                    std::shared_ptr<IborCoupon> coupon_temp = std::dynamic_pointer_cast<IborCoupon>(floatLeg[j]);
+                    QL_REQUIRE(coupon_temp,"dynamic cast of float leg coupon_temp failed.");
 
-                    if( coupon->date() <= expiries_[i] ){
-                        std::shared_ptr<IborCoupon> newCpn = std::make_shared<IborCoupon>(coupon->date(),
+                    if( coupon_temp->date() <= expiries_[i] ){
+                        std::shared_ptr<IborCoupon> newCpn_temp = std::make_shared<IborCoupon>(coupon_temp->date(),
                             1.0,
-                            coupon->accrualStartDate(),
-                            coupon->accrualEndDate(),
-                            coupon->fixingDays(),
-                            coupon->iborIndex(),
+                            coupon_temp->accrualStartDate(),
+                            coupon_temp->accrualEndDate(),
+                            coupon_temp->fixingDays(),
+                            coupon_temp->iborIndex(),
                             1.0,
-                            coupon->spread(),
-                            coupon->referencePeriodStart(),
-                            coupon->referencePeriodEnd(),
-                            coupon->dayCounter(),
-                            coupon->isInArrears()); 
+                            coupon_temp->spread(),
+                            coupon_temp->referencePeriodStart(),
+                            coupon_temp->referencePeriodEnd(),
+                            coupon_temp->dayCounter(),
+                            coupon_temp->isInArrears());
 
 
-                        if (!newCpn->isInArrears())
-                            newCpn->setPricer(
+                        if (!newCpn_temp->isInArrears())
+                            newCpn_temp->setPricer(
                                          std::make_shared<BlackIborCouponPricer>());
 
-                        floatCFS.emplace_back(newCpn);
+                        floatCFS.emplace_back(newCpn_temp);
                     }
                 }
 

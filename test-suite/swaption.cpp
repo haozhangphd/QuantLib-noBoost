@@ -618,32 +618,32 @@ TEST_CASE("Swaption_CashSettledSwaptions", "[Swaption]") {
             // Calculation of Modified Annuity (cash settlement)
             // Fixed leg conventions of swap: unadjusted, 30/360
             Real cashannuity_u360 = 0.;
-            Size i;
-            for (i = 0; i < swapFixedLeg_u360.size(); i++) {
-                cashannuity_u360 += swapFixedLeg_u360[i]->amount() / strike
+            Size ii;
+            for (ii = 0; ii < swapFixedLeg_u360.size(); ii++) {
+                cashannuity_u360 += swapFixedLeg_u360[ii]->amount() / strike
                                     * termStructure_u360->discount(
-                        swapFixedLeg_u360[i]->date());
+                        swapFixedLeg_u360[ii]->date());
             }
             // Fixed leg conventions of swap: unadjusted, act/365
             Real cashannuity_u365 = 0.;
-            for (i = 0; i < swapFixedLeg_u365.size(); i++) {
-                cashannuity_u365 += swapFixedLeg_u365[i]->amount() / strike
+            for (ii = 0; ii < swapFixedLeg_u365.size(); ii++) {
+                cashannuity_u365 += swapFixedLeg_u365[ii]->amount() / strike
                                     * termStructure_u365->discount(
-                        swapFixedLeg_u365[i]->date());
+                        swapFixedLeg_u365[ii]->date());
             }
             // Fixed leg conventions of swap: modified following, 30/360
             Real cashannuity_a360 = 0.;
-            for (i = 0; i < swapFixedLeg_a360.size(); i++) {
-                cashannuity_a360 += swapFixedLeg_a360[i]->amount() / strike
+            for (ii = 0; ii < swapFixedLeg_a360.size(); ii++) {
+                cashannuity_a360 += swapFixedLeg_a360[ii]->amount() / strike
                                     * termStructure_a360->discount(
-                        swapFixedLeg_a360[i]->date());
+                        swapFixedLeg_a360[ii]->date());
             }
             // Fixed leg conventions of swap: modified following, act/365
             Real cashannuity_a365 = 0.;
-            for (i = 0; i < swapFixedLeg_a365.size(); i++) {
-                cashannuity_a365 += swapFixedLeg_a365[i]->amount() / strike
+            for (ii = 0; ii < swapFixedLeg_a365.size(); ii++) {
+                cashannuity_a365 += swapFixedLeg_a365[ii]->amount() / strike
                                     * termStructure_a365->discount(
-                        swapFixedLeg_a365[i]->date());
+                        swapFixedLeg_a365[ii]->date());
             }
 
             // Swaptions: underlying swap fixed leg conventions:
@@ -715,7 +715,7 @@ TEST_CASE("Swaption_CashSettledSwaptions", "[Swaption]") {
                                 "    The npv's ratio must be equal to " <<
                                 " annuities ratio" << "\n"
                                         "    Swaption " <<
-                                exercises[i].units() << "y x " << lengths[j].units() << "y" <<
+                                exercises[ii].units() << "y x " << lengths[j].units() << "y" <<
                                 " (underlying swap fixed leg Unadjusted, 30/360)" << "\n" <<
                                 "    Today           : " <<
                                 vars.today << "\n" <<
@@ -747,7 +747,7 @@ TEST_CASE("Swaption_CashSettledSwaptions", "[Swaption]") {
                                 "    The npv's ratio must be equal to " <<
                                 " annuities ratio" << "\n"
                                         "    Swaption " <<
-                                exercises[i].units() << "y x " << lengths[j].units() << "y" <<
+                                exercises[ii].units() << "y x " << lengths[j].units() << "y" <<
                                 " (underlying swap fixed leg Modified Following, act/365" << "\n" <<
                                 "    Today           : " <<
                                 vars.today << "\n" <<
@@ -779,7 +779,7 @@ TEST_CASE("Swaption_CashSettledSwaptions", "[Swaption]") {
                                 "    The npv's ratio must be equal to " <<
                                 " annuities ratio" << "\n"
                                         "    Swaption " <<
-                                exercises[i].units() << "y x " << lengths[j].units() << "y" <<
+                                exercises[ii].units() << "y x " << lengths[j].units() << "y" <<
                                 " (underlying swap fixed leg Unadjusted, 30/360)" << "\n" <<
                                 "    Today           : " <<
                                 vars.today << "\n" <<
@@ -811,7 +811,7 @@ TEST_CASE("Swaption_CashSettledSwaptions", "[Swaption]") {
                                 "    The npv's ratio must be equal to " <<
                                 " annuities ratio" << "\n"
                                         "    Swaption " <<
-                                exercises[i].units() << "y x " << lengths[j].units() << "y" <<
+                                exercises[ii].units() << "y x " << lengths[j].units() << "y" <<
                                 " (underlying swap fixed leg Unadjusted, act/365)" << "\n" <<
                                 "    Today           : " <<
                                 vars.today << "\n" <<

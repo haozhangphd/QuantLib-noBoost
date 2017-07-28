@@ -1311,8 +1311,8 @@ TEST_CASE("EuropeanOption_PriceCurve", "[EuropeanOption]") {
         // Ignore the end points
         Size start = price_curve.size() / 4;
         Size end = price_curve.size() * 3 / 4;
-        for (Size i = start; i < end; i++) {
-            spot->setValue(price_curve.gridValue(i));
+        for (Size k = start; k < end; k++) {
+            spot->setValue(price_curve.gridValue(k));
             std::shared_ptr < StochasticProcess > stochProcess1 =
                     std::make_shared<BlackScholesMertonProcess>(
                             Handle<Quote>(spot),
@@ -1326,14 +1326,14 @@ TEST_CASE("EuropeanOption_PriceCurve", "[EuropeanOption]") {
 
             option.setPricingEngine(engine1);
             Real calculated = option.NPV();
-            Real error = std::fabs(calculated - price_curve.value(i));
+            Real error = std::fabs(calculated - price_curve.value(k));
             Real tolerance = 1e-3;
             if (error > tolerance) {
                 REPORT_FAILURE("price curve error", payoff, exercise,
-                               price_curve.gridValue(i),
-                               values[i].q, values[i].r, today,
-                               values[i].v,
-                               price_curve.value(i), calculated,
+                               price_curve.gridValue(k),
+                               values[k].q, values[k].r, today,
+                               values[k].v,
+                               price_curve.value(k), calculated,
                                error, tolerance);
                 break;
             }

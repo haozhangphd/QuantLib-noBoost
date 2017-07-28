@@ -76,10 +76,10 @@ namespace QuantLib {
         // random number generator for the jump part 
         if (!urng_) {
             typedef PseudoRandom::urng_type urng_type;
-            urng_ = std::make_shared<urng_type>((unsigned long)(1234ul*dw+56789ul));
+            urng_ = std::make_shared<urng_type>(static_cast<unsigned long>(1234ul*dw+56789ul));
         }
         Array du(3); 
-        du[0] = urng_->next().value; 
+        du[0] = urng_->next().value;
         du[1] = urng_->next().value;
 
         return evolve(t0, x0, dt, dw, du);

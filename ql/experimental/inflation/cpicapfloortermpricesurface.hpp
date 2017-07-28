@@ -120,8 +120,8 @@ namespace QuantLib {
         virtual const Matrix &capPrices() const { return cPrice_; }
         virtual const Matrix &floorPrices() const { return fPrice_; }
         
-        virtual Rate minStrike() const {return cfStrikes_.front();};
-        virtual Rate maxStrike() const {return cfStrikes_.back();};
+        virtual Rate minStrike() const {return cfStrikes_.front();}
+        virtual Rate maxStrike() const {return cfStrikes_.back();}
         virtual Date minDate() const {return referenceDate()+cfMaturities_.front();}// \TODO deal with index interpolation
         virtual Date maxDate() const {return referenceDate()+cfMaturities_.back();}
         //@}

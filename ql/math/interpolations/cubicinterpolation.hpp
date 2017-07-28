@@ -131,7 +131,7 @@ namespace QuantLib {
             Kruger, 
 
             //! Weighted harmonic mean approximation (local, monotonic, non-linear)
-            Harmonic,
+            Harmonic
         };
         enum BoundaryCondition {
             //! Make second(-last) point an inactive knot
@@ -473,11 +473,11 @@ namespace QuantLib {
                         T_[i][i+1]=(dx_[i+1]+dx_[i])/3.0;
                         T_[i][i+2]=dx_[i+1]/6.0;
                     }
-                    Matrix S_(n_-2, n_, 0.0);
+                    Matrix S(n_-2, n_, 0.0);
                     for (Size i=0; i<n_-2; ++i) {
-                        S_[i][i]=1.0/dx_[i];
-                        S_[i][i+1]=-(1.0/dx_[i+1]+1.0/dx_[i]);
-                        S_[i][i+2]=1.0/dx_[i+1];
+                        S[i][i]=1.0/dx_[i];
+                        S[i][i+1]=-(1.0/dx_[i+1]+1.0/dx_[i]);
+                        S[i][i+2]=1.0/dx_[i+1];
                     }
                     Matrix Up_(n_, 2, 0.0);
                     Up_[0][0]=1;
@@ -490,7 +490,7 @@ namespace QuantLib {
                     for (Size i=0; i<n_; ++i)
                         I_[i][i]=1;
                     Matrix V_ = (I_-Z_*T_)*Up_;
-                    Matrix W_ = Z_*S_;
+                    Matrix W_ = Z_*S;
                     Matrix Q_(n_, n_, 0.0);
                     Q_[0][0]=1.0/(n_-1)*dx_[0]*dx_[0]*dx_[0];
                     Q_[0][1]=7.0/8*1.0/(n_-1)*dx_[0]*dx_[0]*dx_[0];
@@ -517,11 +517,11 @@ namespace QuantLib {
                         T_[i][i+1]=(dx_[i]+dx_[i+1])/3.0;
                         T_[i][i+2]=dx_[i+1]/6.0;
                     }
-                    Matrix S_(n_-2, n_, 0.0);
+                    Matrix S(n_-2, n_, 0.0);
                     for (Size i=0; i<n_-2; ++i) {
-                        S_[i][i]=1.0/dx_[i];
-                        S_[i][i+1]=-(1.0/dx_[i+1]+1.0/dx_[i]);
-                        S_[i][i+2]=1.0/dx_[i+1];
+                        S[i][i]=1.0/dx_[i];
+                        S[i][i+1]=-(1.0/dx_[i+1]+1.0/dx_[i]);
+                        S[i][i+2]=1.0/dx_[i+1];
                     }
                     Matrix Up_(n_, 2, 0.0);
                     Up_[0][0]=1;
@@ -534,7 +534,7 @@ namespace QuantLib {
                     for (Size i=0; i<n_; ++i)
                         I_[i][i]=1;
                     Matrix V_ = (I_-Z_*T_)*Up_;
-                    Matrix W_ = Z_*S_;
+                    Matrix W_ = Z_*S;
                     Matrix Q_(n_, n_, 0.0);
                     Q_[0][0]=1.0/(n_-1)*dx_[0];
                     Q_[0][1]=1.0/2*1.0/(n_-1)*dx_[0];
@@ -745,25 +745,25 @@ namespace QuantLib {
             }
             Real value(Real x) const {
                 Size j = this->locate(x);
-                Real dx_ = x-this->xBegin_[j];
-                return this->yBegin_[j] + dx_*(a_[j] + dx_*(b_[j] + dx_*c_[j]));
+                Real dx_0 = x-this->xBegin_[j];
+                return this->yBegin_[j] + dx_0*(a_[j] + dx_0*(b_[j] + dx_0*c_[j]));
             }
             Real primitive(Real x) const {
                 Size j = this->locate(x);
-                Real dx_ = x-this->xBegin_[j];
+                Real dx_0 = x-this->xBegin_[j];
                 return primitiveConst_[j]
-                    + dx_*(this->yBegin_[j] + dx_*(a_[j]/2.0
-                    + dx_*(b_[j]/3.0 + dx_*c_[j]/4.0)));
+                    + dx_0*(this->yBegin_[j] + dx_0*(a_[j]/2.0
+                    + dx_0*(b_[j]/3.0 + dx_0*c_[j]/4.0)));
             }
             Real derivative(Real x) const {
                 Size j = this->locate(x);
-                Real dx_ = x-this->xBegin_[j];
-                return a_[j] + (2.0*b_[j] + 3.0*c_[j]*dx_)*dx_;
+                Real dx_0 = x-this->xBegin_[j];
+                return a_[j] + (2.0*b_[j] + 3.0*c_[j]*dx_0)*dx_0;
             }
             Real secondDerivative(Real x) const {
                 Size j = this->locate(x);
-                Real dx_ = x-this->xBegin_[j];
-                return 2.0*b_[j] + 6.0*c_[j]*dx_;
+                Real dx_0 = x-this->xBegin_[j];
+                return 2.0*b_[j] + 6.0*c_[j]*dx_0;
             }
           private:
             CubicInterpolation::DerivativeApprox da_;

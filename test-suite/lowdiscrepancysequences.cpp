@@ -1051,7 +1051,7 @@ TEST_CASE("LowDiscrepancy_SobolSkipping", "[LowDiscrepancy]") {
     INFO("Testing Sobol sequence skipping...");
 
     unsigned long seed = 42;
-    Size dimensionality[] = { 1, 10, 100, 1000 };
+    Size dimensionality_SobolSkipping[] = { 1, 10, 100, 1000 };
     unsigned long skip[] = { 0, 1, 42, 512, 100000 };
     SobolRsg::DirectionIntegers integers[] = { SobolRsg::Unit,
                                                SobolRsg::Jaeckel,
@@ -1059,16 +1059,16 @@ TEST_CASE("LowDiscrepancy_SobolSkipping", "[LowDiscrepancy]") {
                                                SobolRsg::SobolLevitanLemieux };
 
     for (Size i=0; i<LENGTH(integers); i++) {
-      for (Size j=0; j<LENGTH(dimensionality); j++) {
+      for (Size j=0; j<LENGTH(dimensionality_SobolSkipping); j++) {
         for (Size k=0; k<LENGTH(skip); k++) {
 
             // extract n samples
-            SobolRsg rsg1(dimensionality[j], seed, integers[i]);
+            SobolRsg rsg1(dimensionality_SobolSkipping[j], seed, integers[i]);
             for (Size l=0; l<skip[k]; l++)
                 rsg1.nextInt32Sequence();
 
             // skip n samples at once
-            SobolRsg rsg2(dimensionality[j], seed, integers[i]);
+            SobolRsg rsg2(dimensionality_SobolSkipping[j], seed, integers[i]);
             rsg2.skipTo(skip[k]);
 
             // compare next 100 samples
@@ -1078,7 +1078,7 @@ TEST_CASE("LowDiscrepancy_SobolSkipping", "[LowDiscrepancy]") {
                 for (Size n=0; n<s1.size(); n++) {
                     if (s1[n] != s2[n]) {
                         FAIL_CHECK("Mismatch after skipping:"
-                                    << "\n  size:     " << dimensionality[j]
+                                    << "\n  size:     " << dimensionality_SobolSkipping[j]
                                     << "\n  integers: " << integers[i]
                                     << "\n  skipped:  " << skip[k]
                                     << "\n  at index: " << n

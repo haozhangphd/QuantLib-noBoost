@@ -96,7 +96,7 @@ namespace QuantLib {
         Real tot = 0, term = 0;
         for (Size i = 1 ; i < maxIteration ; ++i)
         {
-           Real term1 = (lo_alpha-std::pow(-1.0, (int)i)*hi_alpha) /
+           Real term1 = (lo_alpha-std::pow(-1.0, static_cast<int>(i))*hi_alpha) /
                               (std::pow(alpha,2)+std::pow(i*PI/Z, 2));
            Real term2 = std::sin(i*PI/Z * std::log(spot/barrier_lo));
            Real term3 = std::exp(-0.5*(std::pow(i*PI/Z,2)-beta)*variance);

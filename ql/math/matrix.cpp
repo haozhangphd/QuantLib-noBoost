@@ -51,7 +51,6 @@ namespace {
             std::vector<Real> temp(size-k);
             std::transform(vv.begin()+k, vv.end(), ret.column_begin(k)+k,temp.begin(),[](Real x, Real y){return x * std::abs(y);});
             int largest_element_index = std::distance(temp.begin(), std::max_element(temp.begin(), temp.end())) + k;
-            Real largest_element = temp[largest_element_index - k];
             if (largest_element_index != k) {
                 std::swap_ranges(ret.row_begin(largest_element_index), ret.row_end(largest_element_index), ret.row_begin(k));
                 perm = -perm;
@@ -97,6 +96,14 @@ namespace QuantLib {
 
         return retVal;
 #else
+//There is a bug in GCC7's handling of structured binding
+//https://infektor.net/posts/2017-02-17-maybe-bindings-are-unused.html
+//fixed in GCC8
+#if defined(__GNUG__) && (__GNUG__ == 7)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
+
 //TODO-HAO: remove this check once Visual Studio 2017.3 is released
 //because structured binding is supported in Visual Studio 2017.3
 #ifndef _MSC_VER
@@ -108,37 +115,41 @@ namespace QuantLib {
 #endif
         Matrix ret(size, size);
 
-        for (int k = 0; k < size; ++k) {
+        for (size_t k = 0; k < size; ++k) {
             std::vector<Real> ret_column(size, 0);
             ret_column[k] = 1;
             int ii=0;
             Real sum;
-            for (int i = 0; i < size; ++i) {
+            for (size_t i = 0; i < size; ++i) {
                 sum = ret_column[index[i]];
                 ret_column[index[i]] = ret_column[i];
                 if (ii != 0)
-                    for (int j = ii - 1; j < i; ++j)
+                    for (size_t j = ii - 1; j < i; ++j)
                         sum -= lu[i][j] * ret_column[j];
                 else if (sum != 0.0)
                     ii = i + 1;
                 ret_column[i] = sum;
             }
-            for (int i = size - 1; i >= 0; --i) {
-                sum = ret_column[i];
-                for (int j = i + 1; j < size; j++)
-                    sum -= lu[i][j] * ret_column[j];
-                ret_column[i] = sum / lu[i][i];
+            for (size_t i = size; i > 0; --i) {
+                sum = ret_column[i-1];
+                for (size_t j = i; j < size; j++)
+                    sum -= lu[i - 1][j] * ret_column[j];
+                ret_column[i - 1] = sum / lu[i - 1][i - 1];
             }
             std::copy(ret_column.begin(), ret_column.end(), ret.column_begin(k));
         }
         return ret;
+#if defined(__GNUG__) && (__GNUG__ == 7)
+#pragma GCC diagnostic pop
+#endif
 #endif
     }
 
     Real determinant(const Matrix &m) {
-        const size_t size = m.rows();
-        QL_REQUIRE(size == m.columns(), "matrix is not square");
+
 #ifdef QL_USE_MKL
+        const int size = m.rows();
+        QL_REQUIRE(size == static_cast<int>(m.columns()), "matrix is not square");
         std::vector<Real> lu(size * size);
 
         std::copy(m.begin(), m.end(), lu.begin());
@@ -155,7 +166,7 @@ namespace QuantLib {
 
         Real retVal = 1.0;
 
-        for (Size i = 0; i < size; ++i) {
+        for (int i = 0; i < size; ++i) {
             if (ipiv[i] != i + 1)
                 retVal *= -lu[i * (size + 1)];
             else
@@ -163,10 +174,19 @@ namespace QuantLib {
         }
         return retVal;
 #else
+        const size_t size = m.rows();
+        QL_REQUIRE(size == m.columns(), "matrix is not square");
+//There is a bug in GCC7's handling of structured binding
+//https://infektor.net/posts/2017-02-17-maybe-bindings-are-unused.html
+//fixed in GCC8
+#if defined(__GNUG__) && (__GNUG__ == 7)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#endif
 //TODO-HAO: remove this check once Visual Studio 2017.3 is released
 //because structured binding is supported in Visual Studio 2017.3
 #ifndef _MSC_VER
-        auto [lu, _, ret] = luDecomposition(m);
+       auto [lu, _, ret] = luDecomposition(m);
 #else
        Matrix lu;
        Real ret;
@@ -174,6 +194,9 @@ namespace QuantLib {
 #endif
         Array diag = lu.diagonal();
         return std::accumulate(diag.begin(), diag.end(), ret, std::multiplies<Real>());
+#if defined(__GNUG__) && (__GNUG__ == 7)
+#pragma GCC diagnostic pop
+#endif
 #endif
     }
 

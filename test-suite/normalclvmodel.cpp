@@ -498,7 +498,7 @@ TEST_CASE("NormalCLVModel_MoustacheGraph", "[NormalCLVModel]") {
 
         const sample_type &path = pathGenerator->next();
 
-        Real s;
+        Real s = 0;
         for (Size j = 1; j <= tSteps; ++j) {
             const Time t = grid.at(j);
             s = g(t, path.value.at(j));

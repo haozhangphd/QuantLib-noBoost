@@ -74,7 +74,8 @@ namespace QuantLib {
                       const Calendar&,
                       const DayCounter& dc = DayCounter());
         //@}
-        virtual ~TermStructure() {}
+        virtual ~TermStructure() = default;
+        TermStructure(const TermStructure&) = default;
         //! \name Dates and Time
         //@{
         //! the day counter used for date/time conversion

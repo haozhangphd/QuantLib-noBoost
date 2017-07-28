@@ -27,14 +27,14 @@ namespace QuantLib {
 
 
     EnergyDailyPosition::EnergyDailyPosition()
-    : payLegPrice(0), receiveLegPrice(0), unrealized(false) {}
+    : payLegPrice_(0), receiveLegPrice_(0), unrealized_(false) {}
 
     EnergyDailyPosition::EnergyDailyPosition(const Date& date,
                                              Real payLegPrice,
                                              Real receiveLegPrice,
                                              bool unrealized)
-    : date(date), quantityAmount(0), payLegPrice(payLegPrice),
-      receiveLegPrice(receiveLegPrice), unrealized(unrealized) {}
+    : date_(date), quantityAmount_(0), payLegPrice_(payLegPrice),
+      receiveLegPrice_(receiveLegPrice), unrealized_(unrealized) {}
 
     std::ostream& operator<<(std::ostream& out,
                              const EnergyDailyPositions& dailyPositions) {
@@ -50,16 +50,16 @@ namespace QuantLib {
             const EnergyDailyPosition& dailyPosition = i->second;
             out << std::setw(4) << io::iso_date(i->first) << "  "
                 << std::setw(12) << std::right << std::fixed
-                << std::setprecision(6) << dailyPosition.payLegPrice
+                << std::setprecision(6) << dailyPosition.payLegPrice_
                 << std::setw(12) << std::right << std::fixed
-                << std::setprecision(6) << dailyPosition.receiveLegPrice
+                << std::setprecision(6) << dailyPosition.receiveLegPrice_
                 << std::setw(10) << std::right << std::fixed
-                << std::setprecision(2) << dailyPosition.quantityAmount
+                << std::setprecision(2) << dailyPosition.quantityAmount_
                 << std::setw(14) << std::right << std::fixed
-                << std::setprecision(2) << dailyPosition.riskDelta
+                << std::setprecision(2) << dailyPosition.riskDelta_
                 << std::setw(10) << std::right << std::fixed
                 << std::setprecision(2)
-                << (dailyPosition.unrealized ? dailyPosition.quantityAmount : 0)
+                << (dailyPosition.unrealized_ ? dailyPosition.quantityAmount_ : 0)
                 << std::endl;
         }
 

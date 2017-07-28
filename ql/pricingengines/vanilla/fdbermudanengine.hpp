@@ -55,7 +55,7 @@ namespace QuantLib {
         void initializeStepCondition() const {
             this->stepCondition_ =
                 std::make_shared<NullCondition<Array>>();
-        };
+        }
         void executeIntermediateStep(Size ) const {
             Size size = this->intrinsicValues_.size();
             for (Size j=0; j<size; j++) {

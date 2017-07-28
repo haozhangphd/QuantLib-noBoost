@@ -124,7 +124,7 @@ namespace QuantLib {
          */
         dstep=256.0;
         nris=std::sqrt(pi2)/dstep;
-        mm=(int)(pi2/(nris*nris));
+        mm= static_cast<int>(pi2/(nris*nris));
 
         /*
          ******************************************
@@ -133,7 +133,7 @@ namespace QuantLib {
          */
         for (j=0;j<=mm-1;j++)
         {
-            xiv[j+1]=(double)(j-mm/2)*nris;
+            xiv[j+1]= static_cast<double>(j-mm/2)*nris;
         }
 
         for (j=0;j<=mm-1;j++)
@@ -181,7 +181,7 @@ namespace QuantLib {
         for (j=0;j<=mm-1;j++)
         {
             caux=std::pow(-1.0,j);
-            caux2=-2.0*pi*(double)mm*(double)j*0.5/(double)mm;
+            caux2=-2.0*pi* static_cast<double>(mm)* static_cast<double>(j)*0.5/ static_cast<double>(mm);
             caux3=ui*caux2;
             csum=csum+ff[j+1]*caux*std::exp(caux3);
         }
@@ -274,7 +274,7 @@ namespace QuantLib {
          */
         dstep=64.0;
         nris=std::sqrt(pi2)/dstep;
-        mm=(int)(pi2/(nris*nris));
+        mm= static_cast<int>(pi2/(nris*nris));
 
         /*
          ******************************************
@@ -284,8 +284,8 @@ namespace QuantLib {
 
         for (j=0;j<=mm-1;j++)
         {
-            xiv[j+1]=(double)(j-mm/2)*nris;
-            ivet[j+1]=(double)(j-mm/2)*pi2/((double)mm*nris);
+            xiv[j+1]= static_cast<double>(j-mm/2)*nris;
+            ivet[j+1]= static_cast<double>(j-mm/2)*pi2/(static_cast<double>(mm)*nris);
         }
 
         for (j=0;j<=mm-1;j++)
@@ -322,11 +322,11 @@ namespace QuantLib {
             ip=i0-ivet[k+1];
             payoffval=payoff(ip);
 
-            dxi=2.0*pi*(double)k/(double)mm*ui;
+            dxi=2.0*pi* static_cast<double>(k)/ static_cast<double>(mm)*ui;
             csum=0.0;
             for (j=0;j<=mm-1;j++)
             {
-                z=-(double)j*dxi;
+                z=-static_cast<double>(j)*dxi;
                 caux=std::pow(-1.0,j);
                 csum=csum+ff[j+1]*caux*std::exp(z);
             }
@@ -346,11 +346,11 @@ namespace QuantLib {
     }
 
     struct payoff_adapter {
-        std::shared_ptr<QuantLib::Payoff> payoff;
+        std::shared_ptr<QuantLib::Payoff> payoff_;
         explicit payoff_adapter(std::shared_ptr<QuantLib::Payoff> payoff)
-        : payoff(payoff) {}
+        : payoff_(payoff) {}
         Real operator()(Real S) const {
-            return (*payoff)(S);
+            return (*payoff_)(S);
         }
     };
 

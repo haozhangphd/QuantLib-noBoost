@@ -114,6 +114,11 @@ namespace QuantLib {
 
     Alternatively fuse with the aboves class.
     */
+//making DefaultLossModel virtually inheriting from Observable SEVERELY degrades performance!!!
+#if defined(__GNUG__)
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wextra"
+#endif
     template <class copulaPolicy>
     class ConstantLossModel : 
         public virtual ConstantLossLatentmodel<copulaPolicy>, 
@@ -169,6 +174,9 @@ namespace QuantLib {
         }
 
     };
+#if defined(__GNUG__)
+#pragma GCC diagnostic pop
+#endif
 
 }
 

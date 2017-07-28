@@ -264,7 +264,7 @@ TEST_CASE("Distribution_Normal", "[Distribution]") {
 
     MaddockInverseCumulativeNormal mInvCum(average, sigma);
     std::transform(x.begin(),x.end(), x.begin(), diff.begin(),
-                   [&mInvCum, &cum](Real x, Real y){return x-mInvCum(cum(y));});
+                   [&mInvCum, &cum](Real s, Real z){return s-mInvCum(cum(z));});
 
     e = norm(diff.begin(), diff.end(), h);
     if (e > 1.0e-7) {
@@ -483,12 +483,12 @@ TEST_CASE("Distribution_BivariateCumulativeStudent", "[Distribution]") {
 
     Real tolerance = 1.0e-5;
     for (Size i=0; i < LENGTH(ns); ++i) {
-		BivariateCumulativeStudentDistribution f1(ns[i],  0.5);
-		BivariateCumulativeStudentDistribution f2(ns[i], -0.5);
+        BivariateCumulativeStudentDistribution f1(ns[i],  0.5);
+        BivariateCumulativeStudentDistribution f2(ns[i], -0.5);
         for (Size j=0; j < LENGTH(xs); ++j) {
-			Real calculated1 = f1(xs[j], xs[j]);
+            Real calculated1 = f1(xs[j], xs[j]);
             Real reference1 = expected1[i*LENGTH(xs)+j];
-			Real calculated2 = f2(xs[j], xs[j]);
+            Real calculated2 = f2(xs[j], xs[j]);
             Real reference2 = expected2[i*LENGTH(xs)+j];
             if (std::fabs(calculated1 - reference1) > tolerance)
                 FAIL_CHECK("Failed to reproduce CDF value at " << xs[j] <<
@@ -498,8 +498,8 @@ TEST_CASE("Distribution_BivariateCumulativeStudent", "[Distribution]") {
                 FAIL_CHECK("Failed to reproduce CDF value at " << xs[j] <<
                             "\n    calculated: " << calculated2 <<
                             "\n    expected:   " << reference1);
-		}
-	}
+        }
+    }
 
     // a few more random cases
     BivariateStudentTestData cases[] = {
@@ -573,7 +573,7 @@ TEST_CASE("Distribution_BivariateCumulativeStudent", "[Distribution]") {
 
     tolerance = 1.0e-6;
     for (Size i=0; i < LENGTH(cases); ++i) {
-		BivariateCumulativeStudentDistribution f(cases[i].n,  cases[i].rho);
+        BivariateCumulativeStudentDistribution f(cases[i].n,  cases[i].rho);
         Real calculated = f(cases[i].x, cases[i].y);
         Real expected = cases[i].result;
         if (std::fabs(calculated - expected) > tolerance)
@@ -594,18 +594,18 @@ TEST_CASE("Distribution_BivariateCumulativeStudentVsBivariate", "[Distribution]"
     Natural n = 10000;  // for this value, the distribution should be
                         // close to a bivariate normal distribution.
 
-	for (Real rho = -1.0; rho < 1.01; rho += 0.25) {
-		BivariateCumulativeStudentDistribution T(n, rho);
-		BivariateCumulativeNormalDistribution N(rho);
+    for (Real rho = -1.0; rho < 1.01; rho += 0.25) {
+        BivariateCumulativeStudentDistribution T(n, rho);
+        BivariateCumulativeNormalDistribution N(rho);
 
         Real avgDiff = 0.0;
         Size m = 0;
-		Real tolerance = 4.0e-5;
-		for (Real x = -10; x < 10.1; x += 0.25) {
-			for (Real y = -10; y < 10.1; y += 0.25) {
+        Real tolerance = 4.0e-5;
+        for (Real x = -10; x < 10.1; x += 0.25) {
+            for (Real y = -10; y < 10.1; y += 0.25) {
                 Real calculated = T(x, y);
                 Real expected = N(x, y);
-				Real diff = std::fabs(calculated - expected);
+                Real diff = std::fabs(calculated - expected);
                 if (diff > tolerance)
                     FAIL_CHECK("Failed to reproduce limit value:" <<
                                 "\n    rho: " << rho <<
@@ -614,11 +614,11 @@ TEST_CASE("Distribution_BivariateCumulativeStudentVsBivariate", "[Distribution]"
                                 "\n    calculated: " << calculated <<
                                 "\n    expected:   " << expected);
                 
-				avgDiff += diff;
-				++m;
-			}
-		}
-		avgDiff /= m;
+                avgDiff += diff;
+                ++m;
+            }
+        }
+        avgDiff /= m;
         if (avgDiff > 3.0e-6)
             FAIL_CHECK("Failed to reproduce average limit value:" <<
                         "\n    rho: " << rho <<

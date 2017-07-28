@@ -76,6 +76,7 @@ namespace QuantLib {
 
     std::vector<DefaultProbKey>  Pool::defaultKeys() const {
         std::vector<DefaultProbKey> defaultKeys;
+        defaultKeys.reserve(defaultKeys_.size());
         std::transform(defaultKeys_.begin(), defaultKeys_.end(),
             std::back_inserter(defaultKeys), [](const std::pair<std::string, DefaultProbKey>& x){return x.second;});
         return defaultKeys;

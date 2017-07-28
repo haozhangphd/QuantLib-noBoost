@@ -155,11 +155,11 @@ TEST_CASE("SwingOption_FdmExponentialJump1dMesher", "[SwingOption]") {
     const Real relTol2 = 2e-2;
     const Real threshold = 0.9;
 
-    for (Real x = 1e-12; x < 1.0; x *= 10) {
-        const Real v = mesher.jumpSizeDistribution(x);
+    for (Real s = 1e-12; s < 1.0; s *= 10) {
+        const Real v = mesher.jumpSizeDistribution(s);
 
         std::vector<Real>::iterator iter
-                = std::lower_bound(path.begin(), path.end(), x);
+                = std::lower_bound(path.begin(), path.end(), s);
         const Real q = std::distance(path.begin(), iter) / Real(n);
         QL_REQUIRE(std::fabs(q - v) < relTol1
                    || ((v < threshold) && std::fabs(q - v) < relTol2),

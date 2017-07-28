@@ -38,7 +38,7 @@ namespace QuantLib {
             Date::serial_type dayCount(const Date& d1, const Date& d2) const {
                 // the sign is all we need
                 return (d2 >= d1 ? 1 : -1);
-            };
+            }
             Time yearFraction(const Date& d1,
                               const Date& d2,
                               const Date&,

@@ -85,7 +85,7 @@ namespace QuantLib {
     class LogGrid : public TransformedGrid {
     public:
         LogGrid(const Array &grid) :
-            TransformedGrid(grid, [](Real x){return std::log(x);}) {};
+            TransformedGrid(grid, [](Real x){return std::log(x);}) {}
         const Array & logGridArray() const { return transformedGridArray();}
         Real logGrid(Size i) const { return transformedGrid(i);}
     };

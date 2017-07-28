@@ -41,7 +41,7 @@ GsrProcessCore::GsrProcessCore(const Array &times, const Array &vols,
                    << vols.size() << ") compared to number of times ("
                    << times_.size() << " must be bigger by one, or exactly "
                                        "1 reversion must be given");
-    for (int i = 0; i < ((int)times.size()) - 1; i++)
+    for (int i = 0; i < static_cast<int>(times.size()) - 1; i++)
         QL_REQUIRE(times[i] < times[i + 1], "times must be increasing ("
                                                 << times[i] << "@" << i << " , "
                                                 << times[i + 1] << "@" << i + 1
@@ -50,7 +50,7 @@ GsrProcessCore::GsrProcessCore(const Array &times, const Array &vols,
 }
 
 void GsrProcessCore::flushCache() const {
-    for (int i = 0; i < (int)reversions_.size(); i++)
+    for (int i = 0; i < static_cast<int>(reversions_.size()); i++)
         // small reversions cause numerical problems, so we keep them
         // away from zero
         if (std::fabs(reversions_[i]) < 1E-4)
@@ -97,54 +97,54 @@ Real GsrProcessCore::expectation_rn_part(const Time w,
     Real res = 0.0;
 
     // \int A(s,t)y(s)
-    for (int k = lowerIndex(w); k <= upperIndex(t) - 1; k++) {
-        // l<k
-        for (int l = 0; l <= k - 1; l++) {
+    for (int kk = lowerIndex(w); kk <= upperIndex(t) - 1; kk++) {
+        // l<kk
+        for (int l = 0; l <= kk - 1; l++) {
             Real res2 = 1.0;
             // alpha_l
             res2 *= revZero(l) ? vol(l) * vol(l) * (time2(l + 1) - time2(l))
                                : vol(l) * vol(l) / (2.0 * rev(l)) *
                                      (1.0 - exp(-2.0 * rev(l) *
                                                 (time2(l + 1) - time2(l))));
-            // zeta_i (i>k)
-            for (int i = k + 1; i <= upperIndex(t) - 1; i++)
+            // zeta_i (i>kk)
+            for (int i = kk + 1; i <= upperIndex(t) - 1; i++)
                 res2 *= exp(-rev(i) * (cappedTime(i + 1, t) - time2(i)));
-            // beta_j (j<k)
-            for (int j = l + 1; j <= k - 1; j++)
+            // beta_j (j<kk)
+            for (int j = l + 1; j <= kk - 1; j++)
                 res2 *= exp(-2.0 * rev(j) * (time2(j + 1) - time2(j)));
             // zeta_k beta_k
             res2 *=
-                revZero(k)
-                    ? 2.0 * time2(k) - flooredTime(k, w) -
-                          cappedTime(k + 1, t) -
-                          2.0 * (time2(k) - cappedTime(k + 1, t))
-                    : (exp(rev(k) * (2.0 * time2(k) - flooredTime(k, w) -
-                                     cappedTime(k + 1, t))) -
-                       exp(2.0 * rev(k) * (time2(k) - cappedTime(k + 1, t)))) /
-                          rev(k);
+                revZero(kk)
+                    ? 2.0 * time2(kk) - flooredTime(kk, w) -
+                          cappedTime(kk + 1, t) -
+                          2.0 * (time2(kk) - cappedTime(kk + 1, t))
+                    : (exp(rev(kk) * (2.0 * time2(kk) - flooredTime(kk, w) -
+                                     cappedTime(kk + 1, t))) -
+                       exp(2.0 * rev(kk) * (time2(kk) - cappedTime(kk + 1, t)))) /
+                          rev(kk);
             // add to sum
             res += res2;
         }
-        // l=k
+        // l=kk
         Real res2 = 1.0;
         // alpha_k zeta_k
         res2 *=
-            revZero(k)
-                ? vol(k) * vol(k) / 4.0 *
-                      (4.0 * pow(cappedTime(k + 1, t) - time2(k), 2.0) -
-                       (pow(flooredTime(k, w) - 2.0 * time2(k) +
-                                cappedTime(k + 1, t),
+            revZero(kk)
+                ? vol(kk) * vol(kk) / 4.0 *
+                      (4.0 * pow(cappedTime(kk + 1, t) - time2(kk), 2.0) -
+                       (pow(flooredTime(kk, w) - 2.0 * time2(kk) +
+                                cappedTime(kk + 1, t),
                             2.0) +
-                        pow(cappedTime(k + 1, t) - flooredTime(k, w), 2.0)))
-                : vol(k) * vol(k) / (2.0 * rev(k) * rev(k)) *
-                      (exp(-2.0 * rev(k) * (cappedTime(k + 1, t) - time2(k))) +
+                        pow(cappedTime(kk + 1, t) - flooredTime(kk, w), 2.0)))
+                : vol(kk) * vol(kk) / (2.0 * rev(kk) * rev(kk)) *
+                      (exp(-2.0 * rev(kk) * (cappedTime(kk + 1, t) - time2(kk))) +
                        1.0 -
-                       (exp(-rev(k) * (flooredTime(k, w) - 2.0 * time2(k) +
-                                       cappedTime(k + 1, t))) +
-                        exp(-rev(k) *
-                            (cappedTime(k + 1, t) - flooredTime(k, w)))));
-        // zeta_i (i>k)
-        for (int i = k + 1; i <= upperIndex(t) - 1; i++)
+                       (exp(-rev(kk) * (flooredTime(kk, w) - 2.0 * time2(kk) +
+                                       cappedTime(kk + 1, t))) +
+                        exp(-rev(kk) *
+                            (cappedTime(kk + 1, t) - flooredTime(kk, w)))));
+        // zeta_i (i>kk)
+        for (int i = kk + 1; i <= upperIndex(t) - 1; i++)
             res2 *= exp(-rev(i) * (cappedTime(i + 1, t) - time2(i)));
         // no beta_j in this case ...
         res += res2;
@@ -169,10 +169,10 @@ Real GsrProcessCore::expectation_tf_part(const Time w,
 
     Real res = 0.0;
     // int -A(s,t) \sigma^2 G(s,T)
-    for (int k = lowerIndex(w); k <= upperIndex(t) - 1; k++) {
+    for (int kk = lowerIndex(w); kk <= upperIndex(t) - 1; kk++) {
         Real res2 = 0.0;
-        // l>k
-        for (int l = k + 1; l <= upperIndex(T_) - 1; l++) {
+        // l>kk
+        for (int l = kk + 1; l <= upperIndex(T_) - 1; l++) {
             Real res3 = 1.0;
             // eta_l
             res3 *= revZero(l)
@@ -180,23 +180,23 @@ Real GsrProcessCore::expectation_tf_part(const Time w,
                         : (1.0 -
                            exp(-rev(l) * (cappedTime(l + 1, T_) - time2(l)))) /
                               rev(l);
-            // zeta_i (i>k)
-            for (int i = k + 1; i <= upperIndex(t) - 1; i++)
+            // zeta_i (i>kk)
+            for (int i = kk + 1; i <= upperIndex(t) - 1; i++)
                 res3 *= exp(-rev(i) * (cappedTime(i + 1, t) - time2(i)));
-            // gamma_j (j>k)
-            for (int j = k + 1; j <= l - 1; j++)
+            // gamma_j (j>kk)
+            for (int j = kk + 1; j <= l - 1; j++)
                 res3 *= exp(-rev(j) * (time2(j + 1) - time2(j)));
             // zeta_k gamma_k
             res3 *=
-                revZero(k)
-                    ? (cappedTime(k + 1, t) - time2(k + 1) -
-                       (2.0 * flooredTime(k, w) - cappedTime(k + 1, t) -
-                        time2(k + 1))) /
+                revZero(kk)
+                    ? (cappedTime(kk + 1, t) - time2(kk + 1) -
+                       (2.0 * flooredTime(kk, w) - cappedTime(kk + 1, t) -
+                        time2(kk + 1))) /
                           2.0
-                    : (exp(rev(k) * (cappedTime(k + 1, t) - time2(k + 1))) -
-                       exp(rev(k) * (2.0 * flooredTime(k, w) -
-                                     cappedTime(k + 1, t) - time2(k + 1)))) /
-                          (2.0 * rev(k));
+                    : (exp(rev(kk) * (cappedTime(kk + 1, t) - time2(kk + 1))) -
+                       exp(rev(kk) * (2.0 * flooredTime(kk, w) -
+                                     cappedTime(kk + 1, t) - time2(kk + 1)))) /
+                          (2.0 * rev(kk));
             // add to sum
             res2 += res3;
         }
@@ -204,28 +204,28 @@ Real GsrProcessCore::expectation_tf_part(const Time w,
         Real res3 = 1.0;
         // eta_k zeta_k
         res3 *=
-            revZero(k)
-                ? (-pow(cappedTime(k + 1, t) - cappedTime(k + 1, T_), 2.0) -
-                   2.0 * pow(cappedTime(k + 1, t) - flooredTime(k, w), 2.0) +
-                   pow(2.0 * flooredTime(k, w) - cappedTime(k + 1, T_) -
-                           cappedTime(k + 1, t),
+            revZero(kk)
+                ? (-pow(cappedTime(kk + 1, t) - cappedTime(kk + 1, T_), 2.0) -
+                   2.0 * pow(cappedTime(kk + 1, t) - flooredTime(kk, w), 2.0) +
+                   pow(2.0 * flooredTime(kk, w) - cappedTime(kk + 1, T_) -
+                           cappedTime(kk + 1, t),
                        2.0)) /
                       4.0
-                : (2.0 - exp(rev(k) *
-                             (cappedTime(k + 1, t) - cappedTime(k + 1, T_))) -
-                   (2.0 * exp(-rev(k) *
-                              (cappedTime(k + 1, t) - flooredTime(k, w))) -
-                    exp(rev(k) *
-                        (2.0 * flooredTime(k, w) - cappedTime(k + 1, T_) -
-                         cappedTime(k + 1, t))))) /
-                      (2.0 * rev(k) * rev(k));
-        // zeta_i (i>k)
-        for (int i = k + 1; i <= upperIndex(t) - 1; i++)
+                : (2.0 - exp(rev(kk) *
+                             (cappedTime(kk + 1, t) - cappedTime(kk + 1, T_))) -
+                   (2.0 * exp(-rev(kk) *
+                              (cappedTime(kk + 1, t) - flooredTime(kk, w))) -
+                    exp(rev(kk) *
+                        (2.0 * flooredTime(kk, w) - cappedTime(kk + 1, T_) -
+                         cappedTime(kk + 1, t))))) /
+                      (2.0 * rev(kk) * rev(kk));
+        // zeta_i (i>kk)
+        for (int i = kk + 1; i <= upperIndex(t) - 1; i++)
             res3 *= exp(-rev(i) * (cappedTime(i + 1, t) - time2(i)));
         // no gamma_j in this case ...
         res2 += res3;
         // add to main accumulator
-        res += -vol(k) * vol(k) * res2;
+        res += -vol(kk) * vol(kk) * res2;
     }
 
     cache2b_.insert(std::make_pair(key, res));
@@ -244,16 +244,16 @@ Real GsrProcessCore::variance(const Time w, const Time dt) const {
         return k->second;
 
     Real res = 0.0;
-    for (int k = lowerIndex(w); k <= upperIndex(t) - 1; k++) {
-        Real res2 = vol(k) * vol(k);
+    for (int kk = lowerIndex(w); kk <= upperIndex(t) - 1; kk++) {
+        Real res2 = vol(kk) * vol(kk);
         // zeta_k^2
-        res2 *= revZero(k)
-                    ? -(flooredTime(k, w) - cappedTime(k + 1, t))
-                    : (1.0 - exp(2.0 * rev(k) *
-                                 (flooredTime(k, w) - cappedTime(k + 1, t)))) /
-                          (2.0 * rev(k));
-        // zeta_i (i>k)
-        for (int i = k + 1; i <= upperIndex(t) - 1; i++) {
+        res2 *= revZero(kk)
+                    ? -(flooredTime(kk, w) - cappedTime(kk + 1, t))
+                    : (1.0 - exp(2.0 * rev(kk) *
+                                 (flooredTime(kk, w) - cappedTime(kk + 1, t)))) /
+                          (2.0 * rev(kk));
+        // zeta_i (i>kk)
+        for (int i = kk + 1; i <= upperIndex(t) - 1; i++) {
             res2 *= exp(-2.0 * rev(i) * (cappedTime(i + 1, t) - time2(i)));
         }
         res += res2;

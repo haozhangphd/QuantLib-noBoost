@@ -77,7 +77,7 @@ namespace QuantLib {
                                     std::min(static_cast<int>(z0 * (size - 1) + 0.5),
                                              static_cast<int>(size) - 2),
                                     1) /
-                            ((Real) (size - 1));
+                            (static_cast<Real>(size - 1));
                     u.emplace_back(u0);
                     z.emplace_back(z0);
                 }
@@ -196,7 +196,7 @@ namespace QuantLib {
                                              std::lower_bound(y.begin(), y.end(), points[i]));
 
                 const Real e = Brent().solve(
-                        [&odeSolution, &points, &i](Real x){return odeSolution(x, true) - points[i];},
+                        [&odeSolution, &points, &i](Real s){return odeSolution(s, true) - points[i];},
                         QL_EPSILON, x[j], 0.5 / size);
 
                 w.emplace_back(std::make_pair(std::min(x[size - 2], x[j]), e));

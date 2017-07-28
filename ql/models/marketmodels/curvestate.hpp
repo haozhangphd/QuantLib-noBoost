@@ -52,7 +52,12 @@ namespace QuantLib {
     */
       public:
         CurveState(const std::vector<Time>& rateTimes);
-        virtual ~CurveState() {}
+        CurveState() = default;
+        virtual ~CurveState() = default;
+        CurveState(const CurveState&) = default;
+        CurveState(CurveState&&) = default;
+        CurveState& operator=(const CurveState&) = default;
+        CurveState& operator=(CurveState&&) = default;
 
         //! \name Inspectors
         //@{

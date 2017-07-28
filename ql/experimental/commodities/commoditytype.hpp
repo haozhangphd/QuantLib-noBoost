@@ -63,11 +63,11 @@ namespace QuantLib {
         std::shared_ptr<Data> data_;
 
         struct Data {
-            std::string name, code;
+            std::string name_, code_;
 
             Data(const std::string& name,
                  const std::string& code)
-            : name(name), code(code) {}
+            : name_(name), code_(code) {}
         };
 
         static std::map<std::string, std::shared_ptr<Data> > commodityTypes_;
@@ -94,11 +94,11 @@ namespace QuantLib {
 
 
     inline const std::string& CommodityType::code() const {
-        return data_->code;
+        return data_->code_;
     }
 
     inline const std::string& CommodityType::name() const {
-        return data_->name;
+        return data_->name_;
     }
 
     inline bool CommodityType::empty() const {

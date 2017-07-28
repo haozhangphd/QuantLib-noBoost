@@ -107,7 +107,7 @@ namespace QuantLib {
                 sigma2prev = sigma2;
             }
             std::transform(grad.begin(), grad.end(), grad.begin(),
-                           [&norm](Real x){return x/norm;});
+                           [&norm](Real s){return s/norm;});
         }
 
         Real Garch11CostFunction::valueAndGradient(Array& grad,
@@ -131,7 +131,7 @@ namespace QuantLib {
                 sigma2prev = sigma2;
             }
             std::transform(grad.begin(), grad.end(), grad.begin(),
-                           [&norm](Real x){return x/norm;});
+                           [&norm](Real s){return s/norm;});
             return retval / norm;
         }
 
@@ -171,7 +171,7 @@ namespace QuantLib {
             fct2fit[1] = gamma * (1 - fct2fit[0]) - beta;
             for (std::size_t i = 2; i < idx_.size(); ++i) {
                 target[i] = acf_[idx_[i]] / A4;
-                fct2fit[i] = std::pow(gamma, (int)idx_[i]-1)* fct2fit[1];
+                fct2fit[i] = std::pow(gamma, static_cast<int>(idx_[i]-1))* fct2fit[1];
             }
         }
 
@@ -194,7 +194,7 @@ namespace QuantLib {
             grad_fct2fit[1][1] = -gamma * grad_fct2fit[0][1] - 1;
             for (std::size_t i = 2; i < idx_.size(); ++i) {
                 target[i] = acf_[idx_[i]] / A4;
-                w1 = std::pow(gamma, (int)idx_[i]-1);
+                w1 = std::pow(gamma, static_cast<int>(idx_[i]-1));
                 fct2fit[i] = w1 * fct2fit[1];
                 grad_fct2fit[i][0] = (idx_[i]-1) * (w1/gamma)*fct2fit[1] + w1*grad_fct2fit[1][0];
                 grad_fct2fit[i][1] = w1 * grad_fct2fit[1][1];
@@ -410,7 +410,7 @@ namespace QuantLib {
         omega = mean_r2 * dataSize / (dataSize - 1);
 
         // ACF
-        Size maxLag = (Size)std::sqrt(dataSize);
+        Size maxLag = static_cast<Size>(std::sqrt(dataSize));
         Array acf(maxLag+1);
         std::vector<Volatility> tmp(r2.size());
         std::transform (r2.begin(), r2.end(), tmp.begin(),

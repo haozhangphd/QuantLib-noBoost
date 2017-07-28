@@ -35,7 +35,12 @@ namespace QuantLib {
     */
     class KernelFunction {
       public:
-        virtual ~KernelFunction() {}
+        KernelFunction() = default;
+        virtual ~KernelFunction() = default;
+        KernelFunction(const KernelFunction&) = default;
+        KernelFunction(KernelFunction&&) = default;
+        KernelFunction& operator=(const KernelFunction&) = default;
+        KernelFunction& operator=(KernelFunction&&) = default;
         virtual Real operator()(Real x) const = 0;
     };
 

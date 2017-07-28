@@ -54,7 +54,7 @@ inline Matrix moorePenroseInverse(const Matrix &A,
 
     Matrix res = svd.V() * sp * transpose(svd.U());
     return res;
-};
+}
 
 } // namespace QuantLib
 

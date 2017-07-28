@@ -593,9 +593,9 @@ namespace QuantLib {
         Size n = fixedLeg.size();
         accruals_.reserve(n);
         for (Size i=0; i<n; ++i) {
-            std::shared_ptr<Coupon> coupon =
+            std::shared_ptr<Coupon> coupon_ =
                 std::dynamic_pointer_cast<Coupon>(fixedLeg[i]);
-            accruals_.emplace_back(coupon->accrualPeriod());
+            accruals_.emplace_back(coupon_->accrualPeriod());
         }
     }
 
@@ -696,10 +696,10 @@ namespace QuantLib {
         shapedSwapPaymentTimes_.reserve(n);
         swapPaymentDiscounts_.reserve(n);
         for(Size i=0; i<n; ++i) {
-            std::shared_ptr<Coupon> coupon =
+            std::shared_ptr<Coupon> coupon_ =
                 std::dynamic_pointer_cast<Coupon>(fixedLeg[i]);
-            accruals_.emplace_back(coupon->accrualPeriod());
-            const Date paymentDate(coupon->date());
+            accruals_.emplace_back(coupon_->accrualPeriod());
+            const Date paymentDate(coupon_->date());
             const double swapPaymentTime(dc.yearFraction(rateCurve->referenceDate(), paymentDate));
             shapedSwapPaymentTimes_.emplace_back(shapeOfShift(swapPaymentTime));
             swapPaymentDiscounts_.emplace_back(rateCurve->discount(paymentDate));

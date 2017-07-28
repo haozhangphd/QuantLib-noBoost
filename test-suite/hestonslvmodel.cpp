@@ -828,14 +828,14 @@ namespace {
                                                            Option::Put, strike);
 
                 Array pd(p.size());
-                for (FdmLinearOpIterator iter = layout->begin();
-                    iter != layout->end(); ++iter) {
-                    const Size idx = iter.index();
-                    const Real s = std::exp(mesher->location(iter, 0));
+                for (FdmLinearOpIterator iter2 = layout->begin();
+                    iter2 != layout->end(); ++iter2) {
+                    const Size idx = iter2.index();
+                    const Real s = std::exp(mesher->location(iter2, 0));
 
                     pd[idx] = payoff->operator()(s)*p[idx];
                     if (transformationType == FdmSquareRootFwdOp::Power) {
-                        const Real v = mesher->location(iter, 1);
+                        const Real v = mesher->location(iter2, 1);
                         pd[idx] *= std::pow(v, -alpha);
                     }
                 }
@@ -1812,11 +1812,11 @@ TEST_CASE("HestonSLVModel_BarrierPricingMixedModels", "[.]") {
                 modHestonModel.currentLink(), 201, 801, 201, 0,
                 FdmSchemeDesc::Hundsdorfer(), leverageFct);
 
-        BarrierOption barrierOption(
+        BarrierOption barrierOption_temp(
             Barrier::DownOut, barrier, 0.0, payoff, exercise);
 
-        barrierOption.setPricingEngine(slvEngine);
-        const Real slvDeltaCalculated = barrierOption.delta();
+        barrierOption_temp.setPricingEngine(slvEngine);
+        const Real slvDeltaCalculated = barrierOption_temp.delta();
 
         if (std::fabs(slvDeltaExpected[i] - slvDeltaCalculated) > tol) {
             FAIL_CHECK("Stochastic Local Vol Delta does not match"
