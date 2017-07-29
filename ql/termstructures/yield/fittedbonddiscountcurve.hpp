@@ -186,7 +186,6 @@ namespace QuantLib {
         // internal class
         class FittingCost;
       public:
-        FittingMethod() = default;
         virtual ~FittingMethod() = default;
         FittingMethod(const FittingMethod&) = default;
         FittingMethod(FittingMethod&&) = default;
@@ -203,14 +202,14 @@ namespace QuantLib {
         Real minimumCostValue() const;
         //! clone of the current object
         virtual std::unique_ptr<FittingMethod> clone() const = 0;
-		//! return whether there is a constraint at zero
-		bool constrainAtZero() const;
-		//! return weights being used
-		Array weights() const;
-		//! return optimization method being used
-		std::shared_ptr<OptimizationMethod> optimizationMethod() const;
-		//! open discountFunction to public
-		DiscountFactor discount(const Array& x, Time t) const;
+        //! return whether there is a constraint at zero
+        bool constrainAtZero() const;
+        //! return weights being used
+        Array weights() const;
+        //! return optimization method being used
+        std::shared_ptr<OptimizationMethod> optimizationMethod() const;
+        //! open discountFunction to public
+        DiscountFactor discount(const Array& x, Time t) const;
       protected:
         //! constructor
         FittingMethod(bool constrainAtZero = true, const Array& weights = Array(),
@@ -296,24 +295,24 @@ namespace QuantLib {
     inline Array FittedBondDiscountCurve::FittingMethod::solution() const {
         return solution_;
     }
-	
-	inline bool FittedBondDiscountCurve::FittingMethod::constrainAtZero() const {
-		return constrainAtZero_;
-	}
-	
-	inline Array FittedBondDiscountCurve::FittingMethod::weights() const {
-		return weights_;
-	}
 
-	inline std::shared_ptr<OptimizationMethod> 
-	FittedBondDiscountCurve::FittingMethod::optimizationMethod() const {
-		return optimizationMethod_;
-	}
+    inline bool FittedBondDiscountCurve::FittingMethod::constrainAtZero() const {
+        return constrainAtZero_;
+    }
 
-	inline DiscountFactor 
-	FittedBondDiscountCurve::FittingMethod::discount(const Array& x, Time t) const {
-		return discountFunction(x, t);
-	}
+    inline Array FittedBondDiscountCurve::FittingMethod::weights() const {
+        return weights_;
+    }
+
+    inline std::shared_ptr<OptimizationMethod>
+    FittedBondDiscountCurve::FittingMethod::optimizationMethod() const {
+        return optimizationMethod_;
+    }
+
+    inline DiscountFactor
+    FittedBondDiscountCurve::FittingMethod::discount(const Array& x, Time t) const {
+        return discountFunction(x, t);
+    }
 
 }
 
