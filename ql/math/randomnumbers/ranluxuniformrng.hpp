@@ -23,13 +23,13 @@
 
 #ifndef quantlib_ranlux_uniform_rng_h
 #define quantlib_ranlux_uniform_rng_h
-#if !(defined(__clang__) || defined(_MSC_VER))
 
 #include <ql/methods/montecarlo/sample.hpp>
-#include <tr1/random.h>
+#include <random>
+#include <limits>
 
-using ranlux64_3_01 = std::tr1::discard_block<std::tr1::ranlux64_base_01, 223, 24>;
-using ranlux64_4_01 = std::tr1::discard_block<std::tr1::ranlux64_base_01, 389, 24>;
+using ranlux64_3 = std::discard_block_engine<std::ranlux48_base, 223, 24>;
+using ranlux64_4 = std::discard_block_engine<std::ranlux48_base, 389, 24>;
 
 namespace QuantLib {
 
@@ -40,43 +40,41 @@ namespace QuantLib {
         number generator. For more detail see the tr1 documentation and:
           M.Luescher, A portable high-quality random number generator for
           lattice field theory simulations, Comp. Phys. Comm. 79 (1994) 100
-          
+
         Available luxury levels:
         Ranlux3: Any theoretically possible correlations have very small change
                  of being observed.
-        Ranlux4: highest possible luxury.         
+        Ranlux4: highest possible luxury.
     */
     class Ranlux3UniformRng {
       public:
         typedef Sample<Real> sample_type;
- 
+
         explicit Ranlux3UniformRng(Size seed = 19780503u)
-        : ranlux3_(std::tr1::ranlux64_base_01(seed)){ }
+        : ranlux3_(std::ranlux48_base(seed)){ }
 
         sample_type next() const {
-            return sample_type(ranlux3_(), 1.0);
+            return sample_type(std::generate_canonical<Real, std::numeric_limits<Real>::digits>(ranlux3_), 1.0);
         }
 
       private:
-        mutable ranlux64_3_01 ranlux3_;
+        mutable ranlux64_3 ranlux3_;
     };
 
     class Ranlux4UniformRng {
       public:
         typedef Sample<Real> sample_type;
- 
+
         explicit Ranlux4UniformRng(Size seed = 19780503u)
-        : ranlux4_(std::tr1::ranlux64_base_01(seed)){ }
+        : ranlux4_(std::ranlux48_base(seed)){ }
 
         sample_type next() const {
-            return sample_type(ranlux4_(), 1.0);
+            return sample_type(std::generate_canonical<Real, std::numeric_limits<Real>::digits>(ranlux4_), 1.0);
         }
 
       private:
-        mutable ranlux64_4_01 ranlux4_;
+        mutable ranlux64_4 ranlux4_;
     };
 }
 
-
-#endif
 #endif
